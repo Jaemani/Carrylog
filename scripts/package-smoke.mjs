@@ -6,11 +6,13 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import process from "node:process";
 import { resolveNpmInvocation, resolveNpxInvocation } from "./lib/npm-cli.mjs";
+import { parseSingleNpmPackArtifact } from "./lib/npm-pack-json.mjs";
 
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), "ackit-package-smoke-"));
 const isolatedNpmCache = path.join(temporaryRoot, "npm-cache");
 const releaseMode = process.argv.includes("--release");
+const manifest = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
 
 try {
   const packDirectory = path.join(temporaryRoot, "pack");
@@ -40,11 +42,8 @@ try {
       ["pack", "--json", "--ignore-scripts", "--pack-destination", packDirectory],
       { cwd: repositoryRoot },
     );
-    const packResult = JSON.parse(packed.stdout);
-    assert.equal(Array.isArray(packResult), true, "npm pack must return a JSON array");
-    assert.equal(packResult.length, 1, "npm pack must produce exactly one artifact");
-    filename = packResult[0]?.filename;
-    assert.equal(typeof filename, "string", "npm pack result must include the artifact filename");
+    const packResult = parseSingleNpmPackArtifact(packed.stdout, manifest);
+    filename = packResult.filename;
     tarball = path.join(packDirectory, filename);
   }
   await stat(tarball);

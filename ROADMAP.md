@@ -5,7 +5,7 @@ exercised on external repositories.
 
 ## 0.1 beta — deterministic project memory and handoff
 
-Implemented in `0.1.0-beta.0`:
+Implemented in the `0.1.0` beta line:
 
 - versioned canonical configuration with a public v1 JSON Schema and compatibility contract;
 - progressive always/on-demand context catalog with explicit budgets;
@@ -20,14 +20,16 @@ Implemented in `0.1.0-beta.0`:
 
 Release blockers outside implementation:
 
-- select and record an open-source license;
-- bootstrap the first npm publication, then configure protected trusted publishing;
-- run the final tagged three-platform matrix and registry-install verification.
+- publish the corrected `beta.1` after the `beta.0` tag stopped safely before publication;
+- configure protected trusted publishing immediately after the bootstrap publication;
+- run registry integrity, provenance, one-off, and global-install verification.
 
 ## 0.2 beta — adapter breadth and measured continuity
 
 - research-backed Cursor, GitHub Copilot, and Gemini CLI adapters;
 - nested instruction outputs only where official precedence behavior is documented;
+- a tool-neutral checkpoint/resume contract that reconstructs verified project and task state without
+  claiming to reproduce conversation transcripts or hidden model state;
 - opt-in measurement protocol for reconstruction time and handoff usefulness;
 - external adoption reports from at least three materially different repositories;
 - hard-link and Windows junction/reparse-point policy and tests.
@@ -39,6 +41,8 @@ Release blockers outside implementation:
 - archive workflow with reversible moves and link validation;
 - optional tokenizer plugins without a core model dependency;
 - no destructive one-shot summarization.
+- no claim to control or reproduce each agent's internal compaction; reversible external project
+  memory remains the continuity boundary.
 
 ## Stable gate
 

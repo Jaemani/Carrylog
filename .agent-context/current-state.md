@@ -2,7 +2,7 @@
 
 ## Active objective
 
-Publish the reviewed `0.1.0-beta.0` candidate through the protected npm workflow and verify registry
+Publish the corrected `0.1.0-beta.1` candidate through the protected npm workflow and verify registry
 integrity, provenance, one-off execution, and global installation.
 
 ## Implemented and locally verified
@@ -23,16 +23,21 @@ integrity, provenance, one-off execution, and global installation.
 - Clean-build npm beta metadata, local/ephemeral/global package smoke, and exact-SHA
   artifact/provenance workflow.
 - Owner-selected canonical MIT license with an enforced SPDX/content-hash policy.
+- Strict npm pack metadata normalization for npm 10/11 array and npm 12 keyed output, shared by dry
+  run, release artifact, and package smoke paths.
+- Exact Node.js 24.15.0/npm 12.0.0 CI coverage matching the protected publish toolchain.
 
 ## In progress
 
-- Add a short-lived package-scoped npm credential to the protected GitHub environment for first
-  publication, then replace it with trusted publishing.
+- Commit the independently reviewed npm 12 release-boundary correction and pass the expanded remote CI
+  matrix, then publish `beta.1` without moving the failed `beta.0` tag.
 
 ## Blockers and risks
 
-- The first npm publication may need one protected short-lived granular token before trusted
-  publishing can be configured; subsequent releases must use OIDC.
+- The short-lived first-publication token remains in the protected GitHub environment and must be
+  removed and revoked immediately after trusted publishing is configured.
+- The immutable `beta.0` tag failed safely before token configuration or publication; its correction
+  must use the new `beta.1` version and tag.
 - Sequential cross-file rename and the final path-check-to-syscall TOCTOU window remain; ADR-0007
   explains why portable Node.js checks cannot fully remove it.
 - Additional Windows reparse-point/hard-link policy and authenticated tool-launch conformance remain
@@ -42,5 +47,5 @@ integrity, provenance, one-off execution, and global installation.
 
 ## Next best task
 
-Create a short-lived granular npm token for `@jaemani/agent-context-kit`, store it as the protected
-environment secret `NPM_TOKEN` without exposing it in chat, then tag and verify the exact beta artifact.
+Commit and push the reviewed correction, pass all eleven remote CI jobs, then run final clean-commit
+release verification before creating the `v0.1.0-beta.1` tag.

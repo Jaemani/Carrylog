@@ -1,20 +1,19 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdtemp, readdir, rm } from "node:fs/promises";
+import { mkdtemp, readdir, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import process from "node:process";
 import { resolveNpmInvocation } from "./lib/npm-cli.mjs";
+import { parseSingleNpmPackArtifact } from "./lib/npm-pack-json.mjs";
 
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), "ackit-pack-check-"));
+const manifest = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
 
 try {
   const result = await runNpmPack(temporaryRoot);
-  const payload = JSON.parse(result);
-  assert.equal(Array.isArray(payload), true);
-  assert.equal(payload.length, 1);
-  const artifact = payload[0];
+  const artifact = parseSingleNpmPackArtifact(result, manifest);
   const files = new Set(artifact.files.map((file) => file.path));
   assert.equal(files.has("package.json"), true);
   assert.equal(files.has("LICENSE"), true);

@@ -82,3 +82,29 @@ jobs:
 
       - name: Test the clean packed artifact
         run: npm run test:package
+
+  release-toolchain:
+    name: Release toolchain contract (Node 24.15.0, npm 12.0.0)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Set up release Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: 24.15.0
+          cache: npm
+
+      - name: Pin release npm client
+        run: npm install --global npm@12.0.0
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Verify package contracts with the release toolchain
+        run: |
+          npm run pack:check
+          npm run test:package

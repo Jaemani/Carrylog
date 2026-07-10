@@ -5,7 +5,28 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [Unreleased]
 
+## [0.1.0-beta.1] - 2026-07-10
+
+### Fixed
+
+- Normalized both the npm 10/11 one-element array and npm 12 package-keyed object forms of
+  `npm pack --json` across package inspection, release artifact construction, and package smoke
+  testing.
+- Rejected ambiguous, wrong-package, malformed, path-unsafe, or internally inconsistent npm pack
+  metadata before using an artifact.
+- Compared CLI version output with package metadata instead of coupling the test suite to one
+  prerelease identifier.
+
+### Changed
+
+- Added an exact Node.js 24.15.0/npm 12.0.0 CI contract and pinned npm 12 in tagged cross-platform
+  preflight so release-toolchain drift is found before publication.
+
 ## [0.1.0-beta.0] - 2026-07-10
+
+The `beta.0` tag reached all cross-platform preflight gates but stopped in the protected publish job
+before `npm publish`; this version was never registered. The immutable tag remains as release-audit
+evidence, and the correction is released as `beta.1`.
 
 ### Added
 

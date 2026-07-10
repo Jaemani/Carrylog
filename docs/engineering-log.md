@@ -308,3 +308,52 @@ package contents, exact-artifact install modes, and runtime audit. The locally v
 SHA-256 `e3179b7853b9083acf3297b50b5e47102e023a094f7e84ad3d8534fd15f06ca5`; the release workflow will
 record and publish its own exact artifact from the final tagged commit rather than relying on this
 local build.
+
+## 2026-07-10 — The first protected release stopped on an npm 12 envelope change
+
+The `v0.1.0-beta.0` workflow run `29080114878` passed all three tagged operating-system preflights and
+waited for the required `npm` environment approval. The protected publish job then failed during
+`npm run release:verify`, before token configuration and before `npm publish`. Registry checks
+confirmed that no package version or dist-tag was created.
+
+The release job intentionally pins npm 12.0.0, while the previously passing local and matrix checks
+used npm 10 or 11. npm 10/11 represents one package as a one-element JSON array from `npm pack
+--json`; npm 12.0.0 represents it as an object keyed by package name. Package inspection asserted the
+older envelope directly. Independent review also found the same assumption in release artifact
+construction and non-release package smoke, so repairing only the first failure would have exposed a
+second failure later in the same workflow.
+
+One strict parser now normalizes only those two single-package envelopes for all three consumers. It
+rejects empty or multi-package output, wrong package keys, identity/version mismatch, unsafe artifact
+filenames, duplicate or malformed file entries, inconsistent counts, invalid sizes, and malformed
+integrity metadata. Regression fixtures cover both accepted envelopes and the rejected matrix. Real
+npm 10.9.8, npm 11.10.1, and npm 12.0.0 pack and installation paths passed locally. CI now contains an
+exact Node.js 24.15.0/npm 12.0.0 release-toolchain contract, and tagged preflight pins npm 12 on every
+supported OS.
+
+The pushed `beta.0` tag is not moved: doing so would weaken Git and provenance auditability. The
+unpublished correction advances package and lockfile metadata to `0.1.0-beta.1` and receives a new
+reviewed tag.
+
+The first complete correction gate exposed a separate test-maintenance error: the CLI version test
+hard-coded `beta.0`, so the valid `beta.1` output failed. The test now compares CLI output with the
+checked-in package manifest exactly. This preserves the version contract without requiring a manual
+test rewrite for every prerelease increment.
+
+Independent final review returned GO with no unresolved P0, P1, or P2 finding. It rechecked both npm
+envelopes, strict artifact metadata validation, all three consumers, exact-toolchain CI and tagged
+workflow semantics, immutable tag/version policy, documentation consistency, and the future resume
+boundary. The managed handoff snapshot was refreshed after the review's only evidence-freshness note.
+
+## 2026-07-10 — Universal resume was bounded to explicit project state
+
+The future cross-agent resume goal is a one-command user experience, not a claim that every coding
+agent can share hidden session state. An initialization command may create the canonical context
+directory and supported tool adapters; a future checkpoint/resume contract may reconstruct verified
+project objective, decisions, Git evidence, risks, and next work for Codex, Claude Code, Cursor, and
+other researched adapters.
+
+Internal conversation state and compaction remain owned by each agent. Agent Context Kit can provide
+an external, reviewable checkpoint that survives those policies, but it must not claim lossless
+transcript or reasoning restoration. Optional model-assisted transcript summarization would be a
+separate, opt-in, non-deterministic layer with explicit privacy, cost, and quality policy.

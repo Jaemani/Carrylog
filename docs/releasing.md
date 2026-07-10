@@ -35,6 +35,10 @@ publish a different tarball as a shortcut.
 4. Commit and push; require a clean successful CI matrix.
 5. Tag the exact reviewed commit as `v<package-version>`.
 
+Never move or overwrite a pushed release tag. If a tagged workflow fails before publication, preserve
+the tag as audit evidence, increment the prerelease version, document the failure, and create a new
+reviewed tag.
+
 `npm run release:verify` enforces clean Git state, beta version/publish policy, license presence,
 dogfood context consistency, quality/coverage, package contents, runtime audit, and exact-artifact
 smoke tests. It writes the tarball and `artifact.json` under ignored `release/`; the manifest records
@@ -42,9 +46,10 @@ commit, size, and SHA-256.
 
 ## Publish and verify
 
-Pushing a matching `v*-beta.*` tag starts `.github/workflows/release.yml`. It pins Node 24.15.0 and
-npm 12.0.0, rebuilds/verifies the release artifact, publishes that same `release/*.tgz` with public
-access, `beta` dist-tag, and provenance, then retries registry `npm exec` verification.
+Pushing a matching `v*-beta.*` tag starts `.github/workflows/release.yml`. Tagged preflight pins npm
+12.0.0 across Linux, macOS, and Windows. The protected publish job pins Node 24.15.0 and npm 12.0.0,
+rebuilds/verifies the release artifact, publishes that same `release/*.tgz` with public access, `beta`
+dist-tag, and provenance, then retries registry `npm exec` verification.
 
 After the workflow succeeds, independently verify:
 

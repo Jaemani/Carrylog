@@ -44,7 +44,9 @@ matrix.
 CI runs Node.js 22 and 24 on Linux, macOS, and Windows. Package dry-run proves `dist` exactly matches
 compiled `src`. The packed smoke test installs the tarball locally, ephemerally, and globally; checks
 ESM and TypeScript consumers; then initializes and validates a clean project without repository-local
-runtime files.
+runtime files. A separate exact release-toolchain job runs Node.js 24.15.0 with npm 12.0.0. Pack
+metadata contract tests cover the npm 10/11 array envelope, the npm 12 package-keyed envelope, and
+malformed or ambiguous results.
 
 ## Scenario dimensions
 
@@ -74,6 +76,9 @@ Every feature review should consider combinations from these dimensions:
 `npm run pack:check` separately inspects the npm artifact. `npm run release:verify` adds dogfood
 sync/validation, one clean release tarball, smoke testing of that exact SHA-256 artifact, runtime
 audit, clean-tree/version/license policy, and package-content checks.
+
+Tagged preflight pins the same npm major used by the publish job. This prevents a tag from being the
+first environment to exercise release-client output contracts.
 
 ## Required regression policy
 

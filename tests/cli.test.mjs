@@ -8,6 +8,7 @@ import { createTemporaryDirectory, removeTemporaryDirectory } from "./helpers.mj
 
 const cli = path.resolve("dist/cli.js");
 const execFileAsync = promisify(execFile);
+const manifest = JSON.parse(await readFile(path.resolve("package.json"), "utf8"));
 
 async function runCli(arguments_) {
   return await new Promise((resolve, reject) => {
@@ -34,7 +35,7 @@ test("help and version are available without a project", async () => {
   assert.match(help.stdout, /Usage: ackit/);
   const version = await runCli(["--version"]);
   assert.equal(version.code, 0);
-  assert.match(version.stdout, /^0\.1\.0-beta\.0/);
+  assert.equal(version.stdout.trim(), manifest.version);
 });
 
 test("unknown commands and invalid adapters use the usage exit code", async () => {

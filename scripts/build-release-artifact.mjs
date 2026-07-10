@@ -5,6 +5,7 @@ import { access, mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import { resolveNpmInvocation } from "./lib/npm-cli.mjs";
+import { parseSingleNpmPackArtifact } from "./lib/npm-pack-json.mjs";
 
 const execFileAsync = promisify(execFile);
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
@@ -71,9 +72,7 @@ try {
     timeout: 120_000,
     maxBuffer: 10 * 1024 * 1024,
   });
-  const result = JSON.parse(stdout);
-  assert.equal(result.length, 1, "npm pack must produce exactly one artifact");
-  const artifact = result[0];
+  const artifact = parseSingleNpmPackArtifact(stdout, manifest);
   const files = new Set(artifact.files.map((file) => file.path));
   for (const required of [
     "LICENSE",

@@ -5,7 +5,7 @@
 
 ## Version contract
 
-The only supported configuration version in `0.1.0-beta.0` is `1`. Configuration version and npm
+The only supported configuration version in the `0.1.0` beta line is `1`. Configuration version and npm
 package version are separate. Unknown versions fail before any write.
 
 Every runtime-decoder-accepted v1 input also passes the public JSON Schema. JSON Schema validation

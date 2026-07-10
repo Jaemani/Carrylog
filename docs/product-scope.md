@@ -36,6 +36,8 @@ context source and compiles small adapters for each supported tool.
 - Automatically deciding architecture or product priorities.
 - Hiding an LLM call behind validation or deterministic commands.
 - Treating token count alone as context quality.
+- Reproducing a coding agent's hidden session state, full conversation, or internal compaction
+  behavior; continuity is based on explicit, reviewable project and task checkpoints.
 - Supporting every agent through guessed formats; each adapter needs a researched and tested
   conformance contract.
 
