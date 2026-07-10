@@ -26,7 +26,8 @@ integrity, provenance, one-off execution, and global installation.
 
 ## In progress
 
-- Configure the first-publication npm credential if trusted publishing cannot create a new package.
+- Add a short-lived package-scoped npm credential to the protected GitHub environment for first
+  publication, then replace it with trusted publishing.
 
 ## Blockers and risks
 
@@ -41,5 +42,5 @@ integrity, provenance, one-off execution, and global installation.
 
 ## Next best task
 
-Commit the canonical MIT policy, pass the full matrix, configure a protected bootstrap token only if
-needed, then tag and verify the exact beta artifact through the release workflow.
+Create a short-lived granular npm token for `@jaemani/agent-context-kit`, store it as the protected
+environment secret `NPM_TOKEN` without exposing it in chat, then tag and verify the exact beta artifact.

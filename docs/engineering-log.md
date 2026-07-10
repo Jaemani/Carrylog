@@ -301,3 +301,10 @@ for the solo-maintainer workflow. The environment did not contain `NPM_TOKEN`. B
 package is not yet registered, first publication may require a short-lived package-scoped granular
 token. The token must be stored only as the protected environment secret, then removed and revoked as
 soon as npm trusted publishing is configured for subsequent OIDC-only releases.
+
+Licensed commit `19232ef` passed all ten jobs in CI run `29076951474`. A clean local
+`npm run release:verify` also passed: license hash/policy, quality and coverage, dogfood sync/validate,
+package contents, exact-artifact install modes, and runtime audit. The locally verified tarball had
+SHA-256 `e3179b7853b9083acf3297b50b5e47102e023a094f7e84ad3d8534fd15f06ca5`; the release workflow will
+record and publish its own exact artifact from the final tagged commit rather than relying on this
+local build.
