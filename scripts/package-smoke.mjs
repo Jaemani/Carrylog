@@ -12,10 +12,11 @@ const repositoryRoot = path.resolve(import.meta.dirname, "..");
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), "ackit-package-smoke-"));
 const isolatedNpmCache = path.join(temporaryRoot, "npm-cache");
 const releaseMode = process.argv.includes("--release");
+const publishDryRunMode = process.argv.includes("--publish-dry-run");
 const manifest = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
 
 try {
-  const packDirectory = path.join(temporaryRoot, "pack");
+  const packDirectory = path.join(temporaryRoot, "pack with spaces");
   const consumerDirectory = path.join(temporaryRoot, "consumer");
   const sampleDirectory = path.join(temporaryRoot, "sample project");
   const globalPrefix = path.join(temporaryRoot, "global-prefix");
@@ -25,12 +26,14 @@ try {
     mkdir(sampleDirectory, { recursive: true }),
   ]);
 
+  let expectedArtifact;
   let filename;
   let tarball;
   if (releaseMode) {
     const release = JSON.parse(
       await readFile(path.join(repositoryRoot, "release", "artifact.json"), "utf8"),
     );
+    expectedArtifact = release;
     filename = release.filename;
     tarball = path.join(repositoryRoot, "release", filename);
     const actualHash = createHash("sha256")
@@ -43,10 +46,32 @@ try {
       { cwd: repositoryRoot },
     );
     const packResult = parseSingleNpmPackArtifact(packed.stdout, manifest);
+    expectedArtifact = packResult;
     filename = packResult.filename;
     tarball = path.join(packDirectory, filename);
   }
   await stat(tarball);
+  assert.equal(path.isAbsolute(tarball), true, "package smoke tarball path must be absolute");
+
+  if (publishDryRunMode) {
+    const publishDryRun = parsePublishDryRun(
+      (
+        await runNpm(
+          ["publish", tarball, "--dry-run", "--json", "--ignore-scripts", "--provenance=false"],
+          { cwd: consumerDirectory },
+        )
+      ).stdout,
+    );
+    assert.equal(publishDryRun.name, manifest.name, "publish dry-run package differs");
+    assert.equal(publishDryRun.version, manifest.version, "publish dry-run version differs");
+    assert.equal(publishDryRun.filename, filename, "publish dry-run filename differs");
+    assert.equal(publishDryRun.shasum, expectedArtifact.shasum, "publish dry-run SHA-1 differs");
+    assert.equal(
+      publishDryRun.integrity,
+      expectedArtifact.integrity,
+      "publish dry-run integrity differs",
+    );
+  }
 
   await writeFile(
     path.join(consumerDirectory, "package.json"),
@@ -237,7 +262,7 @@ try {
   assert.equal(JSON.parse(validation.stdout).valid, true);
 
   process.stdout.write(
-    `Package smoke passed: ${filename}; local, ephemeral, global, ESM, types, init, and validate succeeded.\n`,
+    `Package smoke passed: ${filename}; ${publishDryRunMode ? "publish dry-run, " : ""}local, ephemeral, global, ESM, types, init, and validate succeeded.\n`,
   );
 } finally {
   await rm(temporaryRoot, { recursive: true, force: true });
@@ -246,6 +271,21 @@ try {
 async function runNpm(arguments_, options) {
   const invocation = await resolveNpmInvocation(arguments_);
   return await run(invocation.command, invocation.arguments, options);
+}
+
+function parsePublishDryRun(output) {
+  const payload = JSON.parse(output);
+  if (payload !== null && typeof payload === "object" && !Array.isArray(payload)) {
+    if (payload.name === manifest.name) return payload;
+    const entries = Object.entries(payload);
+    if (entries.length === 1 && entries[0][0] === manifest.name) {
+      const candidate = entries[0][1];
+      if (candidate !== null && typeof candidate === "object" && !Array.isArray(candidate)) {
+        return candidate;
+      }
+    }
+  }
+  throw new Error("npm publish dry-run returned an unsupported package envelope");
 }
 
 async function runWindowsCommandShim(command, arguments_, options) {

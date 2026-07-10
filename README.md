@@ -6,9 +6,8 @@ Agent Context Kit keeps durable project intent, current state, decisions, and ha
 canonical directory. It compiles small instruction-file adapters for Codex and Claude Code and adds
 bounded Git evidence without copying the full memory into every tool file.
 
-> Status: `0.1.0-beta.2` release candidate. The package is configured as
-> `@jaemani/agent-context-kit` with the npm `beta` dist-tag and MIT license. Registry publication is
-> pending the protected first-publication workflow.
+> Status: `0.1.0-beta.3`. The package uses the npm `beta` dist-tag and MIT license. Beta interfaces
+> retain the compatibility commitments described below while broader APIs may still change.
 
 ## Why this exists
 
@@ -33,7 +32,7 @@ remain reviewable Markdown sources in the repository.
 
 ## Installation
 
-Node.js 22 or newer is required. Once the beta is published, choose one installation model.
+Node.js 22 or newer is required. Choose one installation model.
 
 One-off use without a persistent global command:
 
@@ -53,14 +52,13 @@ ackit validate
 Team-pinned development dependency:
 
 ```bash
-npm install --save-dev --save-exact @jaemani/agent-context-kit@0.1.0-beta.2
+npm install --save-dev --save-exact @jaemani/agent-context-kit@0.1.0-beta.3
 npx --no-install ackit init
 npx --no-install ackit validate
 ```
 
 Do not mix the one-off example with a later bare `ackit` command unless the package is also installed
-globally or locally. The package is not currently on the registry; use the source workflow below
-until the first protected release completes.
+globally or locally. To test an unreleased repository revision instead of the published beta:
 
 ```bash
 git clone https://github.com/Jaemani/Agent-Context-Kit.git

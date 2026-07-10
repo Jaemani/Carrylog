@@ -49,8 +49,11 @@ commit, size, and SHA-256.
 Pushing a matching `v*-beta.*` tag starts `.github/workflows/release.yml`. Tagged preflight pins npm
 11.18.0 across Linux, macOS, and Windows and loads its provenance implementation before running
 package gates. The protected publish job pins Node 24.15.0 and the same npm 11.18.0 client,
-rebuilds/verifies the release artifact, publishes that same `release/*.tgz` with public access, `beta`
-dist-tag, and provenance, then retries registry `npm exec` verification. npm 12.0.0 remains a package
+rebuilds/verifies the release artifact, publishes that same recorded tarball with public access,
+`beta` dist-tag, and provenance, then retries registry `npm exec` verification. Publication does not
+pass a shell glob to npm: a shell-free script reads `release/artifact.json`, requires exactly one
+regular tarball, rechecks package/version/commit, size, SHA-256, SHA-1, and SHA-512 integrity, and
+passes its absolute path as the only npm package spec. npm 12.0.0 remains a package
 metadata compatibility target but is not a release client because its published bundle omits the
 `sigstore` dependency required by provenance generation. The client check also rejects a `sigstore`
 module resolved outside the pinned npm installation. GitHub OIDC write permission exists only on the

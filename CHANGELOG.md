@@ -5,7 +5,31 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [Unreleased]
 
+## [0.1.0-beta.3] - 2026-07-10
+
+### Fixed
+
+- Replaced the shell-expanded bare tarball argument with a shell-free publisher that reads the exact
+  reviewed artifact record and passes one absolute local path to npm.
+- Revalidated package identity, version, workflow commit, filename, regular-file ownership, artifact
+  count, size, SHA-256, SHA-1, and SHA-512 integrity immediately before publication.
+
+### Testing
+
+- Added rejected cases for malformed records, policy or identity mismatch, path escape, missing or
+  extra tarballs, symbolic links, commit mismatch, and tampered artifact content.
+- Added real `npm publish --dry-run` coverage for an absolute tarball path containing spaces to the
+  cross-platform package smoke and exact npm 11 release-client gates; npm 12 stays pack/install-only
+  because its incomplete bundle cannot load the publish command.
+
 ## [0.1.0-beta.2] - 2026-07-10
+
+The `beta.2` tag passed all three operating-system preflights and exact artifact verification, but
+the publish command passed a shell-expanded bare `release/<name>.tgz` argument. npm interpreted that
+slash-containing package spec as GitHub shorthand and attempted an SSH Git lookup instead of reading
+the local tarball. Publication stopped before a registry request, so this version was never
+registered. The immutable tag remains as release-audit evidence, and the correction is released as
+`beta.3`.
 
 ### Fixed
 

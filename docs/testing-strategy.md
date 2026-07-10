@@ -49,6 +49,12 @@ client's provenance implementation, proves `sigstore` resolves inside that pinne
 and exercises its package paths. The same job then installs npm 12.0.0 and checks its package paths
 without treating its broken provenance bundle as publish-capable. Pack metadata contract tests cover
 the npm 10/11 array envelope, the npm 12 package-keyed envelope, and malformed or ambiguous results.
+Package smoke under publish-capable clients also runs a real shell-free `npm publish --dry-run`
+against the absolute tarball path under a directory containing spaces. This gate runs on the
+cross-platform package matrix and exact npm 11 release client. npm 12 remains limited to pack and
+install coverage because its incomplete provenance bundle fails while loading the publish command
+even when provenance is disabled. Release-artifact tests reject ambiguous selection, record or commit
+mismatch, unsafe filenames, non-regular artifacts, and digest drift before npm can run.
 
 ## Scenario dimensions
 
@@ -81,7 +87,8 @@ audit, clean-tree/version/license policy, and package-content checks.
 
 Tagged preflight pins the exact npm version used by the publish job and verifies that its provenance
 module and transitive dependencies load. This prevents protected publication from being the first
-environment to exercise the release client.
+environment to exercise the release client. The publish boundary selects one artifact from its
+verified record and invokes npm without a shell or glob.
 
 ## Required regression policy
 

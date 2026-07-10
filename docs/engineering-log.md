@@ -395,3 +395,40 @@ package smoke on the exact Node.js 24.15.0 release runtime. npm 12.0.0 separatel
 inspection and every install mode. Independent review found no remaining P0, P1, or P2 code or
 workflow issue; its final requested correction was refreshing handoff evidence and recording the
 latest observed coverage rather than retaining a prior run's higher function/branch values.
+
+## 2026-07-10 — A bare tarball argument was parsed as GitHub shorthand
+
+The `v0.1.0-beta.2` workflow run `29082832556` passed tagged preflight on Linux, macOS, and Windows.
+The protected job then passed the pinned npm provenance-client check, all 111 tests, dogfood
+sync/validation, exact artifact construction, artifact smoke, and runtime audit. Its 117-file,
+86,453-byte tarball had SHA-256
+`120698432c03121c143628a93eb1ca61b7eb093b5a0a81a1e2cde330085db66a`.
+
+The subsequent command used `npm publish release/*.tgz`. Bash expanded the glob, but the resulting
+`release/jaemani-agent-context-kit-0.1.0-beta.2.tgz` still lacked an explicit or absolute local-path
+prefix. npm's package-spec parser treated the slash-containing value as GitHub shorthand and ran
+`git ls-remote` against `ssh://git@github.com/release/jaemani-agent-context-kit-0.1.0-beta.2.tgz.git`.
+That lookup failed with exit 128 before a registry request. The scoped package remained E404.
+
+Adding only `./` would repair this instance but retain shell glob expansion and bypass the reviewed
+artifact record. The correction instead reads `release/artifact.json`, requires exactly its one
+regular tarball, checks package, version, workflow commit, filename, size, SHA-256, registry SHA-1,
+and SHA-512 integrity, and invokes npm without a shell using one absolute package-spec path. A real
+`npm publish --dry-run` for that absolute path now runs in package smoke, including a directory name
+with spaces and the exact npm 11 release client. npm 10 returns a direct artifact object from this
+command while npm 11 returns a package-keyed object; both observed envelopes are accepted before
+identity and digest comparison. npm 12 still cannot load its publish command, even with provenance
+disabled, because of its already documented missing `sigstore`; it remains a pack/install
+compatibility client. Unit cases reject malformed, ambiguous, redirected, mismatched, or tampered
+artifact state before npm invocation.
+
+The pushed `beta.2` tag remains immutable audit evidence. The unpublished correction advances to
+`0.1.0-beta.3`; rerunning the old tagged workflow would only execute the old release code and is not
+an accepted recovery path.
+
+Two independent reviews examined the frozen beta.3 tree. The code/security review checked the
+shell-free npm boundary, artifact selection and digest contract, error behavior, Windows and
+space-containing paths, and residual path-reopen risks. The release review independently checked
+version and annotated-tag immutability, workflow permissions and npm-client separation, real dry-run
+coverage, documentation, and handoff consistency. Both returned GO with no unresolved P0, P1, or P2
+finding.

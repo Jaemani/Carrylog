@@ -81,7 +81,7 @@ jobs:
         run: npm ci
 
       - name: Test the clean packed artifact
-        run: npm run test:package
+        run: npm run test:package:publish
 
   release-toolchain:
     name: Release and npm 12 package contracts
@@ -110,7 +110,7 @@ jobs:
       - name: Verify package contracts with the release toolchain
         run: |
           npm run pack:check
-          npm run test:package
+          npm run test:package:publish
 
       - name: Pin npm 12 compatibility client
         run: npm install --global npm@12.0.0
