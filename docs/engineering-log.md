@@ -91,3 +91,14 @@ as completion. It found the following material issues before the initial commit:
 
 Each finding received regression coverage. Remaining filesystem race, cross-file transaction, hard-link,
 and exact-token limitations stay explicit rather than being mislabeled as solved.
+
+## 2026-07-10 — First remote CI matrix
+
+The initial GitHub Actions run passed package smoke plus both Node versions on Linux and macOS, but
+both Windows jobs failed before typecheck because Git checked text files out with CRLF while Biome's
+canonical formatter expected LF. Local tests could not reveal checkout conversion behavior.
+
+The repository now defines `* text=auto eol=lf` in `.gitattributes`. This makes the source artifact
+identical across checkout platforms while runtime CRLF behavior remains covered explicitly in managed
+adapter tests. The fix addresses the repository contract instead of weakening formatter checks on
+Windows.
