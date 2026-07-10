@@ -1,0 +1,60 @@
+{
+  "name": "@jaemani/agent-context-kit",
+  "version": "0.1.0-alpha.0",
+  "description": "A local-first project memory and handoff layer for AI coding agents.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "bin": {
+    "ackit": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "format": "biome check --write .",
+    "format:check": "biome check .",
+    "test": "npm run build && node --test --test-concurrency=1",
+    "test:coverage": "npm run build && node --test --test-concurrency=1 --experimental-test-coverage --test-coverage-include=dist/**/*.js --test-coverage-exclude=dist/cli.js --test-coverage-lines=90 --test-coverage-functions=90 --test-coverage-branches=85",
+    "test:package": "npm run build && node scripts/package-smoke.mjs",
+    "quality": "npm run format:check && npm run check && npm run test:coverage",
+    "pack:check": "npm run build && node scripts/package-dry-run.mjs",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.4",
+    "@types/node": "^22.18.0",
+    "typescript": "^5.9.2"
+  },
+  "keywords": [
+    "ai-agents",
+    "codex",
+    "claude-code",
+    "developer-tools",
+    "project-context"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaemani/Agent-Context-Kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jaemani/Agent-Context-Kit/issues"
+  },
+  "homepage": "https://github.com/Jaemani/Agent-Context-Kit#readme"
+}

@@ -1,0 +1,52 @@
+version: 1
+project:
+  name: Agent-Context-Kit
+documents:
+  - id: instructions
+    path: instructions.md
+    load: always
+    description: Operating rules for reading, updating, and handing off project memory
+  - id: project
+    path: project.md
+    load: always
+    description: Stable product purpose, users, scope, and non-goals
+  - id: current-state
+    path: current-state.md
+    load: always
+    description: Current implementation state, active objective, blockers, and next work
+  - id: handoff
+    path: handoff.md
+    load: always
+    description: Most recent verified handoff for continuing work
+  - id: architecture
+    path: architecture.md
+    load: on-demand
+    description: System boundaries, module responsibilities, and data flows
+    triggers:
+      - architecture changes
+      - cross-module work
+      - new integrations
+  - id: decisions
+    path: decisions.md
+    load: on-demand
+    description: Decision index and constraints that should not be reversed casually
+    triggers:
+      - design choices
+      - dependency changes
+      - revisiting prior decisions
+  - id: conventions
+    path: conventions.md
+    load: on-demand
+    description: Commands, code style, testing expectations, and contribution workflow
+    triggers:
+      - editing code
+      - running checks
+      - preparing a pull request
+adapters:
+  - type: codex
+    output: AGENTS.md
+  - type: claude
+    output: CLAUDE.md
+policies:
+  maxAlwaysCharacters: 16000
+  maxAdapterCharacters: 12000
