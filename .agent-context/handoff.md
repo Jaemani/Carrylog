@@ -4,93 +4,29 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "d99f92f at 2026-07-10T21:39:18+09:00"
-- Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: 0 staged, 49 unstaged, 16 untracked, 0 conflicted
+- HEAD: "d7a83e4 at 2026-07-11T01:49:11+09:00"
+- Upstream: "origin/main; ahead 1, behind 0"
+- Working tree: Clean (snapshot file excluded)
 - Staged diff: 0 file(s), +0/-0, 0 binary
-- Unstaged diff: 49 file(s), +620/-240, 0 binary
+- Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (65)
+### Changed paths (0)
 
-    {"status":" M","path":".agent-context/architecture.md"}
-    {"status":" M","path":".agent-context/config.yaml"}
-    {"status":" M","path":".agent-context/current-state.md"}
-    {"status":" M","path":".agent-context/decisions.md"}
-    {"status":" M","path":".agent-context/instructions.md"}
-    {"status":" M","path":".agent-context/project.md"}
-    {"status":" M","path":"AGENTS.md"}
-    {"status":" M","path":"CHANGELOG.md"}
-    {"status":" M","path":"CLAUDE.md"}
-    {"status":" M","path":"CONTRIBUTING.md"}
-    {"status":" M","path":"README.md"}
-    {"status":" M","path":"ROADMAP.md"}
-    {"status":" M","path":"docs/architecture.md"}
-    {"status":" M","path":"docs/configuration.md"}
-    {"status":" M","path":"docs/decisions/0004-cli-and-context-names.md"}
-    {"status":" M","path":"docs/decisions/0006-deterministic-git-handoff-evidence.md"}
-    {"status":"??","path":"docs/decisions/0008-carrylog-identity-and-v1-compatibility.md"}
-    {"status":" M","path":"docs/decisions/README.md"}
-    {"status":" M","path":"docs/engineering-log.md"}
-    {"status":" M","path":"docs/product-scope.md"}
-    {"status":" M","path":"docs/releasing.md"}
-    {"status":" M","path":"docs/testing-strategy.md"}
-    {"status":" M","path":"docs/threat-model.md"}
-    {"status":" M","path":"package-lock.json"}
-    {"status":" M","path":"package.json"}
-    {"status":" M","path":"scripts/package-dry-run.mjs"}
-    {"status":" M","path":"scripts/package-smoke.mjs"}
-    {"status":" M","path":"scripts/verify-published.mjs"}
-    {"status":" M","path":"src/adapters/managed-block.ts"}
-    {"status":" M","path":"src/adapters/render.ts"}
-    {"status":" M","path":"src/cli.ts"}
-    {"status":" M","path":"src/commands/handoff.ts"}
-    {"status":" M","path":"src/commands/init.ts"}
-    {"status":" M","path":"src/commands/sync.ts"}
-    {"status":" M","path":"src/config/load.ts"}
-    {"status":" M","path":"src/core/errors.ts"}
-    {"status":" M","path":"src/git/inspect.ts"}
-    {"status":" M","path":"src/index.ts"}
-    {"status":"??","path":"src/migrations/context-v1.ts"}
-    {"status":"??","path":"src/product.ts"}
-    {"status":" M","path":"src/templates/defaults.ts"}
-    {"status":" M","path":"src/validation/validate.ts"}
-    {"status":" M","path":"tests/cli.test.mjs"}
-    {"status":"??","path":"tests/context-migration.test.mjs"}
-    {"status":" M","path":"tests/fixtures/adapters/claude.md"}
-    {"status":" M","path":"tests/fixtures/adapters/codex.md"}
-    {"status":"??","path":"tests/fixtures/beta3/adapters/claude.md"}
-    {"status":"??","path":"tests/fixtures/beta3/adapters/codex.md"}
-    {"status":"??","path":"tests/fixtures/beta3/context/architecture.md"}
-    {"status":"??","path":"tests/fixtures/beta3/context/config.yaml"}
-    {"status":"??","path":"tests/fixtures/beta3/context/conventions.md"}
-    {"status":"??","path":"tests/fixtures/beta3/context/current-state.md"}
-    {"status":"??","path":"tests/fixtures/beta3/context/decisions.md"}
-    {"status":"??","path":"tests/fixtures/beta3/context/handoff.md"}
-    {"status":"??","path":"tests/fixtures/beta3/context/instructions.md"}
-    {"status":"??","path":"tests/fixtures/beta3/context/project.md"}
-    {"status":" M","path":"tests/handoff.test.mjs"}
-    {"status":" M","path":"tests/helpers.mjs"}
-    {"status":" M","path":"tests/lifecycle.test.mjs"}
-    {"status":" M","path":"tests/npm-pack-json.test.mjs"}
-    {"status":" M","path":"tests/performance.test.mjs"}
-    {"status":"??","path":"tests/product-identity.test.mjs"}
-    {"status":" M","path":"tests/property.test.mjs"}
-    {"status":" M","path":"tests/release-artifact.test.mjs"}
-    {"status":"??","path":"tests/rename-compatibility.test.mjs"}
+None.
 
 ### Recent commits (5)
 
+    {"commit":"d7a83e4","committedAt":"2026-07-11T01:49:11+09:00","subject":"feat: migrate project identity to Carrylog"}
     {"commit":"d99f92f","committedAt":"2026-07-10T21:39:18+09:00","subject":"docs: record beta3 release verification"}
     {"commit":"65230d8","committedAt":"2026-07-10T21:34:23+09:00","subject":"fix: publish exact local release artifact"}
     {"commit":"774dc2d","committedAt":"2026-07-10T18:19:31+09:00","subject":"fix: validate npm provenance client"}
     {"commit":"8561b78","committedAt":"2026-07-10T17:55:56+09:00","subject":"docs: record beta1 release verification"}
-    {"commit":"06f9b9c","committedAt":"2026-07-10T17:52:50+09:00","subject":"fix: support npm 12 pack metadata"}
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Last verified
 
-2026-07-10, Asia/Seoul. `@jaemani/agent-context-kit@0.1.0-beta.3` is public with verified digests,
+2026-07-11, Asia/Seoul. `@jaemani/agent-context-kit@0.1.0-beta.3` is public with verified digests,
 provenance, one-off execution, and global installation. The repository has been renamed to
 `Jaemani/Carrylog`; the next reviewed package is `carrylog@0.1.0-beta.4`.
 
@@ -130,8 +66,8 @@ publish beta.4 from a new immutable tag, and retire the old package and bootstra
 
 ## Remaining
 
-- Commit and push beta.4, require every remote CI job, then run final clean release verification from
-  that exact clean commit.
+- Commit this refreshed handoff evidence, push both beta.4 commits, require every remote CI job, then
+  run final clean release verification from the exact remote-tested commit.
 - Recheck npm name availability, create `v0.1.0-beta.4`, approve the protected environment, and
   monitor the first Carrylog publication without blindly retrying ambiguous registry state.
 - Verify digests, provenance, npx, global install, init, and validate; remove Carrylog `latest` if
@@ -140,4 +76,4 @@ publish beta.4 from a new immutable tag, and retire the old package and bootstra
 
 ## Next action
 
-Commit the reviewed Carrylog beta.4 tree, push it, and require the complete remote CI matrix.
+Commit this handoff evidence, push the reviewed beta.4 tree, and require the complete remote CI matrix.
