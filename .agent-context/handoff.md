@@ -36,15 +36,17 @@ work as a disposable template or toy CLI.
 - `npm audit --omit=dev`: 0 known runtime vulnerabilities reported by the registry.
 - First large-change review completed; seven material findings were fixed with regression coverage.
 - Initial remote CI passed package smoke and Node 22/24 on Linux/macOS. Both Windows jobs exposed CRLF
-  checkout drift in formatter checks; `.gitattributes` now enforces LF and requires a matrix rerun.
+  checkout drift in formatter checks; `.gitattributes` enforced LF and the full rerun passed.
+- CI infrastructure was updated to `checkout@v7`, `setup-node@v6`, and pinned `macos-15`; a final
+  warning-free matrix rerun is pending.
 
 ## Unresolved
 
-- Confirm the LF normalization follow-up CI on Linux, macOS, Windows and Node 22/24.
+- Confirm the Actions-major and pinned-macOS follow-up CI on Linux, macOS, Windows and Node 22/24.
 - Select a license and confirm npm scope ownership before public release.
 - Decide how hard links, filesystem races, and fault injection affect the beta safety bar.
 
 ## Next action
 
-Push the LF checkout fix, monitor the complete remote CI matrix, and treat any remaining
-platform-specific failure as an alpha blocker rather than immediately adding new features.
+Push the CI infrastructure update, monitor the complete remote matrix, and treat any remaining
+platform-specific or infrastructure failure as an alpha blocker rather than adding new features.

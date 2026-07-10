@@ -102,3 +102,13 @@ The repository now defines `* text=auto eol=lf` in `.gitattributes`. This makes 
 identical across checkout platforms while runtime CRLF behavior remains covered explicitly in managed
 adapter tests. The fix addresses the repository contract instead of weakening formatter checks on
 Windows.
+
+The successful rerun still emitted infrastructure warnings: Actions v4 used deprecated Node 20
+internals, and `macos-latest` was scheduled to move to macOS 26. Dependabot confirmed current majors
+`checkout@v7` and `setup-node@v6`; main adopted them and pinned the matrix to `macos-15` for a stable
+alpha baseline.
+
+A separate Dependabot proposal jumped TypeScript 5.9 to 7.0 and `@types/node` 22 to 26. Its Linux
+typecheck showed that TypeScript 7 no longer implicitly loaded the Node types in this setup. The
+project now declares `types: ["node"]` explicitly, but the major compiler/runtime-type upgrade remains
+a separately reviewed change rather than being folded into CI maintenance.
