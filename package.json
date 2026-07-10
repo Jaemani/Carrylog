@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
-    "@types/node": "^22.18.0",
-    "typescript": "^5.9.2"
+    "@types/node": "^26.1.1",
+    "typescript": "^7.0.2"
   },
   "keywords": [
     "ai-agents",
