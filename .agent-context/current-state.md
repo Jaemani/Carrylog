@@ -48,6 +48,8 @@ complete trusted publishing, dist-tag cleanup, old-package deprecation, and cred
 - The 126-file, 100,633-byte package passes npm 10 and exact npm 11.18.0 real publish-dry-run plus all
   consumer modes. Exact npm 12.0.0 passes the keyed pack envelope and every non-publish consumer mode.
 - Dogfood sync/validation, formatting, strict typecheck, build, diff checks, and full npm audit pass.
+- Commits `d7a83e4` and `0b77aac` passed all eleven jobs in CI run `29108810508` on the exact remote
+  head. Clean exact Node.js 24.15.0/npm 11.18.0 release verification then passed on `0b77aac`.
 
 ## Blockers and risks
 
@@ -70,5 +72,5 @@ complete trusted publishing, dist-tag cleanup, old-package deprecation, and cred
 
 ## Next best task
 
-Commit and push the reviewed beta.4 tree, require all remote CI jobs, then run clean-commit release
-verification before creating `v0.1.0-beta.4`.
+Commit the CI/release-verification record, pass the final remote CI matrix, then rerun clean-commit
+release verification before creating `v0.1.0-beta.4`.

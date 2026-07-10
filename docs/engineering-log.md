@@ -551,3 +551,23 @@ recording it cannot change the artifact being measured. Dogfood sync and validat
 full npm audit passed. An initial network-restricted package-smoke attempt timed out with SIGTERM
 during isolated dependency installation; rerunning the unchanged gate with registry access passed,
 confirming an environmental boundary already documented by the harness rather than a package defect.
+
+## 2026-07-11 — Carrylog beta.4 passed remote and clean release gates
+
+Commits `d7a83e4` and `0b77aac` were pushed without a release tag. CI run `29108810508` tested exact
+head `0b77aac5ff394be69610be5e00b332d44a7c9c37` and passed all eleven jobs: Node.js 22 and 24 quality
+on Linux, macOS, and Windows; packed-artifact smoke on those operating systems plus exact minimum
+Node.js 22.0.0; and the exact Node.js 24.15.0/npm 11.18.0 release-client and npm 12.0.0 package
+contracts.
+
+A clean exact Node.js 24.15.0/npm 11.18.0 `npm run release:verify` then passed on the same commit. It
+repeated all 129 tests and coverage thresholds, dogfood sync/validation, 126-file pack inspection,
+release-artifact construction, real publish dry run, every consumer mode, and production audit. The
+100,633-byte artifact had SHA-256
+`f3ba0076dd41337dcc0a74b47a00b2f35562fb802395213e59d0ee4b61bbb4f8` and SHA-1
+`9b9713bc0fa1214122539b72e67f80db7d044205`.
+
+Those digests describe the clean pre-record commit, not the future tagged artifact: this engineering
+record is itself included in the npm package. After this record passes CI, release verification must
+rebuild and identify the final clean artifact before tagging rather than reusing or relabeling the
+earlier digest.
