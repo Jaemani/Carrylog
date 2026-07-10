@@ -88,8 +88,8 @@ async function git(root, arguments_) {
 
 async function initializeGitProject(root, options = {}) {
   await git(root, ["init", "-b", "main"]);
-  await git(root, ["config", "user.email", "ackit-tests@example.invalid"]);
-  await git(root, ["config", "user.name", "Agent Context Kit Tests"]);
+  await git(root, ["config", "user.email", "carrylog-tests@example.invalid"]);
+  await git(root, ["config", "user.name", "Carrylog Tests"]);
   await initProject({ root, adapters: ["codex"], adopt: false, dryRun: false });
   await writeFile(path.join(root, "tracked.txt"), "initial\n", "utf8");
   if (options.commit !== false) {
@@ -463,7 +463,7 @@ test("Git subprocess runner enforces combined output and hard timeout bounds", a
       (error) => error.code === "E_GIT_TIMEOUT",
     );
     await assert.rejects(
-      () => runGitProcess(root, [], { command: "ackit-definitely-missing-git" }),
+      () => runGitProcess(root, [], { command: "carrylog-definitely-missing-git" }),
       (error) => error.code === "E_GIT_UNAVAILABLE",
     );
     await assert.rejects(() => runGitProcess(root, [], { timeoutMs: 0 }), TypeError);
@@ -500,8 +500,8 @@ test("nested projects report only project-relative Git paths", async () => {
   const root = await createTemporaryDirectory();
   try {
     await git(root, ["init", "-b", "main"]);
-    await git(root, ["config", "user.email", "ackit-tests@example.invalid"]);
-    await git(root, ["config", "user.name", "Agent Context Kit Tests"]);
+    await git(root, ["config", "user.email", "carrylog-tests@example.invalid"]);
+    await git(root, ["config", "user.name", "Carrylog Tests"]);
     const projectRoot = path.join(root, "packages", "project");
     await mkdir(projectRoot, { recursive: true });
     await initProject({ root: projectRoot, adapters: ["codex"], adopt: false, dryRun: false });
@@ -544,8 +544,8 @@ test("snapshot reports deterministic upstream divergence", async () => {
     await execFileAsync("git", ["clone", "--branch", "main", remote, cloneRoot], {
       encoding: "utf8",
     });
-    await git(cloneRoot, ["config", "user.email", "ackit-tests@example.invalid"]);
-    await git(cloneRoot, ["config", "user.name", "Agent Context Kit Tests"]);
+    await git(cloneRoot, ["config", "user.email", "carrylog-tests@example.invalid"]);
+    await git(cloneRoot, ["config", "user.name", "Carrylog Tests"]);
     await writeFile(path.join(cloneRoot, "remote.txt"), "remote\n", "utf8");
     await git(cloneRoot, ["add", "remote.txt"]);
     await git(cloneRoot, ["commit", "-m", "remote ahead"]);

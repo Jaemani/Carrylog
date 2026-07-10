@@ -1,6 +1,6 @@
 # ADR-0004: `ackit` executable and `.agent-context/` root
 
-- Status: Accepted
+- Status: Superseded by ADR-0008 for product, package, repository, and executable naming
 - Date: 2026-07-10
 
 ## Context
@@ -36,7 +36,7 @@ Negative:
 - hidden directories are less visible in basic file listings;
 - scoped npm ownership and final naming are not yet proven.
 
-## Validation note — 2026-07-10
+## Pre-publication validation note — 2026-07-10
 
 The authenticated npm account now matches scope `@jaemani`, the scoped package remains unregistered,
 and account write 2FA is enabled. The original naming rationale remains unchanged; license selection
@@ -47,3 +47,10 @@ and first-publication bootstrap are tracked by the release process.
 - package registry or trademark research identifies a conflict;
 - user testing shows the executable is hard to discover or remember;
 - a broader standard defines a canonical directory name.
+
+## Supersession note — 2026-07-10
+
+ADR-0008 adopts Carrylog after registry and direct-competitor research invalidated the earlier product
+and package assumptions. This record remains the history of the original decision. Its
+`.agent-context/` decision remains part of the published configuration v1 compatibility contract.
+The scoped `0.1.0-beta.3` package was subsequently published and remains immutable migration evidence.

@@ -1,5 +1,6 @@
 import { issueError } from "../core/errors.js";
 import { detectTextEol, standaloneMarkerLines } from "../core/marker-lines.js";
+import { PRODUCT_NAME } from "../product.js";
 
 export const MANAGED_START = "<!-- agent-context-kit:managed:start -->";
 export const MANAGED_END = "<!-- agent-context-kit:managed:end -->";
@@ -31,7 +32,7 @@ export function upsertManagedBlock(
   if (starts.length !== ends.length || starts.length > 1) {
     throw issueError(
       "E_MANAGED_MARKERS",
-      "Adapter file has missing or duplicate Agent Context Kit managed markers.",
+      `Adapter file has missing or duplicate ${PRODUCT_NAME} managed markers.`,
       "Restore exactly one start marker and one end marker, then run sync again.",
     );
   }
@@ -56,7 +57,7 @@ export function upsertManagedBlock(
   if (!options.adopt) {
     throw issueError(
       "E_UNMANAGED_ADAPTER",
-      "Adapter file already exists and is not managed by Agent Context Kit.",
+      `Adapter file already exists and is not managed by ${PRODUCT_NAME}.`,
       "Review the generated block, then rerun with --adopt to append it without replacing existing content.",
     );
   }

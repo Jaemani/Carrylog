@@ -1,7 +1,7 @@
 {
-  "name": "@jaemani/agent-context-kit",
-  "version": "0.1.0-beta.3",
-  "description": "A local-first project memory and handoff layer for AI coding agents.",
+  "name": "carrylog",
+  "version": "0.1.0-beta.4",
+  "description": "Repository-owned, reviewable project context for AI coding agents.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "bin": {
-    "ackit": "dist/cli.js"
+    "carrylog": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -64,15 +64,18 @@
     "ai-agents",
     "codex",
     "claude-code",
+    "context-governance",
     "developer-tools",
-    "project-context"
+    "handoff",
+    "project-context",
+    "project-memory"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jaemani/Agent-Context-Kit.git"
+    "url": "git+https://github.com/Jaemani/Carrylog.git"
   },
   "bugs": {
-    "url": "https://github.com/Jaemani/Agent-Context-Kit/issues"
+    "url": "https://github.com/Jaemani/Carrylog/issues"
   },
-  "homepage": "https://github.com/Jaemani/Agent-Context-Kit#readme"
+  "homepage": "https://github.com/Jaemani/Carrylog#readme"
 }

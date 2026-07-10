@@ -10,13 +10,13 @@ import {
 } from "../scripts/publish-release-artifact.mjs";
 
 async function createFixture(overrides = {}) {
-  const root = await mkdtemp(path.join(tmpdir(), "ackit-release-artifact-"));
+  const root = await mkdtemp(path.join(tmpdir(), "carrylog-release-artifact-"));
   const releaseDirectory = path.join(root, "release");
   await mkdir(releaseDirectory);
   const content = Buffer.from("reviewed release artifact");
   const manifest = {
-    name: "@jaemani/agent-context-kit",
-    version: "0.1.0-beta.3",
+    name: "carrylog",
+    version: "0.1.0-beta.4",
     publishConfig: { access: "public", tag: "beta", provenance: true },
     ...overrides.manifest,
   };
@@ -24,7 +24,7 @@ async function createFixture(overrides = {}) {
     package: manifest.name,
     version: manifest.version,
     commit: "0123456789abcdef",
-    filename: "jaemani-agent-context-kit-0.1.0-beta.3.tgz",
+    filename: "carrylog-0.1.0-beta.4.tgz",
     sha256: createHash("sha256").update(content).digest("hex"),
     integrity: `sha512-${createHash("sha512").update(content).digest("base64")}`,
     shasum: createHash("sha1").update(content).digest("hex"),
@@ -76,7 +76,7 @@ test("publishes the one verified tarball through an absolute shell-free npm argu
 test("rejects package, version, policy, commit, and filename record mismatches", async (t) => {
   const cases = [
     [{ artifact: { package: "@other/package" } }, /package differs/, undefined],
-    [{ artifact: { version: "0.1.0-beta.2" } }, /version differs/, undefined],
+    [{ artifact: { version: "0.1.0-beta.3" } }, /version differs/, undefined],
     [
       { manifest: { publishConfig: { access: "restricted" } } },
       /publish policy differs/,

@@ -8,7 +8,7 @@ import { resolveNpmInvocation } from "./lib/npm-cli.mjs";
 import { parseSingleNpmPackArtifact } from "./lib/npm-pack-json.mjs";
 
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
-const temporaryRoot = await mkdtemp(path.join(tmpdir(), "ackit-pack-check-"));
+const temporaryRoot = await mkdtemp(path.join(tmpdir(), "carrylog-pack-check-"));
 const manifest = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
 
 try {

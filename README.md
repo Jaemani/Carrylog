@@ -1,12 +1,13 @@
-# Agent Context Kit
+# Carrylog
 
-One repo-native project memory layer for AI coding agents.
+Repository-owned, reviewable project context for AI coding agents.
 
-Agent Context Kit keeps durable project intent, current state, decisions, and handoff narrative in one
+Carrylog keeps durable project intent, current state, decisions, and handoff narrative in one
 canonical directory. It compiles small instruction-file adapters for Codex and Claude Code and adds
-bounded Git evidence without copying the full memory into every tool file.
+bounded Git evidence without copying the full memory into every tool file. The repository—not an
+agent session, daemon, or hosted service—owns the durable source of truth.
 
-> Status: `0.1.0-beta.3`. The package uses the npm `beta` dist-tag and MIT license. Beta interfaces
+> Status: `0.1.0-beta.4`. The package uses the npm `beta` dist-tag and MIT license. Beta interfaces
 > retain the compatibility commitments described below while broader APIs may still change.
 
 ## Why this exists
@@ -37,63 +38,98 @@ Node.js 22 or newer is required. Choose one installation model.
 One-off use without a persistent global command:
 
 ```bash
-npx --yes @jaemani/agent-context-kit@beta init
-npx --yes @jaemani/agent-context-kit@beta validate
+npx --yes carrylog@beta init
+npx --yes carrylog@beta validate
 ```
 
 Persistent global CLI:
 
 ```bash
-npm install --global @jaemani/agent-context-kit@beta
-ackit init
-ackit validate
+npm install --global carrylog@beta
+carrylog init
+carrylog validate
 ```
 
 Team-pinned development dependency:
 
 ```bash
-npm install --save-dev --save-exact @jaemani/agent-context-kit@0.1.0-beta.3
-npx --no-install ackit init
-npx --no-install ackit validate
+npm install --save-dev --save-exact carrylog@0.1.0-beta.4
+npx --no-install carrylog init
+npx --no-install carrylog validate
 ```
 
-Do not mix the one-off example with a later bare `ackit` command unless the package is also installed
-globally or locally. To test an unreleased repository revision instead of the published beta:
+Do not mix the one-off example with a later bare `carrylog` command. Bare commands require a global
+install or an environment such as an npm script that adds local `.bin` entries to `PATH`; use
+`npx --no-install carrylog` for a local dependency. To test an unreleased repository revision instead
+of the published beta:
 
 ```bash
-git clone https://github.com/Jaemani/Agent-Context-Kit.git
-cd Agent-Context-Kit
+git clone https://github.com/Jaemani/Carrylog.git
+cd Carrylog
 npm ci
 npm run build
 node dist/cli.js init --root /path/to/your-project
 ```
 
+### Migrating from Agent Context Kit beta.3
+
+Carrylog preserves the published configuration v1 root, schema, and managed markers. Existing
+repositories do not move or duplicate `.agent-context/`; only generated adapter prose and commands
+change after synchronization. `carrylog sync` also recognizes the complete untouched beta.3
+instructions template at any configured document path and changes only its executable name, including
+its CRLF form. If customized always-loaded context still contains a command-shaped `ackit` invocation,
+Carrylog reports `E_LEGACY_CLI_INSTRUCTION` and requires review instead of rewriting it speculatively.
+Historical prose that only names the old command is not treated as an invocation.
+
+For a global installation:
+
+```bash
+npm uninstall --global @jaemani/agent-context-kit
+npm install --global carrylog@beta
+carrylog sync
+carrylog validate
+```
+
+For a project dependency:
+
+```bash
+npm uninstall @jaemani/agent-context-kit
+npm install --save-dev --save-exact carrylog@0.1.0-beta.4
+npx --no-install carrylog sync
+npx --no-install carrylog validate
+```
+
+Also update package scripts, CI commands, and JavaScript/TypeScript import specifiers that name the old
+package or executable. Carrylog intentionally does not install the old `ackit` binary or the
+Windows-conflicting `cl` alias.
+
 ## Commands
 
-### `ackit init`
+### `carrylog init`
 
 Creates the canonical context directory, copied v1 schema, starter documents, and managed Codex and
 Claude adapter blocks.
 
 ```bash
-ackit init --name "Example project"
-ackit init --adapters codex
-ackit init --dry-run
-ackit init --adopt
+carrylog init --name "Example project"
+carrylog init --adapters codex
+carrylog init --dry-run
+carrylog init --adopt
 ```
 
 If an adapter file already exists, initialization stops before writing. Review the proposed change
 and use `--adopt` to append a managed block while preserving human content.
 
-### `ackit sync`
+### `carrylog sync`
 
-Recompiles adapter blocks and repairs a missing or drifted copied schema.
+Applies recognized exact-template context migrations, recompiles adapter blocks, and repairs a missing
+or drifted copied schema.
 
 ```bash
-ackit sync
-ackit sync --check       # no writes; exit 1 if a generated artifact would change
-ackit sync --dry-run     # show the plan without writing
-ackit sync --adopt       # explicitly adopt reviewed unmarked adapter files
+carrylog sync
+carrylog sync --check       # no writes; exit 1 if a generated artifact would change
+carrylog sync --dry-run     # show the plan without writing
+carrylog sync --adopt       # explicitly adopt reviewed unmarked adapter files
 ```
 
 All changed outputs are preflighted and staged before rename. Parent directory and temporary-file
@@ -103,28 +139,28 @@ loaded configuration changed after inspection. Sequential multi-file rename is n
 OS-level transaction; portable path-based syscalls still have the residual race documented in the
 threat model and ADR-0007.
 
-### `ackit validate`
+### `carrylog validate`
 
 Checks configuration, schema/directive state, managed path ownership, document and adapter budgets,
 portable/symlink-safe paths, handoff marker integrity, and generated drift.
 
 ```bash
-ackit validate
-ackit validate --json
+carrylog validate
+carrylog validate --json
 ```
 
 `sync`, `validate`, and `handoff` discover the nearest `.agent-context/config.yaml` while walking
 upward, so they work from a nested directory. `init` always uses its explicit/current root.
 
-### `ackit handoff`
+### `carrylog handoff`
 
 Preserves handoff narrative while refreshing one managed block of deterministic repository evidence.
 
 ```bash
-ackit handoff
-ackit handoff --check    # exit 1 when evidence would change
-ackit handoff --dry-run
-ackit handoff --json
+carrylog handoff
+carrylog handoff --check    # exit 1 when evidence would change
+carrylog handoff --dry-run
+carrylog handoff --json
 ```
 
 Evidence includes branch/HEAD, upstream divergence, staged and unstaged line stats, aggregate status,
@@ -193,11 +229,12 @@ managed-block helpers, and `readPublicSchema()`.
 
 During beta, documented CLI exit categories, configuration v1, and non-destructive ownership rules are
 compatibility commitments. The broader TypeScript API may still change between prereleases and will
-follow package SemVer after stable. Expected command/library failures are `AckitError` instances with
-`code`, `exitCode`, and `diagnostics`; exit/config constants are exported from the package root.
+follow package SemVer after stable. Expected command/library failures are `CarrylogError` instances
+with `code`, `exitCode`, and `diagnostics`; deprecated `AckitError` is the same constructor for beta.3
+source compatibility. Exit/config constants are exported from the package root.
 
 ```ts
-import { decodeConfig, readPublicSchema } from "@jaemani/agent-context-kit";
+import { decodeConfig, readPublicSchema } from "carrylog";
 
 const schema = readPublicSchema();
 const result = decodeConfig(candidate);
@@ -236,4 +273,4 @@ records its SHA-256, and smoke-tests that exact artifact before publication.
 - [Contributing](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
 
-Agent Context Kit is available under the [MIT License](LICENSE).
+Carrylog is available under the [MIT License](LICENSE).

@@ -1,6 +1,6 @@
 # Contributing
 
-Agent Context Kit changes must preserve user-authored project memory and cross-platform behavior.
+Carrylog changes must preserve user-authored project memory and cross-platform behavior.
 
 ## Setup
 

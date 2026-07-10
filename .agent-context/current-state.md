@@ -2,12 +2,12 @@
 
 ## Active objective
 
-Publish the corrected `0.1.0-beta.3` candidate through the protected npm workflow and verify registry
-integrity, provenance, one-off execution, and global installation.
+Prepare and publish the compatibility-preserving Carrylog `0.1.0-beta.4` identity migration, then
+complete trusted publishing, dist-tag cleanup, old-package deprecation, and credential retirement.
 
-## Implemented and locally verified
+## Implemented and verified
 
-- Node.js/TypeScript `ackit` CLI with `init`, `sync`, `validate`, and `handoff`.
+- Node.js/TypeScript `carrylog` CLI with `init`, `sync`, `validate`, and `handoff`.
 - Frozen configuration v1 contract, strict public JSON Schema, copied artifact, and upgrade warning.
 - Progressive always/on-demand context catalog and deterministic context/router budgets.
 - Registry-backed Codex and Claude adapters with official discovery docs and golden fixtures.
@@ -30,19 +30,37 @@ integrity, provenance, one-off execution, and global installation.
 - Shell-free release-artifact selection that rechecks identity, commit, regular-file ownership,
   exact artifact count, size, and three registry digests before passing one absolute path to npm.
 - Real cross-platform `npm publish --dry-run` coverage for an absolute tarball path containing spaces.
+- Public `@jaemani/agent-context-kit@0.1.0-beta.3` beta with verified registry digests, SLSA
+  provenance, one-off execution, global installation, initialization, and validation.
+- Carrylog product, repository, package, executable, debug, and error identity with ADR-0008 and a
+  tested beta.3 repository upgrade that preserves every configuration v1 wire identifier.
+- Exact frozen-template migration of untouched LF/CRLF beta.3 instructions at any configured path,
+  with command-shaped legacy diagnostics for customized always context, linear bounded scanning,
+  immutable schema SHA-256, and guarded batch integration.
 
 ## In progress
 
-- The frozen publish-path correction passed broad local verification, two independent final reviews,
-  all eleven remote CI jobs, and clean exact-toolchain release verification. Record that evidence,
-  pass final gates, then publish `beta.3` without moving the failed tags.
+- Package and lock metadata now target `carrylog@0.1.0-beta.4` and repository `Jaemani/Carrylog`.
+  Active runtime, package smoke, fixtures, CLI help, API aliases, and migration regression coverage
+  are renamed without changing the frozen schema, context root, or persisted markers.
+- The frozen local tree passes all 129 tests with 95.71% lines, 95.71% functions, and 91.24% branches.
+  Three independent code/security, release, and documentation reviews report no P0, P1, or P2.
+- The 126-file, 100,633-byte package passes npm 10 and exact npm 11.18.0 real publish-dry-run plus all
+  consumer modes. Exact npm 12.0.0 passes the keyed pack envelope and every non-publish consumer mode.
+- Dogfood sync/validation, formatting, strict typecheck, build, diff checks, and full npm audit pass.
 
 ## Blockers and risks
 
-- The short-lived first-publication token remains in the protected GitHub environment and must be
-  removed and revoked immediately after trusted publishing is configured.
-- The immutable `beta.0`, `beta.1`, and `beta.2` tags failed safely before publication; the current
-  correction must use the new `beta.3` version and tag.
+- The protected GitHub environment still contains the old bootstrap secret. It may not be authorized
+  to create the unscoped Carrylog package and must be replaced only with a shortest-lived suitable
+  credential, then removed and revoked after Carrylog trusted publishing is configured.
+- npm assigned both `beta` and `latest` during first publication despite the explicit beta tag. The
+  old package's unintended `latest` tag remains and Carrylog first publication may repeat this
+  behavior; both registry states require authenticated cleanup and re-query.
+- The immutable `beta.0`, `beta.1`, `beta.2`, and published `beta.3` tags remain audit evidence; none
+  may be moved or reused. Carrylog requires the new `beta.4` version and tag.
+- The unscoped `carrylog` npm name was available when checked but cannot be reserved without
+  publication; availability must be rechecked immediately before tagging.
 - Sequential cross-file rename and the final path-check-to-syscall TOCTOU window remain; ADR-0007
   explains why portable Node.js checks cannot fully remove it.
 - Additional Windows reparse-point/hard-link policy and authenticated tool-launch conformance remain
@@ -52,5 +70,5 @@ integrity, provenance, one-off execution, and global installation.
 
 ## Next best task
 
-Commit and push the beta.3 verification record, pass final remote gates, then run clean-commit release
-verification before creating the `v0.1.0-beta.3` tag.
+Commit and push the reviewed beta.4 tree, require all remote CI jobs, then run clean-commit release
+verification before creating `v0.1.0-beta.4`.

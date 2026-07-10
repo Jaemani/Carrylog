@@ -12,8 +12,12 @@ const manifest = JSON.parse(await readFile(path.join(repositoryRoot, "package.js
 const release = JSON.parse(
   await readFile(path.join(repositoryRoot, "release", "artifact.json"), "utf8"),
 );
-const temporaryRoot = await mkdtemp(path.join(tmpdir(), "ackit-registry-verify-"));
+const temporaryRoot = await mkdtemp(path.join(tmpdir(), "carrylog-registry-verify-"));
 const cache = path.join(temporaryRoot, "npm-cache");
+const binaryName = "carrylog";
+
+assert.equal(manifest.name, "carrylog", "registry verification package identity differs");
+assert.deepEqual(manifest.bin, { [binaryName]: "dist/cli.js" });
 
 try {
   let lastError;
@@ -38,7 +42,7 @@ try {
         "--package",
         `${manifest.name}@${manifest.version}`,
         "--",
-        "ackit",
+        binaryName,
         "--version",
       ]);
       assert.equal(version.trim(), manifest.version);

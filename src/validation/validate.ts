@@ -1,11 +1,13 @@
 import path from "node:path";
 import { hasAnyManagedMarker, upsertManagedBlock } from "../adapters/managed-block.js";
 import { renderAdapter } from "../adapters/render.js";
-import { AckitError } from "../core/errors.js";
+import { CarrylogError } from "../core/errors.js";
 import { readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
 import type { Diagnostic, LoadedProject } from "../domain/types.js";
 import { validateHandoffSnapshotMarkers } from "../handoff/snapshot-block.js";
+import { hasLegacyCliInvocation } from "../migrations/context-v1.js";
+import { CLI_NAME } from "../product.js";
 import {
   PUBLIC_SCHEMA_PATH,
   PUBLIC_SCHEMA_YAML_DIRECTIVE,
@@ -32,7 +34,7 @@ export async function validateContext(
         overriddenContent !== undefined &&
         Buffer.byteLength(overriddenContent, "utf8") > MAX_CONTEXT_DOCUMENT_BYTES
       ) {
-        throw new AckitError(
+        throw new CarrylogError(
           "E_FILE_TOO_LARGE",
           `Text file exceeds the ${MAX_CONTEXT_DOCUMENT_BYTES}-byte safety limit: ${portablePath}`,
         );
@@ -59,6 +61,15 @@ export async function validateContext(
       }
       if (document.id === "handoff") {
         validateHandoffSnapshotMarkers(content);
+      }
+      if (document.load === "always" && hasLegacyCliInvocation(content)) {
+        diagnostics.push({
+          level: "error",
+          code: "E_LEGACY_CLI_INSTRUCTION",
+          message: `Always-loaded context still invokes the removed 'ackit' executable: ${portablePath}`,
+          path: portablePath,
+          hint: `Review the command, replace the legacy executable with '${CLI_NAME}', then rerun validation. Exact beta.3 defaults are migrated automatically by '${CLI_NAME} sync'.`,
+        });
       }
       if (document.load === "always") {
         alwaysCharacters += content.length;
@@ -107,7 +118,7 @@ export async function validateAdapters(project: LoadedProject): Promise<Diagnost
           code: "E_ADAPTER_MISSING",
           message: `Generated adapter is missing: ${adapter.output}`,
           path: adapter.output,
-          hint: "Run 'ackit sync'.",
+          hint: `Run '${CLI_NAME} sync'.`,
         });
         continue;
       }
@@ -117,7 +128,7 @@ export async function validateAdapters(project: LoadedProject): Promise<Diagnost
           code: "E_ADAPTER_UNMANAGED",
           message: `Adapter does not contain a managed block: ${adapter.output}`,
           path: adapter.output,
-          hint: "Run 'ackit sync --adopt' after reviewing the generated block.",
+          hint: `Run '${CLI_NAME} sync --adopt' after reviewing the generated block.`,
         });
         continue;
       }
@@ -130,7 +141,7 @@ export async function validateAdapters(project: LoadedProject): Promise<Diagnost
           code: "E_ADAPTER_DRIFT",
           message: `Generated adapter is out of date: ${adapter.output}`,
           path: adapter.output,
-          hint: "Run 'ackit sync'.",
+          hint: `Run '${CLI_NAME} sync'.`,
         });
       }
     } catch (error) {
@@ -152,7 +163,7 @@ export async function validatePublicSchema(project: LoadedProject): Promise<Diag
           code: "E_SCHEMA_MISSING",
           message: `Generated configuration schema is missing: ${PUBLIC_SCHEMA_PATH}`,
           path: PUBLIC_SCHEMA_PATH,
-          hint: "Run 'ackit sync'.",
+          hint: `Run '${CLI_NAME} sync'.`,
         },
       ];
     }
@@ -163,7 +174,7 @@ export async function validatePublicSchema(project: LoadedProject): Promise<Diag
           code: "E_SCHEMA_DRIFT",
           message: `Generated configuration schema is out of date: ${PUBLIC_SCHEMA_PATH}`,
           path: PUBLIC_SCHEMA_PATH,
-          hint: "Run 'ackit sync'.",
+          hint: `Run '${CLI_NAME} sync'.`,
         },
       ];
     }
@@ -194,7 +205,7 @@ export async function validateConfigSchemaDirective(project: LoadedProject): Pro
 }
 
 function asDiagnostic(error: unknown, diagnosticPath: string): Diagnostic {
-  if (error instanceof AckitError && error.diagnostics[0] !== undefined) {
+  if (error instanceof CarrylogError && error.diagnostics[0] !== undefined) {
     return { ...error.diagnostics[0], path: diagnosticPath };
   }
   return {

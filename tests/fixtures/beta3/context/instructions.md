@@ -18,4 +18,4 @@
 - Update `current-state.md` when implementation status or priorities changed.
 - Update `handoff.md` with verified changes, checks run, unresolved risks, and the next best task.
 - Add or link a decision record when a consequential design choice was made.
-- Run `carrylog validate` and the project's relevant quality checks.
+- Run `ackit validate` and the project's relevant quality checks.

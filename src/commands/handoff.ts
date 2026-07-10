@@ -1,6 +1,6 @@
 import path from "node:path";
 import { assertLoadedProjectSnapshot } from "../config/load.js";
-import { AckitError, issueError } from "../core/errors.js";
+import { CarrylogError, issueError } from "../core/errors.js";
 import { atomicWriteTexts, inspectAtomicPath, readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
 import type { LoadedProject } from "../domain/types.js";
@@ -29,7 +29,7 @@ export async function refreshHandoff(
   await assertLoadedProjectSnapshot(project);
   const diagnostics = await validateContext(project);
   if (diagnostics.some((diagnostic) => diagnostic.level === "error")) {
-    throw new AckitError("E_CONTEXT_INVALID", "Canonical context is invalid.", { diagnostics });
+    throw new CarrylogError("E_CONTEXT_INVALID", "Canonical context is invalid.", { diagnostics });
   }
 
   const handoffDocument = project.config.documents.find((document) => document.id === "handoff");
@@ -51,7 +51,7 @@ export async function refreshHandoff(
   const content = upsertHandoffSnapshot(existing, renderHandoffSnapshot(snapshot));
   const prospectiveDiagnostics = await validateContext(project, new Map([[portablePath, content]]));
   if (prospectiveDiagnostics.some((diagnostic) => diagnostic.level === "error")) {
-    throw new AckitError(
+    throw new CarrylogError(
       "E_HANDOFF_CONTEXT_INVALID",
       "Refreshed handoff would make canonical context invalid.",
       { diagnostics: prospectiveDiagnostics },

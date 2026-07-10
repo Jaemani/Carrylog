@@ -32,7 +32,8 @@ async function runCli(arguments_) {
 test("help and version are available without a project", async () => {
   const help = await runCli(["--help"]);
   assert.equal(help.code, 0);
-  assert.match(help.stdout, /Usage: ackit/);
+  assert.match(help.stdout, /Carrylog/);
+  assert.match(help.stdout, /Usage: carrylog/);
   const version = await runCli(["--version"]);
   assert.equal(version.code, 0);
   assert.equal(version.stdout.trim(), manifest.version);
@@ -99,8 +100,8 @@ test("CLI handoff refresh, check, dry-run, and JSON form one stable lifecycle", 
         env: { ...process.env, GIT_OPTIONAL_LOCKS: "0", LC_ALL: "C" },
       });
     await git("init", "-b", "main");
-    await git("config", "user.email", "ackit-tests@example.invalid");
-    await git("config", "user.name", "Agent Context Kit Tests");
+    await git("config", "user.email", "carrylog-tests@example.invalid");
+    await git("config", "user.name", "Carrylog Tests");
     await git("add", ".");
     await git("commit", "-m", "CLI handoff fixture");
 

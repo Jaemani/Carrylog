@@ -16,19 +16,25 @@ Implemented in the `0.1.0` beta line:
 - hostile Git environment, process deadline/output, invalid filename, and fsmonitor controls;
 - human CLI contracts for every command and JSON contracts for `validate` and `handoff`;
 - deterministic fuzz/property, performance, adoption, package, and three-platform CI design;
-- exact clean-build npm artifact and local/ephemeral/global/ESM/TypeScript smoke paths.
+- exact clean-build npm artifact and local/ephemeral/global/ESM/TypeScript smoke paths;
+- first public beta with registry digests, provenance, one-off execution, global installation,
+  initialization, and validation evidence;
+- Carrylog product/package/CLI identity with a tested beta.3 repository compatibility path that
+  preserves configuration v1 wire identifiers.
 
-Release blockers outside implementation:
+Post-publication operations before the beta channel is fully hardened:
 
-- publish the corrected `beta.3` after the `beta.0`, `beta.1`, and `beta.2` tags stopped safely before
-  publication;
-- configure protected trusted publishing immediately after the bootstrap publication;
-- run registry integrity, provenance, one-off, and global-install verification.
+- publish and verify `carrylog@0.1.0-beta.4` from the renamed repository;
+- configure protected trusted publishing and retire the short-lived bootstrap token;
+- remove the unintended `latest` dist-tag wherever it points to a prerelease;
+- deprecate the old scoped beta with an exact Carrylog migration message;
+- prove a later Carrylog beta publishes through OIDC with no registry token.
 
 ## 0.2 beta — adapter breadth and measured continuity
 
 - research-backed Cursor, GitHub Copilot, and Gemini CLI adapters;
 - nested instruction outputs only where official precedence behavior is documented;
+- CI policy mode and a compact, deterministic project-card export for session-journal consumers;
 - a tool-neutral checkpoint/resume contract that reconstructs verified project and task state without
   claiming to reproduce conversation transcripts or hidden model state;
 - opt-in measurement protocol for reconstruction time and handoff usefulness;

@@ -13,8 +13,9 @@ process behavior are untrusted inputs.
 
 ## Decision
 
-`ackit handoff` updates one marker-owned repository-evidence block inside the configured `handoff`
-document. Content outside that block remains human or agent authored. No model, network call, stage,
+The command originally named `ackit handoff`, now `carrylog handoff` under ADR-0008, updates one
+marker-owned repository-evidence block inside the configured `handoff` document. Content outside that
+block remains human or agent authored. No model, network call, stage,
 commit, push, or issue-tracker mutation occurs.
 
 The snapshot records branch/HEAD, upstream divergence, staged and unstaged numstat, aggregate status

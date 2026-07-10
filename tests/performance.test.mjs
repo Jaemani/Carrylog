@@ -3,6 +3,7 @@ import { performance } from "node:perf_hooks";
 import test from "node:test";
 import { parseGitStatus } from "../dist/git/inspect.js";
 import { decodeConfig, renderAdapter } from "../dist/index.js";
+import { hasLegacyCliInvocation } from "../dist/migrations/context-v1.js";
 import { createDefaultConfig } from "../dist/templates/defaults.js";
 
 test("maximum v1 catalog decodes and renders within the deterministic budget", () => {
@@ -41,4 +42,15 @@ test("near-limit Git status evidence remains bounded in time and retained entrie
   assert.equal(parsed.omittedChanges, 19_800);
   assert.equal(parsed.untracked, 20_000);
   assert.equal(elapsed < 2_000, true, `Git status parsing took ${elapsed.toFixed(1)} ms`);
+});
+
+test("near-limit legacy-command detection remains linear over repeated historical prose", () => {
+  const history = "The old command was ackit. ".repeat(35_000);
+  assert.equal(Buffer.byteLength(history, "utf8") < 1024 * 1024, true);
+
+  const started = performance.now();
+  assert.equal(hasLegacyCliInvocation(history), false);
+  assert.equal(hasLegacyCliInvocation(`${history}\nackit validate\n`), true);
+  const elapsed = performance.now() - started;
+  assert.equal(elapsed < 2_000, true, `legacy command scanning took ${elapsed.toFixed(1)} ms`);
 });

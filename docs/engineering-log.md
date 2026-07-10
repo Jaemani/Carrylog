@@ -441,3 +441,113 @@ inspection, exact-artifact publish dry-run and consumer smoke, and runtime audit
 87,957-byte local artifact had SHA-256
 `6b531fedc49f621dc7e58561f14fbd2126f698ef26ffa44708452451549d2fee`; the final tagged commit and
 protected workflow will each rebuild and identify their own exact artifact.
+
+## 2026-07-10 — The first public beta required explicit post-publication hardening
+
+Commit `d99f92f` passed all eleven jobs in CI run `29093271158` and was tagged once as
+`v0.1.0-beta.3`. Release run `29093394523` passed all three exact npm 11.18.0 preflights. Its first
+protected publish attempt then received `EOTP` because the bootstrap granular token did not bypass
+the account's publication 2FA policy. Repeated registry checks found no npm version or dist-tag, but
+the failed attempt had already written signed provenance to the transparency log at index
+`2138015276`. The failure therefore had no registry publication but did have an irreversible external
+provenance side effect. The token was replaced with a short-lived credential that combined the
+required package scope with unattended write-2FA capability; no source, workflow, dependency,
+artifact, tag, or version changed. Attempt 2 of the same immutable workflow was accepted as an
+authentication-only rerun rather than disguising a release defect behind a moved tag.
+
+Attempt 2 published `@jaemani/agent-context-kit@0.1.0-beta.3` with provenance. Registry visibility
+converged after roughly four minutes and the workflow's bounded retry then passed. Independent checks
+matched the 117-file, 88,163-byte registry artifact to SHA-256
+`558578c96a8716a758755eb06b34e106a720175dbff626b1c10fbde28799c095`, SHA-1
+`fbe73b9fd0cf8140acc63fc3e08e8be786aec140`, and SHA-512 integrity
+`sha512-m1NmD8cKih+dqLns96ynuEl4Tu6SkvusLtQzBIlyXX1WLTyOE6XeSaqnBxneJ1lhpD6B6MynYHJNAny6e8hF1Q==`.
+The SLSA statement identifies `Jaemani/Agent-Context-Kit`, `.github/workflows/release.yml`, tag
+`v0.1.0-beta.3`, commit `d99f92f2b506010def0347c4bae7e6eeeb74a4d5`, and release run
+`29093394523`; its successful transparency-log entry is `2138101952`. Registry-backed one-off
+execution, global installation, initialization, and validation also passed.
+
+First publication created both `beta` and `latest` dist-tags even though the release command selected
+`beta`. This invalidated the assumption that the command alone could preserve a stable channel with
+no target. Release policy now requires querying post-publication registry state and removing an
+unintended `latest` tag. Trusted-publisher enrollment, dist-tag cleanup, GitHub secret deletion, and
+bootstrap-token revocation are tracked as one security cleanup sequence rather than optional release
+administration.
+
+## 2026-07-10 — Product naming required category research, not only registry availability
+
+The first beta's scoped npm name was safe to publish, but the desired unscoped
+`agent-context-kit` name was already owned by another context CLI. A proposed Threadmark rename
+initially appeared available because npm returned E404. Broader research then found
+`thinkwright/threadmark`, an existing same-category product that already shipped the `threadmark` and
+`threadmarkd` commands for Claude Code and Codex handoff. The partial local rename was reverted before
+commit or publication. This established that an empty package registry slot is not sufficient product
+or executable clearance.
+
+Carrylog was selected after npm and GitHub category searches found no overlapping AI coding context or
+handoff product. The proposed `cl` shortcut was rejected because Microsoft's `cl.exe` compiler owns
+that command on supported Windows systems. The canonical package and executable are both `carrylog`.
+This practical ecosystem check is recorded in ADR-0008 and is not represented as legal trademark
+clearance.
+
+The rename also exposed a compatibility boundary that a global text replacement would have broken.
+The `.agent-context/` root, configuration v1 schema identity and bytes, adapter markers, handoff
+markers, and reserved prefix are persisted wire identities from beta.3. Carrylog changes active
+product prose and commands while keeping those values intact; a dedicated upgrade test rejects a
+second context root or duplicate managed blocks.
+
+## 2026-07-10 — Independent migration review found a dead command in canonical context
+
+The first Carrylog upgrade scenario initialized its repository with the current beta.4 templates and
+then replaced only adapter bodies with beta.3 fixtures. That setup proved marker compatibility but
+could not expose differences in beta.3 canonical documents. Independent review compared the test with
+the published source and found that the always-loaded beta.3 `instructions.md` still directed agents
+to run `ackit validate`. Sync only regenerated schema and adapters, while migration instructions
+removed the package that supplied `ackit`; following the documented path therefore left a dead command
+in durable project context.
+
+Blind replacement was rejected because canonical Markdown belongs to the repository. A dedicated v1
+migration now recognizes only the complete published beta.3 instructions template, with exact LF or
+CRLF bytes, and changes it inside the existing guarded atomic batch. Customized instructions remain
+unchanged and produce `E_LEGACY_CLI_INSTRUCTION` until their owner reviews the command. The upgrade test
+now starts from a repository fixture independent of the current initializer, covers stock and
+customized paths, and pins the published schema bytes to SHA-256
+`f30d6c906dba10059032ce13c74257b6ab41ebdd30308ca56b65408f039369ab`.
+
+Follow-up review found three assumptions in the first correction. Configuration v1 allows document IDs
+to change, so matching only `id: instructions` could still leave the dead command; migration now checks
+every configured document path for the complete frozen template, while blocking diagnostics inspect
+every always-loaded document. The first target was rendered from the mutable current template, which
+could have rewritten unrelated prose after a future template edit; the target now derives from the
+frozen beta.3 source by replacing exactly one command. Finally, a bare-token detector both missed
+quoted, path, subshell, separator, Windows-shim, and mixed-case invocations and rejected harmless
+historical prose. The replacement recognizes bounded command-shaped forms and has explicit accepted
+and rejected cases without claiming to parse arbitrary shell language.
+
+The first command scanner also sliced the full prefix and suffix around every `ackit` occurrence. A
+near-limit document containing repeated prose therefore produced quadratic copying and multi-second
+runtime. Two non-global regular expressions now scan linearly; a near-one-MiB adversarial regression
+shares the existing two-second cross-platform performance budget. Migration candidate reads are capped
+at the frozen CRLF template byte length, because any larger document cannot be an exact match; larger
+customized files proceed to the normal one-MiB validation boundary instead of multiplying pre-validation
+I/O across the 256-document catalog.
+
+The same review corrected three policy gaps: local-dependency migration now uses explicit npm and
+`npx --no-install` commands; first-package token guidance acknowledges that npm cannot necessarily
+scope a token to an unregistered package; and post-bootstrap administration locks package publishing
+against granular tokens after trusted publishing is configured. Active runtime code now uses
+`CarrylogError`; `AckitError` remains only the deprecated public compatibility alias.
+
+After these corrections, three independent reviews separately covered code/security, release and
+credential workflow, and documentation/identity consistency. Each returned GO with no unresolved P0,
+P1, or P2. The frozen tree passed 129 tests with 95.71% lines, 95.71% functions, and 91.24% branches;
+the migration module reached 100% in all three measures. The near-one-MiB repeated-prose scanner case
+completed in 4.7 ms locally.
+
+The reviewed package contained 126 files. npm 10 and exact Node.js 24.15.0/npm 11.18.0 passed real
+publish dry-run and local, ephemeral, global, ESM, TypeScript, init, and validate consumers; the exact
+npm 11 client also loaded its provenance dependency. npm 12.0.0 passed its keyed pack envelope and all
+supported non-publish consumers. Exact byte size remains release evidence outside packaged docs so
+recording it cannot change the artifact being measured. Dogfood sync and validation, diff checks, and
+full npm audit passed. An initial network-restricted package-smoke attempt timed out with SIGTERM
+during isolated dependency installation; rerunning the unchanged gate with registry access passed,
+confirming an environmental boundary already documented by the harness rather than a package defect.

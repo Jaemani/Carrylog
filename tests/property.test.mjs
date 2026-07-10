@@ -61,7 +61,7 @@ test("configuration decoder is total over a deterministic malformed corpus", () 
 });
 
 test("portable path validation never escapes the root over a randomized corpus", () => {
-  const root = path.resolve("/ackit-property-root");
+  const root = path.resolve("/carrylog-property-root");
   for (let index = 0; index < 5_000; index += 1) {
     const candidate = randomString(1100);
     try {

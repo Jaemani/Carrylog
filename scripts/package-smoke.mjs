@@ -9,11 +9,15 @@ import { resolveNpmInvocation, resolveNpxInvocation } from "./lib/npm-cli.mjs";
 import { parseSingleNpmPackArtifact } from "./lib/npm-pack-json.mjs";
 
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
-const temporaryRoot = await mkdtemp(path.join(tmpdir(), "ackit-package-smoke-"));
+const temporaryRoot = await mkdtemp(path.join(tmpdir(), "carrylog-package-smoke-"));
 const isolatedNpmCache = path.join(temporaryRoot, "npm-cache");
 const releaseMode = process.argv.includes("--release");
 const publishDryRunMode = process.argv.includes("--publish-dry-run");
 const manifest = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
+const binaryName = "carrylog";
+
+assert.equal(manifest.name, "carrylog", "package smoke must exercise the canonical package");
+assert.deepEqual(manifest.bin, { [binaryName]: "dist/cli.js" });
 
 try {
   const packDirectory = path.join(temporaryRoot, "pack with spaces");
@@ -75,23 +79,18 @@ try {
 
   await writeFile(
     path.join(consumerDirectory, "package.json"),
-    `${JSON.stringify({ name: "ackit-smoke-consumer", private: true }, null, 2)}\n`,
+    `${JSON.stringify({ name: "carrylog-smoke-consumer", private: true }, null, 2)}\n`,
     "utf8",
   );
   await runNpm(["install", "--ignore-scripts", "--no-audit", "--no-fund", tarball], {
     cwd: consumerDirectory,
   });
 
-  const installedRoot = path.join(
-    consumerDirectory,
-    "node_modules",
-    "@jaemani",
-    "agent-context-kit",
-  );
+  const installedRoot = path.join(consumerDirectory, "node_modules", ...manifest.name.split("/"));
   const installedManifest = JSON.parse(
     await readFile(path.join(installedRoot, "package.json"), "utf8"),
   );
-  assert.equal(installedManifest.bin.ackit, "dist/cli.js");
+  assert.deepEqual(installedManifest.bin, { [binaryName]: "dist/cli.js" });
   assert.equal(installedManifest.main, "dist/index.js");
   assert.equal(installedManifest.types, "dist/index.d.ts");
   assert.equal(installedManifest.license, "MIT");
@@ -122,6 +121,7 @@ try {
       'import assert from "node:assert/strict";',
       "import {",
       "  AckitError,",
+      "  CarrylogError,",
       "  CONFIG_PATH,",
       "  CONFIG_VERSION,",
       "  EXIT_INTERNAL,",
@@ -129,8 +129,10 @@ try {
       "  EXIT_SUCCESS,",
       "  EXIT_USAGE,",
       "  readPublicSchema,",
-      '} from "@jaemani/agent-context-kit";',
-      'const error = new AckitError("E_CONSUMER", "consumer fixture");',
+      `} from ${JSON.stringify(manifest.name)};`,
+      "assert.equal(AckitError, CarrylogError);",
+      'const error = new CarrylogError("E_CONSUMER", "consumer fixture");',
+      "assert.equal(error instanceof AckitError, true);",
       'assert.equal(error.code, "E_CONSUMER");',
       "assert.equal(error.exitCode, EXIT_ISSUES);",
       'assert.equal(CONFIG_PATH, ".agent-context/config.yaml");',
@@ -151,22 +153,25 @@ try {
     [
       "import {",
       "  AckitError,",
+      "  CarrylogError,",
       "  CONFIG_VERSION,",
       "  readPublicSchema,",
       "  type Diagnostic,",
       "  type LoadPolicy,",
       "  type ProjectConfig,",
-      '} from "@jaemani/agent-context-kit";',
+      `} from ${JSON.stringify(manifest.name)};`,
       "const schema: string = readPublicSchema();",
       "const config: ProjectConfig | undefined = undefined;",
       'const policy: LoadPolicy = "always";',
       'const diagnostic: Diagnostic = { level: "error", code: "E_CONSUMER", message: "test" };',
-      "const error: AckitError = new AckitError(diagnostic.code, diagnostic.message);",
+      "const error: CarrylogError = new CarrylogError(diagnostic.code, diagnostic.message);",
+      "const legacyError: AckitError = error;",
       "const version: 1 = CONFIG_VERSION;",
       "void schema;",
       "void config;",
       "void policy;",
       "void error;",
+      "void legacyError;",
       "void version;",
       "",
     ].join("\n"),
@@ -208,11 +213,11 @@ try {
     cwd: consumerDirectory,
   });
   assert.equal(version.stdout.trim(), installedManifest.version);
-  const binaryVersion = await runNpm(["exec", "--", "ackit", "--version"], {
+  const binaryVersion = await runNpm(["exec", "--", binaryName, "--version"], {
     cwd: consumerDirectory,
   });
   assert.equal(binaryVersion.stdout.trim(), installedManifest.version);
-  const localNpx = await resolveNpxInvocation(["--no-install", "ackit", "--version"]);
+  const localNpx = await resolveNpxInvocation(["--no-install", binaryName, "--version"]);
   const localNpxVersion = await run(localNpx.command, localNpx.arguments, {
     cwd: consumerDirectory,
   });
@@ -222,7 +227,7 @@ try {
     "--package",
     tarball,
     "--",
-    "ackit",
+    binaryName,
     "--version",
   ]);
   const ephemeralVersion = await run(npx.command, npx.arguments, { cwd: consumerDirectory });
@@ -243,8 +248,8 @@ try {
   );
   const globalBinary =
     process.platform === "win32"
-      ? path.join(globalPrefix, "ackit.cmd")
-      : path.join(globalPrefix, "bin", "ackit");
+      ? path.join(globalPrefix, `${binaryName}.cmd`)
+      : path.join(globalPrefix, "bin", binaryName);
   const globalVersion =
     process.platform === "win32"
       ? await runWindowsCommandShim(globalBinary, ["--version"], { cwd: consumerDirectory })

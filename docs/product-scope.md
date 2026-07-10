@@ -2,9 +2,10 @@
 
 ## Product statement
 
-Agent Context Kit is a local-first project memory and handoff layer for teams and individual
-developers who switch among AI coding agents. It gives a repository one canonical, reviewable
-context source and compiles small adapters for each supported tool.
+Carrylog is a local-first project-context governance and handoff layer for teams and individual
+developers who switch among AI coding agents. It gives a repository one canonical, reviewable,
+versioned context source and compiles small adapters for each supported tool. It preserves durable
+project truth rather than capturing or reconstructing private session transcripts.
 
 ## Primary users
 
@@ -38,6 +39,8 @@ context source and compiles small adapters for each supported tool.
 - Treating token count alone as context quality.
 - Reproducing a coding agent's hidden session state, full conversation, or internal compaction
   behavior; continuity is based on explicit, reviewable project and task checkpoints.
+- Replacing hook- or daemon-based automatic session journals; those can consume exported repository
+  context later without becoming part of the deterministic core.
 - Supporting every agent through guessed formats; each adapter needs a researched and tested
   conformance contract.
 

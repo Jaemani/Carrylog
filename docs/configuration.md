@@ -1,7 +1,7 @@
 # Configuration reference
 
 `.agent-context/config.yaml` is canonical, reviewed project data. The copied
-`.agent-context/config.schema.json` is generated editor support and is repaired by `ackit sync`.
+`.agent-context/config.schema.json` is generated editor support and is repaired by `carrylog sync`.
 
 ## Version contract
 
@@ -51,8 +51,14 @@ Document path uniqueness uses conservative Unicode compatibility and multi-step 
 for cross-platform safety. This can intentionally reject names that coexist on one filesystem when
 another supported filesystem may alias them.
 
-The ID `handoff` is optional for init/sync/validate but required by `ackit handoff`. When present, its
+The ID `handoff` is optional for init/sync/validate but required by `carrylog handoff`. When present, its
 document owns the narrative and managed repository-evidence block.
+
+The complete published beta.3 instructions template defines the beta.3-to-Carrylog migration boundary
+independently of a mutable document ID or path. Carrylog can replace that exact template while
+preserving LF or CRLF line endings. Customized always-loaded context with a command-shaped invocation
+of the removed `ackit` executable is invalid until a maintainer reviews and changes the command;
+historical prose and other human content are not inferred from a template.
 
 ### `adapters`
 

@@ -10,7 +10,7 @@
 
 ## Trust boundaries
 
-The user intentionally runs `ackit` in a repository. The repository, configuration, Markdown,
+The user intentionally runs `carrylog` in a repository. The repository, configuration, Markdown,
 existing adapter files, path names, and symlinks are inputs and may be malformed or malicious.
 Node.js, the local operating system, and the installed package are trusted within the normal CLI
 execution model.

@@ -7,9 +7,11 @@ network boundary.
 ## Modules
 
 - `src/cli.ts`: syntax, reporting, help, and exit-code contract.
+- `src/product.ts`: active Carrylog display, command, debug, and compatibility identity constants.
 - `src/commands/`: init, sync, validate, and handoff application workflows.
 - `src/config/` and `src/domain/`: strict versioned configuration and loaded source contract.
 - `src/schema/`: packaged public schema location and copied-artifact identity.
+- `src/migrations/`: exact published-template migrations and customized-state diagnostics.
 - `src/adapters/`: registry, deterministic router rendering, and managed-block ownership.
 - `src/validation/`: document budgets, normalized ownership, schema/directive, filesystem, marker,
   and adapter drift checks.
@@ -28,6 +30,10 @@ network boundary.
   and never stages or commits.
 - A generated handoff must pass prospective file/context validation before replacement.
 - Core behavior remains deterministic and offline-capable.
+- Configuration v1 paths, schema identity, and marker namespaces remain stable across product naming.
+- Human-owned context is auto-migrated only from an exact frozen published template; customized legacy
+  instructions fail closed for manual review.
 
 Detailed boundaries and residual gaps live in `docs/architecture.md`; security assumptions live in
-`docs/threat-model.md`; schema and Git choices are ADR-0005 and ADR-0006.
+`docs/threat-model.md`; schema, Git, and Carrylog identity choices are ADR-0005, ADR-0006, and
+ADR-0008.

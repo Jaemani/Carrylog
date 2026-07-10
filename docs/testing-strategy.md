@@ -38,6 +38,7 @@ matrix.
 - end-to-end init, validate, drift check, repair, and revalidation;
 - parseable JSON on both success and failure.
 - handoff refresh, check, dry-run, idempotence, and JSON output.
+- canonical Carrylog help/version and debug precedence while retaining the beta.3 error/debug aliases.
 
 ### Package and platform tests
 
@@ -55,6 +56,19 @@ cross-platform package matrix and exact npm 11 release client. npm 12 remains li
 install coverage because its incomplete provenance bundle fails while loading the publish command
 even when provenance is disabled. Release-artifact tests reject ambiguous selection, record or commit
 mismatch, unsafe filenames, non-regular artifacts, and digest drift before npm can run.
+
+The Carrylog rename has a dedicated beta.3 repository-upgrade contract. It freezes the published v1
+root, schema identity and bytes, adapter markers, handoff markers, and reserved marker prefix; then it
+runs validation, synchronization, handoff refresh, and repeated no-drift checks. Human adapter prose
+must survive, generated prose must change to Carrylog, and no `.carrylog/` root or duplicate managed
+block may appear. The repository fixture is stored independently of the current initializer, the
+published schema has a pinned SHA-256, and both exact LF/CRLF instruction migration and customized
+instruction refusal are exercised across mutable document IDs. Command-shaped quote, path, subshell,
+separator, and subcommand forms are accepted by detection tests while historical prose and larger
+words are rejected. Near-limit repeated historical prose has a bounded linear-time regression, and
+larger customized documents bypass the tiny exact-template candidate read before normal validation.
+Package smoke derives an unscoped installation path from the manifest and verifies that only the
+portable `carrylog` command is installed.
 
 ## Scenario dimensions
 
@@ -90,6 +104,13 @@ module and transitive dependencies load. This prevents protected publication fro
 environment to exercise the release client. The publish boundary selects one artifact from its
 verified record and invokes npm without a shell or glob.
 
+The first public beta additionally verified the registry-only boundary that local package smoke
+cannot cover: published digests matched the release artifact, SLSA provenance identified the exact
+repository, workflow, tag, and commit, registry-backed one-off execution succeeded, and a clean
+global install could initialize and validate a new project. Registry propagation took roughly four
+minutes, so release verification uses bounded retries instead of treating immediate visibility as a
+correctness requirement.
+
 ## Required regression policy
 
 - A defect fix includes a test that fails for the original defect.
@@ -105,6 +126,8 @@ verified record and invokes npm without a shell or glob.
   filesystem failures and stale expectations.
 - Authenticated Codex/Claude discovery launch tests; current conformance uses official behavior docs
   and golden output.
-- Registry installation and provenance verification, which can run only after the first publish.
+- A second prerelease published through trusted OIDC with no bootstrap registry token; this project's
+  first public package used the documented bootstrap because trusted-publisher enrollment was not
+  available before package creation.
 - Outcome studies on external real repositories; current adoption suite covers three representative
   repository states plus this repository's dogfood context.

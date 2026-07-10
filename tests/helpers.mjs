@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { stringify } from "yaml";
 
-export async function createTemporaryDirectory(prefix = "ackit-test-") {
+export async function createTemporaryDirectory(prefix = "carrylog-test-") {
   return await realpath(await mkdtemp(path.join(tmpdir(), prefix)));
 }
 

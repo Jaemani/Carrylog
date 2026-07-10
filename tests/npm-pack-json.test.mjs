@@ -3,7 +3,7 @@ import test from "node:test";
 import { parseSingleNpmPackArtifact } from "../scripts/lib/npm-pack-json.mjs";
 
 const expected = {
-  name: "@jaemani/agent-context-kit",
+  name: "carrylog",
   version: "1.2.3-beta.4",
 };
 
@@ -12,7 +12,7 @@ function artifact(overrides = {}) {
     id: `${expected.name}@${expected.version}`,
     name: expected.name,
     version: expected.version,
-    filename: "jaemani-agent-context-kit-1.2.3-beta.4.tgz",
+    filename: "carrylog-1.2.3-beta.4.tgz",
     files: [{ path: "package.json" }, { path: "dist/cli.js" }],
     entryCount: 2,
     size: 100,

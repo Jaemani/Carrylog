@@ -241,7 +241,7 @@ test("validation rejects context paths that traverse a symbolic link", async (co
     return;
   }
   const root = await createTemporaryDirectory();
-  const outside = await createTemporaryDirectory("ackit-outside-");
+  const outside = await createTemporaryDirectory("carrylog-outside-");
   try {
     await initialize(root);
     await unlink(path.join(root, ".agent-context", "project.md"));

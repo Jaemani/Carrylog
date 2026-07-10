@@ -31,6 +31,7 @@ export { decodeConfig } from "./config/decode.js";
 export { loadProject } from "./config/load.js";
 export {
   AckitError,
+  CarrylogError,
   EXIT_INTERNAL,
   EXIT_ISSUES,
   EXIT_SUCCESS,
@@ -61,6 +62,7 @@ export {
   upsertHandoffSnapshot,
   validateHandoffSnapshotMarkers,
 } from "./handoff/snapshot-block.js";
+export { CLI_NAME, DEBUG_ENV_NAME, LEGACY_DEBUG_ENV_NAME, PRODUCT_NAME } from "./product.js";
 export {
   PUBLIC_SCHEMA_PATH,
   PUBLIC_SCHEMA_YAML_DIRECTIVE,

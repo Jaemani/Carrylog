@@ -31,6 +31,19 @@ config + domain model    validation policies
 `src/cli.ts` owns command syntax, human/JSON output, and stable exit-code mapping. It should not own
 filesystem policy or rendering rules.
 
+`src/product.ts` is a dependency-free identity leaf for active Carrylog display, command, and debug
+names. Persisted configuration v1 paths, schema metadata, and marker namespaces intentionally do not
+derive from it; ADR-0008 keeps those wire identities stable across the product rename.
+
+`src/migrations/` contains explicit compatibility transitions for published repository state. A
+migration may rewrite a human-owned canonical document only when its complete bytes match a frozen
+published template, allowing LF and CRLF variants when both are semantically identical. Customized
+content receives a diagnostic and must be reconciled by its owner. Migration writes join the same
+guarded batch and stale-content preconditions as schema and adapter updates.
+Candidate reads are capped at the frozen template's CRLF byte length; larger documents cannot be an
+exact match and continue to the normal one-MiB-per-document validation boundary without a full
+migration-planner read.
+
 Exit codes are part of the automation contract:
 
 - `0`: command completed and no blocking issue exists;
@@ -42,8 +55,9 @@ Exit codes are part of the automation contract:
 
 - `init` constructs a complete write plan, detects canonical and adapter conflicts, and writes only
   after preflight succeeds.
-- `sync` validates canonical inputs, plans every adapter, and then atomically replaces changed files
-  plus the copied public schema.
+- `sync` plans exact published-template migrations, validates their prospective context, plans every
+  adapter, and then applies changed context, adapter, and copied-schema files through one guarded
+  batch.
 - `validate` combines canonical context, schema, ownership, handoff-marker, and adapter inspection and
   never writes.
 - `handoff` gathers bounded Git evidence, replaces only its evidence block, and prospectively
@@ -110,10 +124,14 @@ still leave a cross-file batch partially applied. Portable Node.js also lacks di
 
 ```text
 cli -> commands -> config/domain, adapters, validation, core
+cli, adapters, config, templates, validation -> product
+sync, validation -> migrations
+migrations -> core, domain, templates
 validation -> adapters, handoff, schema, core, domain
 adapters -> registry, domain, core errors
 config -> domain, core paths/errors
 handoff/git -> core, domain
+product -> no dependencies
 core -> Node.js standard library only
 ```
 
@@ -148,7 +166,8 @@ way to access project state; Markdown and CLI behavior remain the portable basel
 
 ## Known architectural gaps
 
-- No migration implementation exists because v1 is the only configuration version.
+- No schema-version migration exists because v1 is the only configuration version; the implemented
+  context migration handles one exact published-template compatibility transition within v1.
 - Adapter conformance is documentation/golden-fixture based; authenticated tool launch is not in CI.
 - Sequential rename commit still cannot provide a portable cross-file transaction, and standard
   Node.js cannot eliminate the final directory check-to-path-syscall interval.

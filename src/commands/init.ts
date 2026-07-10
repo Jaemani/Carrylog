@@ -2,7 +2,7 @@ import path from "node:path";
 import { upsertManagedBlock } from "../adapters/managed-block.js";
 import { renderAdapter } from "../adapters/render.js";
 import { decodeConfig } from "../config/decode.js";
-import { AckitError, issueError } from "../core/errors.js";
+import { CarrylogError, issueError } from "../core/errors.js";
 import { atomicWriteTexts, inspectAtomicPath, readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, canonicalProjectRoot, resolveProjectPath } from "../core/paths.js";
 import type { AdapterType } from "../domain/types.js";
@@ -27,7 +27,7 @@ export async function initProject(options: InitOptions): Promise<InitResult> {
   const proposedConfig = createDefaultConfig(options.name ?? path.basename(root), options.adapters);
   const decoded = decodeConfig(proposedConfig);
   if (decoded.config === undefined) {
-    throw new AckitError("E_CONFIG_INVALID", "Initialization options produce invalid context.", {
+    throw new CarrylogError("E_CONFIG_INVALID", "Initialization options produce invalid context.", {
       diagnostics: decoded.diagnostics,
     });
   }
@@ -68,7 +68,7 @@ export async function initProject(options: InitOptions): Promise<InitResult> {
         expectedContent: existing ?? null,
       });
     } catch (error) {
-      if (error instanceof AckitError) {
+      if (error instanceof CarrylogError) {
         adapterDiagnostics.push(
           ...error.diagnostics.map((diagnostic) => ({ ...diagnostic, path: adapter.output })),
         );
@@ -78,7 +78,7 @@ export async function initProject(options: InitOptions): Promise<InitResult> {
     }
   }
   if (adapterDiagnostics.length > 0) {
-    throw new AckitError("E_INIT_ADAPTER_CONFLICT", "Existing adapter files require review.", {
+    throw new CarrylogError("E_INIT_ADAPTER_CONFLICT", "Existing adapter files require review.", {
       diagnostics: adapterDiagnostics,
     });
   }

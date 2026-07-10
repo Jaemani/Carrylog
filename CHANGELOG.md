@@ -5,6 +5,33 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [Unreleased]
 
+## [0.1.0-beta.4] - 2026-07-10
+
+### Changed
+
+- Renamed the active product, repository, unscoped npm package, and executable to Carrylog,
+  `Jaemani/Carrylog`, `carrylog`, and `carrylog` after registry and direct-competitor name research.
+- Preserved `.agent-context/`, configuration v1 schema bytes and identity, managed-block markers,
+  handoff markers, and reserved marker validation so beta.3 repositories upgrade in place.
+- Added an exact-template v1 migration for untouched LF/CRLF beta.3 instructions at any configured
+  document path and a blocking diagnostic for command-shaped legacy invocations in always context.
+- Added `CarrylogError` while retaining deprecated `AckitError` as the same constructor, and made
+  `CARRYLOG_DEBUG` canonical with `ACKIT_DEBUG` as a compatibility fallback.
+- Removed the old `ackit` binary from the new package. Existing global users must uninstall the
+  scoped beta.3 package before installing Carrylog.
+
+### Testing
+
+- Added literal identity contracts for package metadata, binary names, debug precedence, error alias
+  identity, configuration root, schema metadata, and persisted markers.
+- Added a beta.3 repository-upgrade scenario that verifies drift recognition, human-content
+  preservation, in-place adapter synchronization, handoff refresh, idempotence, unchanged schema and
+  config bytes, stock-instruction migration, customized-instruction refusal, and absence of a second
+  context root. The fixture is independent of the current initializer and the published schema bytes
+  are pinned by SHA-256.
+- Generalized package smoke for an unscoped install and exercised Carrylog through local, ephemeral,
+  global, ESM, TypeScript, initialization, validation, and publish-dry-run paths.
+
 ## [0.1.0-beta.3] - 2026-07-10
 
 ### Fixed

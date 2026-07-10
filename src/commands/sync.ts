@@ -1,10 +1,11 @@
 import { upsertManagedBlock } from "../adapters/managed-block.js";
 import { renderAdapter } from "../adapters/render.js";
 import { assertLoadedProjectSnapshot } from "../config/load.js";
-import { AckitError } from "../core/errors.js";
+import { CarrylogError } from "../core/errors.js";
 import { atomicWriteTexts, inspectAtomicPath, readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
 import type { Diagnostic, LoadedProject } from "../domain/types.js";
+import { planContextV1Migrations } from "../migrations/context-v1.js";
 import { PUBLIC_SCHEMA_PATH, readPublicSchema } from "../schema/public-schema.js";
 import { validateContext } from "../validation/validate.js";
 
@@ -35,15 +36,20 @@ export async function syncProject(
   options: SyncOptions,
 ): Promise<SyncResult> {
   await assertLoadedProjectSnapshot(project);
-  const diagnostics = await validateContext(project);
+  const migrationChanges = await planContextV1Migrations(project);
+  const migrationOverrides = new Map(
+    migrationChanges.map((change) => [change.path, change.content] as const),
+  );
+  const diagnostics = await validateContext(project, migrationOverrides);
   const errors = diagnostics.filter((diagnostic) => diagnostic.level === "error");
   if (errors.length > 0) {
-    throw new AckitError("E_CONTEXT_INVALID", "Canonical context is invalid.", {
+    throw new CarrylogError("E_CONTEXT_INVALID", "Canonical context is invalid.", {
       diagnostics,
     });
   }
 
   const changes = [
+    ...migrationChanges,
     await planPublicSchemaChange(project),
     ...(await planAdapterChanges(project, options.adopt)),
   ];
@@ -113,7 +119,7 @@ export async function planAdapterChanges(
         expectedContent: existing ?? null,
       });
     } catch (error) {
-      if (error instanceof AckitError) {
+      if (error instanceof CarrylogError) {
         diagnostics.push(
           ...error.diagnostics.map((diagnostic) => ({ ...diagnostic, path: adapter.output })),
         );
@@ -129,7 +135,7 @@ export async function planAdapterChanges(
   }
 
   if (diagnostics.length > 0) {
-    throw new AckitError("E_ADAPTER_PLAN", "Adapter changes could not be planned safely.", {
+    throw new CarrylogError("E_ADAPTER_PLAN", "Adapter changes could not be planned safely.", {
       diagnostics,
     });
   }

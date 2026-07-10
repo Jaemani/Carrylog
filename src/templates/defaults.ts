@@ -1,6 +1,7 @@
 import { stringify } from "yaml";
 import { getAdapterDefinition } from "../adapters/registry.js";
 import type { AdapterConfig, AdapterType, ProjectConfig } from "../domain/types.js";
+import { CLI_NAME } from "../product.js";
 import {
   PUBLIC_SCHEMA_PATH,
   PUBLIC_SCHEMA_YAML_DIRECTIVE,
@@ -10,6 +11,31 @@ import {
 export interface TemplateFile {
   path: string;
   content: string;
+}
+
+export function createInstructionsTemplate(cliName = CLI_NAME): string {
+  return `# Context operating rules
+
+## At the start of work
+
+1. Read every document marked \`load: always\` in \`config.yaml\`.
+2. Load on-demand documents only when their descriptions or triggers match the task.
+3. Compare the requested work, the repository state, and this context before editing.
+4. Report consequential mismatches before relying on stale context.
+
+## While working
+
+- Treat source code and executable tests as evidence, not as substitutes for product intent.
+- Keep changes inside the requested scope and record decisions that constrain future work.
+- Do not silently rewrite human-authored content outside generated adapter blocks.
+
+## Before handing off
+
+- Update \`current-state.md\` when implementation status or priorities changed.
+- Update \`handoff.md\` with verified changes, checks run, unresolved risks, and the next best task.
+- Add or link a decision record when a consequential design choice was made.
+- Run \`${cliName} validate\` and the project's relevant quality checks.
+`;
 }
 
 export function createDefaultConfig(name: string, adapterTypes: AdapterType[]): ProjectConfig {
@@ -88,28 +114,7 @@ export function createTemplateFiles(config: ProjectConfig): TemplateFile[] {
     },
     {
       path: ".agent-context/instructions.md",
-      content: `# Context operating rules
-
-## At the start of work
-
-1. Read every document marked \`load: always\` in \`config.yaml\`.
-2. Load on-demand documents only when their descriptions or triggers match the task.
-3. Compare the requested work, the repository state, and this context before editing.
-4. Report consequential mismatches before relying on stale context.
-
-## While working
-
-- Treat source code and executable tests as evidence, not as substitutes for product intent.
-- Keep changes inside the requested scope and record decisions that constrain future work.
-- Do not silently rewrite human-authored content outside generated adapter blocks.
-
-## Before handing off
-
-- Update \`current-state.md\` when implementation status or priorities changed.
-- Update \`handoff.md\` with verified changes, checks run, unresolved risks, and the next best task.
-- Add or link a decision record when a consequential design choice was made.
-- Run \`ackit validate\` and the project's relevant quality checks.
-`,
+      content: createInstructionsTemplate(),
     },
     {
       path: ".agent-context/project.md",

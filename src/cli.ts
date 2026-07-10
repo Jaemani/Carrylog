@@ -8,8 +8,15 @@ import { initProject } from "./commands/init.js";
 import { syncProject } from "./commands/sync.js";
 import { validateProject } from "./commands/validate.js";
 import { loadProject } from "./config/load.js";
-import { AckitError, EXIT_INTERNAL, EXIT_ISSUES, EXIT_SUCCESS, EXIT_USAGE } from "./core/errors.js";
+import {
+  CarrylogError,
+  EXIT_INTERNAL,
+  EXIT_ISSUES,
+  EXIT_SUCCESS,
+  EXIT_USAGE,
+} from "./core/errors.js";
 import type { AdapterType, Diagnostic } from "./domain/types.js";
+import { CLI_NAME, isDebugEnabled, PRODUCT_NAME } from "./product.js";
 
 const require = createRequire(import.meta.url);
 const packageJson = require("../package.json") as { version: string };
@@ -41,7 +48,7 @@ export async function main(argv: string[]): Promise<number> {
         process.stdout.write(`${helpText()}\n`);
         return EXIT_SUCCESS;
       default:
-        throw new AckitError("E_UNKNOWN_COMMAND", `Unknown command: ${command}`, {
+        throw new CarrylogError("E_UNKNOWN_COMMAND", `Unknown command: ${command}`, {
           exitCode: EXIT_USAGE,
         });
     }
@@ -161,7 +168,7 @@ function parseCommandArgs(
     const parsed = parseArgs({ args: argv, options, strict: true, allowPositionals: false });
     return parsed.values;
   } catch (error) {
-    throw new AckitError(
+    throw new CarrylogError(
       "E_ARGUMENTS",
       error instanceof Error ? error.message : "Invalid command arguments.",
       { exitCode: EXIT_USAGE, cause: error },
@@ -179,13 +186,13 @@ function parseAdapters(value: string): AdapterType[] {
     ),
   ];
   if (adapters.length === 0) {
-    throw new AckitError("E_ADAPTER_ARGUMENT", "At least one adapter is required.", {
+    throw new CarrylogError("E_ADAPTER_ARGUMENT", "At least one adapter is required.", {
       exitCode: EXIT_USAGE,
     });
   }
   for (const adapter of adapters) {
     if (adapter !== "codex" && adapter !== "claude") {
-      throw new AckitError(
+      throw new CarrylogError(
         "E_ADAPTER_ARGUMENT",
         `Unsupported adapter '${adapter}'. Supported values: codex, claude.`,
         { exitCode: EXIT_USAGE },
@@ -214,7 +221,7 @@ function printChanges(
 }
 
 function reportError(error: unknown, json: boolean): number {
-  if (error instanceof AckitError) {
+  if (error instanceof CarrylogError) {
     if (json) {
       process.stderr.write(
         `${JSON.stringify({ ok: false, code: error.code, diagnostics: error.diagnostics }, null, 2)}\n`,
@@ -236,7 +243,7 @@ function reportError(error: unknown, json: boolean): number {
     );
   } else {
     process.stderr.write(`[error] E_INTERNAL: ${message}\n`);
-    if (process.env["ACKIT_DEBUG"] === "1" && error instanceof Error) {
+    if (isDebugEnabled(process.env) && error instanceof Error) {
       process.stderr.write(`${error.stack ?? ""}\n`);
     }
   }
@@ -250,21 +257,21 @@ function formatDiagnostic(diagnostic: Diagnostic): string {
 }
 
 function helpText(): string {
-  return `Agent Context Kit ${packageJson.version}
+  return `${PRODUCT_NAME} ${packageJson.version}
 
-Usage: ackit <command> [options]
+Usage: ${CLI_NAME} <command> [options]
 
 Commands:
   init       Create a canonical context layer and managed agent adapters
-  sync       Deterministically update generated schema and adapter blocks
+  sync       Apply safe context migrations and update generated artifacts
   validate   Check schema, ownership, context safety, handoff, and adapter drift
   handoff    Refresh deterministic Git evidence in the handoff document
 
-Run 'ackit <command> --help' for command-specific options.`;
+Run '${CLI_NAME} <command> --help' for command-specific options.`;
 }
 
 function initHelpText(): string {
-  return `Usage: ackit init [options]
+  return `Usage: ${CLI_NAME} init [options]
 
 Options:
   -r, --root <path>       Project root (default: current directory)
@@ -276,7 +283,7 @@ Options:
 }
 
 function syncHelpText(): string {
-  return `Usage: ackit sync [options]
+  return `Usage: ${CLI_NAME} sync [options]
 
 Options:
   -r, --root <path>   Project root (default: current directory)
@@ -287,7 +294,7 @@ Options:
 }
 
 function validateHelpText(): string {
-  return `Usage: ackit validate [options]
+  return `Usage: ${CLI_NAME} validate [options]
 
 Options:
   -r, --root <path>   Project root (default: current directory)
@@ -296,7 +303,7 @@ Options:
 }
 
 function handoffHelpText(): string {
-  return `Usage: ackit handoff [--refresh] [options]
+  return `Usage: ${CLI_NAME} handoff [--refresh] [options]
 
 Options:
   -r, --root <path>   Project root (default: current directory)

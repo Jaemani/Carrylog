@@ -1,10 +1,11 @@
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { parseDocument } from "yaml";
-import { AckitError, issueError } from "../core/errors.js";
+import { CarrylogError, issueError } from "../core/errors.js";
 import { readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, canonicalProjectRoot, resolveProjectPath } from "../core/paths.js";
 import { CONFIG_PATH, type LoadedProject, type ProjectConfig } from "../domain/types.js";
+import { CLI_NAME } from "../product.js";
 import { decodeConfig } from "./decode.js";
 
 const MAX_CONFIG_BYTES = 1024 * 1024;
@@ -32,7 +33,7 @@ export function parseConfigSource(source: string): ProjectConfig {
       message: error.message,
       path: CONFIG_PATH,
     }));
-    throw new AckitError("E_CONFIG_YAML", "Configuration contains invalid YAML.", {
+    throw new CarrylogError("E_CONFIG_YAML", "Configuration contains invalid YAML.", {
       diagnostics,
     });
   }
@@ -41,14 +42,14 @@ export function parseConfigSource(source: string): ProjectConfig {
   try {
     raw = document.toJS({ maxAliasCount: 100 });
   } catch (error) {
-    throw new AckitError("E_CONFIG_YAML", "Configuration could not be expanded safely.", {
+    throw new CarrylogError("E_CONFIG_YAML", "Configuration could not be expanded safely.", {
       cause: error,
     });
   }
 
   const decoded = decodeConfig(raw);
   if (decoded.config === undefined) {
-    throw new AckitError("E_CONFIG_INVALID", "Configuration is invalid.", {
+    throw new CarrylogError("E_CONFIG_INVALID", "Configuration is invalid.", {
       diagnostics: decoded.diagnostics,
     });
   }
@@ -85,7 +86,7 @@ export async function assertLoadedProjectSnapshot(project: LoadedProject): Promi
   }
 }
 
-function concurrentConfigChange(): AckitError {
+function concurrentConfigChange(): CarrylogError {
   return issueError(
     "E_CONCURRENT_MODIFICATION",
     `Configuration changed after it was loaded: ${CONFIG_PATH}`,
@@ -109,7 +110,7 @@ async function findProjectRoot(startInput: string): Promise<{ root: string; sour
       throw issueError(
         "E_CONFIG_MISSING",
         `No ${CONFIG_PATH} found from ${start} to the filesystem root.`,
-        "Run 'ackit init' from the project root.",
+        `Run '${CLI_NAME} init' from the project root.`,
       );
     }
     current = parent;

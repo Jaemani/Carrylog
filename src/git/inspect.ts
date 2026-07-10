@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { AckitError, issueError } from "../core/errors.js";
+import { CarrylogError, issueError } from "../core/errors.js";
 
 const MAX_GIT_OUTPUT_BYTES = 1024 * 1024;
 const MAX_CHANGED_PATHS = 200;
@@ -454,7 +454,7 @@ export async function runGitProcess(
         reject(issueError("E_GIT_UNAVAILABLE", "Git executable was not found on PATH."));
       } else {
         reject(
-          new AckitError("E_GIT_PROCESS", "Git process could not be started.", { cause: error }),
+          new CarrylogError("E_GIT_PROCESS", "Git process could not be started.", { cause: error }),
         );
       }
     });
