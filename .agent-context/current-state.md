@@ -25,7 +25,7 @@ then publish the scoped npm beta only after the owner selects an open-source lic
 
 ## In progress
 
-- Commit/push and Linux/macOS/Windows remote CI matrix.
+- Rerun the Linux/macOS/Windows remote matrix after the Windows global-shim quoting fix.
 
 ## Blockers and risks
 

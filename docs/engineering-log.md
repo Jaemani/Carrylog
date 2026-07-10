@@ -269,3 +269,16 @@ withheld GO for one evidence-freshness issue: the handoff snapshot and the word 
 late hardening edits. The tree was frozen, the complete quality, package, dogfood, and audit gates were
 rerun, and handoff evidence was refreshed last. This ordering is now part of the release handoff rather
 than an informal convention.
+
+### Windows global shim required verbatim command-line ownership
+
+The first beta remote matrix passed all quality jobs and every Linux/macOS package job, but the
+Windows package smoke failed while invoking the globally installed `ackit.cmd`. The harness had built
+the correct `cmd.exe /d /s /c` quoting shape, then Node's default Windows argument encoder quoted that
+already-complete command line again. `cmd.exe` received leading literal escaped quotes and reported the
+shim as an unknown command.
+
+The harness still uses `shell: false`. Its dedicated Windows boundary now rejects command-shell
+metacharacters and opts into `windowsVerbatimArguments` only for the fully constructed, restricted
+`cmd.exe` invocation. This assigns quoting ownership to one layer instead of weakening the smoke test
+or bypassing the installed shim.

@@ -242,11 +242,14 @@ async function runNpm(arguments_, options) {
 async function runWindowsCommandShim(command, arguments_, options) {
   const shell = process.env.ComSpec ?? "cmd.exe";
   const values = [command, ...arguments_];
-  if (values.some((value) => /["%\r\n]/.test(value))) {
+  if (values.some((value) => /["%&|<>^!\r\n]/.test(value))) {
     throw new Error("Windows command-shim smoke path contains unsupported shell metacharacters.");
   }
   const commandLine = values.map((value) => `"${value}"`).join(" ");
-  return await run(shell, ["/d", "/s", "/c", `"${commandLine}"`], options);
+  return await run(shell, ["/d", "/s", "/c", `"${commandLine}"`], {
+    ...options,
+    windowsVerbatimArguments: true,
+  });
 }
 
 async function run(command, arguments_, options) {
@@ -260,6 +263,7 @@ async function run(command, arguments_, options) {
       },
       shell: false,
       timeout: 120_000,
+      windowsVerbatimArguments: options.windowsVerbatimArguments === true,
     });
     let stdout = "";
     let stderr = "";
