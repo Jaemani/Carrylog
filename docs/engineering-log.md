@@ -364,3 +364,34 @@ Internal conversation state and compaction remain owned by each agent. Agent Con
 an external, reviewable checkpoint that survives those policies, but it must not claim lossless
 transcript or reasoning restoration. Optional model-assisted transcript summarization would be a
 separate, opt-in, non-deterministic layer with explicit privacy, cost, and quality policy.
+
+## 2026-07-10 — npm 12.0.0 shipped an incomplete provenance bundle
+
+The `v0.1.0-beta.1` workflow run `29081480644` passed npm 12.0.0 package preflight on Linux, macOS,
+and Windows. After protected-environment approval, exact artifact construction and smoke testing also
+passed. `npm publish --provenance` then stopped before a registry request with
+`Cannot find module 'sigstore'` from npm's bundled `libnpmpublish`.
+
+A fresh isolated install reproduced the package defect: npm 12.0.0 bundles `libnpmpublish` 12.0.0,
+whose manifest requires `sigstore` 5, but npm's published bundle does not include that transitive
+dependency. Installing `sigstore` beside npm or patching the runner filesystem would hide the broken
+release client and create an unsupported module-resolution dependency, so neither workaround was
+accepted. Registry checks remained E404; `beta.1` was not partially published and its tag is preserved.
+
+npm 11.18.0 supports the pinned Node.js 24.15.0 runtime, includes `sigstore`, and loads its provenance
+implementation successfully. Tagged preflight and protected publication now pin that exact client.
+A dedicated script verifies npm identity/version and loads `libnpmpublish`'s provenance module before
+package gates. CI still installs npm 12.0.0 afterward to retain package-keyed JSON compatibility
+coverage without treating its broken provenance path as release-capable. The correction advances to
+the new immutable `0.1.0-beta.2` version and tag.
+
+Follow-up review identified two release-boundary hardening opportunities. The client check now proves
+that `sigstore` resolves inside the pinned npm installation, so an ambient global module cannot hide
+another incomplete bundle. Workflow-level OIDC permission was also removed: only the protected
+publish job receives `id-token: write`, while all preflight jobs retain read-only repository access.
+
+Local beta.2 verification passed 111 tests, the npm 11.18.0 provenance/root contract, and complete
+package smoke on the exact Node.js 24.15.0 release runtime. npm 12.0.0 separately passed package
+inspection and every install mode. Independent review found no remaining P0, P1, or P2 code or
+workflow issue; its final requested correction was refreshing handoff evidence and recording the
+latest observed coverage rather than retaining a prior run's higher function/branch values.

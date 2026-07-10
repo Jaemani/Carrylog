@@ -2,7 +2,7 @@
 
 ## Active objective
 
-Publish the corrected `0.1.0-beta.1` candidate through the protected npm workflow and verify registry
+Publish the corrected `0.1.0-beta.2` candidate through the protected npm workflow and verify registry
 integrity, provenance, one-off execution, and global installation.
 
 ## Implemented and locally verified
@@ -25,19 +25,20 @@ integrity, provenance, one-off execution, and global installation.
 - Owner-selected canonical MIT license with an enforced SPDX/content-hash policy.
 - Strict npm pack metadata normalization for npm 10/11 array and npm 12 keyed output, shared by dry
   run, release artifact, and package smoke paths.
-- Exact Node.js 24.15.0/npm 12.0.0 CI coverage matching the protected publish toolchain.
+- Exact Node.js 24.15.0/npm 11.18.0 release-client coverage with a provenance dependency load check,
+  plus npm 12.0.0 package-envelope compatibility coverage.
 
 ## In progress
 
-- Record the passing expanded matrix and clean exact release verification, then publish `beta.1`
-  without moving the failed `beta.0` tag.
+- Commit the independently reviewed provenance-client correction and pass remote CI, then publish
+  `beta.2` without moving the failed `beta.0` or `beta.1` tags.
 
 ## Blockers and risks
 
 - The short-lived first-publication token remains in the protected GitHub environment and must be
   removed and revoked immediately after trusted publishing is configured.
-- The immutable `beta.0` tag failed safely before token configuration or publication; its correction
-  must use the new `beta.1` version and tag.
+- The immutable `beta.0` and `beta.1` tags failed safely before publication; their correction must use
+  the new `beta.2` version and tag.
 - Sequential cross-file rename and the final path-check-to-syscall TOCTOU window remain; ADR-0007
   explains why portable Node.js checks cannot fully remove it.
 - Additional Windows reparse-point/hard-link policy and authenticated tool-launch conformance remain
@@ -47,5 +48,5 @@ integrity, provenance, one-off execution, and global installation.
 
 ## Next best task
 
-Commit and push the final verification record, pass its eleven remote CI jobs, then run one final
-clean-commit release verification before creating the `v0.1.0-beta.1` tag.
+Commit and push the reviewed release-client correction, pass remote gates, then run clean-commit
+release verification before creating the `v0.1.0-beta.2` tag.

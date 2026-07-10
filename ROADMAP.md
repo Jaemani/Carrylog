@@ -20,7 +20,8 @@ Implemented in the `0.1.0` beta line:
 
 Release blockers outside implementation:
 
-- publish the corrected `beta.1` after the `beta.0` tag stopped safely before publication;
+- publish the corrected `beta.2` after the `beta.0` and `beta.1` tags stopped safely before
+  publication;
 - configure protected trusted publishing immediately after the bootstrap publication;
 - run registry integrity, provenance, one-off, and global-install verification.
 

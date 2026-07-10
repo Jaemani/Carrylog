@@ -5,7 +5,31 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [Unreleased]
 
+## [0.1.0-beta.2] - 2026-07-10
+
+### Fixed
+
+- Replaced the broken npm 12.0.0 provenance client with npm 11.18.0, whose bundled publish stack
+  includes and loads `sigstore` on the pinned Node.js 24.15.0 release runtime.
+- Added a preflight contract that verifies the exact npm version and loads its provenance
+  implementation before tagged package gates or protected publication.
+
+### Changed
+
+- Kept npm 12.0.0 package-envelope tests in CI while separating that compatibility client from the
+  verified npm 11.18.0 release client.
+
+### Security
+
+- Restricted GitHub OIDC token permission to the protected publish job and verified that `sigstore`
+  resolves from inside the pinned npm installation rather than an ambient module path.
+
 ## [0.1.0-beta.1] - 2026-07-10
+
+The `beta.1` tag passed npm 12 preflight on every supported operating system, but npm 12.0.0's
+published CLI bundle omitted the `sigstore` dependency required by its bundled `libnpmpublish`.
+Publication stopped before a registry request, so this version was never registered. The immutable
+tag remains as release-audit evidence, and the correction is released as `beta.2`.
 
 ### Fixed
 

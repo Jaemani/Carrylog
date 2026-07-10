@@ -1,6 +1,6 @@
 {
   "name": "@jaemani/agent-context-kit",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "description": "A local-first project memory and handoff layer for AI coding agents.",
   "license": "MIT",
   "type": "module",
@@ -45,6 +45,7 @@
     "test:package": "npm run build && node scripts/package-smoke.mjs",
     "quality": "npm run format:check && npm run check && npm run test:coverage",
     "pack:check": "npm run build && node scripts/package-dry-run.mjs",
+    "release:client:check": "node scripts/check-release-client.mjs 11.18.0",
     "release:verify": "npm run quality && node dist/cli.js sync --check && node dist/cli.js validate --json && npm run pack:check && node scripts/build-release-artifact.mjs && node scripts/package-smoke.mjs --release && npm audit --omit=dev",
     "prepack": "npm run build"
   },

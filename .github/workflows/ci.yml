@@ -84,7 +84,7 @@ jobs:
         run: npm run test:package
 
   release-toolchain:
-    name: Release toolchain contract (Node 24.15.0, npm 12.0.0)
+    name: Release and npm 12 package contracts
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
@@ -99,12 +99,23 @@ jobs:
           cache: npm
 
       - name: Pin release npm client
-        run: npm install --global npm@12.0.0
+        run: npm install --global npm@11.18.0
+
+      - name: Verify release npm provenance dependencies
+        run: npm run release:client:check
 
       - name: Install locked dependencies
         run: npm ci
 
       - name: Verify package contracts with the release toolchain
+        run: |
+          npm run pack:check
+          npm run test:package
+
+      - name: Pin npm 12 compatibility client
+        run: npm install --global npm@12.0.0
+
+      - name: Verify npm 12 package contracts
         run: |
           npm run pack:check
           npm run test:package

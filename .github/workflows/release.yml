@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   preflight:
@@ -33,7 +32,10 @@ jobs:
           cache: npm
 
       - name: Pin release npm client
-        run: npm install --global npm@12.0.0
+        run: npm install --global npm@11.18.0
+
+      - name: Verify release npm provenance dependencies
+        run: npm run release:client:check
 
       - name: Install locked dependencies
         run: npm ci
@@ -51,6 +53,9 @@ jobs:
     timeout-minutes: 20
     environment: npm
     needs: preflight
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Check out tagged source
@@ -65,7 +70,10 @@ jobs:
           cache: npm
 
       - name: Pin trusted-publishing npm client
-        run: npm install --global npm@12.0.0
+        run: npm install --global npm@11.18.0
+
+      - name: Verify release npm provenance dependencies
+        run: npm run release:client:check
 
       - name: Install locked dependencies
         run: npm ci
