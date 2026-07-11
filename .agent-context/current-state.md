@@ -21,8 +21,8 @@ pilot without implementing journaling or compaction.
 
 ## In progress
 
-- Linux/macOS/Windows CI on a future exact reviewed commit. Current final results are local macOS
-  evidence.
+- The reviewed beta.5 implementation commit passed the eleven-job Linux/macOS/Windows CI matrix. A
+  future changelog promotion and release-evidence commit still needs exact-commit release gates.
 - Immutable beta.4 is publicly installable from the npm `beta` tag and its artifact and provenance
   were independently verified. Post-publication registry and credential hardening remains in
   progress; exact evidence is recorded in the engineering log.
@@ -41,5 +41,5 @@ pilot without implementing journaling or compaction.
 
 ## Next best task
 
-Finish beta.4 post-publication registry and credential hardening, then commit the reviewed beta.5
-candidate and require exact-commit cross-platform CI. Run Tier 1 after its fixtures are committed.
+Finish beta.4 post-publication registry and credential hardening, then prepare the exact beta.5
+release commit and gates. Run Tier 1 after its fixtures are committed.

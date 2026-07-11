@@ -796,3 +796,11 @@ production audit with zero vulnerabilities. Dogfood sync, validation, checkpoint
 checks passed. The final independent verdict is GO for code/security, package boundaries, context
 semantics, and budget headroom. Exact-commit cross-platform CI remains a separate release-candidate
 gate.
+
+Implementation and documentation commit `243e1d56fdfdc39253fb2901bb77716e788c2351` was pushed without a
+release tag. CI run `29165144784` passed all eleven jobs: Node.js 22 and 24 quality plus dogfood
+context checks on Linux, macOS, and Windows; packed-artifact consumers on all three operating systems
+and exact minimum Node.js 22.0.0; and the Node.js 24.15.0/npm 11.18.0 release client plus npm 12
+package contract. This establishes cross-platform evidence for the reviewed beta.5 implementation
+candidate. A later changelog promotion or release-evidence commit changes packaged bytes and still
+requires its own exact-commit gates before tagging.
