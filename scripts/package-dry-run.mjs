@@ -26,6 +26,11 @@ try {
   assert.equal(files.has("dist/index.js"), true);
   assert.equal(files.has("dist/index.d.ts"), true);
   assert.equal(files.has("schemas/config-v1.schema.json"), true);
+  assert.equal(files.has("schemas/config-v2.schema.json"), true);
+  assert.equal(
+    files.has("docs/decisions/0012-evidence-gates-before-continuity-expansion.md"),
+    true,
+  );
   assert.equal(
     [...files].some((file) => file.startsWith("src/")),
     false,
@@ -52,6 +57,10 @@ try {
   );
   assert.equal(
     [...files].some((file) => file.startsWith("scripts/")),
+    false,
+  );
+  assert.equal(
+    [...files].some((file) => file.startsWith("research/")),
     false,
   );
   process.stdout.write(

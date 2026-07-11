@@ -2,17 +2,17 @@ import path from "node:path";
 import { upsertManagedBlock } from "../adapters/managed-block.js";
 import { renderAdapter } from "../adapters/render.js";
 import { decodeConfig } from "../config/decode.js";
-import { CarrylogError, issueError } from "../core/errors.js";
+import { CarrylogError, EXIT_USAGE, issueError } from "../core/errors.js";
 import { atomicWriteTexts, inspectAtomicPath, readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, canonicalProjectRoot, resolveProjectPath } from "../core/paths.js";
-import type { AdapterType } from "../domain/types.js";
-import { createDefaultConfig, createTemplateFiles } from "../templates/defaults.js";
+import type { HarnessType } from "../domain/types.js";
+import { createDefaultConfigV2, createTemplateFiles } from "../templates/defaults.js";
 import type { PlannedChange } from "./sync.js";
 
 export interface InitOptions {
   root: string;
   name?: string;
-  adapters: AdapterType[];
+  adapters: HarnessType[];
   adopt: boolean;
   dryRun: boolean;
 }
@@ -23,8 +23,29 @@ export interface InitResult {
 }
 
 export async function initProject(options: InitOptions): Promise<InitResult> {
+  if (
+    options === null ||
+    typeof options !== "object" ||
+    typeof options.root !== "string" ||
+    (options.name !== undefined && typeof options.name !== "string") ||
+    !Array.isArray(options.adapters) ||
+    options.adapters.length === 0 ||
+    options.adapters.some(
+      (adapter) =>
+        adapter !== "codex" && adapter !== "claude" && adapter !== "cursor" && adapter !== "gemini",
+    ) ||
+    typeof options.adopt !== "boolean" ||
+    typeof options.dryRun !== "boolean"
+  ) {
+    throw new CarrylogError("E_CONFIG_INVALID", "Initialization options are invalid.", {
+      exitCode: EXIT_USAGE,
+    });
+  }
   const root = await canonicalProjectRoot(options.root);
-  const proposedConfig = createDefaultConfig(options.name ?? path.basename(root), options.adapters);
+  const proposedConfig = createDefaultConfigV2(
+    options.name ?? path.basename(root),
+    options.adapters,
+  );
   const decoded = decodeConfig(proposedConfig);
   if (decoded.config === undefined) {
     throw new CarrylogError("E_CONFIG_INVALID", "Initialization options produce invalid context.", {

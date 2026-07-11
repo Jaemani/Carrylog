@@ -102,16 +102,18 @@ export async function inspectGitProjectWithRunner(
   }
 
   const excludeHandoff = `:(exclude,literal)${handoffPath}`;
+  let lastMismatches: string[] = [];
   for (let attempt = 0; attempt < MAX_GIT_SNAPSHOT_ATTEMPTS; attempt += 1) {
     const before = await observeGitProject(projectRoot, excludeHandoff, executeGit);
     const after = await observeGitProject(projectRoot, excludeHandoff, executeGit);
-    if (gitObservationFingerprintsMatch(before, after)) {
+    lastMismatches = gitObservationMismatchKeys(before, after);
+    if (lastMismatches.length === 0) {
       return buildGitSnapshot(after);
     }
   }
   throw issueError(
     "E_GIT_CONCURRENT_MODIFICATION",
-    `Git repository changed during ${MAX_GIT_SNAPSHOT_ATTEMPTS} snapshot attempts.`,
+    `Git repository changed during ${MAX_GIT_SNAPSHOT_ATTEMPTS} snapshot attempts. Last mismatched observations: ${lastMismatches.join(", ")}.`,
     "Retry after concurrent Git and working-tree updates finish.",
   );
 }
@@ -234,19 +236,18 @@ function buildGitSnapshot(observation: GitObservation): GitSnapshot {
   return snapshot;
 }
 
-function gitObservationFingerprintsMatch(left: GitObservation, right: GitObservation): boolean {
+function gitObservationMismatchKeys(left: GitObservation, right: GitObservation): string[] {
+  const mismatches: string[] = [];
   for (const key of Object.keys(left) as (keyof GitObservation)[]) {
     const leftResult = left[key];
     const rightResult = right[key];
-    if (
-      leftResult.code !== rightResult.code ||
-      !leftResult.stdout.equals(rightResult.stdout) ||
-      !leftResult.stderr.equals(rightResult.stderr)
-    ) {
-      return false;
-    }
+    if (leftResult.code !== rightResult.code) mismatches.push(`${key}.code`);
+    if (!leftResult.stdout.equals(rightResult.stdout)) mismatches.push(`${key}.stdout`);
+    // Snapshot construction consumes only exit codes and stdout. Sandboxes and Git wrappers may emit
+    // per-process diagnostic noise on stderr even when the observed repository value is identical.
+    // Unexpected exit codes are rejected by runGitProcess before this comparison.
   }
-  return true;
+  return mismatches;
 }
 
 export function parseGitNumstat(output: Buffer): GitDiffEvidence {

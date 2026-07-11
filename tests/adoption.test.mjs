@@ -15,7 +15,7 @@ test("adoption scenario: greenfield repository is immediately valid and idempote
       adopt: false,
       dryRun: false,
     });
-    assert.equal(initialized.changes.length, 11);
+    assert.equal(initialized.changes.length, 13);
     const project = await loadProject(root);
     assert.equal((await validateProject(project)).valid, true);
     assert.equal(

@@ -16,6 +16,8 @@ Node.js 22 or 24 is the supported development range for the beta.
 ## Change expectations
 
 - Start with the nearest existing test and document the behavior being changed.
+- Trace a new feature to a job in `docs/product-scope.md`; update product scope explicitly when no
+  current job applies.
 - Fix causes rather than adding repository-specific exceptions.
 - Keep filesystem mutation in application commands and safe file utilities.
 - Do not add an adapter based on guessed tool behavior; link its discovery and precedence contract
@@ -23,6 +25,10 @@ Node.js 22 or 24 is the supported development range for the beta.
 - Preserve human content outside managed markers.
 - Add a decision record for schema, dependency, compatibility, safety, or architectural changes.
 - Update `.agent-context/current-state.md` and `.agent-context/handoff.md` for meaningful changes.
+- Follow `docs/documentation-policy.md`; do not copy volatile measurements across status, user, and
+  historical documents.
+- Keep journaling, semantic compaction, and broader continuity claims behind ADR-0012's staged
+  evidence gates.
 
 ## Review checklist
 

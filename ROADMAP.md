@@ -17,8 +17,8 @@ Implemented in the `0.1.0` beta line:
 - human CLI contracts for every command and JSON contracts for `validate` and `handoff`;
 - deterministic fuzz/property, performance, adoption, package, and three-platform CI design;
 - exact clean-build npm artifact and local/ephemeral/global/ESM/TypeScript smoke paths;
-- first public beta with registry digests, provenance, one-off execution, global installation,
-  initialization, and validation evidence;
+- the historical `@jaemani/agent-context-kit@0.1.0-beta.3` public beta with registry digests,
+  provenance, one-off execution, global installation, initialization, and validation evidence;
 - Carrylog product/package/CLI identity with a tested beta.3 repository compatibility path that
   preserves configuration v1 wire identifiers.
 
@@ -30,26 +30,49 @@ Post-publication operations before the beta channel is fully hardened:
 - deprecate the old scoped beta with an exact Carrylog migration message;
 - prove a later Carrylog beta publishes through OIDC with no registry token.
 
-## 0.2 beta — adapter breadth and measured continuity
+Delivery and outcome work now takes priority over additional defensive breadth:
 
-- research-backed Cursor, GitHub Copilot, and Gemini CLI adapters;
-- nested instruction outputs only where official precedence behavior is documented;
+- complete the first verified unscoped npm publication and a five-minute source/registry path;
+- run the committed Tier 1 checkpoint-continuity pilot before building session journaling;
+- dogfood on two additional materially different repositories and publish sanitized adoption notes;
+- measure whether users reduce project re-explanation and repeated work;
+- revisit positioning and adapter assumptions from evidence rather than registry or standards trends
+  alone.
+
+Implemented on the unreleased `0.1.0-beta.5` release-candidate preparation line:
+
+- explicit configuration v2 migration without changing frozen v1 semantics;
+- shared Codex/Cursor `agents` surface plus Claude Code and Gemini CLI root routers;
+- repository continuity Skills with fail-closed ownership;
+- deterministic checkpoint/resume envelope with guarded consistent reads and no transcript parsing.
+
+## 0.2 beta — measured adoption and selective adapter breadth
+
+- authenticated Cursor fresh-session conformance and GitHub Copilot research only where adoption
+  demand justifies another surface;
+- nested instruction outputs only where official precedence behavior and a user job are documented;
 - CI policy mode and a compact, deterministic project-card export for session-journal consumers;
-- a tool-neutral checkpoint/resume contract that reconstructs verified project and task state without
-  claiming to reproduce conversation transcripts or hidden model state;
-- opt-in measurement protocol for reconstruction time and handoff usefulness;
-- external adoption reports from at least three materially different repositories;
-- hard-link and Windows junction/reparse-point policy and tests.
+- measure the implemented tool-neutral checkpoint/resume contract without claiming transcript or
+  hidden-state reproduction;
+- promote the Tier 1 protocol to independent Tier 2 only if the pilot shows useful signal;
+- opt-in measurement of reconstruction time, repeated work, handoff usefulness, and user perception;
+- external adoption reports from at least three materially different repositories, beginning before
+  0.2 feature expansion;
+- additional Windows hard-link and junction/reparse-point policy and tests.
 
-## 0.3 beta — freshness and reversible compaction
+## 0.3 beta — conditional freshness and reversible compaction research
 
 - evidence-based document freshness metadata rather than wall-clock claims;
 - deterministic size reporting by load tier;
 - archive workflow with reversible moves and link validation;
-- optional tokenizer plugins without a core model dependency;
-- no destructive one-shot summarization.
+- optional tokenizer plugins without a core model dependency, only if measurement requires them;
+- no destructive one-shot summarization;
 - no claim to control or reproduce each agent's internal compaction; reversible external project
   memory remains the continuity boundary.
+
+Session journaling, semantic compaction, or compact superiority claims do not enter the supported
+runtime until ADR-0012's staged evidence and privacy gates pass. Native resume and native compaction
+remain comparison baselines.
 
 ## Stable gate
 
@@ -62,7 +85,6 @@ Post-publication operations before the beta channel is fully hardened:
 
 ## Post-beta exploration
 
-- agent skills that teach maintenance protocol without duplicating project memory;
 - read-first MCP server for context queries and decision search;
 - optional issue-tracker connectors with explicit provenance;
 - team policies and dashboards that do not require uploading source context;

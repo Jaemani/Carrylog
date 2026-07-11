@@ -1,6 +1,15 @@
 import { stringify } from "yaml";
 import { getAdapterDefinition } from "../adapters/registry.js";
-import type { AdapterConfig, AdapterType, ProjectConfig } from "../domain/types.js";
+import { continuitySkillFiles } from "../continuity/skills.js";
+import type {
+  AdapterConfigV1,
+  AdapterSurfaceType,
+  HarnessType,
+  LegacyAdapterType,
+  ProjectConfig,
+  ProjectConfigV1,
+  ProjectConfigV2,
+} from "../domain/types.js";
 import { CLI_NAME } from "../product.js";
 import {
   PUBLIC_SCHEMA_PATH,
@@ -38,7 +47,10 @@ export function createInstructionsTemplate(cliName = CLI_NAME): string {
 `;
 }
 
-export function createDefaultConfig(name: string, adapterTypes: AdapterType[]): ProjectConfig {
+export function createDefaultConfig(
+  name: string,
+  adapterTypes: LegacyAdapterType[],
+): ProjectConfigV1 {
   return {
     version: 1,
     project: { name },
@@ -90,7 +102,7 @@ export function createDefaultConfig(name: string, adapterTypes: AdapterType[]): 
       },
     ],
     adapters: adapterTypes.map(
-      (type): AdapterConfig => ({ type, output: getAdapterDefinition(type).defaultOutput }),
+      (type): AdapterConfigV1 => ({ type, output: getAdapterDefinition(type).defaultOutput }),
     ),
     policies: {
       maxAlwaysCharacters: 16_000,
@@ -99,9 +111,41 @@ export function createDefaultConfig(name: string, adapterTypes: AdapterType[]): 
   };
 }
 
+export function createDefaultConfigV2(
+  name: string,
+  harnesses: readonly HarnessType[],
+): ProjectConfigV2 {
+  const surfaceTypes = normalizeHarnesses(harnesses);
+  const legacy = createDefaultConfig(name, ["codex", "claude"]);
+  return {
+    ...legacy,
+    version: 2,
+    adapters: surfaceTypes.map((type) => ({
+      type,
+      output: getAdapterDefinition(type).defaultOutput,
+    })),
+    continuity: {
+      checkpointDocument: "handoff",
+      generateSkills: true,
+    },
+  };
+}
+
+export function normalizeHarnesses(harnesses: readonly HarnessType[]): AdapterSurfaceType[] {
+  const surfaces: AdapterSurfaceType[] = [];
+  const add = (surface: AdapterSurfaceType): void => {
+    if (!surfaces.includes(surface)) surfaces.push(surface);
+  };
+  for (const harness of harnesses) {
+    if (harness === "codex" || harness === "cursor") add("agents");
+    else add(harness);
+  }
+  return surfaces;
+}
+
 export function createTemplateFiles(config: ProjectConfig): TemplateFile[] {
   const serializedConfig = stringify(config, { lineWidth: 100 });
-  return [
+  const files: TemplateFile[] = [
     {
       path: ".agent-context/config.yaml",
       content: `${PUBLIC_SCHEMA_YAML_DIRECTIVE}\n${
@@ -110,7 +154,7 @@ export function createTemplateFiles(config: ProjectConfig): TemplateFile[] {
     },
     {
       path: PUBLIC_SCHEMA_PATH,
-      content: readPublicSchema(),
+      content: readPublicSchema(config.version),
     },
     {
       path: ".agent-context/instructions.md",
@@ -164,32 +208,7 @@ State one concrete next task and why it is the best next step.
     },
     {
       path: ".agent-context/handoff.md",
-      content: `# Handoff
-
-## Last verified
-
-Not yet verified.
-
-## Objective
-
-State the objective of the latest work session.
-
-## Changes
-
-- List meaningful changes and the reason for each.
-
-## Verification
-
-- List exact checks and their results. Do not claim checks that were not run.
-
-## Unresolved
-
-- List known defects, decisions still needed, and assumptions that require validation.
-
-## Next action
-
-State the safest high-value continuation step.
-`,
+      content: config.version === 2 ? createCheckpointTemplate() : createLegacyHandoffTemplate(),
     },
     {
       path: ".agent-context/architecture.md",
@@ -248,4 +267,66 @@ Document branch, commit, review, and release expectations.
 `,
     },
   ];
+  if (config.version === 2 && config.continuity.generateSkills) {
+    files.push(...continuitySkillFiles());
+  }
+  return files;
+}
+
+export function createLegacyHandoffTemplate(): string {
+  return `# Handoff
+
+## Last verified
+
+Not yet verified.
+
+## Objective
+
+State the objective of the latest work session.
+
+## Changes
+
+- List meaningful changes and the reason for each.
+
+## Verification
+
+- List exact checks and their results. Do not claim checks that were not run.
+
+## Unresolved
+
+- List known defects, decisions still needed, and assumptions that require validation.
+
+## Next action
+
+State the safest high-value continuation step.
+`;
+}
+
+export function createCheckpointTemplate(): string {
+  return `# Handoff
+
+## Objective
+
+State the current verified objective.
+
+## Completed
+
+- List completed work and why it matters.
+
+## Verification
+
+- List exact checks and observed results. Do not claim checks that were not run.
+
+## Decisions
+
+- Link consequential decisions or state that none were made.
+
+## Risks
+
+- List unresolved defects, assumptions, and operational risks.
+
+## Next action
+
+State one safe, concrete continuation step. Use "None; objective complete" only when no work remains.
+`;
 }

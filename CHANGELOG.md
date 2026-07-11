@@ -5,34 +5,101 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [Unreleased]
 
-## [0.1.0-beta.4] - 2026-07-10
+This section is preparing the `0.1.0-beta.5` release candidate. Independent review, settled
+checkpoint evidence, and final release gates are still pending; the target version in package
+metadata does not by itself mean the candidate is approved or released.
+
+### Added
+
+- Configuration v2 with shared `agents`, `claude`, and `gemini` instruction surfaces, an explicit
+  always-loaded checkpoint selection, and optional deterministic continuity Skills.
+- `carrylog migrate --to 2` with check, dry-run, universal-surface, and reviewed-adoption modes.
+- `carrylog checkpoint` as the continuity-oriented handoff alias and `carrylog resume` with human and
+  deterministic JSON projections.
+- Versioned public v2 JSON Schema while retaining the exact published v1 schema contract.
+- ADR-0012, a minimum Tier 1 continuity pilot protocol, and documentation evidence/freshness policy.
+
+### Changed
+
+- New initialization defaults to configuration v2 and Codex, Claude Code, Cursor, and Gemini CLI.
+- Set the release-candidate preparation target to `0.1.0-beta.5`; immutable beta.4 evidence is not
+  reused.
+- Reframed README and roadmap around source-first onboarding, first publication, measured adoption,
+  and repository-owned project-memory governance. Journaling and semantic compaction remain research
+  work behind evidence gates.
+- Continuity Skills resolve and capability-check the source build, project-pinned CLI, then global
+  CLI; an incompatible pinned version never silently falls through to another executable.
+- Stock v1 handoffs that contain Carrylog-generated Git evidence migrate to v2 in LF or CRLF without
+  losing that evidence; direct v1 resume now returns explicit migration guidance.
+
+### Security
+
+- Resume export uses guarded regular-file handles, hard-link and symlink rejection, before/after
+  size, modification-time, change-time, link-count, and path identity checks, bounded UTF-8 reads,
+  and matching config/document observations around Git.
+- Generated Skill ownership requires exactly one standalone marker and never adopts or merges an
+  unowned Skill file.
+- Portable output excludes raw transcripts, hidden reasoning, provider stores, absolute roots,
+  session identifiers, and commit timestamps.
+- Git stability compares only consumed exit-code/stdout channels, avoiding false concurrency failures
+  from per-process sandbox stderr while retaining exact repository-value comparison.
+- Resume JSON escapes invisible control and formatting characters in raw terminal output while
+  preserving the original Git path and commit-subject values after JSON parsing.
+- Human resume, diagnostics, change paths, internal errors, and handoff JSON escape terminal controls,
+  bidirectional formatting, and multiline field spoofing from repository-controlled input.
+- Portable resume caps one aggregate configuration/document observation at 8 MiB in addition to the
+  existing per-file limits.
+
+### Testing
+
+- Added explicit v1/v2 migration conflicts and idempotence, 500-case v2 schema/runtime parity,
+  CommonMark checkpoint parser boundaries, guarded concurrent-read cases,
+  deterministic/stale/detached/hostile-Unicode resume envelopes, reviewed agents/Gemini fixtures,
+  local Codex/Gemini discovery checks, and installed-tarball strict declarations, v1-to-v2 migration,
+  schema, checkpoint, and resume consumers.
+- Added regressions for beta.4 global shadowing, incompatible pinned executables, HTML-hidden headings,
+  terminal/field spoofing, generated legacy-command evidence, stock v1 snapshots, aggregate context
+  exhaustion, v1 resume errors, runtime init options, and `research/` package exclusion.
+
+## [0.1.0-beta.4] - 2026-07-12
+
+Tag `v0.1.0-beta.4` passed cross-platform preflight and exact artifact verification. npm initially
+rejected creation of the unscoped package with authorization-only `E403`; after the protected
+bootstrap credential was replaced and registry absence was rechecked, failed-job-only attempt 2
+published the unchanged tagged source and verified artifact. The `beta` channel now resolves to this
+version. npm also assigned an unintended `latest` tag during first publication; its removal and
+credential hardening remain release-administration work recorded in the engineering log.
 
 ### Changed
 
 - Renamed the active product, repository, unscoped npm package, and executable to Carrylog,
   `Jaemani/Carrylog`, `carrylog`, and `carrylog` after registry and direct-competitor name research.
 - Preserved `.agent-context/`, configuration v1 schema bytes and identity, managed-block markers,
-  handoff markers, and reserved marker validation so beta.3 repositories upgrade in place.
-- Added an exact-template v1 migration for untouched LF/CRLF beta.3 instructions at any configured
-  document path and a blocking diagnostic for command-shaped legacy invocations in always context.
+  handoff markers, and reserved marker validation so repositories created by
+  `@jaemani/agent-context-kit@0.1.0-beta.3` upgrade in place.
+- Added an exact-template v1 migration for untouched LF/CRLF instructions from that historical
+  package at any configured document path and a blocking diagnostic for command-shaped legacy
+  invocations in always context.
 - Added `CarrylogError` while retaining deprecated `AckitError` as the same constructor, and made
   `CARRYLOG_DEBUG` canonical with `ACKIT_DEBUG` as a compatibility fallback.
 - Removed the old `ackit` binary from the new package. Existing global users must uninstall the
-  scoped beta.3 package before installing Carrylog.
+  scoped `@jaemani/agent-context-kit@0.1.0-beta.3` package before installing Carrylog.
 
 ### Testing
 
 - Added literal identity contracts for package metadata, binary names, debug precedence, error alias
   identity, configuration root, schema metadata, and persisted markers.
-- Added a beta.3 repository-upgrade scenario that verifies drift recognition, human-content
-  preservation, in-place adapter synchronization, handoff refresh, idempotence, unchanged schema and
-  config bytes, stock-instruction migration, customized-instruction refusal, and absence of a second
-  context root. The fixture is independent of the current initializer and the published schema bytes
-  are pinned by SHA-256.
+- Added an `@jaemani/agent-context-kit@0.1.0-beta.3` repository-upgrade scenario that verifies drift
+  recognition, human-content preservation, in-place adapter synchronization, handoff refresh,
+  idempotence, unchanged schema and config bytes, stock-instruction migration,
+  customized-instruction refusal, and absence of a second context root. The fixture is independent of
+  the current initializer and the published schema bytes are pinned by SHA-256.
 - Generalized package smoke for an unscoped install and exercised Carrylog through local, ephemeral,
   global, ESM, TypeScript, initialization, validation, and publish-dry-run paths.
 
 ## [0.1.0-beta.3] - 2026-07-10
+
+This version was published as `@jaemani/agent-context-kit@0.1.0-beta.3` before the Carrylog rename.
 
 ### Fixed
 

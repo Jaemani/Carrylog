@@ -3,18 +3,24 @@ import { assertPortableRelativePath, portablePathKey } from "../core/paths.js";
 import { hasUnsafeLineControl, isWellFormedUnicode } from "../core/text.js";
 import type {
   AdapterConfig,
+  AdapterConfigV1,
+  AdapterConfigV2,
+  AdapterSurfaceType,
   ContextDocument,
   Diagnostic,
+  LegacyAdapterType,
   LoadPolicy,
   ProjectConfig,
 } from "../domain/types.js";
-import { CONFIG_VERSION } from "../domain/types.js";
+import { CONFIG_VERSION, CONFIG_VERSION_2 } from "../domain/types.js";
 
 const ID_PATTERN = /^[a-z][a-z0-9-]*$/;
 const LOAD_POLICIES = new Set<LoadPolicy>(["always", "on-demand"]);
 const MAX_DOCUMENTS = 256;
 const MAX_ADAPTERS = 32;
 const MAX_TRIGGERS = 32;
+const V1_ADAPTERS = new Set<LegacyAdapterType>(["codex", "claude"]);
+const V2_ADAPTERS = new Set<AdapterSurfaceType>(["agents", "claude", "gemini"]);
 
 export interface DecodeResult {
   config?: ProjectConfig;
@@ -29,27 +35,32 @@ export function decodeConfig(input: unknown): DecodeResult {
     };
   }
 
-  rejectUnknownKeys(
-    input,
-    ["version", "project", "documents", "adapters", "policies"],
-    "$",
-    diagnostics,
-  );
-
   const version = input["version"];
-  if (version !== CONFIG_VERSION) {
+  if (version !== CONFIG_VERSION && version !== CONFIG_VERSION_2) {
     diagnostics.push(
       error(
         "E_CONFIG_VERSION",
-        `Unsupported configuration version: ${String(version)}. Expected ${CONFIG_VERSION}.`,
+        `Unsupported configuration version: ${String(version)}. Supported versions: ${CONFIG_VERSION}, ${CONFIG_VERSION_2}.`,
         "version",
       ),
     );
   }
+  const isV2 = version === CONFIG_VERSION_2;
+  rejectUnknownKeys(
+    input,
+    isV2
+      ? ["version", "project", "documents", "adapters", "continuity", "policies"]
+      : ["version", "project", "documents", "adapters", "policies"],
+    "$",
+    diagnostics,
+  );
 
   const project = decodeProject(input["project"], diagnostics);
   const documents = decodeDocuments(input["documents"], diagnostics);
-  const adapters = decodeAdapters(input["adapters"], diagnostics);
+  const adapters = decodeAdapters(input["adapters"], diagnostics, isV2 ? V2_ADAPTERS : V1_ADAPTERS);
+  const continuity = isV2
+    ? decodeContinuity(input["continuity"], documents, diagnostics)
+    : undefined;
   const policies = decodePolicies(input["policies"], diagnostics);
 
   if (
@@ -57,19 +68,34 @@ export function decodeConfig(input: unknown): DecodeResult {
     project === undefined ||
     documents === undefined ||
     adapters === undefined ||
-    policies === undefined
+    policies === undefined ||
+    (isV2 && continuity === undefined)
   ) {
     return { diagnostics };
   }
 
+  if (isV2) {
+    if (continuity === undefined) return { diagnostics };
+    return {
+      config: {
+        version: CONFIG_VERSION_2,
+        project,
+        documents,
+        adapters: adapters as AdapterConfigV2[],
+        continuity,
+        policies,
+      } as ProjectConfig,
+      diagnostics,
+    };
+  }
   return {
     config: {
       version: CONFIG_VERSION,
       project,
       documents,
-      adapters,
+      adapters: adapters as AdapterConfigV1[],
       policies,
-    },
+    } as ProjectConfig,
     diagnostics,
   };
 }
@@ -193,7 +219,11 @@ function decodeDocuments(input: unknown, diagnostics: Diagnostic[]): ContextDocu
   return documents;
 }
 
-function decodeAdapters(input: unknown, diagnostics: Diagnostic[]): AdapterConfig[] | undefined {
+function decodeAdapters(
+  input: unknown,
+  diagnostics: Diagnostic[],
+  allowedTypes: ReadonlySet<string>,
+): AdapterConfig[] | undefined {
   if (!Array.isArray(input) || input.length === 0) {
     diagnostics.push(
       error("E_ADAPTERS_TYPE", "adapters must be a non-empty sequence.", "adapters"),
@@ -219,7 +249,7 @@ function decodeAdapters(input: unknown, diagnostics: Diagnostic[]): AdapterConfi
     }
     rejectUnknownKeys(item, ["type", "output"], location, diagnostics);
     const type = requiredString(item["type"], `${location}.type`, diagnostics);
-    if (type !== undefined && !isAdapterType(type)) {
+    if (type !== undefined && (!isAdapterType(type) || !allowedTypes.has(type))) {
       diagnostics.push(
         error("E_ADAPTER_KIND", `Unsupported adapter type: ${type}`, `${location}.type`),
       );
@@ -228,7 +258,12 @@ function decodeAdapters(input: unknown, diagnostics: Diagnostic[]): AdapterConfi
     if (output !== undefined) {
       collectPathError(output, `${location}.output`, diagnostics);
     }
-    if (type !== undefined && isAdapterType(type) && output !== undefined) {
+    if (
+      type !== undefined &&
+      isAdapterType(type) &&
+      allowedTypes.has(type) &&
+      output !== undefined
+    ) {
       adapters.push({ type, output });
     }
   }
@@ -244,6 +279,73 @@ function decodeAdapters(input: unknown, diagnostics: Diagnostic[]): AdapterConfi
     outputs.add(outputKey);
   }
   return adapters;
+}
+
+function decodeContinuity(
+  input: unknown,
+  documents: ContextDocument[] | undefined,
+  diagnostics: Diagnostic[],
+): { checkpointDocument: string; generateSkills: boolean } | undefined {
+  if (!isRecord(input)) {
+    diagnostics.push(error("E_CONTINUITY_TYPE", "continuity must be a mapping.", "continuity"));
+    return undefined;
+  }
+  rejectUnknownKeys(input, ["checkpointDocument", "generateSkills"], "continuity", diagnostics);
+  const checkpointDocument = requiredString(
+    input["checkpointDocument"],
+    "continuity.checkpointDocument",
+    diagnostics,
+    { maxLength: 64 },
+  );
+  if (checkpointDocument !== undefined && !ID_PATTERN.test(checkpointDocument)) {
+    diagnostics.push(
+      error(
+        "E_CHECKPOINT_DOCUMENT_ID",
+        "checkpointDocument must be a valid document id.",
+        "continuity.checkpointDocument",
+      ),
+    );
+  }
+  const generateSkills = input["generateSkills"];
+  if (typeof generateSkills !== "boolean") {
+    diagnostics.push(
+      error(
+        "E_CONTINUITY_SKILLS",
+        "continuity.generateSkills must be a boolean.",
+        "continuity.generateSkills",
+      ),
+    );
+  }
+  if (
+    checkpointDocument !== undefined &&
+    ID_PATTERN.test(checkpointDocument) &&
+    documents !== undefined
+  ) {
+    const checkpoint = documents.find((document) => document.id === checkpointDocument);
+    if (checkpoint === undefined) {
+      diagnostics.push(
+        error(
+          "E_CHECKPOINT_DOCUMENT",
+          `Checkpoint document id does not exist: ${checkpointDocument}`,
+          "continuity.checkpointDocument",
+        ),
+      );
+    } else if (checkpoint.load !== "always") {
+      diagnostics.push(
+        error(
+          "E_CHECKPOINT_LOAD_POLICY",
+          "The checkpoint document must use load: always.",
+          "continuity.checkpointDocument",
+        ),
+      );
+    }
+  }
+  return checkpointDocument !== undefined &&
+    ID_PATTERN.test(checkpointDocument) &&
+    typeof generateSkills === "boolean" &&
+    documents?.some((document) => document.id === checkpointDocument && document.load === "always")
+    ? { checkpointDocument, generateSkills }
+    : undefined;
 }
 
 function decodePolicies(

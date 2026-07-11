@@ -12,7 +12,7 @@ model dependency.
 CLI parsing and reporting
           |
           v
-application commands: init / sync / validate / handoff
+application commands: init / sync / validate / migrate / checkpoint / resume
           |
           +--------------------+
           v                    v
@@ -62,6 +62,10 @@ Exit codes are part of the automation contract:
   never writes.
 - `handoff` gathers bounded Git evidence, replaces only its evidence block, and prospectively
   validates the result before writing.
+- `migrate` performs explicit version transitions, validates the prospective version, and commits the
+  canonical config after generated outputs.
+- `checkpoint` aliases the compatible handoff refresh through the configured v2 checkpoint document.
+- `resume` validates and projects one portable deterministic context/Git envelope without writing.
 
 These commands accept resolved domain objects where practical so tests can exercise behavior without
 shell parsing.
@@ -83,12 +87,19 @@ filesystem and cross-entry semantics. Their compatibility relationship and futur
 are frozen in [ADR-0005](decisions/0005-configuration-v1-compatibility.md); silent reinterpretation is
 not acceptable.
 
+Version 2 retains those concepts and adds shared instruction surfaces plus continuity policy. The
+`agents` surface owns one `AGENTS.md` for Codex and Cursor; `claude` and `gemini` remain distinct.
+`continuity` selects an always-loaded checkpoint and whether deterministic repository Skills are
+generated. Version-specific public schemas and explicit migration are defined by
+[ADR-0009](decisions/0009-configuration-v2-and-universal-surfaces.md).
+
 ### Adapter compiler
 
 Adapters render a concise router from the document catalog; they do not copy the complete documents.
-Codex and Claude currently share semantic content but have separate registry identities and reviewed
-golden fixtures, allowing future tool-specific behavior without changing the source model. The exact
-supported discovery surface is documented in [adapter compatibility](adapter-compatibility.md).
+Codex/Cursor, Claude Code, and Gemini CLI currently share semantic router content but have distinct
+surface registry identities and reviewed golden fixtures, allowing future tool-specific behavior
+without changing the source model. The exact supported discovery surface is documented in
+[adapter compatibility](adapter-compatibility.md).
 
 Generated content lives between one start and one end marker. Synchronization replaces only that
 region. A pre-existing unmarked file requires `--adopt`; malformed or duplicate markers fail closed.
@@ -119,6 +130,15 @@ trusted. These controls prevent common parent-substitution, stale-plan, and torn
 Sequential renames are not an operating-system transaction; a race or OS failure during commit can
 still leave a cross-file batch partially applied. Portable Node.js also lacks directory-descriptor
 `openat`/`renameat`, so a final check-to-syscall window remains. ADR-0007 defines this boundary.
+
+Resume export uses a stricter read boundary because canonical context may contain confidential data.
+It opens regular files without following final symlinks where supported, rejects hard links, bounds
+and validates UTF-8 bytes, compares device, inode, size, modification time, change time, and link
+count before/after the read, then compares that complete metadata to the resolved path. Change time
+closes the same-size overwrite case where a writer restores modification time. Resume sandwiches
+bounded Git inspection between two complete config/document observations and revalidates the exact
+observed bytes before serialization. Its JSON serializer escapes invisible control/format characters
+in raw output without changing the values obtained by a conforming JSON parser.
 
 ## Dependency direction
 
@@ -154,24 +174,31 @@ An adapter should be added only after documenting:
 
 The implemented handoff command collects deterministic Git evidence—branch, status, project-relative
 changed paths, staged/unstaged diff stat, upstream divergence, and recent commits—inside a separate
-managed block. Two exact observations must agree; otherwise collection retries three times and then
-fails closed. Semantic narrative remains human/agent-authored. Process and trust boundaries are
-defined in [ADR-0006](decisions/0006-deterministic-git-handoff-evidence.md).
+managed block. Two observations must match in every consumed channel—allowed exit code and exact
+stdout—or collection retries three times and then fails closed. Sandbox stderr is not repository
+state under ADR-0011. Semantic narrative remains human/agent-authored. Process and trust boundaries
+are defined in [ADR-0006](decisions/0006-deterministic-git-handoff-evidence.md).
 
 ### Skills and MCP
 
-Skills can teach compatible agents how to maintain the context protocol. An MCP server can later
-offer query-oriented access to context, decisions, and Git evidence. Neither should become the only
-way to access project state; Markdown and CLI behavior remain the portable baseline.
+The v2 continuity Skill teaches compatible agents how to resume and checkpoint without embedding
+project-specific content. Codex, Cursor, and Gemini use the generic `.agents/skills` copy; Claude Code
+uses a small adapter Skill. An MCP server can later offer query-oriented access to the same resume
+model. Neither becomes the only way to access project state; Markdown and CLI behavior remain the
+portable baseline. ADR-0010 defines the boundary from provider-native transcripts and compaction.
+ADR-0012 requires staged behavioral evidence before a journal, launcher, or semantic compactor enters
+the supported runtime or broadens continuity claims. Research protocols and results live outside the
+npm package.
 
 ## Known architectural gaps
 
-- No schema-version migration exists because v1 is the only configuration version; the implemented
-  context migration handles one exact published-template compatibility transition within v1.
-- Adapter conformance is documentation/golden-fixture based; authenticated tool launch is not in CI.
+- Authenticated tool launch is not a required CI gate; Cursor CLI is not installed in the current
+  local conformance environment.
 - Sequential rename commit still cannot provide a portable cross-file transaction, and standard
   Node.js cannot eliminate the final directory check-to-path-syscall interval.
 - Character budgets are deterministic but only approximate model tokens.
 - Semantic code-to-document freshness cannot be proven by the current validator.
+- Cross-harness behavioral and perceived continuity have not been demonstrated beyond one Claude
+  reconstruction; artifact discovery and receipts are weaker evidence.
 - Repository-root discovery does not yet account for multiple nested context roots beyond choosing
   the nearest ancestor.

@@ -214,7 +214,7 @@ test("handoff rejects non-Git projects and missing handoff configuration", async
   const root = await createTemporaryDirectory();
   try {
     await initProject({ root, adapters: ["codex"], adopt: false, dryRun: false });
-    let project = await loadProject(root);
+    const project = await loadProject(root);
     await assert.rejects(
       () => refreshHandoff(project, { check: false, dryRun: false }),
       (error) => error.code === "E_NOT_GIT_REPOSITORY",
@@ -222,10 +222,9 @@ test("handoff rejects non-Git projects and missing handoff configuration", async
     const config = structuredClone(project.config);
     config.documents = config.documents.filter((document) => document.id !== "handoff");
     await writeProjectConfig(root, config);
-    project = await loadProject(root);
     await assert.rejects(
-      () => refreshHandoff(project, { check: false, dryRun: false }),
-      (error) => error.code === "E_HANDOFF_DOCUMENT",
+      () => loadProject(root),
+      (error) => error.code === "E_CONFIG_INVALID",
     );
   } finally {
     await removeTemporaryDirectory(root);
@@ -432,11 +431,31 @@ test("Git inspection retries mixed observations and returns only a stable snapsh
   assert.equal(snapshot.recentCommits[0].shortSha, "ccccccc");
 });
 
+test("Git inspection ignores changing stderr when every consumed value is stable", async () => {
+  const fake = createVersionedGitRunner(["a", "a"]);
+  let invocation = 0;
+  const run = async (...arguments_) => {
+    const result = await fake.run(...arguments_);
+    invocation += 1;
+    return { ...result, stderr: Buffer.from(`sandbox diagnostic ${invocation}`) };
+  };
+  const snapshot = await inspectGitProjectWithRunner(
+    "/fake/project",
+    ".agent-context/handoff.md",
+    run,
+  );
+  assert.equal(snapshot.branch, "main-a");
+  assert.equal(fake.getObservationCount(), 2);
+});
+
 test("Git inspection fails closed after bounded concurrent modifications", async () => {
   const fake = createVersionedGitRunner(["a", "b", "c", "d", "e", "f"]);
   await assert.rejects(
     () => inspectGitProjectWithRunner("/fake/project", ".agent-context/handoff.md", fake.run),
-    (error) => error.code === "E_GIT_CONCURRENT_MODIFICATION",
+    (error) =>
+      error.code === "E_GIT_CONCURRENT_MODIFICATION" &&
+      error.message.includes("Last mismatched observations:") &&
+      error.message.includes("status"),
   );
   assert.equal(fake.getObservationCount(), 6);
 });

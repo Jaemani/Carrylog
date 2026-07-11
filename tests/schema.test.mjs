@@ -12,15 +12,21 @@ import {
   syncProject,
   validateProject,
 } from "../dist/index.js";
-import { createDefaultConfig } from "../dist/templates/defaults.js";
+import { createDefaultConfig, createDefaultConfigV2 } from "../dist/templates/defaults.js";
 import { createTemporaryDirectory, diagnosticCodes, removeTemporaryDirectory } from "./helpers.mjs";
 
 const schema = JSON.parse(readPublicSchema());
 const validateSchema = new Ajv2020({ allErrors: true, strict: true }).compile(schema);
+const schemaV2 = JSON.parse(readPublicSchema(2));
+const validateSchemaV2 = new Ajv2020({ allErrors: true, strict: true }).compile(schemaV2);
 
 test("public v1 schema accepts the runtime default configuration", () => {
   const config = createDefaultConfig("Schema fixture", ["codex", "claude"]);
   assert.equal(validateSchema(config), true, JSON.stringify(validateSchema.errors));
+});
+
+test("public schema reader rejects unsupported runtime version values", () => {
+  assert.throws(() => readPublicSchema(3), RangeError);
 });
 
 test("public v1 schema has a stable identity and covers runtime acceptance boundaries", () => {
@@ -93,6 +99,52 @@ test("every generated runtime-valid config in the compatibility corpus passes th
   }
 });
 
+test("every generated runtime-valid v2 config passes the v2 schema", () => {
+  let state = 0xc0ffee42;
+  const random = () => {
+    state = (Math.imul(state, 1103515245) + 12345) >>> 0;
+    return state;
+  };
+  const harnesses = ["codex", "claude", "cursor", "gemini"];
+  for (let index = 0; index < 500; index += 1) {
+    const selected = harnesses.filter(() => random() % 2 === 0);
+    const config = createDefaultConfigV2(
+      `Universal-${random().toString(16)}-🚀`,
+      selected.length === 0 ? [harnesses[random() % harnesses.length]] : selected,
+    );
+    config.continuity.generateSkills = random() % 2 === 0;
+    config.documents[4].triggers = [
+      `trigger-${random().toString(36)}`,
+      `trigger-${random().toString(36)}`,
+    ];
+    const decoded = decodeConfig(config);
+    assert.notEqual(decoded.config, undefined, JSON.stringify(decoded.diagnostics));
+    assert.equal(validateSchemaV2(config), true, JSON.stringify(validateSchemaV2.errors));
+  }
+});
+
+test("v2 schema and runtime reject cross-version and malformed continuity fields", () => {
+  for (const mutate of [
+    (config) => {
+      config.adapters[0].type = "codex";
+    },
+    (config) => {
+      config.continuity.generateSkills = "yes";
+    },
+    (config) => {
+      config.continuity.checkpointDocument = "Missing Document";
+    },
+    (config) => {
+      config.continuity.unknown = true;
+    },
+  ]) {
+    const config = createDefaultConfigV2("V2 contract", ["codex", "claude", "gemini"]);
+    mutate(config);
+    assert.equal(validateSchemaV2(config), false, JSON.stringify(config));
+    assert.equal(decodeConfig(config).config, undefined, JSON.stringify(config));
+  }
+});
+
 test("public v1 schema rejects unknown keys and structural budget violations", () => {
   const config = createDefaultConfig("Schema fixture", ["codex"]);
   config.unknown = true;
@@ -116,7 +168,7 @@ test("init links and copies the exact public schema", async () => {
     });
     const config = await readFile(path.join(root, ".agent-context", "config.yaml"), "utf8");
     assert.match(config, /^# yaml-language-server: \$schema=\.\/config\.schema\.json\n/);
-    assert.equal(await readFile(path.join(root, PUBLIC_SCHEMA_PATH), "utf8"), readPublicSchema());
+    assert.equal(await readFile(path.join(root, PUBLIC_SCHEMA_PATH), "utf8"), readPublicSchema(2));
   } finally {
     await removeTemporaryDirectory(root);
   }
@@ -148,7 +200,7 @@ test("validate and sync distinguish missing and drifted schema artifacts", async
     await writeFile(schemaPath, "{}\n", "utf8");
     assert.equal(diagnosticCodes(await validateProject(project)).includes("E_SCHEMA_DRIFT"), true);
     await syncProject(project, { adopt: false, check: false, dryRun: false });
-    assert.equal(await readFile(schemaPath, "utf8"), readPublicSchema());
+    assert.equal(await readFile(schemaPath, "utf8"), readPublicSchema(2));
   } finally {
     await removeTemporaryDirectory(root);
   }
@@ -175,7 +227,7 @@ test("pre-schema v1 projects upgrade without rewriting canonical YAML", async ()
     assert.equal(result.valid, true);
     assert.equal(diagnosticCodes(result).includes("W_CONFIG_SCHEMA_HEADER"), true);
     assert.equal(await readFile(configPath, "utf8"), legacySource);
-    assert.equal(await readFile(schemaPath, "utf8"), readPublicSchema());
+    assert.equal(await readFile(schemaPath, "utf8"), readPublicSchema(2));
   } finally {
     await removeTemporaryDirectory(root);
   }
@@ -205,7 +257,7 @@ test("schema artifact rejects symlinks, directories, and oversized content", asy
     if (process.platform !== "win32") {
       const target = path.join(root, "schema-target.json");
       await rm(schemaPath, { recursive: true });
-      await writeFile(target, readPublicSchema(), "utf8");
+      await writeFile(target, readPublicSchema(2), "utf8");
       await symlink(target, schemaPath);
       assert.equal(
         diagnosticCodes(await validateProject(project)).includes("E_SYMLINK_PATH"),

@@ -53,4 +53,5 @@ and first-publication bootstrap are tracked by the release process.
 ADR-0008 adopts Carrylog after registry and direct-competitor research invalidated the earlier product
 and package assumptions. This record remains the history of the original decision. Its
 `.agent-context/` decision remains part of the published configuration v1 compatibility contract.
-The scoped `0.1.0-beta.3` package was subsequently published and remains immutable migration evidence.
+The scoped `@jaemani/agent-context-kit@0.1.0-beta.3` package was subsequently published and remains
+immutable migration evidence.

@@ -1,11 +1,16 @@
 import path from "node:path";
 import { hasAnyManagedMarker, upsertManagedBlock } from "../adapters/managed-block.js";
 import { renderAdapter } from "../adapters/render.js";
+import { getCheckpointDocument, validateCheckpointStructure } from "../continuity/checkpoint.js";
+import { continuitySkillFiles, hasContinuitySkillMarker } from "../continuity/skills.js";
 import { CarrylogError } from "../core/errors.js";
 import { readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
 import type { Diagnostic, LoadedProject } from "../domain/types.js";
-import { validateHandoffSnapshotMarkers } from "../handoff/snapshot-block.js";
+import {
+  validateHandoffSnapshotMarkers,
+  withoutHandoffSnapshot,
+} from "../handoff/snapshot-block.js";
 import { hasLegacyCliInvocation } from "../migrations/context-v1.js";
 import { CLI_NAME } from "../product.js";
 import {
@@ -23,6 +28,7 @@ export async function validateContext(
 ): Promise<Diagnostic[]> {
   const diagnostics: Diagnostic[] = [...validateManagedPathOwnership(project)];
   let alwaysCharacters = 0;
+  const checkpointDocument = getCheckpointDocument(project.config);
 
   for (const document of project.config.documents) {
     const portablePath = path.posix.join(".agent-context", document.path);
@@ -59,10 +65,15 @@ export async function validateContext(
           path: portablePath,
         });
       }
-      if (document.id === "handoff") {
+      let legacyScanContent = content;
+      if (document.id === (checkpointDocument?.id ?? "handoff")) {
         validateHandoffSnapshotMarkers(content);
+        legacyScanContent = withoutHandoffSnapshot(content);
+        if (project.config.version === 2) {
+          diagnostics.push(...validateCheckpointStructure(content, portablePath));
+        }
       }
-      if (document.load === "always" && hasLegacyCliInvocation(content)) {
+      if (document.load === "always" && hasLegacyCliInvocation(legacyScanContent)) {
         diagnostics.push({
           level: "error",
           code: "E_LEGACY_CLI_INSTRUCTION",
@@ -151,6 +162,56 @@ export async function validateAdapters(project: LoadedProject): Promise<Diagnost
   return diagnostics;
 }
 
+export async function validateContinuitySkills(project: LoadedProject): Promise<Diagnostic[]> {
+  const diagnostics: Diagnostic[] = [];
+  for (const skill of continuitySkillFiles()) {
+    const absolutePath = resolveProjectPath(project.root, skill.path);
+    try {
+      await assertNoSymlink(project.root, absolutePath);
+      const existing = await readTextIfExists(absolutePath);
+      if (project.config.version !== 2 || !project.config.continuity.generateSkills) {
+        if (existing !== undefined && hasContinuitySkillMarker(existing)) {
+          diagnostics.push({
+            level: "warning",
+            code: "W_SKILL_ORPHAN",
+            message: `Managed continuity skill is disabled but remains on disk: ${skill.path}`,
+            path: skill.path,
+            hint: "Review and remove it explicitly if it is no longer wanted.",
+          });
+        }
+        continue;
+      }
+      if (existing === undefined) {
+        diagnostics.push({
+          level: "error",
+          code: "E_SKILL_MISSING",
+          message: `Generated continuity skill is missing: ${skill.path}`,
+          path: skill.path,
+          hint: `Run '${CLI_NAME} sync'.`,
+        });
+      } else if (!hasContinuitySkillMarker(existing)) {
+        diagnostics.push({
+          level: "error",
+          code: "E_SKILL_UNMANAGED",
+          message: `Continuity skill is not owned by Carrylog: ${skill.path}`,
+          path: skill.path,
+        });
+      } else if (existing !== skill.content) {
+        diagnostics.push({
+          level: "error",
+          code: "E_SKILL_DRIFT",
+          message: `Generated continuity skill is out of date: ${skill.path}`,
+          path: skill.path,
+          hint: `Run '${CLI_NAME} sync'.`,
+        });
+      }
+    } catch (error) {
+      diagnostics.push(asDiagnostic(error, skill.path));
+    }
+  }
+  return diagnostics;
+}
+
 export async function validatePublicSchema(project: LoadedProject): Promise<Diagnostic[]> {
   const absolutePath = resolveProjectPath(project.root, PUBLIC_SCHEMA_PATH);
   try {
@@ -167,7 +228,7 @@ export async function validatePublicSchema(project: LoadedProject): Promise<Diag
         },
       ];
     }
-    if (existing !== readPublicSchema()) {
+    if (existing !== readPublicSchema(project.config.version)) {
       return [
         {
           level: "error",

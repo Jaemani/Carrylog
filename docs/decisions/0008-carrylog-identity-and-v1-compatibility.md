@@ -8,8 +8,9 @@
 ## Context
 
 The first public beta used the product name Agent Context Kit, scoped npm package
-`@jaemani/agent-context-kit`, and executable `ackit`. After publication, registry and ecosystem
-research found that the unscoped `agent-context-kit` package was already owned by another context CLI.
+`@jaemani/agent-context-kit@0.1.0-beta.3`, and executable `ackit`. After publication, registry and
+ecosystem research found that the unscoped `agent-context-kit` package was already owned by another
+context CLI.
 The proposed replacement name Threadmark was also already used by a directly overlapping product
 that ships `threadmark` and `threadmarkd` for local Claude Code and Codex handoff. npm availability
 alone was therefore not sufficient name clearance.
@@ -23,9 +24,9 @@ The suggested short executable `cl` conflicts with Microsoft's established `cl.e
 Because Windows is a supported platform, publishing a global `cl` command could shadow the compiler
 or be shadowed by it depending on `PATH` order.
 
-The beta.3 package also established persisted repository identifiers. They are data-format identities,
-not display branding. Blind replacement would make existing configuration undiscoverable, classify
-managed adapters as unmanaged, or insert a second handoff snapshot.
+That historical package also established persisted repository identifiers. They are data-format
+identities, not display branding. Blind replacement would make existing configuration undiscoverable,
+classify managed adapters as unmanaged, or insert a second handoff snapshot.
 
 ## Decision
 

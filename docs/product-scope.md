@@ -58,3 +58,10 @@ adoption fixtures. External beta learning and the stable gate add measurable pro
 
 Exact telemetry is intentionally not collected by the local CLI in the current scope. Any future
 analytics must be opt-in and must not upload repository content.
+
+These outcome measures are targets, not current results. Structural adapter, checkpoint, and package
+tests do not prove behavioral or perceived continuity. ADR-0012 requires a staged Tier 1 pilot before
+the product expands into session journaling, semantic compaction, or broader continuity claims.
+
+New features must trace to one of the jobs above or update this scope through an explicit product
+decision. Additional sophistication or defensive depth is not a user job by itself.

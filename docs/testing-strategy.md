@@ -13,7 +13,11 @@ matrix.
 - managed-block creation, update, adoption, and malformed-marker rejection;
 - portable path validation and collision keys.
 - strict public-schema compilation and runtime/schema compatibility corpus;
+- strict v2 schema compilation, cross-version rejection, and 500 generated runtime-valid v2 cases;
 - bounded Git status/numstat parsers and handoff marker ownership;
+- checkpoint section/fence parsing, raw-byte digesting, and Skill ownership markers;
+- Git observation changes in consumed code/stdout channels plus stable values with changing sandbox
+  stderr diagnostics;
 - deterministic randomized corpora for config, paths, Git bytes, and handoff narratives.
 
 ### Filesystem integration tests
@@ -30,6 +34,11 @@ matrix.
 - staged batch writes, stale-plan/config rejection, guarded parent substitution, temporary cleanup,
   and non-regular targets;
 - schema lifecycle, managed-path ownership, prospective handoff budgets, and Git worktrees.
+- explicit v1/v2 universal migration, comments and LF/CRLF preservation, partial surfaces,
+  customized checkpoint review, config-last planning, and no-write conflicts;
+- guarded resume reads covering containment, regular-file identity, hard links, symlinks, UTF-8,
+  bounds, same-size overwrite with restored mtime, detached Git, warning deduplication, and damaged
+  generated Skills;
 
 ### CLI contract tests
 
@@ -38,14 +47,19 @@ matrix.
 - end-to-end init, validate, drift check, repair, and revalidation;
 - parseable JSON on both success and failure.
 - handoff refresh, check, dry-run, idempotence, and JSON output.
+- checkpoint alias, migration target/help behavior, deterministic resume JSON, raw hostile-Unicode
+  escaping with parsed-value preservation, and stale `--check`.
 - canonical Carrylog help/version and debug precedence while retaining the beta.3 error/debug aliases.
 
 ### Package and platform tests
 
 CI runs Node.js 22 and 24 on Linux, macOS, and Windows. Package dry-run proves `dist` exactly matches
 compiled `src`. The packed smoke test installs the tarball locally, ephemerally, and globally; checks
-ESM and TypeScript consumers; then initializes and validates a clean project without repository-local
-runtime files. A separate job runs the exact Node.js 24.15.0/npm 11.18.0 release toolchain, loads the
+ESM and strict TypeScript v1/v2 consumers; exercises check, dry-run, write, validation, and repeated
+clean checks for an installed-package v1-to-v2 universal migration; then initializes, validates,
+Git-checkpoints, and resumes a clean v2 project without repository-local runtime files. A separate
+job runs the exact Node.js
+24.15.0/npm 11.18.0 release toolchain, loads the
 client's provenance implementation, proves `sigstore` resolves inside that pinned npm installation,
 and exercises its package paths. The same job then installs npm 12.0.0 and checks its package paths
 without treating its broken provenance bundle as publish-capable. Pack metadata contract tests cover
@@ -57,8 +71,29 @@ install coverage because its incomplete provenance bundle fails while loading th
 even when provenance is disabled. Release-artifact tests reject ambiguous selection, record or commit
 mismatch, unsafe filenames, non-regular artifacts, and digest drift before npm can run.
 
-The Carrylog rename has a dedicated beta.3 repository-upgrade contract. It freezes the published v1
-root, schema identity and bytes, adapter markers, handoff markers, and reserved marker prefix; then it
+### Performance and resource budgets
+
+These are implementation contracts, not current benchmark results:
+
+| Boundary | Budget |
+| --- | --- |
+| Configuration or canonical context document | 1 MiB per managed read |
+| One portable-resume canonical-context observation | 8 MiB aggregate, including configuration |
+| Configuration documents | At most 256 entries |
+| Default always-loaded context | 16,000 characters |
+| Default generated adapter | 12,000 characters |
+| Git subprocess combined output | 1 MiB |
+| Git subprocess deadline | 10 seconds plus 250 ms termination grace |
+| Git snapshot attempts | 3 complete observations |
+| Rendered changed paths | 200, while aggregate counts remain complete |
+| Maximum-catalog, near-limit Git parser, and legacy-command scanner regression | Under 2 seconds per case on the supported CI class |
+
+Character budgets are deterministic safety limits, not tokenizer or context-quality estimates.
+Changes to these limits require matching accepted/rejected boundary tests and documentation updates.
+
+The Carrylog rename has a dedicated `@jaemani/agent-context-kit@0.1.0-beta.3` repository-upgrade
+contract. It freezes the published v1 root, schema identity and bytes, adapter markers, handoff
+markers, and reserved marker prefix; then it
 runs validation, synchronization, handoff refresh, and repeated no-drift checks. Human adapter prose
 must survive, generated prose must change to Carrylog, and no `.carrylog/` root or duplicate managed
 block may appear. The repository fixture is stored independently of the current initializer, the
@@ -69,6 +104,10 @@ words are rejected. Near-limit repeated historical prose has a bounded linear-ti
 larger customized documents bypass the tiny exact-template candidate read before normal validation.
 Package smoke derives an unscoped installation path from the manifest and verifies that only the
 portable `carrylog` command is installed.
+
+Configuration v2 and portable continuity add dedicated contracts for old-version acceptance,
+explicit migration, exact agents/Gemini fixtures, generic and Claude Skill frontmatter validation,
+Codex prompt-input discovery, Gemini CLI Skill discovery, and Carrylog's own dogfood migration.
 
 ## Scenario dimensions
 
@@ -84,6 +123,7 @@ Every feature review should consider combinations from these dimensions:
 | Output | human text, JSON, CI exit status |
 | Scale | catalog limits, large always context, router budget, large existing adapters |
 | Git | unborn/detached, rename/conflict, upstream divergence, mixed observations, worktree, nested project, hostile environment |
+| Continuity | missing/duplicate/empty sections, stale/current evidence, always/on-demand projection, linked or replaced files, provider metadata exclusion |
 
 ## Current gates
 
@@ -124,10 +164,11 @@ correctness requirement.
 - Additional Windows reparse-point and hard-link-specific coverage beyond the directory-junction test.
 - Deterministic syscall injection at each chmod/rename failure point; current tests use observable
   filesystem failures and stale expectations.
-- Authenticated Codex/Claude discovery launch tests; current conformance uses official behavior docs
-  and golden output.
-- A second prerelease published through trusted OIDC with no bootstrap registry token; this project's
-  first public package used the documented bootstrap because trusted-publisher enrollment was not
-  available before package creation.
+- Authenticated fresh-session checks across every supported harness; offline Codex prompt inspection
+  and Gemini Skill discovery are covered, Claude is installed, and Cursor CLI is not locally present.
+- A successful first publication of the unscoped `carrylog` package, followed by a later Carrylog
+  prerelease published through trusted OIDC with no bootstrap registry token. The historical
+  `@jaemani/agent-context-kit@0.1.0-beta.3` package used the documented bootstrap path; the attempted
+  `carrylog@0.1.0-beta.4` creation was rejected with `E403` and did not establish the package.
 - Outcome studies on external real repositories; current adoption suite covers three representative
   repository states plus this repository's dogfood context.

@@ -9,16 +9,23 @@ import {
   markdownCodeSpan,
   renderAdapter,
 } from "../dist/index.js";
-import { createDefaultConfig } from "../dist/templates/defaults.js";
+import { createDefaultConfig, createDefaultConfigV2 } from "../dist/templates/defaults.js";
 
 const fixtures = path.join(import.meta.dirname, "fixtures", "adapters");
 
 test("adapter registry has stable unique types and default outputs", () => {
   const definitions = listAdapterDefinitions();
-  assert.deepEqual(definitions.map((definition) => definition.type).sort(), ["claude", "codex"]);
-  assert.equal(new Set(definitions.map((definition) => definition.defaultOutput)).size, 2);
+  assert.deepEqual(definitions.map((definition) => definition.type).sort(), [
+    "agents",
+    "claude",
+    "codex",
+    "gemini",
+  ]);
+  assert.equal(new Set(definitions.map((definition) => definition.defaultOutput)).size, 3);
   assert.equal(getAdapterDefinition("codex").defaultOutput, "AGENTS.md");
   assert.equal(getAdapterDefinition("claude").defaultOutput, "CLAUDE.md");
+  assert.equal(getAdapterDefinition("agents").defaultOutput, "AGENTS.md");
+  assert.equal(getAdapterDefinition("gemini").defaultOutput, "GEMINI.md");
   assert.equal(isAdapterType("codex"), true);
   assert.equal(isAdapterType("cursor"), false);
 });
@@ -26,6 +33,15 @@ test("adapter registry has stable unique types and default outputs", () => {
 for (const type of ["codex", "claude"]) {
   test(`${type} adapter matches its reviewed golden fixture`, async () => {
     const config = createDefaultConfig("Adapter fixture", [type]);
+    const expected = await readFile(path.join(fixtures, `${type}.md`), "utf8");
+    assert.equal(renderAdapter(config, config.adapters[0]), expected.trimEnd());
+  });
+}
+
+for (const type of ["agents", "gemini"]) {
+  test(`${type} v2 surface matches its reviewed golden fixture`, async () => {
+    const harnesses = type === "agents" ? ["codex"] : ["gemini"];
+    const config = createDefaultConfigV2("Adapter fixture", harnesses);
     const expected = await readFile(path.join(fixtures, `${type}.md`), "utf8");
     assert.equal(renderAdapter(config, config.adapters[0]), expected.trimEnd());
   });

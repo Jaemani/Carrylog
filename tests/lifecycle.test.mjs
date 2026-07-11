@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {
   chmod,
+  link,
   mkdir,
   readdir,
   readFile,
@@ -9,14 +10,17 @@ import {
   stat,
   symlink,
   unlink,
+  utimes,
   writeFile,
 } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
+import { setTimeout as delay } from "node:timers/promises";
 import {
   atomicWriteText,
   atomicWriteTexts,
   inspectAtomicPath,
+  readGuardedText,
   readTextIfExists,
 } from "../dist/core/files.js";
 import {
@@ -48,7 +52,7 @@ test("dry-run initialization produces a full plan and writes nothing", async () 
   const root = await createTemporaryDirectory();
   try {
     const result = await initialize(root, { dryRun: true });
-    assert.equal(result.changes.length, 11);
+    assert.equal(result.changes.length, 13);
     assert.equal(result.wrote, false);
     await assert.rejects(() => stat(path.join(root, ".agent-context")), { code: "ENOENT" });
   } finally {
@@ -85,6 +89,18 @@ test("initialization validates public API inputs before writing", async () => {
     await assert.rejects(
       () => initialize(root, { adapters: [] }),
       (error) => error.code === "E_CONFIG_INVALID",
+    );
+    await assert.rejects(
+      () => initialize(root, { adapters: ["invalid"] }),
+      (error) => error.code === "E_CONFIG_INVALID" && error.exitCode === 2,
+    );
+    await assert.rejects(
+      () => initialize(root, { adopt: "true" }),
+      (error) => error.code === "E_CONFIG_INVALID" && error.exitCode === 2,
+    );
+    await assert.rejects(
+      () => initialize(root, { dryRun: 1 }),
+      (error) => error.code === "E_CONFIG_INVALID" && error.exitCode === 2,
     );
     await assert.rejects(() => stat(path.join(root, ".agent-context")), { code: "ENOENT" });
   } finally {
@@ -135,7 +151,11 @@ test("check mode detects drift without writing and normal sync repairs it", asyn
     await initialize(root);
     const agentsPath = path.join(root, "AGENTS.md");
     const original = await readFile(agentsPath, "utf8");
-    await writeFile(agentsPath, original.replace("Codex project context", "stale content"), "utf8");
+    await writeFile(
+      agentsPath,
+      original.replace("Codex and Cursor project context", "stale content"),
+      "utf8",
+    );
     const project = await loadProject(root);
     const checked = await syncProject(project, { adopt: false, check: true, dryRun: false });
     assert.equal(checked.drift, true);
@@ -218,7 +238,11 @@ test("validation distinguishes missing, unmanaged, drifted, and damaged adapters
       true,
     );
 
-    await writeFile(agentsPath, original.replace("Codex project context", "stale"), "utf8");
+    await writeFile(
+      agentsPath,
+      original.replace("Codex and Cursor project context", "stale"),
+      "utf8",
+    );
     assert.equal(diagnosticCodes(await validateProject(project)).includes("E_ADAPTER_DRIFT"), true);
 
     await writeFile(
@@ -401,6 +425,100 @@ test("bounded text reads reject large, binary, and non-file inputs", async () =>
   }
 });
 
+test("guarded export reads enforce containment, identity, encoding, size, and link policy", async (context) => {
+  const root = await createTemporaryDirectory();
+  const outside = await createTemporaryDirectory();
+  try {
+    const regular = path.join(root, "regular.txt");
+    const binary = path.join(root, "binary.txt");
+    const directory = path.join(root, "directory");
+    await writeFile(regular, "portable context\n", "utf8");
+    await writeFile(binary, Buffer.from([0xff, 0xfe]));
+    await mkdir(directory);
+
+    assert.equal((await readGuardedText(root, regular)).text, "portable context\n");
+    await assert.rejects(
+      () => readGuardedText(root, regular, { maxBytes: 4 }),
+      (error) => error.code === "E_FILE_TOO_LARGE",
+    );
+    await assert.rejects(
+      () => readGuardedText(root, binary),
+      (error) => error.code === "E_FILE_ENCODING",
+    );
+    await assert.rejects(
+      () => readGuardedText(root, directory),
+      (error) => error.code === "E_NOT_REGULAR_FILE",
+    );
+    await assert.rejects(() => readGuardedText(root, regular, { maxBytes: 0 }), TypeError);
+    await assert.rejects(() => readGuardedText(root, path.join(outside, "outside.txt")), Error);
+
+    const hardLink = path.join(root, "hard-link.txt");
+    try {
+      await link(regular, hardLink);
+      await assert.rejects(
+        () => readGuardedText(root, regular, { rejectHardLinks: true }),
+        (error) => error.code === "E_HARD_LINK_PATH",
+      );
+    } catch (error) {
+      if (
+        error?.code !== undefined &&
+        ["EACCES", "EPERM", "ENOTSUP", "EOPNOTSUPP", "EXDEV"].includes(error.code)
+      ) {
+        context.diagnostic(`Hard-link case skipped: ${error.code}`);
+      } else {
+        throw error;
+      }
+    }
+
+    if (process.platform !== "win32") {
+      const symlinkPath = path.join(root, "symlink.txt");
+      await symlink(regular, symlinkPath);
+      await assert.rejects(
+        () => readGuardedText(root, symlinkPath),
+        (error) => error.code === "E_SYMLINK_PATH",
+      );
+    }
+  } finally {
+    await removeTemporaryDirectory(root);
+    await removeTemporaryDirectory(outside);
+  }
+});
+
+test("guarded export reads reject same-size overwrites with restored mtime", async () => {
+  const root = await createTemporaryDirectory();
+  try {
+    const filePath = path.join(root, "concurrent.txt");
+    const original = "portable context\n";
+    const replacement = "tampered context\n";
+    assert.equal(Buffer.byteLength(replacement), Buffer.byteLength(original));
+    await writeFile(filePath, original, "utf8");
+    const fixedSeconds = 946_684_800;
+    await utimes(filePath, fixedSeconds, fixedSeconds);
+
+    await assert.rejects(
+      () =>
+        readGuardedText(root, filePath, {
+          afterBytesRead: async (before) => {
+            let observed;
+            const deadline = Date.now() + 2_500;
+            do {
+              await writeFile(filePath, replacement, "utf8");
+              await utimes(filePath, fixedSeconds, fixedSeconds);
+              observed = await stat(filePath, { bigint: true });
+              if (observed.ctimeNs !== before.ctimeNs) break;
+              await delay(10);
+            } while (Date.now() < deadline);
+            assert.equal(observed.mtimeNs, before.mtimeNs, "test must restore the original mtime");
+            assert.notEqual(observed.ctimeNs, before.ctimeNs, "test requires observable ctime");
+          },
+        }),
+      (error) => error.code === "E_CONCURRENT_MODIFICATION",
+    );
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
 test("synchronization returns non-blocking context warnings", async () => {
   const root = await createTemporaryDirectory();
   try {
@@ -464,7 +582,7 @@ test("managed path ownership reserves the public schema across normalized collis
     project = await loadProject(root);
     result = await validateProject(project);
     assert.equal(diagnosticCodes(result).includes("E_MANAGED_PATH_CONFLICT"), true);
-    assert.equal(await readFile(schemaPath, "utf8"), readPublicSchema());
+    assert.equal(await readFile(schemaPath, "utf8"), readPublicSchema(2));
 
     config.documents[4].path = "café.md";
     config.adapters[0].output = ".agent-context/cafe\u0301.md";
@@ -485,7 +603,7 @@ test("sync rejects a configuration changed after project loading", async () => {
     const agentsPath = path.join(root, "AGENTS.md");
     const configPath = path.join(root, ".agent-context", "config.yaml");
     const agents = await readFile(agentsPath, "utf8");
-    const staleAgents = agents.replace("Codex project context", "stale adapter");
+    const staleAgents = agents.replace("Codex and Cursor project context", "stale adapter");
     await writeFile(agentsPath, staleAgents, "utf8");
     await writeFile(configPath, `${project.configSource}\n# concurrent config edit\n`, "utf8");
 

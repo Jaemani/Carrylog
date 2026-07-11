@@ -23,8 +23,10 @@ counts, at most 200 sorted project-relative changed paths, and at most five scop
 The handoff file itself is excluded so repeated refreshes are stable. Invalid UTF-8 path bytes are
 represented reversibly as hex instead of replacement characters.
 
-Each snapshot attempt collects two complete observations and compares the exact exit code, stdout,
-and stderr for every evidence source. A mismatch retries the complete observation up to three times;
+Each snapshot attempt collects two complete observations. ADR-0011 supersedes the original stderr
+comparison: stability now compares exact allowed exit codes and stdout because those are the channels
+consumed by snapshot construction, while sandbox stderr can vary without repository change. A
+mismatch retries the complete observation up to three times;
 continued change fails with `E_GIT_CONCURRENT_MODIFICATION` instead of persisting evidence assembled
 from different repository states. Unicode control, format, and line-separator characters in rendered
 JSON evidence are escaped without losing their reversible value.

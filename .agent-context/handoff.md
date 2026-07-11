@@ -4,16 +4,87 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "f7d0826 at 2026-07-11T01:56:31+09:00"
-- Upstream: "origin/main; ahead 1, behind 0"
-- Working tree: Clean (snapshot file excluded)
+- HEAD: "c09d7f3 at 2026-07-11T01:56:57+09:00"
+- Upstream: "origin/main; ahead 0, behind 0"
+- Working tree: 0 staged, 50 unstaged, 22 untracked, 0 conflicted
 - Staged diff: 0 file(s), +0/-0, 0 binary
-- Unstaged diff: 0 file(s), +0/-0, 0 binary
+- Unstaged diff: 50 file(s), +2301/-386, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (0)
+### Changed paths (72)
 
-None.
+    {"status":" M","path":".agent-context/architecture.md"}
+    {"status":" M","path":".agent-context/config.schema.json"}
+    {"status":" M","path":".agent-context/config.yaml"}
+    {"status":" M","path":".agent-context/current-state.md"}
+    {"status":" M","path":".agent-context/decisions.md"}
+    {"status":"??","path":".agents/skills/carrylog-continuity/SKILL.md"}
+    {"status":"??","path":".claude/skills/carrylog-continuity/SKILL.md"}
+    {"status":" M","path":"AGENTS.md"}
+    {"status":" M","path":"CHANGELOG.md"}
+    {"status":" M","path":"CONTRIBUTING.md"}
+    {"status":"??","path":"GEMINI.md"}
+    {"status":" M","path":"README.md"}
+    {"status":" M","path":"ROADMAP.md"}
+    {"status":" M","path":"docs/adapter-compatibility.md"}
+    {"status":" M","path":"docs/architecture.md"}
+    {"status":" M","path":"docs/configuration.md"}
+    {"status":" M","path":"docs/decisions/0004-cli-and-context-names.md"}
+    {"status":" M","path":"docs/decisions/0006-deterministic-git-handoff-evidence.md"}
+    {"status":" M","path":"docs/decisions/0008-carrylog-identity-and-v1-compatibility.md"}
+    {"status":"??","path":"docs/decisions/0009-configuration-v2-and-universal-surfaces.md"}
+    {"status":"??","path":"docs/decisions/0010-portable-checkpoint-and-resume-boundary.md"}
+    {"status":"??","path":"docs/decisions/0011-git-stability-consumed-channels.md"}
+    {"status":"??","path":"docs/decisions/0012-evidence-gates-before-continuity-expansion.md"}
+    {"status":" M","path":"docs/decisions/README.md"}
+    {"status":"??","path":"docs/documentation-policy.md"}
+    {"status":" M","path":"docs/engineering-log.md"}
+    {"status":" M","path":"docs/product-scope.md"}
+    {"status":" M","path":"docs/releasing.md"}
+    {"status":" M","path":"docs/testing-strategy.md"}
+    {"status":" M","path":"docs/threat-model.md"}
+    {"status":" M","path":"package-lock.json"}
+    {"status":" M","path":"package.json"}
+    {"status":"??","path":"research/README.md"}
+    {"status":"??","path":"research/continuity/README.md"}
+    {"status":"??","path":"research/continuity/external-audit-brief-2026-07-12.md"}
+    {"status":"??","path":"research/continuity/external-review-2026-07-12.md"}
+    {"status":"??","path":"research/continuity/tier1-pilot-protocol.md"}
+    {"status":"??","path":"schemas/config-v2.schema.json"}
+    {"status":" M","path":"scripts/package-dry-run.mjs"}
+    {"status":" M","path":"scripts/package-smoke.mjs"}
+    {"status":" M","path":"src/adapters/registry.ts"}
+    {"status":" M","path":"src/cli.ts"}
+    {"status":" M","path":"src/commands/handoff.ts"}
+    {"status":" M","path":"src/commands/init.ts"}
+    {"status":"??","path":"src/commands/migrate.ts"}
+    {"status":"??","path":"src/commands/resume.ts"}
+    {"status":" M","path":"src/commands/sync.ts"}
+    {"status":" M","path":"src/commands/validate.ts"}
+    {"status":" M","path":"src/config/decode.ts"}
+    {"status":"??","path":"src/continuity/checkpoint.ts"}
+    {"status":"??","path":"src/continuity/skills.ts"}
+    {"status":" M","path":"src/core/files.ts"}
+    {"status":" M","path":"src/core/text.ts"}
+    {"status":" M","path":"src/domain/types.ts"}
+    {"status":" M","path":"src/git/inspect.ts"}
+    {"status":" M","path":"src/handoff/snapshot-block.ts"}
+    {"status":" M","path":"src/index.ts"}
+    {"status":" M","path":"src/schema/public-schema.ts"}
+    {"status":" M","path":"src/templates/defaults.ts"}
+    {"status":" M","path":"src/validation/path-ownership.ts"}
+    {"status":" M","path":"src/validation/validate.ts"}
+    {"status":" M","path":"tests/adapters.test.mjs"}
+    {"status":" M","path":"tests/adoption.test.mjs"}
+    {"status":" M","path":"tests/cli.test.mjs"}
+    {"status":"??","path":"tests/config-v2-migration.test.mjs"}
+    {"status":" M","path":"tests/config.test.mjs"}
+    {"status":"??","path":"tests/continuity.test.mjs"}
+    {"status":"??","path":"tests/fixtures/adapters/agents.md"}
+    {"status":"??","path":"tests/fixtures/adapters/gemini.md"}
+    {"status":" M","path":"tests/handoff.test.mjs"}
+    {"status":" M","path":"tests/lifecycle.test.mjs"}
+    {"status":" M","path":"tests/schema.test.mjs"}
 
 ### Recent commits (5)
 
@@ -24,61 +95,53 @@ None.
     {"commit":"774dc2d","committedAt":"2026-07-10T18:19:31+09:00","subject":"fix: validate npm provenance client"}
 <!-- agent-context-kit:handoff-snapshot:end -->
 
-## Last verified
-
-2026-07-11, Asia/Seoul. `@jaemani/agent-context-kit@0.1.0-beta.3` is public with verified digests,
-provenance, one-off execution, and global installation. The repository has been renamed to
-`Jaemani/Carrylog`; the next reviewed package is `carrylog@0.1.0-beta.4`.
-
 ## Objective
 
-Complete a compatibility-preserving Carrylog identity migration, pass local and remote release gates,
-publish beta.4 from a new immutable tag, and retire the old package and bootstrap credential safely.
+Turn the completed external review into a delivery-focused beta.5 candidate, an enforceable evidence
+boundary, and an executable Tier 1 pilot without implementing journaling or compaction.
 
-## Published beta.3 evidence
+## Completed
 
-- Commit `d99f92f`, tag `v0.1.0-beta.3`, CI `29093271158`, and release `29093394523` are immutable.
-  Registry digests, SLSA provenance, npx/global/init/validate, the initial `EOTP`, both transparency
-  entries, and four-minute visibility delay are recorded in `docs/engineering-log.md`.
-- Published SHA-256 is `558578c96a8716a758755eb06b34e106a720175dbff626b1c10fbde28799c095`.
-
-## Carrylog migration
-
-- ADR-0008 fixes active identity as `Carrylog`, `Jaemani/Carrylog`, package/binary `carrylog`; `cl` is
-  rejected for Windows. Published `.agent-context/`, v1 schema, and marker identities remain frozen.
-- The new package exports only `carrylog`; the legacy error constructor and debug fallback remain API
-  compatible. Package smoke covers every supported consumer and publish-dry-run path.
-- An independent beta.3 fixture verifies marker/config/schema preservation, no duplicate context root,
-  full idempotence, and exact LF/CRLF instruction migration at mutable document paths. Customized
-  command-shaped legacy invocations fail without partial writes; historical prose remains valid.
-- Published schema SHA-256 is
-  `f30d6c906dba10059032ce13c74257b6ab41ebdd30308ca56b65408f039369ab`.
+- Built the beta.5 configuration-v2 migration, universal surfaces, continuity Skills, guarded
+  checkpoint/resume, and evidence gates without changing frozen v1 wire identities.
+- Resolved independent review findings in parsing, terminal output, executable resolution, legacy
+  evidence scanning, v1 migration, resource bounds, public API validation, and package boundaries.
+- Published immutable beta.4 through failed-job-only recovery and independently verified its public
+  artifact, provenance, installation, initialization, and validation.
+- Reworked user and maintainer docs around installability, measured adoption, evidence ownership, and
+  a minimum Tier 1 pilot; journaling and compaction remain research-only.
 
 ## Verification
 
-- Quality: 129/129; lines/functions/branches 95.71%/95.71%/91.24%; migration 100% in all measures and
-  near-one-MiB scan 4.7 ms. Sync, validate, diff, and full npm audit pass.
-- Package: 126 files, 100,633 bytes. npm 10 and exact Node 24.15.0/npm 11.18.0 pass publish dry run and
-  every consumer; npm 11 provenance loads; npm 12.0.0 passes keyed pack and non-publish consumers.
-- Independent code/security, release/workflow, and documentation reviews returned GO with no P0/P1/P2.
-- Sandboxed package smoke timed out during isolated registry install; the unchanged registry-enabled
-  gate passed under npm 10/11, confirming an environment boundary rather than package failure.
-- CI run `29108810508` passed all eleven jobs on exact head `0b77aac`, including every supported OS,
-  Node 22/24, exact minimum Node 22.0.0, npm 11 release, and npm 12 package contracts.
-- Clean exact npm 11 release verification passed on `0b77aac`; its pre-record artifact SHA-256 was
-  `f3ba0076dd41337dcc0a74b47a00b2f35562fb802395213e59d0ee4b61bbb4f8`. The packaged engineering
-  record changes the final tarball, so final clean verification must produce the tag candidate anew.
+- Full local quality and package gates pass, including the new hostile-input, global-shadow,
+  stock-v1-snapshot migration, aggregate-memory, and package-boundary regressions.
+- Independent post-fix code/security review reports all findings resolved; dogfood sync, validation,
+  checkpoint freshness, and resume pass. Exact evidence belongs to the engineering log.
+- Harness discovery has local Codex/Gemini and one authenticated Claude reconstruction result; Cursor
+  remains unavailable, so cross-harness behavioral continuity is not claimed.
+- Beta.4 is publicly installable and cryptographically verified, but unintended registry tags and
+  credential retirement remain incomplete administration.
 
-## Remaining
+## Decisions
 
-- Commit this refreshed handoff, push the verification records, require the final remote CI matrix,
-  then rerun clean release verification from that exact remote-tested commit.
-- Recheck npm name availability, create `v0.1.0-beta.4`, approve the protected environment, and
-  monitor the first Carrylog publication without blindly retrying ambiguous registry state.
-- Verify digests, provenance, npx, global install, init, and validate; remove Carrylog `latest` if
-  created; configure trusted publishing; remove old-package `latest`; deprecate beta.3; delete and
-  revoke the bootstrap credential.
+- Configuration v1 stays frozen; v2 is explicit and fail-closed. Codex/Cursor share `AGENTS.md` and
+  the generic Skill; Claude uses a minimal Skill adapter; Gemini has its own root adapter.
+- Portable continuity is reviewed repository state plus fresh Git observation, never transcripts,
+  hidden reasoning, provider stores, credentials, or native-compaction state.
+- ADR-0012 permits the narrow checkpoint beta with documented gaps but gates behavioral continuity,
+  journaling, and semantic-compaction claims on staged evidence.
+
+## Risks
+
+- Cross-harness behavioral continuity, repeated-switch retention, all-record value, and compaction
+  superiority remain unproven.
+- Final results are local macOS evidence; the exact reviewed commit still needs Linux/macOS/Windows CI.
+- Cursor is unavailable; final authenticated Codex/Gemini conformance needs credential recovery.
+- Cross-file replacement is staged and config-last but is not an OS-level transaction; ADR-0007's
+  sequential rename and final path-to-syscall race remain.
+- beta.4 still needs owner-authenticated registry cleanup, trusted publishing, and token retirement.
 
 ## Next action
 
-Commit this handoff evidence, push the verification records, and require the final remote CI matrix.
+Finish beta.4 post-publication registry and credential hardening. Then commit the reviewed beta.5
+candidate, require exact-commit CI, and run the committed Tier 1 pilot.

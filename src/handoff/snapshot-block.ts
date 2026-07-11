@@ -1,5 +1,6 @@
 import { issueError } from "../core/errors.js";
 import { detectTextEol, standaloneMarkerLines } from "../core/marker-lines.js";
+import { stringifyTerminalSafeJson } from "../core/text.js";
 import type { GitSnapshot } from "../git/inspect.js";
 
 export const HANDOFF_SNAPSHOT_START = "<!-- agent-context-kit:handoff-snapshot:start -->";
@@ -58,21 +59,7 @@ export function renderHandoffSnapshot(snapshot: GitSnapshot): string {
 }
 
 function stringifyEvidence(value: unknown): string {
-  const serialized = JSON.stringify(value);
-  if (serialized === undefined) {
-    throw new TypeError("Handoff evidence must be JSON-serializable.");
-  }
-  return serialized.replace(/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/gu, escapeUnicodeCodePoint);
-}
-
-function escapeUnicodeCodePoint(character: string): string {
-  const codePoint = character.codePointAt(0);
-  if (codePoint === undefined) return "";
-  if (codePoint <= 0xffff) return `\\u${codePoint.toString(16).padStart(4, "0")}`;
-  const scalar = codePoint - 0x10000;
-  const high = 0xd800 + (scalar >> 10);
-  const low = 0xdc00 + (scalar & 0x3ff);
-  return `\\u${high.toString(16)}\\u${low.toString(16)}`;
+  return stringifyTerminalSafeJson(value);
 }
 
 function formatDiff(diff: GitSnapshot["stagedDiff"]): string {
@@ -126,6 +113,25 @@ export function validateHandoffSnapshotMarkers(existing: string): void {
   ) {
     throw issueError("E_HANDOFF_MARKERS", "Handoff snapshot end marker precedes its start marker.");
   }
+}
+
+export function withoutHandoffSnapshot(existing: string): string {
+  validateHandoffSnapshotMarkers(existing);
+  const start = standaloneMarkerLines(existing, HANDOFF_SNAPSHOT_START)[0];
+  const end = standaloneMarkerLines(existing, HANDOFF_SNAPSHOT_END)[0];
+  if (start === undefined || end === undefined) return existing;
+  return `${existing.slice(0, start)}${existing.slice(end + HANDOFF_SNAPSHOT_END.length)}`;
+}
+
+export function extractHandoffSnapshotBody(existing: string): string | undefined {
+  validateHandoffSnapshotMarkers(existing);
+  const start = standaloneMarkerLines(existing, HANDOFF_SNAPSHOT_START)[0];
+  const end = standaloneMarkerLines(existing, HANDOFF_SNAPSHOT_END)[0];
+  if (start === undefined || end === undefined) return undefined;
+  const eol = detectTextEol(existing);
+  const raw = existing.slice(start + HANDOFF_SNAPSHOT_START.length, end);
+  if (!raw.startsWith(eol) || !raw.endsWith(eol)) return undefined;
+  return raw.slice(eol.length, -eol.length);
 }
 
 function wrap(body: string, eol: string): string {

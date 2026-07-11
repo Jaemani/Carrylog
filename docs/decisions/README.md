@@ -13,6 +13,10 @@ for clarification; a later decision supersedes an old one rather than rewriting 
 | [0006](0006-deterministic-git-handoff-evidence.md) | Deterministic and bounded Git handoff evidence | Accepted | 2026-07-10 |
 | [0007](0007-guarded-filesystem-replacement.md) | Guarded filesystem replacement with path identity | Accepted | 2026-07-10 |
 | [0008](0008-carrylog-identity-and-v1-compatibility.md) | Carrylog identity with configuration v1 wire compatibility | Accepted | 2026-07-10 |
+| [0009](0009-configuration-v2-and-universal-surfaces.md) | Configuration v2 and universal agent surfaces | Accepted | 2026-07-11 |
+| [0010](0010-portable-checkpoint-and-resume-boundary.md) | Portable checkpoint and verified resume boundary | Accepted | 2026-07-11 |
+| [0011](0011-git-stability-consumed-channels.md) | Git stability compares only consumed result channels | Accepted | 2026-07-11 |
+| [0012](0012-evidence-gates-before-continuity-expansion.md) | Evidence gates before continuity expansion | Accepted | 2026-07-12 |
 
 ## Record template
 

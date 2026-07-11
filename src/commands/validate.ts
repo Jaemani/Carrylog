@@ -4,6 +4,7 @@ import {
   validateAdapters,
   validateConfigSchemaDirective,
   validateContext,
+  validateContinuitySkills,
   validatePublicSchema,
 } from "../validation/validate.js";
 
@@ -19,6 +20,7 @@ export async function validateProject(project: LoadedProject): Promise<ValidateR
     ...(await validateConfigSchemaDirective(project)),
     ...(await validatePublicSchema(project)),
     ...(await validateAdapters(project)),
+    ...(await validateContinuitySkills(project)),
   ];
   return {
     diagnostics,

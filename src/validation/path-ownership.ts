@@ -1,4 +1,5 @@
 import path from "node:path";
+import { AGENT_SKILL_PATH, CLAUDE_SKILL_PATH } from "../continuity/skills.js";
 import { portablePathKey } from "../core/paths.js";
 import type { Diagnostic, LoadedProject } from "../domain/types.js";
 import { CONFIG_PATH } from "../domain/types.js";
@@ -6,7 +7,7 @@ import { PUBLIC_SCHEMA_PATH } from "../schema/public-schema.js";
 
 interface ManagedPathOwner {
   path: string;
-  kind: "config" | "document" | "schema" | "adapter";
+  kind: "config" | "document" | "schema" | "adapter" | "skill";
   label: string;
 }
 
@@ -28,6 +29,16 @@ export function validateManagedPathOwnership(project: LoadedProject): Diagnostic
         label: `${adapter.type} adapter`,
       }),
     ),
+    ...(project.config.version === 2 && project.config.continuity.generateSkills
+      ? [
+          { path: AGENT_SKILL_PATH, kind: "skill" as const, label: "shared continuity skill" },
+          {
+            path: CLAUDE_SKILL_PATH,
+            kind: "skill" as const,
+            label: "Claude continuity skill adapter",
+          },
+        ]
+      : []),
   ];
 
   const byPath = new Map<string, ManagedPathOwner[]>();

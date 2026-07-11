@@ -34,6 +34,18 @@ test("help and version are available without a project", async () => {
   assert.equal(help.code, 0);
   assert.match(help.stdout, /Carrylog/);
   assert.match(help.stdout, /Usage: carrylog/);
+  assert.match(help.stdout, /checkpoint/);
+  assert.match(help.stdout, /resume/);
+  assert.match(help.stdout, /migrate/);
+  const migrateHelp = await runCli(["migrate", "--help"]);
+  assert.equal(migrateHelp.code, 0);
+  assert.match(
+    migrateHelp.stdout,
+    /Ensure agents \(Codex\/Cursor\), Claude, and Gemini surfaces and Skills/,
+  );
+  const invalidMigration = await runCli(["migrate", "--to", "3"]);
+  assert.equal(invalidMigration.code, 2);
+  assert.match(invalidMigration.stderr, /E_MIGRATION_TARGET/);
   const version = await runCli(["--version"]);
   assert.equal(version.code, 0);
   assert.equal(version.stdout.trim(), manifest.version);
@@ -43,7 +55,7 @@ test("unknown commands and invalid adapters use the usage exit code", async () =
   assert.equal((await runCli(["unknown"])).code, 2);
   const root = await createTemporaryDirectory();
   try {
-    const result = await runCli(["init", "--root", root, "--adapters", "cursor"]);
+    const result = await runCli(["init", "--root", root, "--adapters", "aider"]);
     assert.equal(result.code, 2);
     assert.match(result.stderr, /E_ADAPTER_ARGUMENT/);
   } finally {
@@ -56,7 +68,7 @@ test("CLI lifecycle returns stable status codes and JSON diagnostics", async () 
   try {
     const initialized = await runCli(["init", "--root", root]);
     assert.equal(initialized.code, 0);
-    assert.match(initialized.stdout, /initialized: 11 change/);
+    assert.match(initialized.stdout, /initialized: 14 change/);
 
     const valid = await runCli(["validate", "--root", root, "--json"]);
     assert.equal(valid.code, 0);
@@ -64,7 +76,11 @@ test("CLI lifecycle returns stable status codes and JSON diagnostics", async () 
 
     const agentsPath = path.join(root, "AGENTS.md");
     const agents = await readFile(agentsPath, "utf8");
-    await writeFile(agentsPath, agents.replace("Codex project context", "drift"), "utf8");
+    await writeFile(
+      agentsPath,
+      agents.replace("Codex and Cursor project context", "drift"),
+      "utf8",
+    );
 
     const drift = await runCli(["sync", "--root", root, "--check"]);
     assert.equal(drift.code, 1);
@@ -85,6 +101,53 @@ test("configuration failures are machine-readable", async () => {
     const payload = JSON.parse(result.stderr);
     assert.equal(payload.ok, false);
     assert.equal(payload.code, "E_CONFIG_MISSING");
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("human diagnostics escape repository-controlled Unicode formatting", async () => {
+  const root = await createTemporaryDirectory();
+  try {
+    assert.equal((await runCli(["init", "--root", root])).code, 0);
+    const configPath = path.join(root, ".agent-context", "config.yaml");
+    const config = await readFile(configPath, "utf8");
+    const hostilePath = "hostile-\u200e.md";
+    await writeFile(
+      configPath,
+      config
+        .replace("path: architecture.md", `path: ${hostilePath}`)
+        .replace("path: decisions.md", `path: ${hostilePath}`),
+      "utf8",
+    );
+
+    const result = await runCli(["validate", "--root", root]);
+    assert.equal(result.code, 1);
+    const output = `${result.stdout}${result.stderr}`;
+    assert.equal(output.includes("\u200e"), false);
+    assert.match(output, /hostile-\\u200e\.md/);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("human success output escapes repository-controlled paths", async () => {
+  const root = await createTemporaryDirectory();
+  try {
+    assert.equal((await runCli(["init", "--root", root])).code, 0);
+    const configPath = path.join(root, ".agent-context", "config.yaml");
+    const config = await readFile(configPath, "utf8");
+    const hostileOutput = "safe-\u202e.md";
+    await writeFile(
+      configPath,
+      config.replace("output: AGENTS.md", `output: ${hostileOutput}`),
+      "utf8",
+    );
+
+    const result = await runCli(["sync", "--root", root]);
+    assert.equal(result.code, 0);
+    assert.equal(result.stdout.includes("\u202e"), false);
+    assert.match(result.stdout, /safe-\\u202e\.md/);
   } finally {
     await removeTemporaryDirectory(root);
   }
@@ -124,6 +187,13 @@ test("CLI handoff refresh, check, dry-run, and JSON form one stable lifecycle", 
     const current = await runCli(["handoff", "--root", root, "--check"]);
     assert.equal(current.code, 0);
     assert.match(current.stdout, /unchanged/);
+
+    const checkpoint = await runCli(["checkpoint", "--root", root, "--check", "--json"]);
+    assert.equal(checkpoint.code, 0);
+    assert.equal(JSON.parse(checkpoint.stdout).drift, false);
+    const resumed = await runCli(["resume", "--root", root, "--check", "--json"]);
+    assert.equal(resumed.code, 0);
+    assert.equal(JSON.parse(resumed.stdout).project.configVersion, 2);
   } finally {
     await removeTemporaryDirectory(root);
   }

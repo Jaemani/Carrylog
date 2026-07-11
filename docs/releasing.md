@@ -38,7 +38,8 @@ Immediately after success, require these postconditions in order:
    publisher while rejecting future granular-token publication;
 6. set the old package to the same token-disallowing policy after its token-based administration is
    complete;
-7. delete the GitHub environment `NPM_TOKEN`, confirm its absence, and revoke the granular npm token;
+7. revoke the granular npm token, then immediately delete the GitHub environment `NPM_TOKEN` and
+   confirm its absence;
 8. record a required follow-up that verifies a later beta publishes through OIDC without a registry
    token.
 
@@ -51,10 +52,18 @@ publish a different tarball as a shortcut.
 
 ## Prepare
 
-1. Update version, changelog, current state, handoff, and compatibility docs.
+During release-candidate preparation, `package.json` may carry the target prerelease version while
+the changelog changes remain under `[Unreleased]`. That state must be described explicitly as RC
+preparation, not as release-ready or approved. After independent review is resolved and the pre-tag
+gates pass, convert `[Unreleased]` to a dated version heading, settle the checkpoint, and rerun the
+content-sensitive release gates on the exact release commit before creating the reviewed tag.
+
+1. Set the target version as needed; keep candidate changes under `[Unreleased]` while updating
+   current state, handoff, and compatibility docs.
 2. Complete the required large-change review and resolve every high-severity finding.
 3. Run the full quality/package/audit suite.
-4. Commit and push; require a clean successful CI matrix.
+4. Promote the changelog heading, settle the checkpoint, commit and push, then require the release
+   gates and CI matrix to pass on that clean exact commit.
 5. Tag the exact reviewed commit as `v<package-version>`.
 
 Never move or overwrite a pushed release tag. If a tagged workflow exposes a source, workflow,
@@ -112,9 +121,11 @@ release line. After `carrylog@0.1.0-beta.4` passes every registry and consumer c
    remains;
 2. deprecate the exact old version with a message that names `carrylog@beta`, the `carrylog` command,
    and `https://github.com/Jaemani/Carrylog`;
-3. keep the old `beta` tag only for a documented migration window so existing installs receive the
-   deprecation message; do not unpublish or rewrite its provenance;
-4. remove that old `beta` tag only after the migration window and external usage check.
+3. keep the old `beta` tag through 2026-08-11 so existing installs receive the deprecation message;
+   do not unpublish or rewrite its provenance;
+4. on or after 2026-08-11, review the preceding seven days of public download counts and open
+   migration issues, record the result, and remove the old `beta` tag. Extend the date only through a
+   new documented decision when active migration evidence justifies it.
 
 After the immediate dist-tag and deprecation operations, set the old package Publishing access to
 `Require 2FA and disallow tokens`. Later web-authenticated owner administration can close the migration

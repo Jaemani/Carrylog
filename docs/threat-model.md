@@ -6,6 +6,7 @@
 - Repository integrity and content outside generated blocks.
 - Files outside the repository.
 - Confidential information present in project documents.
+- Portable resume-envelope confidentiality and integrity.
 - CI reliability and machine-readable diagnostics.
 
 ## Trust boundaries
@@ -33,14 +34,19 @@ the normal npm supply-chain boundary.
 | Prompt-router marker injection through metadata | Single-line bounded metadata and reserved-marker rejection |
 | Oversized startup context | Configured hard budget over actual always-loaded characters |
 | Oversized/binary config or context | Bounded reads, catalog limits, router budget, strict UTF-8 |
+| Aggregate on-demand context exhaustion during resume | 8 MiB total configuration/document observation budget before a second observation is retained |
 | Generated/source path alias | One conservative compatibility/case-normalized ownership graph including copied schema |
 | Concurrent human edit or stale loaded config | Exact bounded config re-read at command entry plus expected-content checks before each remaining rename |
 | Git repository redirection | Remove inherited repository-selection `GIT_*` variables |
 | Git fsmonitor code execution | Force `core.fsmonitor=false` on every Git subcommand |
 | Git process/resource abuse | No shell, no prompts, deadline with KILL escalation, combined 1 MiB output |
-| Malicious Git filenames | NUL-delimited Buffer parsing, reversible invalid-UTF-8 hex, and escaped invisible Unicode evidence |
-| Mixed-time Git evidence | Two exact observations per attempt, three bounded retries, then fail closed |
+| Malicious Git filenames, subjects, or repository Markdown | NUL-delimited Buffer parsing, reversible invalid-UTF-8 hex, HTML-aware checkpoint structure, and terminal-safe human/JSON output while preserving parsed JSON values |
+| Mixed-time Git evidence | Two observations matching allowed exit codes and exact stdout per attempt, three bounded retries, then fail closed |
 | Handoff context inflation | 200-path rendering cap plus prospective file/context-budget validation |
+| Resume path substitution, linked export, or same-size overwrite with restored mtime | Guarded handle/path checks over device, inode, size, mtime, ctime, and link count plus symlink and hard-link rejection |
+| Mixed-time resume envelope | Config/documents → stable Git → config/documents observation with three bounded retries and exact-byte revalidation |
+| Private-session leakage | Resume excludes transcripts, hidden reasoning, provider stores, absolute roots, session IDs, and commit timestamps |
+| Generated Skill overwrite | Exactly one standalone ownership marker; no adoption or merge of unowned Skill files |
 
 ## Residual risks
 
@@ -48,8 +54,10 @@ the normal npm supply-chain boundary.
   across process termination, filesystem faults, or races during rename.
 - A repository owner can intentionally place harmful instructions in canonical Markdown; this tool
   validates structure, not truth or intent.
-- A hard link is not rejected. Replacement-by-rename does not mutate the linked inode, but reads can
-  still observe linked content and inode/link-count policy remains a future hardening option.
+- Normal validation and replacement do not reject every hard-linked source. Replacement-by-rename
+  does not mutate the linked inode, but non-export reads can still observe linked content. The
+  confidentiality-sensitive `resume` export rejects any canonical config or document with link count
+  greater than one.
 - Parent/content/temporary identity checks narrow but do not eliminate the TOCTOU interval between a
   final check and path-based `mkdir`, temporary creation, or rename. Portable Node APIs do not expose
   directory-descriptor `openat`/`renameat` or atomic compare-and-swap replacement. A detected swap
@@ -60,6 +68,8 @@ the normal npm supply-chain boundary.
   uses one runtime dependency and a committed lockfile to reduce exposure.
 - JSON diagnostics may contain local paths and parser excerpts; CI log handling remains the caller's
   responsibility.
+- Agents can still place inaccurate or sensitive prose into reviewed checkpoint sections. Carrylog
+  validates structure and file identity, not semantic truth or secret classification.
 
 ## Security principles for future features
 
@@ -68,13 +78,15 @@ the normal npm supply-chain boundary.
 - Handoff generation must never stage or commit files automatically.
 - Compaction must keep recoverable history and must not overwrite source material without explicit
   review.
+- Session journaling, persistent conversation capture, and semantic compaction require a separate data
+  retention and privacy threat model before entering the supported runtime.
 - MCP mutation tools must be opt-in, narrowly scoped, and distinguish reads from writes.
 - Remote services and telemetry require a separate threat model and explicit consent.
 - Plugin and skill installation must not execute unreviewed scripts implicitly.
 
 ## Security test backlog
 
-- Hard-link behavior on supported local filesystems.
+- Additional hard-link and reparse-point behavior on supported Windows filesystems.
 - Deterministic injection at the exact rename/permission syscalls beyond behavioral fault fixtures.
 - Very deep paths, long filenames, large YAML, and large Markdown limits.
 - Additional Windows reparse-point variants beyond the directory-junction regression.

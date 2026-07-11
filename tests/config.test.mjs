@@ -21,7 +21,7 @@ test("decodes a valid strict v1 configuration", () => {
 
 test("reports multiple schema errors in one pass", () => {
   const input = createDefaultConfig("Example", ["codex"]);
-  input.version = 2;
+  input.version = 3;
   input.unknown = true;
   input.documents[0].load = "sometimes";
   input.policies.maxAlwaysCharacters = 10;

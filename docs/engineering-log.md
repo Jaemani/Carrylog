@@ -571,3 +571,228 @@ Those digests describe the clean pre-record commit, not the future tagged artifa
 record is itself included in the npm package. After this record passes CI, release verification must
 rebuild and identify the final clean artifact before tagging rather than reusing or relabeling the
 earlier digest.
+
+## 2026-07-11 — Carrylog beta.4 publication stopped at registry authorization
+
+Commit `c09d7f3` and annotated tag `v0.1.0-beta.4` passed the final eleven-job CI matrix and all three
+tagged operating-system preflights in release run `29109394637`. The protected publish job built and
+reverified the reviewed 126-file `carrylog@0.1.0-beta.4` artifact, then created provenance entry
+`2138573876`. npm rejected the package-creation request with `E403`: the bootstrap credential could
+not create the new unscoped package. The registry continued to return `E404`, so no package version
+or dist-tag was created and the immutable tag must not be moved or reused.
+
+The failure is an authorization boundary, not a source, artifact, or provenance-integrity failure.
+Recovery therefore requires replacing the protected environment secret with a shortest-lived
+granular token that can create a package, rechecking that the registry still has no `carrylog`
+package, and rerunning only the failed publish job. The token must be removed and revoked after the
+first successful publication and trusted-publisher configuration. Both attempts' commit, package,
+version, file count, size, and registry digests must be compared before the release is accepted.
+
+## 2026-07-11 — Universal continuity development moved to configuration v2
+
+The post-tag development line raised the package to `0.1.0-beta.5` and introduced configuration v2
+without changing the frozen v1 contract. New initialization targets Codex, Claude Code, Cursor, and
+Gemini CLI. Codex and Cursor map to one `agents`/`AGENTS.md` surface, preventing duplicate ownership;
+Claude and Gemini retain separate root outputs. `carrylog migrate --to 2` is explicit, preserves YAML
+comments and newline style, converts only the published stock handoff or an already compliant
+checkpoint, and writes canonical config after planned outputs. `--universal` fills every supported
+surface and enables repository Skills for both v1 and partial-v2 inputs.
+
+Portable continuity was deliberately bounded below provider sessions. The exact checkpoint sections
+are Objective, Completed, Verification, Decisions, Risks, and Next action. `resume --json` exports
+those reviewed sections, always context, an on-demand catalog, raw-byte digests, and projected Git
+evidence. It excludes transcript bodies, hidden reasoning, provider JSONL/SQLite stores, absolute
+roots, session identifiers, commit timestamps, and any claim to control native compaction. ADR-0009
+and ADR-0010 record the configuration and continuity boundaries.
+
+Implementation review caught several defects before dogfood. Two type names had been left outside an
+export block and broke TypeScript parsing. The first `--universal` migration only added Gemini, so a
+single-adapter v1 repository could remain non-universal; it now ensures all three surfaces and can
+complete partial v2. Skill ownership initially used substring matching, which could overwrite a human
+file that merely quoted the marker; ownership now requires exactly one standalone marker. Resume
+initially validated before its stable read envelope, leaving a validation-to-observation gap; the
+exact accepted observation is now revalidated. The first Markdown parser also allowed a shorter fence
+to close a longer one and missed indented blockquotes; fence length and block structure are now
+covered explicitly.
+
+Carrylog's customized v1 handoff was reviewed manually into the canonical checkpoint sections, then
+the repository successfully dogfooded `migrate --to 2 --universal`. Repeated migration, sync, and
+validation were clean; `checkpoint --check` and `resume` correctly reported stale Git evidence for the
+active worktree. Codex prompt-input inspection discovered the generated AGENTS router and generic
+Skill without a model call. Gemini CLI discovered and enabled the same `.agents/skills` entry. The
+Skill validator first failed because ambient Python lacked PyYAML; rerunning it in an isolated `uv`
+environment installed only that validation dependency and passed both generic and Claude Skill
+folders. Cursor CLI was not installed, so no authenticated Cursor launch is claimed.
+
+The first fresh Codex run also exposed executable-resolution behavior that synthetic Skill tests had
+missed. `carrylog` was not global, and an unconditional `npx --no-install` could select an unrelated
+cached package when no project-local bin existed; that cached CLI then failed its executable mode.
+The Skill now uses `npx --no-install` only after confirming `node_modules/.bin/carrylog`, has an
+explicit built-source fallback only for Carrylog's own repository, and never downloads or upgrades a
+package. README installation guidance now states that one-off initialization alone cannot support
+later verified automation.
+
+The same Codex sandbox produced a second false failure: every Git observation was marked different
+although direct runs were stable. The fingerprint had compared stderr even though snapshot parsing
+consumes only allowed exit codes and stdout; sandbox wrappers can emit per-process stderr diagnostics.
+ADR-0011 now limits stability equality to the exact consumed channels, keeps unexpected exits and
+process failures blocking, and reports command/channel mismatch names. A regression varies stderr on
+every fake Git invocation while keeping stdout stable; real stdout changes still retry and fail.
+Further Codex live confirmation was blocked when its local OAuth token was revoked. Claude Code's
+authenticated fresh session successfully reconstructed configuration v2, the objective, next action,
+stale state, and risks. Gemini Skill discovery passed, but its headless model launch required manual
+authentication. These authentication failures are recorded as conformance gaps, not product passes.
+
+## 2026-07-11 — beta.5 independent review found and closed concurrency and consumer gaps
+
+An independent code/security review reproduced a same-size concurrent overwrite that restored mtime
+while a guarded read was in progress. Device, inode, size, mtime, and link count were unchanged, so an
+accepted buffer could contain bytes from two file states. Guarded reads now compare ctime in both
+handle observations and the final path observation. A deterministic post-read fault-injection test
+rewrites equal-length content, restores the exact mtime, requires an observable ctime change, and
+verifies fail-closed `E_CONCURRENT_MODIFICATION` behavior.
+
+The same review found two output/parser boundaries. Raw `JSON.stringify` output left bidirectional and
+other invisible Unicode formatting characters literal in Git-controlled paths and commit subjects.
+Resume JSON now escapes `Cc`, `Cf`, `Zl`, and `Zp` characters at the serialized-text boundary while a
+JSON round trip preserves their original values; regression coverage includes C0 controls, line and
+paragraph separators, bidi formatting, and a non-BMP format character. The checkpoint parser also
+treated a backtick fence whose info string contained a backtick as valid, contrary to CommonMark, so
+a duplicate required H2 could be hidden. Backtick and tilde fence cases now have separate boundary
+tests.
+
+Release and documentation reviews found that the installed-package smoke did not exercise the
+flagship migration CLI and compiled declarations with `skipLibCheck`. The packed tarball now runs a
+v1-to-v2 universal lifecycle through drift check, dry-run, real write, validation, and two clean
+idempotence checks without network fallback. Its TypeScript consumer disables `skipLibCheck` and
+instantiates the public migration option/result types. CLI help, nested-directory discovery,
+confidentiality warnings, historical scoped-package references, and unreleased RC-preparation wording
+were reconciled without claiming that the unscoped npm package exists.
+
+After the fixes, the integrated quality gate passed 157/157 tests with 94.62% lines, 95.85% functions,
+and 89.49% branches. Pack inspection passed with 146 files. Both ordinary and real
+publish-dry-run package smokes passed local, ephemeral, global, ESM, strict TypeScript, migration,
+initialization, validation, checkpoint, and resume consumers; the production dependency audit found
+zero vulnerabilities. These are local macOS results. The exact uncommitted tree still needs the
+Linux/macOS/Windows CI matrix after commit.
+
+Fresh post-fix reviewer agents could not refresh their local OAuth credentials. A separate read-only
+Claude Code review authenticated and began inspecting the diff but produced no result within the
+bounded two-minute window and was terminated. Therefore this record does not claim a post-fix
+independent-review GO. The original independent findings are resolved with regressions and the main
+review is clean, but a successful independent post-fix review remains an explicit RC gate rather than
+being inferred from tool silence.
+
+## 2026-07-12 — External document review redirected work toward delivery evidence
+
+An external senior review read the complete document set, independently confirmed package version
+`0.1.0-beta.5`, clean JSON validation, and the 157-test local suite, then challenged the allocation of
+effort rather than the recorded implementation facts. It found the ADR, failure-recording, immutable
+tag, evidence-traceability, and dogfood practices unusually strong, but identified the primary product
+risk as missing users and missing behavioral evidence that agents follow routers and continue work.
+
+The review recommended immediate publication recovery, a value-first README, a small maintainer-run
+pilot before a comprehensive audit, earlier external-repository adoption, explicit evidence ownership
+and document freshness, and an ADR preventing journaling or compaction claims before evidence. It also
+identified repeated test counts, coverage, package measurements, and release facts across current
+state, handoff, README, changelog, testing strategy, and this log as contrary to Carrylog's own
+single-source rationale.
+
+The recommendations were not accepted wholesale. Existing high-severity integrity fixes remain
+justified and are not reverted because the product lacks users. A fixed number of days cannot override
+unresolved data-loss or release-integrity findings. Claims that AGENTS.md standardization has already
+eliminated the niche require market and adoption evidence rather than assumption. The accepted
+positioning is narrower: repository-owned, Git-reviewable, deterministic project-memory governance,
+with conversation continuity and compaction remaining research questions.
+
+ADR-0012 now establishes artifact, delivery, reconstruction, behavioral, and perceived-continuity
+evidence levels and requires a minimum Tier 1 pilot before continuity expansion. The pilot protocol is
+stored outside the npm package under `research/continuity/`. A documentation policy assigns volatile
+current evidence to handoff, historical exact evidence to this log, and per-document freshness
+contracts. The audit brief moved from packaged product documentation to a non-normative research
+record. README and roadmap work now prioritize the source-based five-minute path, first npm
+publication, pilot evidence, and external adoption over additional defensive breadth.
+
+Registry state was rechecked on 2026-07-12 and still returned `E404` for `carrylog`; release run
+`29109394637` remains the immutable beta.4 authorization-only failure. Publication recovery still
+requires the repository owner to replace the protected bootstrap credential. No token was requested,
+printed, stored locally, or inferred from the review.
+
+The first audit-response worktree passed the complete 157-test quality gate, ordinary and real
+publish-dry-run package consumers, and production audit. Pack inspection contained 148 entries,
+included ADR-0012 and the documentation policy, and excluded `research/`. A local Markdown scan
+resolved every relative link across 31 files.
+
+Two independent follow-up reviews then checked documentation consistency and the package/release
+boundary. The release review reproduced the README source path in a fresh temporary repository through
+init, validation, checkpoint, and fresh resume; verified local and remote beta.4 tag identity; and
+confirmed that all tagged OS preflights passed before the credential-only publish failure. The reviews
+found no falsified release evidence but correctly rejected the handoff as stale after documentation
+edits. They also found ambiguous ADR wording that gated only a default rather than any supported
+runtime feature, described future fresh/branch choices as if implemented, and assigned volatile exact
+evidence to both handoff and the engineering log. Those statements were reconciled; final checkpoint
+and gate verification follow completion of the review.
+
+## 2026-07-12 — Carrylog beta.4 first publication succeeded; registry hardening remains
+
+After the protected `NPM_TOKEN` was replaced, the registry was rechecked and continued to return
+`E404` for both `carrylog@0.1.0-beta.4` and its dist-tags. Local and remote annotated tag identity
+remained unchanged. Release run `29109394637` was therefore rerun with `--failed`; attempt 2 reused
+the immutable tagged commit `c09d7f3440f3b838118aa0e80a028ffa657462b9` and required a fresh
+approval of the protected `npm` environment.
+
+The publish job rebuilt and verified the same 126-file package, published it successfully, and passed
+its bounded registry installation check. An independent registry download matched the workflow
+artifact at SHA-256 `ab341b9326e7c63c5c7d1f79972bb0021d061f30f804a8a3cfa66edb8a4f961e`,
+SHA-1 `320ae64e88dea1d5a0fdd856bc130299930d1b0c`, and SHA-512 integrity
+`VfFTVcaknlYoYvFF14VkkZtnJPuUBG0b04xc0rYf40SARHEx+MfkLf9eenXBZOS408Lfr85wKilRLgGreDeNuA==`.
+The SLSA provenance resolves to repository `Jaemani/Carrylog`, workflow `release.yml`, tag
+`v0.1.0-beta.4`, the same commit, and run attempt 2; transparency-log index `2145991602` is public.
+Independent `npx`, global installation, version, fresh Git-repository initialization, and JSON
+validation checks all passed against the public `beta` tag.
+
+As anticipated in the release procedure, npm assigned both `beta` and unintended `latest` to the
+first prerelease. The release is installable but post-publication administration is not complete.
+The owner-authenticated sequence must remove `latest`, configure the trusted publisher, finish the
+old scoped-package migration administration, disallow token publication, delete the GitHub
+`NPM_TOKEN`, and revoke the bootstrap token. Local npm was not authenticated when this state was
+recorded, so no registry administration beyond publication was claimed.
+
+## 2026-07-12 — Post-fix code/security review exposed continuity and resource boundaries
+
+The first successful independent post-fix code/security review initially returned NO-GO. Adding the
+publication record pushed Carrylog's own always context to 16,362 characters against its 16,000
+policy, so `validate`, `resume`, and pre-validation in `checkpoint` refused the dogfood repository.
+The first prose reduction restored a passing state but left only 328 characters of margin. A second
+review correctly rejected that as an operationally certain future wedge. Duplicated implementation
+detail was moved out of current state and handoff rather than raising the policy; the final reviewed
+state uses 13,091 characters and retains 2,909 characters of headroom.
+
+The same review reproduced substantive defects that earlier synthetic coverage missed. A public
+beta.4 global executable shadowed beta.5's source fallback and lacked `resume`; generated Skills now
+check source, project-pinned, and global candidates in order, require `resume --help` capability, and
+never fall past an explicitly selected incompatible version. Default human resume and other CLI
+surfaces allowed terminal controls, bidirectional formatting, or multiline field spoofing from
+repository-controlled Markdown, paths, and Git evidence. Human fields and diagnostics now escape
+unsafe characters, and every JSON-bearing CLI path uses one terminal-safe serializer while preserving
+parsed values.
+
+Checkpoint parsing now excludes CommonMark HTML blocks as well as fences, blockquotes, indented code,
+and Carrylog's managed snapshot. Legacy-command validation scans human narrative but not generated Git
+subjects, preventing historical `ackit validate` text from disabling the repository. A stock v1
+handoff with generated evidence now migrates in LF and CRLF while preserving that evidence; direct v1
+resume returns migration guidance rather than `E_INTERNAL`. Resume also enforces an 8 MiB aggregate
+canonical-context observation limit so a maximum on-demand catalog cannot multiply 1 MiB per-file
+limits into gigabyte retention. Exported initialization validates JavaScript runtime option types, and
+package gates explicitly require v2/ADR-0012 artifacts while rejecting `research/`.
+
+After regressions were added, an isolated independent run passed 165/165 tests and every threshold;
+the 148-file package passed pack inspection and all installed consumer/lifecycle modes. One earlier
+independent run lost compiled modules because the primary agent concurrently ran a clean build in the
+shared worktree; it was discarded as invalid evidence and rerun in isolation. After the final
+documentation and Skill wording changes, the primary local run passed the same 165 tests with 94.74%
+lines, 95.58% functions, and 89.38% branches, ordinary and real publish-dry-run package consumers, and
+production audit with zero vulnerabilities. Dogfood sync, validation, checkpoint/resume, and diff
+checks passed. The final independent verdict is GO for code/security, package boundaries, context
+semantics, and budget headroom. Exact-commit cross-platform CI remains a separate release-candidate
+gate.

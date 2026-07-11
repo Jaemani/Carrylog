@@ -1,5 +1,6 @@
 import path from "node:path";
 import { assertLoadedProjectSnapshot } from "../config/load.js";
+import { getCheckpointDocument } from "../continuity/checkpoint.js";
 import { CarrylogError, issueError } from "../core/errors.js";
 import { atomicWriteTexts, inspectAtomicPath, readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
@@ -32,12 +33,9 @@ export async function refreshHandoff(
     throw new CarrylogError("E_CONTEXT_INVALID", "Canonical context is invalid.", { diagnostics });
   }
 
-  const handoffDocument = project.config.documents.find((document) => document.id === "handoff");
+  const handoffDocument = getCheckpointDocument(project.config);
   if (handoffDocument === undefined) {
-    throw issueError(
-      "E_HANDOFF_DOCUMENT",
-      "Configuration does not define a document with id 'handoff'.",
-    );
+    throw issueError("E_HANDOFF_DOCUMENT", "Configuration does not define a checkpoint document.");
   }
   const portablePath = path.posix.join(".agent-context", handoffDocument.path);
   const absolutePath = resolveProjectPath(project.root, portablePath);

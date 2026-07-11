@@ -1,4 +1,6 @@
 import { randomUUID } from "node:crypto";
+import type { BigIntStats } from "node:fs";
+import { constants as fsConstants } from "node:fs";
 import type { FileHandle } from "node:fs/promises";
 import { chmod, lstat, mkdir, open, realpath, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -33,11 +35,111 @@ interface DirectoryIdentity {
   readonly inode: bigint;
 }
 
+interface RegularFileIdentity extends DirectoryIdentity, GuardedFileMetadata {}
+
 export interface AtomicPathGuard {
   readonly root: string;
   readonly filePath: string;
   readonly existingDirectories: readonly DirectoryIdentity[];
   readonly missingDirectories: readonly string[];
+}
+
+export interface GuardedTextRead {
+  readonly bytes: Buffer;
+  readonly text: string;
+  readonly metadata: GuardedFileMetadata;
+}
+
+export interface GuardedFileMetadata {
+  readonly device: bigint;
+  readonly inode: bigint;
+  readonly size: bigint;
+  readonly mtimeNs: bigint;
+  readonly ctimeNs: bigint;
+  readonly linkCount: bigint;
+}
+
+export interface GuardedTextReadOptions {
+  maxBytes?: number;
+  rejectHardLinks?: boolean;
+  /** @internal Deterministic fault-injection seam for concurrent-read regression tests. */
+  afterBytesRead?: (metadata: GuardedFileMetadata) => void | Promise<void>;
+}
+
+export async function readGuardedText(
+  rootInput: string,
+  filePathInput: string,
+  options: GuardedTextReadOptions = {},
+): Promise<GuardedTextRead> {
+  const root = path.resolve(rootInput);
+  const filePath = path.resolve(filePathInput);
+  const maxBytes = options.maxBytes ?? DEFAULT_MAX_TEXT_BYTES;
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) {
+    throw new TypeError("maxBytes must be a positive safe integer.");
+  }
+  const guard = await inspectAtomicPath(root, filePath);
+  await verifyAtomicPathGuard(guard, filePath);
+  const noFollow = process.platform === "win32" ? 0 : fsConstants.O_NOFOLLOW;
+  const handle = await open(filePath, fsConstants.O_RDONLY | noFollow);
+  try {
+    const before = await handle.stat({ bigint: true });
+    if (!before.isFile()) {
+      throw issueError("E_NOT_REGULAR_FILE", "Expected a regular managed file.");
+    }
+    if (options.rejectHardLinks === true && before.nlink > 1n) {
+      throw issueError("E_HARD_LINK_PATH", "Refusing to export a hard-linked managed file.");
+    }
+    if (before.size > BigInt(maxBytes)) {
+      throw issueError("E_FILE_TOO_LARGE", `Text file exceeds the ${maxBytes}-byte safety limit.`);
+    }
+    const chunks: Buffer[] = [];
+    let total = 0;
+    while (true) {
+      const remaining = maxBytes - total + 1;
+      const buffer = Buffer.allocUnsafe(Math.min(64 * 1024, remaining));
+      const { bytesRead } = await handle.read(buffer, 0, buffer.length, null);
+      if (bytesRead === 0) break;
+      total += bytesRead;
+      if (total > maxBytes) {
+        throw issueError(
+          "E_FILE_TOO_LARGE",
+          `Text file exceeds the ${maxBytes}-byte safety limit.`,
+        );
+      }
+      chunks.push(buffer.subarray(0, bytesRead));
+    }
+    await options.afterBytesRead?.(fileMetadata(before));
+    const after = await handle.stat({ bigint: true });
+    if (options.rejectHardLinks === true && after.nlink > 1n) {
+      throw issueError("E_HARD_LINK_PATH", "Refusing to export a hard-linked managed file.");
+    }
+    if (
+      before.dev !== after.dev ||
+      before.ino !== after.ino ||
+      before.size !== after.size ||
+      before.mtimeNs !== after.mtimeNs ||
+      before.ctimeNs !== after.ctimeNs ||
+      before.nlink !== after.nlink
+    ) {
+      throw concurrentModification(filePath);
+    }
+    await verifyAtomicPathGuard(guard, filePath);
+    const pathIdentity = await readRegularFileIdentity(filePath);
+    const metadata = fileMetadata(after);
+    if (!sameFileMetadata(pathIdentity, metadata)) {
+      throw concurrentModification(filePath);
+    }
+    const bytes = Buffer.concat(chunks, total);
+    let text: string;
+    try {
+      text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    } catch {
+      throw issueError("E_FILE_ENCODING", "Managed text file is not valid UTF-8.");
+    }
+    return { bytes, text, metadata };
+  } finally {
+    await handle.close();
+  }
 }
 
 export async function readTextIfExists(
@@ -320,7 +422,10 @@ async function removeTemporaryIfSafe(
   }
 }
 
-async function verifyAtomicPathGuard(guard: AtomicPathGuard, filePathInput: string): Promise<void> {
+export async function verifyAtomicPathGuard(
+  guard: AtomicPathGuard,
+  filePathInput: string,
+): Promise<void> {
   const filePath = path.resolve(filePathInput);
   if (filePath !== guard.filePath) throw concurrentModification(filePath);
   assertDescendantPath(guard.root, filePath);
@@ -408,16 +513,38 @@ async function readDirectoryIdentity(directoryPath: string): Promise<DirectoryId
   return { path: directoryPath, device: metadata.dev, inode: metadata.ino };
 }
 
-async function readRegularFileIdentity(filePath: string): Promise<DirectoryIdentity> {
+async function readRegularFileIdentity(filePath: string): Promise<RegularFileIdentity> {
   const metadata = await lstat(filePath, { bigint: true });
   if (!metadata.isFile() || metadata.isSymbolicLink()) {
     throw issueError("E_NOT_REGULAR_FILE", `Expected a regular file: ${filePath}`);
   }
-  return { path: filePath, device: metadata.dev, inode: metadata.ino };
+  return { path: filePath, ...fileMetadata(metadata) };
 }
 
 function sameIdentity(left: DirectoryIdentity, right: DirectoryIdentity): boolean {
   return left.device === right.device && left.inode === right.inode;
+}
+
+function fileMetadata(metadata: BigIntStats): GuardedFileMetadata {
+  return Object.freeze({
+    device: metadata.dev,
+    inode: metadata.ino,
+    size: metadata.size,
+    mtimeNs: metadata.mtimeNs,
+    ctimeNs: metadata.ctimeNs,
+    linkCount: metadata.nlink,
+  });
+}
+
+function sameFileMetadata(left: GuardedFileMetadata, right: GuardedFileMetadata): boolean {
+  return (
+    left.device === right.device &&
+    left.inode === right.inode &&
+    left.size === right.size &&
+    left.mtimeNs === right.mtimeNs &&
+    left.ctimeNs === right.ctimeNs &&
+    left.linkCount === right.linkCount
+  );
 }
 
 async function assertPhysicalContainment(root: string, existingPath: string): Promise<void> {
