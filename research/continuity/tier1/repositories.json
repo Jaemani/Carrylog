@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "repositories": [
+    {
+      "id": "carrylog",
+      "url": "https://github.com/Jaemani/Carrylog.git",
+      "commit": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+      "stack": "Node.js 22, strict TypeScript CLI",
+      "fixturePolicy": "Materialize tracked bytes from the exact commit without Git history. Remove the frozen discovery-surface manifest for repository-only and manual-handoff; retain it and refresh a task-specific packet only for carrylog-resume.",
+      "removedDiscoveryPaths": [
+        ".agent-context",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".agents/skills/carrylog-continuity",
+        ".claude/skills/carrylog-continuity"
+      ]
+    },
+    {
+      "id": "busycafe",
+      "url": "https://github.com/Jaemani/BusyCafe.git",
+      "commit": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+      "stack": "Python 3.12 FastAPI/SQLAlchemy backend and TypeScript MapLibre frontend",
+      "fixturePolicy": "Materialize tracked bytes from the exact commit without Git history. Never copy ignored env, database, Vercel, token, dependency, or cache files. Generate task-specific Carrylog context only for carrylog-resume.",
+      "removedDiscoveryPaths": []
+    }
+  ],
+  "carrylogRuntime": {
+    "package": "carrylog",
+    "version": "0.1.0-beta.5",
+    "releaseCommit": "343b4e381f5994c71a55a39dbcd34cf6862df16f",
+    "tarballSha256": "5f706672adfed5e2e4bc6e347fcdedb23359448d9c7fbca0ed2128c0f44bb1ce",
+    "integrity": "sha512-hBbNpTP0NEEpIAJBzKqAlnUGbUXGyLxnJ82h1+NQgIjvPGNEQrjjwodseRXU8XEoTF0F81vTE0ErpTNEUXF32Q==",
+    "executablePolicy": "Preinstall the exact released package in an isolated tool prefix, verify its version and registry digest, and prepend only that bin directory to the run PATH."
+  }
+}

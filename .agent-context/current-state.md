@@ -2,8 +2,8 @@
 
 ## Active objective
 
-Close the verified beta.5 release evidence, then execute the preregistered minimum Tier 1 continuity
-pilot without implementing journaling or compaction.
+Finish the preregistered Tier 1 continuity candidate's post-fix review and authenticated harness
+gates without implementing journaling or compaction.
 
 ## Implemented and verified
 
@@ -23,14 +23,28 @@ pilot without implementing journaling or compaction.
 
 ## In progress
 
-- Post-release evidence is being checkpointed separately from the immutable beta.5 release commit.
-- The Tier 1 protocol exists, but its two repository fixtures, task rubrics, randomized order, and
-  authenticated two-harness access must be frozen in a committed preregistration before scored runs.
+- The Tier 1 candidate contains 10 fixtures, 60 balanced runs, blind evaluation bundles, deterministic
+  execution and privacy-review gates, a mechanical Tier 2 decision rule, and a permanent first-ADD
+  freeze boundary. No scored or raw artifacts exist.
+- The complete prepare-only matrix passes for the current bytes. The candidate has no manifest or
+  formal review attestations and therefore is not a committed freeze.
+- The runner exposes only one shallow source commit to the broker, denies models direct Git-metadata
+  access, recovers exact privacy-review transactions, and gates formal review on digest-bound
+  authenticated harness prerequisites. A final diagnostic-redaction change reset the critical-byte
+  binding; current prerequisite status is Codex pending and Claude pending.
+- Authenticated canaries bind Codex results to one immutable exact-command probe and bind Claude
+  permission denials to exact tool IDs, names, and inputs. Analysis dependencies, review
+  attestations, manifest bytes, and concurrent exclusion writes now fail closed on drift or races.
 
 ## Blockers and risks
 
-- Cursor CLI is unavailable locally; final authenticated Codex/Gemini conformance still needs restored
-  credentials.
+- The organization currently disables Claude Code subscription OAuth and no `ANTHROPIC_API_KEY` is
+  available. Authenticated Claude isolation therefore remains a prerequisite blocker; the local
+  Claude MCP broker and Seatbelt contracts pass but are not a substitute.
+- The Codex authenticated canary passed immediately before the final redaction-only critical change,
+  but its rerun then hit the provider usage limit. The stale pass was correctly discarded and no
+  current-byte pass is claimed.
+- Cursor CLI is unavailable locally; broader Cursor/Gemini outcome evidence remains future work.
 - Automated resume needs a compatible source build, project-pinned install, or global install; Skills
   never download, build, or upgrade it implicitly.
 - Sequential cross-file rename and the final path-to-syscall TOCTOU window remain under ADR-0007.
@@ -40,8 +54,11 @@ pilot without implementing journaling or compaction.
   until stable while `@beta` advances.
 - Cross-harness behavioral continuity, repeated-switch retention, conversation reconstruction, and
   compaction value remain unproven and outside the supported runtime.
+- A process killed while holding the exclusion registry lock can leave a stale lock that requires
+  operator review before removal; the system prefers an explicit blocked retry over lost safety data.
 
 ## Next best task
 
-Commit the post-release evidence, freeze the Tier 1 fixtures and harness prerequisites, then execute
-the randomized pilot without changing the product during scored runs.
+Complete fresh post-fix security and methodology reviews, restore authorized Claude access, rerun its
+authenticated canary, and only then obtain two formal GO attestations over one unchanged digest and
+write the freeze manifest before any scored execution.

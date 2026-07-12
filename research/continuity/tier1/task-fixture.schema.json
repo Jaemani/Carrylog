@@ -1,0 +1,258 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Jaemani/Carrylog/blob/main/research/continuity/tier1/task-fixture.schema.json",
+  "title": "Carrylog Tier 1 task fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fixtureVersion",
+    "status",
+    "fixtureId",
+    "repository",
+    "taskFamily",
+    "prompt",
+    "deliveryPacket",
+    "relevantFacts",
+    "prohibitedReversals",
+    "repeatedWorkIndicators",
+    "allowedClarificationQuestions",
+    "otherClarificationsCountAsUnnecessary",
+    "expectedVerification",
+    "sensitiveExclusions",
+    "scoring"
+  ],
+  "properties": {
+    "$schema": { "type": "string", "const": "../task-fixture.schema.json" },
+    "fixtureVersion": { "const": 1 },
+    "status": { "const": "preregisterable" },
+    "fixtureId": {
+      "type": "string",
+      "pattern": "^r(1-carrylog|2-busycafe)-0[1-5]-[a-z-]+$"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "commit", "cleanCheckoutRequired"],
+      "properties": {
+        "id": { "enum": ["r1-carrylog", "r2-busycafe"] },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "cleanCheckoutRequired": { "const": true }
+      }
+    },
+    "taskFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "key", "protocolLabel"],
+      "properties": {
+        "ordinal": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "key": {
+          "enum": [
+            "objective-and-next-action",
+            "bounded-continuation",
+            "protected-decision",
+            "failed-approach",
+            "verification-and-limits"
+          ]
+        },
+        "protocolLabel": { "type": "string", "minLength": 1 }
+      }
+    },
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^research/continuity/tier1/prompts/.+\\.md$"
+        },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "deliveryPacket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "language"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^research/continuity/tier1/packets/.+\\.md$"
+        },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "language": { "enum": ["en", "ko"] }
+      }
+    },
+    "relevantFacts": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/definitions/weightedFact" }
+    },
+    "prohibitedReversals": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/countableIndicator" }
+    },
+    "repeatedWorkIndicators": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/countableIndicator" }
+    },
+    "allowedClarificationQuestions": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "intent", "allowedWhen"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^q[0-9]+$" },
+          "intent": { "type": "string", "minLength": 1 },
+          "allowedWhen": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "otherClarificationsCountAsUnnecessary": { "const": true },
+    "expectedVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requiredCommands",
+        "conditionalCommands",
+        "successCriteria",
+        "forbiddenActions"
+      ],
+      "properties": {
+        "requiredCommands": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "conditionalCommands": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "successCriteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "forbiddenActions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "sensitiveExclusions": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" },
+          "description": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conditionBlind",
+        "blindTo",
+        "scorerInputs",
+        "factCreditRule",
+        "contradictionRule",
+        "taskCompletion"
+      ],
+      "properties": {
+        "conditionBlind": { "const": false },
+        "blindTo": {
+          "type": "array",
+          "items": { "enum": ["condition", "harness", "run-order"] },
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true
+        },
+        "scorerInputs": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "sanitized-visible-output",
+              "workspace-diff",
+              "verification-receipt",
+              "exit-status"
+            ]
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "factCreditRule": { "type": "string", "minLength": 1 },
+        "contradictionRule": { "type": "string", "minLength": 1 },
+        "taskCompletion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maximumPoints", "criteria"],
+          "properties": {
+            "maximumPoints": { "const": 10 },
+            "criteria": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["id", "points", "evidenceRule"],
+                "properties": {
+                  "id": { "type": "string", "pattern": "^c[0-9]+$" },
+                  "points": { "type": "integer", "minimum": 1 },
+                  "evidenceRule": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "weightedFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement",
+        "weight",
+        "origin",
+        "continuityEligible",
+        "severity",
+        "acceptableEvidence",
+        "contradiction"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^f[0-9]+$" },
+        "statement": { "type": "string", "minLength": 1 },
+        "weight": { "type": "integer", "minimum": 1 },
+        "origin": {
+          "enum": ["prompt", "repository", "prior-session-packet", "wrapper"]
+        },
+        "continuityEligible": { "type": "boolean" },
+        "severity": { "enum": ["informational", "material", "protected"] },
+        "acceptableEvidence": { "type": "string", "minLength": 1 },
+        "contradiction": { "type": "string", "minLength": 1 }
+      }
+    },
+    "countableIndicator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "countWhen"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[pr][0-9]+$" },
+        "description": { "type": "string", "minLength": 1 },
+        "countWhen": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

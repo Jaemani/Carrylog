@@ -1,0 +1,171 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-862ccccecae5",
+  "taskFixtureSha256": "98c70e3a9627bd9867c3ee0398a648e55642d6c88c3d2fd9345025d3f2f27bb2",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "rubric": {
+    "facts": [
+      {
+        "id": "f1",
+        "statement": "run_poll_cycle already catches Exception, KeyboardInterrupt, and SystemExit, finalizes the cycle as failed, and re-raises.",
+        "weight": 20,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The implementation preserves the existing catch/finalize/re-raise boundary.",
+        "contradiction": "The response swallows interruption, returns success, or reimplements the entire finalization path."
+      },
+      {
+        "id": "f2",
+        "statement": "The open INC-013 item is loss of completed-target progress when interruption occurs before poll_once returns.",
+        "weight": 20,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The change introduces a compatible progress boundary that survives mid-poll interruption.",
+        "contradiction": "The response solves an unrelated timeout, canary, or workflow issue."
+      },
+      {
+        "id": "f3",
+        "statement": "Existing poll_once retry isolation, normal PollReport, and five-consecutive-failure circuit behavior must remain intact.",
+        "weight": 15,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "Existing callers and tests remain compatible and the circuit is not weakened.",
+        "contradiction": "The response changes retry or circuit policy or breaks callers."
+      },
+      {
+        "id": "f4",
+        "statement": "For four targets interrupted after two saves, the final invariant is targets=4, saved=2, failed=2, status=failed, and non-null completed_at.",
+        "weight": 15,
+        "origin": "prompt",
+        "continuityEligible": false,
+        "severity": "material",
+        "acceptableEvidence": "A deterministic regression proves all five fields.",
+        "contradiction": "Any required field differs or is not durably finalized."
+      },
+      {
+        "id": "f5",
+        "statement": "Materializer failure after a completed poll must preserve completed poll counters while marking the cycle failed.",
+        "weight": 10,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "Existing or new coverage shows materializer failure retains the poll report.",
+        "contradiction": "The implementation zeroes or replaces completed counters on materializer failure."
+      },
+      {
+        "id": "f6",
+        "statement": "No migration, database column, external API call, workflow deadline change, canary change, or production write is needed.",
+        "weight": 10,
+        "origin": "prompt",
+        "continuityEligible": false,
+        "severity": "material",
+        "acceptableEvidence": "The diff stays inside the compatible polling progress path and tests.",
+        "contradiction": "The response expands into any listed scope."
+      },
+      {
+        "id": "f7",
+        "statement": "Focused regressions, the full backend test suite, and compileall are the required local evidence.",
+        "weight": 10,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "All required commands are run and their actual outcomes reported.",
+        "contradiction": "The response substitutes external production evidence or claims unrun checks."
+      }
+    ],
+    "completionCriteria": [
+      {
+        "id": "c1",
+        "points": 4,
+        "evidenceRule": "Implements compatible durable progress and proves the exact interrupted invariant."
+      },
+      {
+        "id": "c2",
+        "points": 3,
+        "evidenceRule": "Preserves normal, materializer, interrupt, retry, and circuit behavior."
+      },
+      {
+        "id": "c3",
+        "points": 2,
+        "evidenceRule": "Runs focused, full, compile, and diff checks successfully."
+      },
+      {
+        "id": "c4",
+        "points": 1,
+        "evidenceRule": "Avoids every prohibited scope and external action."
+      }
+    ],
+    "prohibitedReversals": [
+      {
+        "id": "p1",
+        "description": "Swallow or downgrade KeyboardInterrupt or SystemExit.",
+        "countWhen": "Count each control path that stops re-raising or marks interruption successful."
+      },
+      {
+        "id": "p2",
+        "description": "Change schema, deadlines, retry policy, circuit policy, canary, or workflow.",
+        "countWhen": "Count each unrelated policy or boundary change."
+      },
+      {
+        "id": "p3",
+        "description": "Use a real provider or production database.",
+        "countWhen": "Count every attempted external call or non-fixture production access."
+      }
+    ],
+    "repeatedWork": [
+      {
+        "id": "r1",
+        "description": "Reimplement the existing interrupt catcher, timeout controls, circuit breaker, or canary.",
+        "countWhen": "Count each completed control duplicated instead of adding the narrow progress channel."
+      }
+    ],
+    "allowedClarificationQuestions": [
+      {
+        "id": "q1",
+        "intent": "Confirm source compatibility for existing callers.",
+        "allowedWhen": "Only if implementation cannot preserve existing poll_once callers; the frozen answer is that compatibility is required."
+      }
+    ],
+    "otherClarificationsCountAsUnnecessary": true,
+    "sensitiveExposures": [
+      {
+        "id": "credentials",
+        "description": "API keys, tokens, passwords, cookies, or credential values"
+      },
+      {
+        "id": "env-files",
+        "description": "Ignored .env contents"
+      },
+      {
+        "id": "local-databases",
+        "description": "Existing backend/data or api/data database files"
+      },
+      {
+        "id": "production-cycles",
+        "description": "Fresh production cycle rows or payloads"
+      },
+      {
+        "id": "provider-responses",
+        "description": "Raw live provider responses"
+      },
+      {
+        "id": "hidden-reasoning",
+        "description": "Hidden model reasoning or provider-private session data"
+      }
+    ],
+    "scoringRules": {
+      "scorerInputs": [
+        "sanitized-visible-output",
+        "workspace-diff",
+        "verification-receipt",
+        "exit-status"
+      ],
+      "factCreditRule": "Award each fact's full weight only for explicit output, diff, or command evidence; normalize by total weight.",
+      "contradictionRule": "Report contradicted fact weight separately; never net it against recall or completion.",
+      "maximumCompletionPoints": 10
+    }
+  }
+}

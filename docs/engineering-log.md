@@ -874,3 +874,248 @@ printed beta.5 from the public registry. The protected verifier already creates 
 root and private npm cache for this reason. This distinction is retained as a release-diagnostics
 lesson: package-self working directories and ambient executables are not independent consumer
 evidence.
+
+## 2026-07-12 — Tier 1 pilot reviews rejected execution before the evidence contract was complete
+
+Two independent reviews returned NO-GO before any scored pilot run. The runner mixed router and
+explicit-envelope effects without naming the full-product estimand, copied broader Claude state than
+required, inherited ambient Git/npm/uv configuration, trusted prompt-only network restrictions,
+could publish partial artifact bundles, and silently ignored failure-record write errors. The
+analysis read only aggregate CSV rows and could not reconcile all 60 planned runs, recompute
+item-level scores, audit exclusions, form within-fixture pairs, or report missing operational
+evidence. Prompt-explicit facts were also counted as continuity reconstruction, and the original
+condition order placed manual handoff disproportionately in the middle position.
+
+The preregistration now names the treatment as the complete released Carrylog bundle rather than an
+isolated envelope effect. Facts freeze origin, continuity eligibility, and severity. Canonical
+evaluations store fact, contradiction, completion-criterion, reversal, repeated-work,
+clarification, sensitive-exposure, confidence, and unavailable-evidence items bound to artifact and
+codebook digests. Aggregate CSV is analyzer-derived. The reconciler covers every planned run,
+reviewed failure, exclusion, partial claim, completed-unscored artifact, and scored artifact; it
+reports fixed strata, paired directions, descriptive dispersion, fixed-seed fixture bootstrap
+intervals, operational availability, and item-level manual-regression flags without a composite or
+formal non-inferiority claim. The regenerated block order gives every condition six or seven
+appearances in each position.
+
+Runner isolation is now explicit. Setup uses synthetic HOME/TMPDIR, disabled system/global Git
+configuration, no hooks or signing, distinct empty npm user/global configuration, fixed locale, and
+offline package caches. The first attempt incorrectly pointed both npm configuration levels at
+`/dev/null`; npm 10 rejected the duplicate load, and five prepare-only fixtures failed before the
+root cause was corrected with two separate empty files. Both repositories then passed
+repository-only, manual, and Carrylog prepare paths from exact tracked trees; prepare-only never
+staged provider authentication. The verification wrapper uses macOS Seatbelt to deny localhost,
+DNS, and other network access while retaining registered local commands. A no-argument local MCP
+server exposes only those frozen commands to Claude.
+
+Authenticated harness canaries found two material invocation defects. `codex exec` waited for
+additional stdin because the original `execFile` path never closed its input; the runner now uses a
+provider-specific spawn path that closes stdin and distinguishes timeout, signal, spawn, buffer,
+nonzero, malformed, and missing-result failures. OpenAI's documented permission profiles are used to
+deny root reads, allow only minimal runtime/Homebrew and workspace paths, and disable model-tool
+networking. One authenticated Codex canary passed workspace read, external-sentinel denial, and
+network denial after the Homebrew runtime path was added. Later retries hit the account usage limit,
+which remains an execution prerequisite rather than being treated as a passing result.
+
+Claude's `--allowedTools` did not restrict a broadly exposed Bash tool: an authenticated canary ran
+an intentionally unregistered command. Bash was therefore removed entirely. Read-only work uses
+path-scoped built-in readers; writable work uses Claude's workspace edit permission mode; frozen
+verification uses the local MCP server. A later authenticated canary passed workspace read/write,
+external read/write denial, registered MCP execution, and unregistered Bash denial with only minimal
+`claudeAiOauth` staged in an ephemeral synthetic home. MCP OAuth, user settings, histories, hooks,
+memories, and provider sessions are never copied.
+
+Automatic sanitizer output now lands in ignored quarantine. A separate explicit privacy-review
+command performs schema/path/size and credential-pattern checks, requires a reviewer attestation,
+and promotes only reviewed artifacts to the tracked analysis surface. The freeze manifest excludes
+mutable results but includes a frozen report template and every protocol, codebook, fixture, runner,
+reviewer, and analysis input. Execution additionally requires those bytes and the manifest to be
+tracked, clean, and identical to the first commit containing the manifest. Contract coverage proves
+balanced order, deterministic freeze inputs, accepted and rejected evaluation shapes, exact MCP
+tool exposure, scored/failure/unstarted reconciliation, clean privacy promotion, sensitive-content
+rejection, and the verification network canary. Scored execution remains prohibited until the
+complete suite receives an independent follow-up GO and Codex access is available again.
+
+The integrated local quality gate passed 175/175 tests with 94.74% lines, 96.02% functions, and
+89.39% branches. A concurrently started package check initially lost `dist/cli.js` while the quality
+build cleaned the shared `dist/` directory; that result was rejected as invalid shared-worktree
+evidence rather than treated as a packaging defect. Rerun in isolation, the package dry run passed
+with the expected 148 files, excluded all `research/` inputs, and reported 149,377 packed bytes. The
+structural validator, deterministic order check, empty 60-run reconciliation, verification network
+canary, and draft-status freeze refusal all behaved as specified.
+
+## 2026-07-13 — Tier 1 hardening closed runner and decision-rule gaps but exposed a Claude access blocker
+
+Two post-hardening re-reviews remained NO-GO. The security review found that untracked
+`git diff --no-index` output could be accepted without checking timeout, signal, spawn, buffer, or
+exit semantics, and that receipt validation trusted a stored pre-command-state digest without
+recomputing it. It also showed that a model-writable receipt path could not establish an execution
+boundary. The methodology review found a circular review/freeze order, a prose-only Tier 2 decision
+rule, incomplete monotonic run-order enforcement, direct harness metadata in blind artifacts, and no
+independent comparison between scored metadata and the permanent first-ADD freeze commit.
+
+The runner now rejects every untracked-diff result outside the exact empty-file or changed-file Git
+contract. Codex and Claude verification use a frozen no-argument MCP broker; the Codex model profile
+can read but cannot write the verification directory, while the broker runs the registered command
+under Seatbelt and binds the exact registry, command, canonical pre-command Git state, process result,
+and output digests. Blind receipt projections omit execution mode, registry and command identities,
+and raw state. Execution order requires every predecessor to be terminal in both quarantine and
+reviewed surfaces, and requires the selected and every successor run to be absent from all run and
+blind surfaces.
+
+The review workflow now sets the candidate status before calculating the digest, requires two GO
+attestations over those exact bytes, and creates the manifest only afterward. The analyzer defines
+exactly 40 vectors from two harnesses, ten fixtures, and two comparators, requires all six primary
+metrics for screenability, applies STOP then GO then REDESIGN mechanically, exposes every rule input,
+and compares scored metadata with the repository's actual permanent freeze boundary. Contract tests
+cover complete GO, sensitive-exposure STOP, incomplete REDESIGN, and a common forged freeze commit.
+
+Authenticated Codex testing exposed a separate integration failure: a plain side-effecting MCP tool
+was cancelled in non-interactive mode. Setting the global approval policy to `never` did not change
+that result and was rejected. The final configuration approves only the exact frozen broker tool IDs;
+another authenticated run then passed registered MCP execution, workspace access, external-file and
+unregistered-shell denial, and model-tool network denial with zero listener connections. The network
+canary reports connect denial separately from probe-spawn denial rather than treating either as an
+unqualified success.
+
+The matching Claude run ended before MCP or Seatbelt initialization because the organization disables
+Claude Code subscription access. Its bounded redacted result contained no tool result or permission
+denial, and the environment has no `ANTHROPIC_API_KEY`. The canary now classifies this as an external
+authentication prerequisite. Local Claude-mode broker and Seatbelt contracts pass, but an admin
+enablement or safely staged API key is still required before an authenticated GO can be claimed.
+
+An initial Prettier pass changed canonical task bytes and the structural validator correctly rejected
+all stale blind-bundle bindings. The subsequent product gate also rejected Prettier's output because
+Biome is this repository's canonical formatter. Biome then normalized the complete research tree and
+the 60 bundles were regenerated from the final task bytes; validation restored exact digest binding.
+
+The resulting candidate passed 41/41 focused research tests, structural validation for 10 tasks and
+60 runs, deterministic order, all 60 blind bundles, and the local verification isolation canary. A
+second complete prepare-only matrix over the Biome-normalized runner passed 60/60 in 191 seconds, and
+the corresponding authenticated Codex canary again passed with zero network-listener connections.
+The integrated quality gate passed 210/210 tests with 94.74% lines, 95.58% functions, and 89.38%
+branches. The package dry run passed with 148 files and 150,937 packed bytes; `research/` remains
+excluded. No raw, reviewed, evaluated, or scored result was created. Final independent review and the
+Claude authenticated prerequisite remain open; no freeze manifest or GO attestation is claimed here.
+
+The first final-review digest, `e03b3cacf5613b75ee902fdbcf66e1a8fb6627fe0e9aa626e66f033dabbee1e5`,
+was then rejected by two fresh reviewers and permanently abandoned. One reviewer demonstrated that a
+registered verification child could write `FORGED_RECEIPT_CHILD` directly into the receipt file
+because its Seatbelt profile inherited receipt write access. The same review found that privacy
+approval scanned and digested captured bytes but copied the live quarantine path again, leaving a
+scan-to-copy race. The other reviewer showed that a Carrylog privacy rejection labeled
+`manual-privacy-exclusion` bypassed the sensitive-exposure STOP branch, and that two other frozen STOP
+branches lacked direct boundary tests.
+
+The registered child can no longer read, append, or truncate the receipt file; the wrapper checks that
+receipt history is byte-identical around the child and appends exactly one bound record itself. The
+privacy reviewer no longer recopies live paths: it scans, digests, materializes, and reads back the
+same captured Buffers. Regression tests reproduce the receipt attacks and mutate quarantine after
+capture without changing promoted bytes. Any Carrylog-resume privacy rejection now triggers STOP
+regardless of reviewer reason. Full-grid tests directly cover shared adverse macro means, replicated
+and isolated manual regressions, malformed or missing evidence, privacy rejection, and simultaneous
+STOP precedence.
+
+The replacement candidate digest is
+`e87adc35b467b74f1226eb95ff600c7118c062219a9dddcf04091913b0ad08af` over 125
+review inputs. It passed 42/42 focused research tests, the 60/60 prepare-only matrix in 187 seconds,
+and a fresh authenticated Codex isolation canary. The integrated gate passed 211/211 tests with
+94.74% lines, 96.02% functions, and 89.39% branches. The package dry run passed with 148 files and
+151,105 packed bytes. Two new independent reviews are evaluating that exact digest. Claude access,
+formal attestations, the manifest, and scored runs remain absent and are not claimed.
+
+The second final-review digest was also rejected and abandoned. Security reproduction showed that an
+exact local fetch without `--depth=1` left 22 reachable source commits in the external Git database.
+Even a one-commit shallow source still contains the current source tree, including discovery context
+removed from repository-only and manual worktrees, so model access to that Git database would continue
+to contaminate controls. A separate review found that rejection publication preceded the exclusion
+CSV update, allowing an interrupted safety rejection to become protocol-invalid and lose its STOP
+classification. The reviewers also observed that authenticated canaries were a documented manual
+gate but not a machine precondition for review-digest generation.
+
+The runner now fetches the exact SHA through a local `file://` shallow boundary with no tags or fetch
+head, requires one reachable source commit, verifies the exact shallow marker, and proves the parent
+object is inaccessible. Model environments and Codex permissions no longer receive repository
+selection variables, Git runtimes, or external Git database access; only the registered broker
+partition can read it. The authenticated canary checks direct Git-object and credential-adjacent home
+denial while registered `git-head` and `git-status` remain usable.
+
+Privacy rejection and approved failure publication now write an exact codebook-compatible exclusion
+first, recover only identical partial destinations, and reject drift. Analyzer safety input remains
+independent of structural validity, so an interrupted Carrylog privacy rejection still forces STOP.
+The pre-quarantine artifact gate rejects JWTs and credential-bearing object keys before any ignored
+raw artifact is written. Focused tests cover interruption, retry, partial publication, approved
+failure classification, sanitizer rejection, shallow history, model Git separation, and
+credential-adjacent denial.
+
+Authenticated evidence is now a frozen machine gate. `harness-prerequisites.json` binds the harness
+configuration and critical file digests; its runner records only bounded result hashes and summary
+fields, never raw provider output. Critical-byte changes reset attestations to pending. The current
+bytes record Codex as passed and Claude as pending. Consequently both `--require-passed` and
+`freeze --review-digest` fail closed until authorized Claude access succeeds.
+
+The latest offline candidate passed 52/52 focused research tests and the full 60/60 prepare-only
+matrix in 186 seconds. The integrated quality gate passed 221/221 tests with 94.74% lines, 96.02%
+functions, and 89.31% branches. Package inspection passed with 148 files and 151,886 packed bytes;
+research remains excluded. Its non-formal code-review hash is
+`3c881693fec1a44c9effbd09cf38986cd5ff6b210467915426c8313412e539ce` over 131
+inputs. This hash is not eligible for review attestations because the formal prerequisite gate blocks
+digest generation. No manifest, raw result, score, or behavioral continuity claim exists.
+
+## 2026-07-13 — Final-review attempts closed evidence-oracle and freeze races
+
+The `3c881693...39ce` candidate became stale before final review and was never eligible for an
+attestation. Fresh security and methodology reviews then rejected the replacement bytes. The Codex
+authenticated canary preserved command output but discarded the actual command, so a model could
+echo the prompt-visible denial markers without running the intended probes. Claude counted permission
+denials without binding them to the requested tool, path, or tool-use identifier. The freeze writer
+accepted attestations over one review digest and independently collected a later manifest surface,
+allowing an input changed immediately after the review gate to enter an unreviewed manifest. Ajv and
+its installed transitive packages were also outside the frozen analysis surface.
+
+Codex now executes one immutable, hash-checked workspace probe and accepts only the CLI's exact
+`-c` or `-lc` wrapper around that probe. All classifications are emitted as one trusted final record;
+the listener independently proves that no network connection arrived. This design followed an
+authenticated integration failure where sandbox diagnostics caused earlier output lines to be
+truncated, and another where the CLI selected `-c` instead of `-lc`. Marker-only commands, additional
+commands, wrong commands, forbidden states, and changed probe bytes are rejected. Claude now retains
+tool-use IDs, names, and full inputs and requires exact result or permission-denial binding for the
+workspace read and each external read/write probe.
+
+The freeze writer re-collects the review surface after the review gate, derives the manifest and
+review digest from matching file records, checks again during capture, and removes the new manifest
+if the surface changes while writing. `--check` repeats preflight, current attestation, review-digest,
+manifest, and permanent first-ADD validation. Ajv reproducibility is frozen in
+`analysis-dependencies.json`: the root requirement, selected package-lock records, complete current
+transitive closure, integrity metadata, and each installed package tree digest must match before
+validation, analysis, evaluation scaffolding, preflight, or manifest construction can load Ajv.
+
+The next independent reviews found four more blockers. Claude exposed `verify_git_head` and
+`verify_git_status` but registered only the first MCP command, making its authenticated canary
+impossible to pass. Concurrent exclusion writers used independent read/replace cycles; a stress
+reproduction lost one privacy outcome while both processes returned success. Diagnostic redaction
+missed JWTs and credential-bearing environment assignments, and the manifest writer did not re-read
+the just-written manifest itself. The Claude registry now contains all three exact commands.
+Exclusion updates use a cross-process exclusive lock and a 12-process regression retains every
+distinct row; an uncertain or stale lock blocks rather than risking lost safety data. Shared
+diagnostics redact sentinels, private paths, JWTs, bearer values, known token prefixes, credential
+environment assignments, and structured auth fields. Manifest creation verifies the exact regular
+file bytes after writing and removes a corrupted replacement before returning failure.
+
+After these corrections, the focused research suite passed 64/64 tests, including deterministic
+post-review, capture-time, post-write, dependency-drift, marker-spoof, exact-tool, redaction, and
+concurrent-writer rejection cases. The local isolation canary passed, and a fresh authenticated Codex
+canary recorded a passed prerequisite for the current critical bytes. The integrated quality gate
+passed 233/233 tests with 94.74% lines, 96.02% functions, and 89.39% branches. The earlier complete
+prepare-only matrix passed 60/60 before the last review-only safety fixes, and the exact documented
+candidate rerun passed 60/60 in 192 seconds. A final security review then found that quoted
+credential assignments and credential-bearing database URLs escaped diagnostic redaction. The
+shared redactor now covers quoted and unquoted assignments plus common database URL variables while
+preserving non-credential `PUBLIC_URL` values; its independent post-fix security verdict is GO. That
+redaction-only critical change reset the Codex prerequisite, and the authenticated rerun was blocked
+by the provider usage limit rather than reused. The exact final bytes passed another 60/60 matrix in
+182 seconds. Final package inspection and post-documentation quality
+then passed: the quality gate remained 233/233 with 94.74% lines, 96.02% functions, and 89.39%
+branches, and package inspection retained 148 files while excluding `research/`. Claude remains
+pending because authorized access is unavailable; Codex is also pending until the current critical
+bytes can be re-authenticated after the usage limit resets. No formal review digest, manifest, raw
+result, score, or behavioral continuity claim exists.

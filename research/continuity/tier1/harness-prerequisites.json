@@ -1,0 +1,56 @@
+{
+  "formatVersion": 1,
+  "harnessConfigurationSha256": "07e1eb47565a5fa36d2425936bbd7b7576e1ee02233e4e75c8c14e9c756eb6ba",
+  "criticalFiles": [
+    {
+      "path": "analysis/fixture-command-wrapper.mjs",
+      "sha256": "7b0000bb8fd7adab90a3d264487674029b24b08a05f44839eb8d01b2d351dae9"
+    },
+    {
+      "path": "analysis/harness-contract.mjs",
+      "sha256": "75109ad28e2b02bc3906ec2cf33023ce38b0699ae317255d792fc1474675a7d5"
+    },
+    {
+      "path": "analysis/harness-isolation-canary.mjs",
+      "sha256": "5bcfbeccf4988c55eab1a72df92c9ef0749ccd3cd3101c48b90acb5c5d98c6d5"
+    },
+    {
+      "path": "analysis/harness-prerequisites.mjs",
+      "sha256": "c17640b09776ef9305478520e1ca9515829c2546f2ebe4b857721ce0a7eee767"
+    },
+    {
+      "path": "analysis/run-contract.mjs",
+      "sha256": "6f024182c097476d97e4ca785a79b86a4f7ab15c6bb4251fe83d6a5d7300626b"
+    },
+    {
+      "path": "analysis/run.mjs",
+      "sha256": "7703aa7af9c1776454260d3cb55e97b432a36048637309c7f2487aff25cba0ea"
+    },
+    {
+      "path": "analysis/verification-mcp-server.mjs",
+      "sha256": "7c1ba07289b28ad96b20bc10f2d95da5fc3da664fcedd7cdd68bc62b0bb2e134"
+    },
+    {
+      "path": "verification-commands.json",
+      "sha256": "ad671df4a8cd0352cc004f77857cd01c3de023b3557f6faffe0a13f603adeb94"
+    }
+  ],
+  "harnesses": {
+    "codex": {
+      "status": "pending",
+      "testedAt": null,
+      "cliVersion": null,
+      "model": null,
+      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
+      "resultSha256": null
+    },
+    "claude": {
+      "status": "pending",
+      "testedAt": null,
+      "cliVersion": null,
+      "model": null,
+      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
+      "resultSha256": null
+    }
+  }
+}
