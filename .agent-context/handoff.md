@@ -4,90 +4,84 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "343b4e3 at 2026-07-12T14:17:33+09:00"
-- Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: 0 staged, 4 unstaged, 0 untracked, 0 conflicted
+- HEAD: "f64f5df at 2026-07-13T03:10:55+09:00"
+- Upstream: "origin/main; ahead 1, behind 0"
+- Working tree: Clean (snapshot file excluded)
 - Staged diff: 0 file(s), +0/-0, 0 binary
-- Unstaged diff: 4 file(s), +56/-23, 0 binary
+- Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (4)
+### Changed paths (0)
 
-    {"status":" M","path":".agent-context/current-state.md"}
-    {"status":" M","path":"README.md"}
-    {"status":" M","path":"ROADMAP.md"}
-    {"status":" M","path":"docs/engineering-log.md"}
+None.
 
 ### Recent commits (5)
 
+    {"commit":"f64f5df","committedAt":"2026-07-13T03:10:55+09:00","subject":"research: harden Tier 1 continuity candidate"}
+    {"commit":"c9e8c2d","committedAt":"2026-07-12T14:39:51+09:00","subject":"docs: record Carrylog beta5 publication"}
     {"commit":"343b4e3","committedAt":"2026-07-12T14:17:33+09:00","subject":"release: prepare Carrylog beta5"}
     {"commit":"660b0ce","committedAt":"2026-07-12T04:24:45+09:00","subject":"docs: record beta5 candidate CI"}
     {"commit":"243e1d5","committedAt":"2026-07-12T04:22:33+09:00","subject":"feat: add universal Carrylog continuity"}
-    {"commit":"f7d0826","committedAt":"2026-07-11T01:56:31+09:00","subject":"docs: record Carrylog beta4 verification"}
-    {"commit":"d7a83e4","committedAt":"2026-07-11T01:49:11+09:00","subject":"feat: migrate project identity to Carrylog"}
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Close the verified beta.5 release evidence, then execute the preregistered minimum Tier 1 continuity
-pilot without implementing journaling or compaction.
+Finish the Tier 1 continuity candidate's authenticated harness and formal review gates without
+implementing journaling or compaction.
 
 ## Completed
 
-- Built the beta.5 configuration-v2 migration, universal surfaces, continuity Skills, guarded
-  checkpoint/resume, and evidence gates without changing frozen v1 wire identities.
-- Resolved independent review findings in parsing, terminal output, executable resolution, legacy
-  evidence scanning, v1 migration, resource bounds, public API validation, and package boundaries.
-- Published immutable beta.4 through failed-job-only recovery and independently verified its public
-  artifact, provenance, installation, initialization, and validation.
-- Reworked user and maintainer docs around installability, measured adoption, evidence ownership, and
-  a minimum Tier 1 pilot; journaling and compaction remain research-only.
-- Deprecated the old scoped beta with an exact migration message, removed the GitHub bootstrap
-  secret, corrected the non-removable `latest` policy, and made beta.5 publication OIDC-only.
-- Added complete dist-tag verification and workflow contracts after an independent release NO-GO;
-  the follow-up review is GO.
-- Published immutable beta.5 through the protected token-free OIDC workflow after all three platform
-  preflights passed, then independently matched the public artifact, executable, tags, signature,
-  provenance, release commit, and immutable tag.
+- Built the 10-fixture, 60-run Tier 1 candidate with balanced deterministic order, blind evaluation,
+  privacy quarantine/review, immutable source selection, broker receipts, and mechanical Tier 2
+  decision rules. No scored or raw result exists.
+- Closed authenticated-canary marker spoofing by binding Codex to one immutable exact-command probe
+  and Claude results and denials to exact tool-use identifiers, names, and inputs.
+- Bound Ajv's lock closure and installed package trees to the frozen analysis surface before any
+  validator, analyzer, evaluator, preflight, or manifest path loads it.
+- Closed review-gate, capture-time, and post-write manifest races; `--check` repeats the full current
+  review, prerequisite, manifest, and permanent first-ADD validation.
+- Serialized exclusion writes across processes so concurrent privacy reviews cannot erase another
+  safety outcome. Expanded diagnostics to redact paths, JWTs, structured auth, quoted and unquoted
+  credentials, and credential-bearing database URLs.
+- Completed independent post-fix methodology and security reviews. Both code scopes are GO; these are
+  not formal experiment attestations and do not replace authenticated prerequisites.
 
 ## Verification
 
-- Full local quality, package, publish-dry-run, and audit gates pass, including accepted and rejected
-  registry policy states. Exact measurements belong to the engineering log.
-- Independent post-fix code/security review reports all findings resolved; dogfood sync, validation,
-  checkpoint freshness, and resume pass. Exact evidence belongs to the engineering log.
-- The reviewed beta.5 implementation commit passed all eleven Linux/macOS/Windows CI jobs, including
-  minimum Node, packed consumers, the release client, and npm 12 contracts.
-- Harness discovery has local Codex/Gemini and one authenticated Claude reconstruction result; Cursor
-  remains unavailable, so cross-harness behavioral continuity is not claimed.
-- Beta.4 remains the verified bare-install bootstrap because npmjs.org forbids removing `latest`;
-  `@beta` is the advancing prerelease channel. The old beta.3 deprecation is publicly verified.
-- The tagged beta.5 release workflow and independent public-registry checks passed. Exact run IDs,
-  artifact digests, provenance identity, and the rejected ambient-global false result are recorded in
-  the engineering log.
+- Current bytes pass the complete 60/60 prepare-only matrix in 182 seconds, the 64/64 research suite,
+  deterministic order, 60 blind bundles, structural validation, and local isolation canary.
+- The integrated quality gate passes 233/233 tests with 94.74% lines, 96.02% functions, and 89.39%
+  branches. Package inspection passes with 148 files and excludes `research/`.
+- The final independent security review is GO with 48/48 focused checks. The independent methodology
+  review is GO with the manifest, dependency, and exclusion concurrency gates verified.
+- The Codex authenticated canary passed before the final redaction-only critical change. Refresh
+  correctly reset it; its current-byte rerun reached the provider usage limit and remains pending.
+- Claude remains pending because organization policy disables subscription OAuth and no API key is
+  available. `--require-passed` and `freeze --review-digest` both fail closed on that state.
 
 ## Decisions
 
-- Configuration v1 stays frozen; v2 is explicit and fail-closed. Codex/Cursor share `AGENTS.md` and
-  the generic Skill; Claude uses a minimal Skill adapter; Gemini has its own root adapter.
-- Portable continuity is reviewed repository state plus fresh Git observation, never transcripts,
-  hidden reasoning, provider stores, credentials, or native-compaction state.
-- ADR-0012 permits the narrow checkpoint beta with documented gaps but gates behavioral continuity,
-  journaling, and semantic-compaction claims on staged evidence.
-- npm's non-removable `latest` stays fixed at beta.4 until stable; beta.5 and later prereleases advance
-  only through explicit `@beta` or exact-version selection.
+- Formal review and manifest creation remain unavailable until both authenticated prerequisites pass
+  for the same unchanged critical bytes. No stale provider pass is reused.
+- Research dependencies and safety registries are treated as frozen evidence inputs, not ambient
+  workstation state. Drift and concurrent uncertainty fail closed.
+- Crash-stale exclusion locks are not automatically stolen. Operator-confirmed recovery is preferred
+  over silent privacy-result loss.
+- Journaling, transcript replay, and semantic compaction remain outside the supported product and
+  experiment until ADR-0012's staged behavioral evidence gates are satisfied.
 
 ## Risks
 
-- Cross-harness behavioral continuity, repeated-switch retention, all-record value, and compaction
-  superiority remain unproven.
-- Cursor is unavailable; final authenticated Codex/Gemini conformance needs credential recovery.
-- Cross-file replacement is staged and config-last but is not an OS-level transaction; ADR-0007's
-  sequential rename and final path-to-syscall race remain.
-- The Tier 1 protocol cannot generate scored results until two repository fixtures, task rubrics,
-  randomized order, and two authenticated harnesses are frozen in a committed preregistration.
+- Codex usage capacity and authorized Claude access block current-byte authenticated prerequisites.
+- Abnormal termination while holding `exclusions.csv.lock` leaves a fail-closed manual recovery item.
+- The final path-to-syscall race cannot be eliminated across a multi-file suite; repeated readback,
+  `--check`, and the permanent committed boundary are the layered defenses.
+- Cross-harness behavioral continuity, repeated-switch retention, all-record value, conversation
+  reconstruction, and compaction superiority remain unproven.
 
 ## Next action
 
-Commit the post-release evidence, freeze the Tier 1 fixtures and harness prerequisites, then execute
-the randomized pilot without changing the product during scored runs.
+After Codex usage resets and Claude access is authorized, refresh once, run both authenticated
+canaries, generate a new formal review digest, obtain two independent GO attestations over those exact
+unchanged bytes, write and commit the first-ADD manifest, run `--check`, and only then begin scored
+execution.
