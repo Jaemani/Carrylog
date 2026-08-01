@@ -37,6 +37,7 @@ test("continuity skill resolves source and pinned executables before a compatibl
   assert.match(skill, /node_modules\/\.bin\/carrylog/);
   assert.match(skill, /process\.platform===\x27win32\x27\?\x27carrylog\.cmd\x27:\x27carrylog\x27/);
   assert.match(skill, /f\.lstatSync/);
+  assert.match(skill, /f\.statSync/);
   assert.match(skill, /f\.accessSync/);
   assert.match(skill, /Do not use Glob, Read, or directory listings/);
   assert.match(skill, /Exit 1 means it is\s+absent and permits checking the global candidate/);
@@ -92,12 +93,20 @@ test("project-local executable probe observes the platform bin without a global 
     if (process.platform !== "win32") await chmod(executable, 0o755);
 
     await execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root });
+
+    if (process.platform !== "win32") {
+      const linkedTarget = path.join(root, "linked-carrylog");
+      await unlink(executable);
+      await writeFile(linkedTarget, "#!/bin/sh\n", { encoding: "utf8", mode: 0o755 });
+      await symlink(linkedTarget, executable, "file");
+      await execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root });
+    }
   } finally {
     await removeTemporaryDirectory(root);
   }
 });
 
-test("project-local executable probe rejects dangling filesystem candidates", async (context) => {
+test("project-local executable probe rejects directory and dangling filesystem candidates", async (context) => {
   const root = await createTemporaryDirectory("carrylog-dangling-probe-");
   try {
     const modulesDirectory = path.join(root, "node_modules");
@@ -132,11 +141,14 @@ test("project-local executable probe rejects dangling filesystem candidates", as
       binDirectory,
       process.platform === "win32" ? "carrylog.cmd" : "carrylog",
     );
-    await symlink(
-      path.join(root, "missing-carrylog"),
-      executable,
-      process.platform === "win32" ? "junction" : "file",
+    const linkedTarget = path.join(root, "linked-carrylog-target");
+    await mkdir(linkedTarget);
+    await symlink(linkedTarget, executable, process.platform === "win32" ? "junction" : "dir");
+    await assert.rejects(
+      execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root }),
+      (error) => error !== null && typeof error === "object" && error.code === 2,
     );
+    await rmdir(linkedTarget);
     await assert.rejects(
       execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root }),
       (error) => error !== null && typeof error === "object" && error.code === 2,

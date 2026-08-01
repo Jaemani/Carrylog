@@ -2,8 +2,8 @@
 
 ## Active objective
 
-Finish the preregistered Tier 1 continuity candidate's post-fix review and authenticated harness
-gates without implementing journaling or compaction.
+Restore the supported cross-platform CI matrix for the continuity-Skill correction, then prepare a
+new prerelease only from fresh green evidence. Journaling and compaction remain out of scope.
 
 ## Implemented and verified
 
@@ -40,6 +40,10 @@ gates without implementing journaling or compaction.
   exercised a Carrylog v2 checkpoint through the generated Claude Skill. The test exposed and fixed
   project-local executable discovery through ignored `node_modules`; this is delivery and
   reconstruction evidence, not a scored Tier 1 result.
+- The first post-fix CI matrix exposed host-dependent macOS research PATH construction, unguarded
+  Seatbelt-only integration tests, and a Windows junction case that executable access alone did not
+  reject. Corrections now compile target paths with POSIX semantics, scope only actual Seatbelt
+  execution to macOS, and require a dereferenced regular-file executable target; fresh CI is pending.
 
 ## Blockers and risks
 
@@ -64,10 +68,11 @@ gates without implementing journaling or compaction.
   compaction value remain unproven and outside the supported runtime.
 - A process killed while holding the exclusion registry lock can leave a stale lock that requires
   operator review before removal; the system prefers an explicit blocked retry over lost safety data.
+- The current portability corrections have local focused evidence only until a new Linux, macOS, and
+  Windows matrix passes on committed bytes.
 
 ## Next best task
 
-Finish verification and review of the project-local executable-discovery fix, then decide whether to
-amend the uncommitted Tier 1 candidate to current Codex and Claude-router harness identities. If
-amended, refresh and rerun both authenticated prerequisites before generating any formal review
-digest or scored output.
+Complete local quality, package, and review gates for the portability corrections; commit and require
+a fresh full CI matrix. Only after that matrix passes, prepare beta.6 and separately decide whether
+to amend the uncommitted Tier 1 candidate to current Codex and Claude-router harness identities.

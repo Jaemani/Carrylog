@@ -71,6 +71,13 @@ install coverage because its incomplete provenance bundle fails while loading th
 even when provenance is disabled. Release-artifact tests reject ambiguous selection, record or commit
 mismatch, unsafe filenames, non-regular artifacts, and digest drift before npm can run.
 
+The Tier 1 verification broker targets macOS Seatbelt. Its pure registry, permission, POSIX PATH,
+receipt, and parser contracts run on every supported CI operating system. The two tests that execute
+`sandbox-exec` run only on macOS, where the required runtime exists; Linux and Windows report those
+capability-specific integrations as skipped rather than attempting to emulate a different security
+boundary. Project-local executable selection remains a product-level cross-platform process test,
+including Windows directory junctions, dereferenced target type, and dangling-target rejection.
+
 ### Performance and resource budgets
 
 These are implementation contracts, not current benchmark results:
@@ -161,7 +168,8 @@ correctness requirement.
 
 ## Remaining gaps
 
-- Additional Windows reparse-point and hard-link-specific coverage beyond the directory-junction test.
+- Additional Windows reparse-point and hard-link-specific coverage beyond the tested ancestor and
+  executable directory-junction cases.
 - Deterministic syscall injection at each chmod/rename failure point; current tests use observable
   filesystem failures and stale expectations.
 - Authenticated fresh-session checks across every supported harness; offline Codex prompt inspection

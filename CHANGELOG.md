@@ -5,6 +5,14 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [Unreleased]
 
+### Fixed
+
+- Made the project-local executable probe dereference symbolic links and require the selected target
+  to be a regular file, so directory junctions and dangling targets fail closed instead of passing
+  the Windows executable-access check.
+- Made the macOS verification PATH compiler use POSIX path and delimiter semantics regardless of the
+  CI host that checks the pure contract.
+
 ### Changed
 
 - Made the generated continuity Skill detect a project-pinned Carrylog executable with an exact
@@ -14,7 +22,11 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 ### Testing
 
 - Added platform-aware executable-probe regressions for absent, invalid, dangling-ancestor,
-  dangling-leaf, and usable local candidates without consulting a global installation.
+  directory-target, dangling-leaf, and usable local candidates without consulting a global
+  installation.
+- Separated portable research-harness contract checks from the two integration checks that require
+  the frozen macOS Seatbelt runtime; Linux and Windows still execute the pure registry, permission,
+  PATH, and parser contracts.
 
 ## [0.1.0-beta.5] - 2026-07-12
 

@@ -213,7 +213,11 @@ test("verification registry fixes execution mode from harness and rejects ambigu
   assert.throws(() => renderCodexRuntimePermissions(["/usr/local"]));
 });
 
-test("Codex broker wrapper preserves exact command, receipt, state, unknown-ID, and no-argument contracts", async () => {
+test("Codex broker wrapper preserves exact command, receipt, state, unknown-ID, and no-argument contracts", async (context) => {
+  if (process.platform !== "darwin") {
+    context.skip("Codex broker execution requires the frozen macOS Seatbelt runtime.");
+    return;
+  }
   const temporaryRoot = await mkdtemp(path.join(tmpdir(), "carrylog-direct-wrapper-contract-"));
   const checkout = path.join(temporaryRoot, "checkout");
   const verificationDirectory = path.join(temporaryRoot, "verification");

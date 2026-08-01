@@ -302,7 +302,11 @@ test("evaluation schema accepts item-level evidence and rejects undeclared field
   );
 });
 
-test("verification MCP exposes only frozen no-argument commands", async () => {
+test("verification MCP exposes only frozen no-argument commands", async (context) => {
+  if (process.platform !== "darwin") {
+    context.skip("Verification MCP execution requires the frozen macOS Seatbelt runtime.");
+    return;
+  }
   const temporaryRoot = await realpath(
     await mkdtemp(path.join(tmpdir(), "carrylog-mcp-contract-")),
   );

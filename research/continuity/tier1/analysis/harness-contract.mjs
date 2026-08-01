@@ -275,15 +275,17 @@ export function partitionVerificationRuntimeReadPaths({
 
 export function buildVerificationExecutablePath(invocationPaths, developerDirectory) {
   assert.ok(Array.isArray(invocationPaths) && invocationPaths.length > 0);
-  assert.equal(path.isAbsolute(developerDirectory), true);
-  const directories = new Set([path.join(developerDirectory, "usr", "bin")]);
+  // Verification executes inside macOS Seatbelt even when this pure contract is
+  // checked by a non-macOS CI host. Compile the target PATH with POSIX semantics.
+  assert.equal(path.posix.isAbsolute(developerDirectory), true);
+  const directories = new Set([path.posix.join(developerDirectory, "usr", "bin")]);
   for (const invocationPath of invocationPaths) {
-    assert.equal(path.isAbsolute(invocationPath), true);
-    directories.add(path.dirname(invocationPath));
+    assert.equal(path.posix.isAbsolute(invocationPath), true);
+    directories.add(path.posix.dirname(invocationPath));
   }
   directories.add("/usr/bin");
   directories.add("/bin");
-  return [...directories].join(path.delimiter);
+  return [...directories].join(":");
 }
 
 export function buildVerificationScratch(root) {

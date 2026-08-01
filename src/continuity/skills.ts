@@ -9,6 +9,7 @@ export const PROJECT_LOCAL_CARRYLOG_PROBE = [
   "if(!d(m)||!d(b))process.exit(1);let s;",
   "try{s=f.lstatSync(x)}catch(e){process.exit(e&&e.code==='ENOENT'?1:2)}",
   "if(!s.isFile()&&!s.isSymbolicLink())process.exit(2);",
+  "let t;try{t=f.statSync(x)}catch{process.exit(2)}if(!t.isFile())process.exit(2);",
   "try{f.accessSync(x,f.constants.X_OK)}catch{process.exit(2)}",
 ].join("");
 

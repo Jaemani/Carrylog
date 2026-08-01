@@ -1184,3 +1184,28 @@ that review was static, Windows junction behavior still depends on Windows CI, a
 filesystem selection rather than CLI compatibility; the existing mandatory `resume --help` step
 continues to provide the compatibility gate. The final unpublished candidate was repackaged and the
 isolated Claude Skill and no-tool native-resume checks both passed again on those corrected bytes.
+
+## 2026-08-02 — Fresh CI exposed host semantics and a Windows junction gap
+
+The first committed Skill correction passed local macOS quality and package gates, but full workflow
+run `30710079223` failed both Linux jobs and both Windows jobs. Linux exposed two research tests that
+unconditionally required `otool`, `/Library/Developer/CommandLineTools`, and `sandbox-exec`. Windows
+exposed the same capability mismatch, a macOS verification PATH built with Windows separators, and a
+directory junction at the executable path that passed `lstat` plus Windows `X_OK` access. The packed
+artifact matrix and both macOS quality jobs passed, so the failure was not treated as package or
+macOS evidence for the supported cross-platform source gate.
+
+The correction separates portable contracts from capability-specific execution. Pure verification
+registry, permission, parser, and PATH contracts continue to run on every CI operating system, while
+the two tests that execute the frozen macOS Seatbelt boundary explicitly require Darwin. The PATH
+compiler now uses `path.posix` and `:` because its target is macOS even when its pure output is checked
+on Windows. The Carrylog project-local probe now follows an accepted file or symbolic-link candidate
+with `stat`, requires the resolved target to be a regular file, and then checks executable access.
+Regressions cover an existing directory target and the same junction after its target is removed, in
+addition to the prior absent, invalid, dangling-ancestor, and usable cases. A fresh full matrix is
+required before these corrections can support a prerelease claim.
+
+Local focused contracts and the complete quality gate passed after the correction. Package
+inspection retained 148 files at 157,928 bytes, and packed-artifact smoke passed local, ephemeral,
+global, ESM, strict TypeScript, v1-to-v2 migration, initialization, validation, checkpoint, and
+resume consumers. These local macOS results do not replace the pending Linux and Windows jobs.

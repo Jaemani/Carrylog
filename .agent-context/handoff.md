@@ -4,8 +4,8 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "f64f5df at 2026-07-13T03:10:55+09:00"
-- Upstream: "origin/main; ahead 1, behind 0"
+- HEAD: "191db00 at 2026-08-02T01:39:51+09:00"
+- Upstream: "origin/main; ahead 3, behind 0"
 - Working tree: Clean (snapshot file excluded)
 - Staged diff: 0 file(s), +0/-0, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
@@ -17,71 +17,90 @@ None.
 
 ### Recent commits (5)
 
+    {"commit":"191db00","committedAt":"2026-08-02T01:39:51+09:00","subject":"fix: resolve pinned Carrylog without agent file discovery"}
     {"commit":"f64f5df","committedAt":"2026-07-13T03:10:55+09:00","subject":"research: harden Tier 1 continuity candidate"}
     {"commit":"c9e8c2d","committedAt":"2026-07-12T14:39:51+09:00","subject":"docs: record Carrylog beta5 publication"}
     {"commit":"343b4e3","committedAt":"2026-07-12T14:17:33+09:00","subject":"release: prepare Carrylog beta5"}
     {"commit":"660b0ce","committedAt":"2026-07-12T04:24:45+09:00","subject":"docs: record beta5 candidate CI"}
-    {"commit":"243e1d5","committedAt":"2026-07-12T04:22:33+09:00","subject":"feat: add universal Carrylog continuity"}
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Finish the Tier 1 continuity candidate's authenticated harness and formal review gates without
-implementing journaling or compaction.
+Restore the supported Linux, macOS, and Windows matrix for the generated continuity-Skill correction,
+then prepare beta.6 only from fresh committed evidence.
 
 ## Completed
 
-- Built the 10-fixture, 60-run Tier 1 candidate with balanced deterministic order, blind evaluation,
-  privacy quarantine/review, immutable source selection, broker receipts, and mechanical Tier 2
-  decision rules. No scored or raw result exists.
-- Closed authenticated-canary marker spoofing by binding Codex to one immutable exact-command probe
-  and Claude results and denials to exact tool-use identifiers, names, and inputs.
-- Bound Ajv's lock closure and installed package trees to the frozen analysis surface before any
-  validator, analyzer, evaluator, preflight, or manifest path loads it.
-- Closed review-gate, capture-time, and post-write manifest races; `--check` repeats the full current
-  review, prerequisite, manifest, and permanent first-ADD validation.
-- Serialized exclusion writes across processes so concurrent privacy reviews cannot erase another
-  safety outcome. Expanded diagnostics to redact paths, JWTs, structured auth, quoted and unquoted
-  credentials, and credential-bearing database URLs.
-- Completed independent post-fix methodology and security reviews. Both code scopes are GO; these are
-  not formal experiment attestations and do not replace authenticated prerequisites.
+- Ran a read-only Personal Context baseline in which Claude Code through a GPT router reconstructed
+  Codex-authored repository handoff facts and retained them after a Claude-native resume with no file
+  or shell tools.
+- Built an isolated Personal Context clone with Carrylog v2 context, Codex and Claude surfaces, a
+  project-pinned candidate package, and a current checkpoint. The final Claude Skill run selected the
+  pinned executable, returned the resume envelope, and reconstructed its verified continuation state.
+- Reproduced a generated-Skill defect where agent file discovery hid ignored
+  `node_modules/.bin/carrylog` and incorrectly selected the global candidate.
+- Replaced the ambiguous discovery step with a silent cross-platform probe that distinguishes an
+  absent local executable from an unusable or uncertain local candidate. Only true absence permits
+  global fallback.
+- A read-only second review first returned NO-GO because a dangling ancestor could surface as leaf
+  `ENOENT`. The probe now validates both ancestor directories before classifying leaf absence, and a
+  repeat review returned GO without findings.
+- Added process-level regressions for absent, invalid, dangling-ancestor, dangling-leaf, and usable
+  platform-specific candidates and regenerated the canonical continuity Skill.
+- Inspected failed workflow run `30710079223`. Both Linux jobs exposed unguarded macOS Seatbelt
+  integration prerequisites; both Windows jobs additionally exposed host-dependent PATH construction
+  and a directory-junction executable target that the probe accepted.
+- Changed the macOS verification PATH compiler to explicit POSIX target semantics and restricted only
+  actual `sandbox-exec` integration to Darwin while retaining pure harness contracts on every CI OS.
+- Strengthened the project-local executable probe to dereference file candidates and require a
+  regular-file target before executable access. Added accepted regular-file/symlink cases and rejected
+  directory-target/dangling-junction cases.
 
 ## Verification
 
-- Current bytes pass the complete 60/60 prepare-only matrix in 182 seconds, the 64/64 research suite,
-  deterministic order, 60 blind bundles, structural validation, and local isolation canary.
-- The integrated quality gate passes 233/233 tests with 94.74% lines, 96.02% functions, and 89.39%
-  branches. Package inspection passes with 148 files and excludes `research/`.
-- The final independent security review is GO with 48/48 focused checks. The independent methodology
-  review is GO with the manifest, dependency, and exclusion concurrency gates verified.
-- The Codex authenticated canary passed before the final redaction-only critical change. Refresh
-  correctly reset it; its current-byte rerun reached the provider usage limit and remains pending.
-- Claude remains pending because organization policy disables subscription OAuth and no API key is
-  available. `--require-passed` and `freeze --review-digest` both fail closed on that state.
+- The final isolated candidate validates without diagnostics and resumes with
+  `checkpoint.stale=false` on `codex/runtime-v1-stabilization` at `6c046ce`; Claude returned the full
+  expected branch, HEAD, next action, local-candidate selection, and resume command.
+- Resuming that final Claude session with all tools disabled retained the branch, current checkpoint
+  state, and next action from the resumed conversation alone.
+- The focused continuity and research harness contracts pass on the local macOS host, including both
+  real Seatbelt integrations and the valid symlink-to-regular-file probe case.
+- `npm run quality` passes the complete format, strict TypeScript, test, and coverage gates.
+- `npm run pack:check` passes with 148 files and 157,928 packed bytes.
+- `npm run test:package` passes local, ephemeral, global, ESM, strict-type, migration, initialization,
+  validation, checkpoint, and resume consumers.
+- Fresh Linux and Windows verification remains pending; no supported-matrix GO is claimed from local
+  results.
 
 ## Decisions
 
-- Formal review and manifest creation remain unavailable until both authenticated prerequisites pass
-  for the same unchanged critical bytes. No stale provider pass is reused.
-- Research dependencies and safety registries are treated as frozen evidence inputs, not ambient
-  workstation state. Drift and concurrent uncertainty fail closed.
-- Crash-stale exclusion locks are not automatically stolen. Operator-confirmed recovery is preferred
-  over silent privacy-result loss.
-- Journaling, transcript replay, and semantic compaction remain outside the supported product and
-  experiment until ADR-0012's staged behavioral evidence gates are satisfied.
+- An ignored local executable is detected by an exact filesystem probe, not agent file-discovery
+  tools. Exit 0 selects it, exit 1 means true absence, and any other result stops without fallback.
+- Selection requires both link identity and a dereferenced regular-file target. Directory junctions
+  and dangling links are uncertain and stop rather than falling through globally.
+- A compiler for a declared target uses target path semantics, not the host running its pure test.
+  macOS Seatbelt execution is capability-specific; the surrounding pure contracts stay portable.
+- The smoke test is delivery, reconstruction, and native-Claude-resume evidence only. It is not
+  Codex transcript import, behavioral continuity, permission isolation, or compaction evidence.
+- Existing Tier 1 prerequisite records remain pending. Ad hoc router access does not amend frozen
+  CLI/model identities or satisfy formal canary requirements.
+- Immutable beta.5 remains unchanged; this fix belongs to a new prerelease candidate if released.
 
 ## Risks
 
-- Codex usage capacity and authorized Claude access block current-byte authenticated prerequisites.
-- Abnormal termination while holding `exclusions.csv.lock` leaves a fail-closed manual recovery item.
-- The final path-to-syscall race cannot be eliminated across a multi-file suite; repeated readback,
-  `--check`, and the permanent committed boundary are the layered defenses.
-- Cross-harness behavioral continuity, repeated-switch retention, all-record value, conversation
-  reconstruction, and compaction superiority remain unproven.
+- The formal Tier 1 preregistration pins older Codex and Claude CLI versions and a native Claude model;
+  current Codex and Claude-router identities require an explicit protocol amendment and fresh review.
+- A normal Claude invocation still selects an unavailable model unless the router settings and model
+  are passed explicitly.
+- Narrow Claude Bash command patterns rejected compound Skill commands; the successful product smoke
+  used broad Bash permission only inside an isolated clone and does not prove a safe default policy.
+- Cross-harness behavior, repeated-switch retention, transcript portability, and compaction value
+  remain unproven.
+- The portability correction has no fresh committed Linux or Windows result yet. Workflow
+  `30710079223` remains a failed diagnostic run, not reusable evidence.
 
 ## Next action
 
-After Codex usage resets and Claude access is authorized, refresh once, run both authenticated
-canaries, generate a new formal review digest, obtain two independent GO attestations over those exact
-unchanged bytes, write and commit the first-ADD manifest, run `--check`, and only then begin scored
-execution.
+Commit and push the reviewed portability correction, require a new full CI matrix, and inspect every
+supported job. Prepare beta.6 only after that matrix is green; Tier 1 router repinning remains a
+separate evidence decision.
