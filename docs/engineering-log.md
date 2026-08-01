@@ -1220,3 +1220,29 @@ reused. With the refreshed binding, local quality returned exit code zero with 2
 product bytes retained 148 files at 157,928 bytes, and packed-artifact smoke had already passed local,
 ephemeral, global, ESM, strict TypeScript, v1-to-v2 migration, initialization, validation, checkpoint,
 and resume consumers. A new committed matrix is still required.
+
+Workflow run `30710740555` then passed all eleven jobs on commit `60e2833`: Node 22 and 24 quality
+plus dogfood checks on Linux, macOS, and Windows; packed-artifact smoke on minimum Node 22 and Node 24
+across the three operating systems; and the pinned npm 11 release/npm 12 compatibility contracts.
+The Windows jobs exercised the directory-junction target and dangling-target regression, while the
+macOS jobs continued to execute both real Seatbelt integrations. This closes the portability gate for
+the committed correction; it does not alter the pending authenticated Tier 1 prerequisites or expand
+the product claim beyond repository-memory delivery and reconstruction.
+
+## 2026-08-02 — Beta.6 release-candidate review
+
+Package and lockfile metadata advanced to `0.1.0-beta.6` only after the committed portability matrix
+passed. The changelog remained under `[Unreleased]` while the candidate gates ran. Local quality
+returned exit code zero with 235/235 tests and coverage above every enforced floor. Package inspection
+passed with 148 files and 158,581 bytes; publish-dry-run smoke passed local, ephemeral, global, ESM,
+strict TypeScript, v1-to-v2 migration, initialization, validation, checkpoint, and resume consumers.
+The production dependency audit reported zero vulnerabilities, and the registry returned `E404` for
+the exact beta.6 version before release preparation.
+
+The release review rechecked the original agent-discovery failure, fail-closed ancestor and target
+classification, accepted Unix package-bin symlinks, rejected Windows directory junction and dangling
+targets, target-versus-host PATH semantics, capability-scoped Seatbelt tests, generated Skill drift,
+tracked research bindings, package contents, and claim boundaries. The review is GO with no unresolved
+finding. It does not convert pending authenticated Tier 1 canaries into passes. The changelog was then
+promoted to the dated beta.6 heading; clean-commit `release:verify`, fresh CI, immutable tagging, OIDC
+publication, and independent registry/provenance checks remain required.

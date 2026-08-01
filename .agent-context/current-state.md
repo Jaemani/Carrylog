@@ -2,8 +2,9 @@
 
 ## Active objective
 
-Restore the supported cross-platform CI matrix for the continuity-Skill correction, then prepare a
-new prerelease only from fresh green evidence. Journaling and compaction remain out of scope.
+Finalize reviewed `0.1.0-beta.6` through a clean release commit, content-sensitive verification,
+fresh CI, immutable tag, OIDC publication, and registry/provenance verification. Journaling and
+compaction remain out of scope.
 
 ## Implemented and verified
 
@@ -20,6 +21,9 @@ new prerelease only from fresh green evidence. Journaling and compaction remain 
 - Immutable beta.5 is publicly installable through the explicit npm `beta` channel. Its tagged
   cross-platform preflight, token-free OIDC publication, registry artifact, executable, dist-tags,
   signature, and SLSA provenance were independently verified.
+- The continuity-Skill correction passes the complete Node 22/24 quality matrix on Linux, macOS, and
+  Windows, the minimum-Node and three-OS packed-artifact matrix, and npm 11/npm 12 package contracts.
+  Windows exercised the directory-junction regression; macOS retained the actual Seatbelt integration.
 
 ## In progress
 
@@ -40,14 +44,9 @@ new prerelease only from fresh green evidence. Journaling and compaction remain 
   exercised a Carrylog v2 checkpoint through the generated Claude Skill. The test exposed and fixed
   project-local executable discovery through ignored `node_modules`; this is delivery and
   reconstruction evidence, not a scored Tier 1 result.
-- The first post-fix CI matrix exposed host-dependent macOS research PATH construction, unguarded
-  Seatbelt-only integration tests, and a Windows junction case that executable access alone did not
-  reject. Corrections now compile target paths with POSIX semantics, scope only actual Seatbelt
-  execution to macOS, and require a dereferenced regular-file executable target; fresh CI is pending.
-- A subsequent matrix passed every packed-artifact and npm-client job but correctly rejected the
-  changed harness contract because its tracked critical digest had not been refreshed. The binding is
-  now refreshed with both authenticated prerequisites still pending, and local quality passes; another
-  committed matrix remains required.
+- Beta.6 metadata, exact-version quality/package/audit gates, registry-absence check, and release
+  review pass. The changelog is promoted to the dated beta.6 heading; clean-commit verification and
+  fresh CI remain before tagging.
 
 ## Blockers and risks
 
@@ -72,11 +71,9 @@ new prerelease only from fresh green evidence. Journaling and compaction remain 
   compaction value remain unproven and outside the supported runtime.
 - A process killed while holding the exclusion registry lock can leave a stale lock that requires
   operator review before removal; the system prefers an explicit blocked retry over lost safety data.
-- The current portability corrections have local focused evidence only until a new Linux, macOS, and
-  Windows matrix passes on committed bytes.
 
 ## Next best task
 
-Complete local quality, package, and review gates for the portability corrections; commit and require
-a fresh full CI matrix. Only after that matrix passes, prepare beta.6 and separately decide whether
-to amend the uncommitted Tier 1 candidate to current Codex and Claude-router harness identities.
+Commit the settled beta.6 release bytes, run `npm run release:verify` on the clean commit, push and
+require fresh CI, then tag only that exact green commit and verify OIDC publication and registry
+provenance independently.

@@ -3,7 +3,7 @@
 All notable changes are documented here using Keep a Changelog categories. Package versions follow
 Semantic Versioning; configuration versions follow the separate contract in ADR-0005.
 
-## [Unreleased]
+## [0.1.0-beta.6] - 2026-08-02
 
 ### Fixed
 

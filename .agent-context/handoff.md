@@ -4,39 +4,39 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "dc2e7cb at 2026-08-02T02:32:32+09:00"
+- HEAD: "60e2833 at 2026-08-02T02:37:39+09:00"
 - Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: Clean (snapshot file excluded)
+- Working tree: 0 staged, 5 unstaged, 0 untracked, 0 conflicted
 - Staged diff: 0 file(s), +0/-0, 0 binary
-- Unstaged diff: 0 file(s), +0/-0, 0 binary
+- Unstaged diff: 5 file(s), +42/-19, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (0)
+### Changed paths (5)
 
-None.
+    {"status":" M","path":".agent-context/current-state.md"}
+    {"status":" M","path":"CHANGELOG.md"}
+    {"status":" M","path":"docs/engineering-log.md"}
+    {"status":" M","path":"package-lock.json"}
+    {"status":" M","path":"package.json"}
 
 ### Recent commits (5)
 
+    {"commit":"60e2833","committedAt":"2026-08-02T02:37:39+09:00","subject":"research: refresh continuity harness binding"}
     {"commit":"dc2e7cb","committedAt":"2026-08-02T02:32:32+09:00","subject":"fix: restore cross-platform continuity contracts"}
     {"commit":"191db00","committedAt":"2026-08-02T01:39:51+09:00","subject":"fix: resolve pinned Carrylog without agent file discovery"}
     {"commit":"f64f5df","committedAt":"2026-07-13T03:10:55+09:00","subject":"research: harden Tier 1 continuity candidate"}
     {"commit":"c9e8c2d","committedAt":"2026-07-12T14:39:51+09:00","subject":"docs: record Carrylog beta5 publication"}
-    {"commit":"343b4e3","committedAt":"2026-07-12T14:17:33+09:00","subject":"release: prepare Carrylog beta5"}
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Restore the supported Linux, macOS, and Windows matrix for the generated continuity-Skill correction,
-then prepare beta.6 only from fresh committed evidence.
+Finalize beta.6 from the reviewed RC through a clean release commit, release verification, fresh CI,
+immutable tag, OIDC publication, and independent registry verification.
 
 ## Completed
 
-- Ran a read-only Personal Context baseline in which Claude Code through a GPT router reconstructed
-  Codex-authored repository handoff facts and retained them after a Claude-native resume with no file
-  or shell tools.
-- Built an isolated Personal Context clone with Carrylog v2 context, Codex and Claude surfaces, a
-  project-pinned candidate package, and a current checkpoint. The final Claude Skill run selected the
-  pinned executable, returned the resume envelope, and reconstructed its verified continuation state.
+- Verified a Personal Context Codex-to-Claude repository-memory handoff, Claude-native no-tool resume,
+  and Carrylog v2 Skill resume from a project-pinned candidate in an isolated clone.
 - Reproduced a generated-Skill defect where agent file discovery hid ignored
   `node_modules/.bin/carrylog` and incorrectly selected the global candidate.
 - Replaced the ambiguous discovery step with a silent cross-platform probe that distinguishes an
@@ -60,22 +60,29 @@ then prepare beta.6 only from fresh committed evidence.
   reusing either pending authenticated prerequisite.
 - Retracted an earlier local-quality claim made without checking the token-filtered subprocess exit
   code. Re-ran the gate after refresh and verified the explicit zero exit status.
+- Workflow `30710740555` passed every job: Node 22/24 quality and dogfood checks on Linux, macOS, and
+  Windows; minimum-Node and three-OS package smoke; and npm 11/npm 12 release-package contracts.
+- Advanced package and lockfile metadata to `0.1.0-beta.6` while retaining `[Unreleased]` for RC
+  preparation as required by the release process.
+- Completed exact-version RC quality, package, publish-dry-run smoke, dependency audit, and registry
+  absence gates. Release review returned GO with no unresolved finding.
+- Promoted `[Unreleased]` to `[0.1.0-beta.6] - 2026-08-02` only after RC review and gates passed.
 
 ## Verification
 
-- The final isolated candidate validates without diagnostics and resumes with
-  `checkpoint.stale=false` on `codex/runtime-v1-stabilization` at `6c046ce`; Claude returned the full
-  expected branch, HEAD, next action, local-candidate selection, and resume command.
-- Resuming that final Claude session with all tools disabled retained the branch, current checkpoint
-  state, and next action from the resumed conversation alone.
+- The isolated candidate validates cleanly and resumes with `checkpoint.stale=false` on
+  `codex/runtime-v1-stabilization` at `6c046ce`; its no-tool Claude resume retained the branch,
+  checkpoint state, and next action.
 - The focused continuity and research harness contracts pass on the local macOS host, including both
   real Seatbelt integrations and the valid symlink-to-regular-file probe case.
 - `npm run quality` passes 235/235 tests with 94.77% line, 96.02% function, and 89.39% branch coverage.
 - `npm run pack:check` passes with 148 files and 157,928 packed bytes.
 - `npm run test:package` passes local, ephemeral, global, ESM, strict-type, migration, initialization,
   validation, checkpoint, and resume consumers.
-- Fresh Linux and Windows verification remains pending; no supported-matrix GO is claimed from local
-  results.
+- Beta.6 package inspection passes with 148 files and 158,581 bytes; publish-dry-run smoke and the
+  production dependency audit pass, and the exact registry version is absent with `E404`.
+- The committed portability matrix is green; Windows exercised the junction regression and macOS ran
+  both real Seatbelt integrations.
 
 ## Decisions
 
@@ -101,12 +108,11 @@ then prepare beta.6 only from fresh committed evidence.
   used broad Bash permission only inside an isolated clone and does not prove a safe default policy.
 - Cross-harness behavior, repeated-switch retention, transcript portability, and compaction value
   remain unproven.
-- The portability correction has no fresh committed Linux or Windows result yet. Workflow
-  `30710079223` and the stale-binding run `30710553011` remain failed diagnostics, not reusable
-  evidence.
+- Workflow `30710079223` and stale-binding run `30710553011` remain failed diagnostic evidence; only
+  the later green matrix is used for the portability claim.
+- Beta.6 is reviewed but not yet a clean release commit, immutable tag, or published artifact.
 
 ## Next action
 
-Commit and push the reviewed portability correction, require a new full CI matrix, and inspect every
-supported job. Prepare beta.6 only after that matrix is green; Tier 1 router repinning remains a
-separate evidence decision.
+Commit the settled beta.6 bytes, run clean-commit `release:verify`, push and require fresh CI, then
+create the immutable tag and verify OIDC publication, artifact digests, dist-tags, and provenance.
