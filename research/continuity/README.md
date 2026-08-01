@@ -5,6 +5,8 @@ This directory contains the evidence program governed by ADR-0012.
 - `external-audit-brief-2026-07-12.md`: broad question and threat inventory supplied for review;
 - `external-review-2026-07-12.md`: advisory findings and maintainer disposition;
 - `tier1-pilot-protocol.md`: minimum executable pilot before journaling or compaction expansion;
+- `beta7-second-repository-comparison.md`: bounded current-environment comparison and harness
+  amendment that must pass before the full Tier 1 candidate resumes;
 - `public-beta-switch-smoke-2026-08-02.md`: sanitized single-fixture
   Codex-to-Claude/GPT-router-to-Codex product observation on public beta.6.
 
