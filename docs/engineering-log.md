@@ -1336,13 +1336,13 @@ closed that P1 and found no remaining P0/P1 issue. A second portability review a
 contract to say Git-visible rather than physical worktree cleanliness: ignored build output and
 dependency directories intentionally remain outside the evidence boundary.
 
-The focused continuity suite passes all 30 cases, including frozen v1 output, SHA-1 and SHA-256
+The focused continuity suite passes all 31 cases, including frozen v1 output, SHA-1 and SHA-256
 repositories, conflicts, staged and checkpoint-only commits, partial and altered clean commits,
 equivalent and altered amendments, merge/later history, nested roots, dirty index/worktree/checkpoint,
 ignored files, ignored dirty submodules, detached identity, branch transition, malformed and
 object-format-mismatched metadata, and branch-backed push/fresh-clone reconstruction. The complete
 local quality gate passes above every coverage floor. From beta.7 candidate bytes, package inspection
-passes with 153 files and 171,802 bytes, and installed-artifact smoke passes local, ephemeral, global,
+passes with 153 files and 173,115 bytes, and installed-artifact smoke passes local, ephemeral, global,
 ESM, strict TypeScript, v1-to-v2 migration, initialization, validation, checkpoint, and resume paths.
 Large or sparse-index projects can exceed the bounded one-MiB/ten-second tree enumeration and then
 receive explicit settlement-unavailable output with unchanged exact freshness; no broader scalability
@@ -1352,3 +1352,21 @@ The first release-candidate dogfood checkpoint made no write because the always-
 reached 16,016 characters against its configured 16,000-character limit. The limit was not raised to
 hide the failure. Repeated Tier 1 status prose in `current-state.md` was consolidated while preserving
 the pending prerequisites and evidence links, then validation and checkpointing were rerun.
+
+The first post-commit release-verification observation was invalid. Token-filtered output was empty,
+but `release/artifact.json` still named beta.6, so the apparent success was immediately retracted.
+A marker-bearing retry later failed 12 tests: subprocess spawning reported `ENOENT` for the exact
+Homebrew Node 22 executable while concurrently missing compiled `dist` modules reduced measured
+coverage. It emitted no success marker. Investigation found no remaining Carrylog test or release
+process, and the same Node 22 executable and symlink were present again. The available evidence does
+not distinguish a transient Homebrew path mutation from interference by an earlier overlapping build,
+so no root cause is claimed and no code exception was added.
+
+The candidate was rebuilt with no parallel quality, coverage, package, or release process. The focused
+continuity suite then passed 31/31. An isolated `release:verify` on clean commit `af2c560` completed
+with explicit `RELEASE_VERIFY_OK` and exit code zero: 248/248 tests passed with 94.43% line, 96.39%
+function, and 88.28% branch coverage; validation and generated surfaces were clean; the 153-file,
+173,115-byte package passed every installed-artifact consumer; and the production audit found zero
+vulnerabilities. Filtered silence remains non-evidence. A release claim requires the process exit,
+explicit success marker, and artifact identity to agree, and the documentation settlement still needs
+its own exact-commit rerun and cross-platform CI before tagging.

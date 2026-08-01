@@ -2,10 +2,9 @@
 
 ## Active objective
 
-Correct the committed-checkpoint freshness lifecycle exposed after the beta.6 switch smoke, then
-return to bounded external outcome evidence. The correction must preserve frozen v1 behavior and
-portable fail-closed semantics before a comparative second-repository pilot. Journaling and
-compaction remain out of scope.
+Publish the portable committed-checkpoint correction as immutable beta.7 after exact-commit CI and
+registry verification, then return to bounded external outcome evidence. The correction preserves
+frozen v1 behavior and portable fail-closed semantics. Journaling and compaction remain out of scope.
 
 ## Implemented and verified
 
@@ -29,15 +28,16 @@ compaction remain out of scope.
 
 ## In progress
 
-- A beta.7 candidate recognizes one qualifying fully staged checkpoint commit through a full base
+- The committed beta.7 candidate recognizes one qualifying fully staged checkpoint commit through a full base
   parent, detached/branch identity, Git object format, clean state, and matching project-scoped
   index/tree commitments. It avoids reflog and upstream-state dependencies, survives push/fresh clone,
   and keeps legacy or uncertain states on exact freshness.
 - Review found and corrected repository submodule-ignore configuration that could hide dirty nested
   work. Status and diff evidence now force submodule inspection, with a real `ignore=all` regression.
 - The beta.7 correction passes the complete local quality gate, package inspection, installed-artifact
-  smoke, and focused settlement suite. Two independent read-only reviews closed the submodule blocker
-  and found no remaining P0/P1 issue. Release verification and committed cross-platform CI are still
+  smoke, focused settlement suite, and clean-commit release verification. Its committed dogfood
+  checkpoint settles as current on a clean worktree. Two independent read-only reviews closed the
+  submodule blocker and found no remaining P0/P1 issue. Exact-commit cross-platform CI is still
   required before publication.
 
 - The unexecuted Tier 1 candidate retains 10 fixtures, 60 balanced runs, blind evaluation, privacy
@@ -88,6 +88,6 @@ compaction remain out of scope.
 
 ## Next best task
 
-Close the checkpoint-settlement review, run the complete local and cross-platform release gates, and
-publish the correction as a new immutable beta if they pass. Then design the second-repository
-comparison across repository-only, manual-handoff, and Carrylog conditions before changing claims.
+Push the settled beta.7 release commit, require the complete exact-commit CI matrix, and publish the
+new immutable beta only if it passes. Then design the second-repository comparison across
+repository-only, manual-handoff, and Carrylog conditions before changing claims.

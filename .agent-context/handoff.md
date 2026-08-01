@@ -4,56 +4,33 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "1cbb235 at 2026-08-02T03:24:36+09:00"
-- Upstream: "origin/main; ahead 1, behind 0"
-- Working tree: 25 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 25 file(s), +1239/-49, 0 binary
+- HEAD: "af2c560 at 2026-08-02T04:19:59+09:00"
+- Upstream: "origin/main; ahead 2, behind 0"
+- Working tree: 2 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 2 file(s), +30/-12, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (25)
+### Changed paths (2)
 
-    {"status":"M ","path":".agent-context/architecture.md"}
     {"status":"M ","path":".agent-context/current-state.md"}
-    {"status":"M ","path":".agent-context/decisions.md"}
-    {"status":"M ","path":".agents/skills/carrylog-continuity/SKILL.md"}
-    {"status":"M ","path":"CHANGELOG.md"}
-    {"status":"M ","path":"README.md"}
-    {"status":"M ","path":"ROADMAP.md"}
-    {"status":"M ","path":"docs/architecture.md"}
-    {"status":"A ","path":"docs/decisions/0013-checkpoint-commit-settlement.md"}
-    {"status":"M ","path":"docs/decisions/README.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"M ","path":"docs/releasing.md"}
-    {"status":"M ","path":"docs/testing-strategy.md"}
-    {"status":"M ","path":"docs/threat-model.md"}
-    {"status":"M ","path":"package-lock.json"}
-    {"status":"M ","path":"package.json"}
-    {"status":"M ","path":"src/cli.ts"}
-    {"status":"M ","path":"src/commands/handoff.ts"}
-    {"status":"M ","path":"src/commands/resume.ts"}
-    {"status":"M ","path":"src/continuity/skills.ts"}
-    {"status":"A ","path":"src/git/checkpoint-settlement.ts"}
-    {"status":"M ","path":"src/git/inspect.ts"}
-    {"status":"M ","path":"src/handoff/snapshot-block.ts"}
-    {"status":"M ","path":"tests/cli.test.mjs"}
-    {"status":"M ","path":"tests/continuity.test.mjs"}
 
 ### Recent commits (5)
 
+    {"commit":"af2c560","committedAt":"2026-08-02T04:19:59+09:00","subject":"fix: settle committed checkpoints portably"}
     {"commit":"1cbb235","committedAt":"2026-08-02T03:24:36+09:00","subject":"research: record public beta switch smoke"}
     {"commit":"d16af41","committedAt":"2026-08-02T03:00:29+09:00","subject":"docs: record Carrylog beta6 publication"}
     {"commit":"d447dfc","committedAt":"2026-08-02T02:43:39+09:00","subject":"release: prepare Carrylog beta6"}
     {"commit":"60e2833","committedAt":"2026-08-02T02:37:39+09:00","subject":"research: refresh continuity harness binding"}
-    {"commit":"dc2e7cb","committedAt":"2026-08-02T02:32:32+09:00","subject":"fix: restore cross-platform continuity contracts"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"1cbb235d6f7d30fbe023e9ebcaaa2248d02b6c30","detached":false,"branch":"main","indexCommitment":"0d5ea4ce7bd2ac2d674477b91885b7fcc47e00e2bed1901267b07873f7006253"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"af2c560651cd6a571574deffe20e59ba1f5aead1","detached":false,"branch":"main","indexCommitment":"92c6fc18073001b5db5630f21eddedf2fc12860d8767a9b65330c88d919b02e1"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Prepare the portable checkpoint-settlement correction as an immutable beta.7 release candidate, then
-return to the second-repository comparative adoption design.
+Complete exact-commit CI and immutable beta.7 publication for the portable checkpoint-settlement
+correction, then return to the second-repository comparative adoption design.
 
 ## Completed
 
@@ -68,17 +45,21 @@ return to the second-repository comparative adoption design.
   human/JSON output, and updated the generated continuity Skill without granting commit authority.
 - Closed two independent review cycles, including a P1 where `submodule.*.ignore=all` could hide a
   dirty submodule from freshness evidence.
+- Committed the reviewed correction at `af2c560` and confirmed that the repository's own clean
+  checkpoint resumes with `checkpoint.stale=false` through the new settlement proof.
 
 ## Verification
 
-- The focused continuity suite passes 30/30 cases, including SHA-256 Git, conflicts, clean partial
+- The focused continuity suite passes 31/31 cases, including SHA-256 Git, conflicts, clean partial
   mismatch, ignored files, dirty ignored submodules, detached state, object-format mismatch, and
   branch-backed push/fresh-clone reconstruction.
-- The complete local quality gate passes above every enforced coverage floor.
-- Beta.7 package inspection passes with 153 files and 171,802 bytes.
+- Clean-commit `release:verify` at `af2c560` passes 248/248 tests with 94.43% line, 96.39% function,
+  and 88.28% branch coverage, above every enforced floor.
+- Beta.7 package inspection at `af2c560` passes with 153 files and 173,115 bytes.
 - Packed-artifact smoke passes local, ephemeral, global, ESM, strict TypeScript, v1-to-v2 migration,
   initialization, validation, checkpoint, and resume paths.
-- `carrylog validate --json`, generated-surface drift, and whitespace checks are clean.
+- `carrylog validate --json`, generated-surface drift, production audit, and whitespace checks are
+  clean; the release run ended with an explicit success marker and exit code zero.
 - Independent post-fix reviewers report no unresolved P0/P1 issue; the original submodule-ignore P1
   is closed in source, tests, threat model, and ADR.
 
@@ -94,8 +75,8 @@ return to the second-repository comparative adoption design.
 
 ## Risks
 
-- Beta.7 has not yet passed clean-commit release verification or the committed Linux/macOS/Windows CI
-  matrix; no publication claim exists.
+- Beta.7 has not yet passed the exact release commit's Linux/macOS/Windows CI matrix; no publication
+  claim exists.
 - Large or sparse-index projects can exceed bounded tree enumeration and receive settlement
   unavailable while exact freshness remains supported.
 - Git-ignored files are outside the evidence boundary by design; Carrylog proves Git-visible project
@@ -107,6 +88,5 @@ return to the second-repository comparative adoption design.
 
 ## Next action
 
-Stage the reviewed beta.7 changes, generate and stage the settlement-aware checkpoint, commit once,
-then require clean `release:verify` and the complete exact-commit CI matrix before tagging or
-publishing.
+Settle and commit this release-evidence update, rerun clean `release:verify` on that exact commit,
+push it, and require the complete CI matrix before tagging or publishing.
