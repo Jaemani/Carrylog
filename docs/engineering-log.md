@@ -1284,3 +1284,20 @@ surfaces, created all 14 planned files, committed them, validated without diagno
 checkpoint, and returned a `resume --check` envelope with `checkpoint.stale=false`. This confirms the
 published package's deterministic repository lifecycle. It does not add transcript portability,
 repeated-switch behavior, semantic compaction, or formal Tier 1 outcome evidence.
+
+## 2026-08-02 — Public beta.6 completed one Codex-to-Claude-to-Codex switch sequence
+
+An isolated Personal Context fixture exercised public project-local beta.6 through fresh Codex,
+Claude Code using the configured GPT router, and another fresh Codex session. Each stage resumed the
+repository checkpoint, preserved earlier stage bytes, retained the protected product decisions and
+failed-approach rationale, ran its assigned check, and left a current checkpoint. The final diff
+contained only the smoke artifact and two Carrylog-owned context documents; live source and provider
+state were not copied or changed.
+
+The smoke also exposed three operational gaps: Claude required an explicit settings file, narrow Bash
+permissions initially rejected an `rtk`-wrapped Carrylog command, and both Codex stages consumed tens
+of thousands of tokens for a small continuation. The permission mismatch failed closed and the retry
+used only equivalent wrapper-prefixed permissions. Detailed sanitized procedure, measurements,
+limits, and claim boundaries live in
+`research/continuity/public-beta-switch-smoke-2026-08-02.md`. This is one bounded behavior sequence,
+not formal Tier 1, transcript portability, universal switch invariance, or compaction evidence.

@@ -29,7 +29,9 @@ Completed publication and channel-hardening operations:
 - keep the registry-required first-publication `latest` fixed at beta.4 until stable while later
   prereleases advance only through explicit `@beta` opt-in;
 - deprecated the old scoped beta with an exact Carrylog migration message;
-- published and verified beta.5 through protected OIDC with no registry token.
+- published and verified beta.5 through protected OIDC with no registry token;
+- published beta.6 after the project-local Skill discovery and cross-platform junction corrections,
+  with independent registry, signature, provenance, and fresh-repository lifecycle verification.
 
 Delivery and outcome work now takes priority over additional defensive breadth:
 
@@ -39,6 +41,11 @@ Delivery and outcome work now takes priority over additional defensive breadth:
 - measure whether users reduce project re-explanation and repeated work;
 - revisit positioning and adapter assumptions from evidence rather than registry or standards trends
   alone.
+
+One sanitized Personal Context observation now covers a public beta.6
+Codex-to-Claude/GPT-router-to-Codex sequence. It is bounded behavior evidence, not the comparative
+Tier 1 result. The next adoption step must add a second repository and repository-only/manual-handoff
+comparators while measuring wrapper permissions, task outcome, latency, and usable token accounting.
 
 Implemented in the `0.1.0-beta.5` prerelease line:
 

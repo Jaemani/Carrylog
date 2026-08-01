@@ -2,9 +2,10 @@
 
 ## Active objective
 
-Move from beta.6 release engineering to bounded external outcome evidence: verify the five-minute
-adoption path and repeated Codex-to-Claude/GPT-router repository-memory continuation without
-expanding claims beyond observed behavior. Journaling and compaction remain out of scope.
+Move from beta.6 release engineering to bounded external outcome evidence. One public-beta
+Codex-to-Claude/GPT-router-to-Codex sequence now exists; the next objective is a comparative second-
+repository adoption pilot without expanding claims beyond observed behavior. Journaling and
+compaction remain out of scope.
 
 ## Implemented and verified
 
@@ -45,7 +46,8 @@ expanding claims beyond observed behavior. Journaling and compaction remain out 
   project-local executable discovery through ignored `node_modules`; this is delivery and
   reconstruction evidence, not a scored Tier 1 result.
 - The Personal Context smoke is one external-repository adoption example. It found the executable
-  discovery defect fixed in beta.6, but no repeated-switch task or scored comparison has been run.
+  discovery defect fixed in beta.6 and now includes one successful two-switch behavior sequence.
+  No repository-only/manual comparison or scored Tier 1 result has been run.
 
 ## Blockers and risks
 
@@ -61,6 +63,8 @@ expanding claims beyond observed behavior. Journaling and compaction remain out 
   never download, build, or upgrade it implicitly.
 - The user-level Claude default model and router settings currently require explicit `--settings`
   and `--model` flags; a normal unqualified Claude invocation still selects an unavailable model.
+- Narrow Claude Bash permissions initially rejected the environment's `rtk`-wrapped Carrylog command.
+  The product failed closed, but launch and permission-profile portability remain unresolved.
 - Sequential cross-file rename and the final path-to-syscall TOCTOU window remain under ADR-0007.
 - External outcome evidence and additional Windows reparse/hard-link coverage remain stable-release
   work.
@@ -76,7 +80,7 @@ expanding claims beyond observed behavior. Journaling and compaction remain out 
 
 ## Next best task
 
-Commit the beta.6 publication checkpoint, then define and run a bounded public-beta adoption pilot
-using the installed Codex and Claude/GPT-router surfaces. Measure setup friction, fact retention,
-contradictions, repeated work, and user-visible resume acknowledgement before changing continuity
-claims or the frozen Tier 1 protocol.
+Review the switch-smoke evidence and design the smallest comparative follow-up on a second repository.
+It must measure repository-only, manual handoff, and Carrylog conditions, wrapper-aware permissions,
+fact retention, contradictions, repeated work, task completion, latency, and usable token accounting
+before changing continuity claims or the frozen Tier 1 protocol.
