@@ -14,7 +14,7 @@ After:  switch agent -> carrylog resume -> inspect one objective, evidence set, 
 
 Carrylog resumes project state, not a provider's private chat or hidden model state.
 
-> **Status:** `carrylog@0.1.0-beta.5` is published and independently verified on npm's explicit
+> **Status:** `carrylog@0.1.0-beta.7` is published and independently verified on npm's explicit
 > `beta` channel. First publication forced `latest` to remain at beta.4 until stable, so prerelease
 > users should keep using `carrylog@beta` or an exact version. Current limits are
 > tracked in [Current state](.agent-context/current-state.md) and
@@ -129,13 +129,14 @@ carrylog validate
 For a team-pinned development dependency:
 
 ```bash
-npm install --save-dev --save-exact carrylog@0.1.0-beta.5
+npm install --save-dev --save-exact carrylog@0.1.0-beta.7
 npx --no-install carrylog init
 npx --no-install carrylog validate
 ```
 
-Beta.5 provides the reviewed universal Codex/Claude/Cursor/Gemini surfaces and portable
-`checkpoint`/`resume` workflow. Pin the exact version when reproducible team installations matter.
+Beta.7 provides the reviewed universal Codex/Claude/Cursor/Gemini surfaces, portable
+`checkpoint`/`resume` workflow, and committed-checkpoint settlement across normal LF and Git-managed
+CRLF checkouts. Pin the exact version when reproducible team installations matter.
 
 ## Build from source
 
@@ -197,7 +198,7 @@ For a project dependency:
 
 ```bash
 npm uninstall @jaemani/agent-context-kit
-npm install --save-dev --save-exact carrylog@0.1.0-beta.5
+npm install --save-dev --save-exact carrylog@0.1.0-beta.7
 npx --no-install carrylog sync
 npx --no-install carrylog validate
 ```

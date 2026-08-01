@@ -2,9 +2,9 @@
 
 ## Active objective
 
-Publish the portable committed-checkpoint correction as immutable beta.7 after exact-commit CI and
-registry verification, then return to bounded external outcome evidence. The correction preserves
-frozen v1 behavior and portable fail-closed semantics. Journaling and compaction remain out of scope.
+Design and execute the second-repository comparison across repository-only, manual-handoff, and
+Carrylog conditions without broadening continuity claims. The published beta.7 preserves frozen v1
+behavior and portable fail-closed semantics. Journaling and compaction remain out of scope.
 
 ## Implemented and verified
 
@@ -22,25 +22,15 @@ frozen v1 behavior and portable fail-closed semantics. Journaling and compaction
 - Immutable beta.6 is publicly installable through the explicit npm `beta` channel. Its tagged
   cross-platform preflight, token-free OIDC publication, registry artifact, executable, dist-tags,
   signature, SLSA provenance, and fresh-repository lifecycle were independently verified.
+- Immutable beta.7 corrects committed-checkpoint settlement and generated-artifact CRLF portability.
+  Its exact commit passed all eleven CI jobs; the tagged release passed three-OS preflight, protected
+  OIDC publication, registry digest/provenance verification, isolated consumers, signature audit, and
+  a fresh-repository checkpoint lifecycle. Detailed measurements live in the engineering log.
 - The continuity-Skill correction passes the complete Node 22/24 quality matrix on Linux, macOS, and
   Windows, the minimum-Node and three-OS packed-artifact matrix, and npm 11/npm 12 package contracts.
   Windows exercised the directory-junction regression; macOS retained the actual Seatbelt integration.
 
 ## In progress
-
-- The beta.7 candidate recognizes one qualifying fully staged checkpoint commit through a full base
-  parent, detached/branch identity, Git object format, clean state, and matching project-scoped
-  index/tree commitments. It avoids reflog and upstream-state dependencies, survives push/fresh clone,
-  and keeps legacy or uncertain states on exact freshness.
-- Review found and corrected repository submodule-ignore configuration that could hide dirty nested
-  work. Status and diff evidence now force submodule inspection, with a real `ignore=all` regression.
-- Candidate `c727177` passed local release verification but CI run `30714928860` failed both Windows
-  quality jobs because Git's CRLF checkout conversion made unchanged generated schema and Skill files
-  appear drifted. The tag was not created.
-- The correction compares only paired CRLF/LF representation for complete Carrylog-owned generated
-  schema and Skill artifacts. Forced-autocrlf fresh-clone and non-EOL rejection regressions pass with
-  the complete local quality and package gates. Two independent read-only reviews found no P0/P1
-  issue. Clean-commit release and new cross-platform gates are still required before publication.
 
 - The unexecuted Tier 1 candidate retains 10 fixtures, 60 balanced runs, blind evaluation, privacy
   review, permanent first-ADD, and mechanical Tier 2 gates. It has no manifest, formal attestations,
@@ -90,6 +80,5 @@ frozen v1 behavior and portable fail-closed semantics. Journaling and compaction
 
 ## Next best task
 
-Settle the reviewed CRLF portability correction, rerun exact-commit release verification and the full
-CI matrix, and publish beta.7 only if they pass. Then design the second-repository comparison across
-repository-only, manual-handoff, and Carrylog conditions before changing claims.
+Precommit a bounded second-repository comparison design across repository-only, manual-handoff, and
+Carrylog conditions, then execute it without changing claims until raw evidence and review exist.

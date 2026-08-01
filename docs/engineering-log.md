@@ -1391,3 +1391,50 @@ candidate passes publish-dry-run and local, ephemeral, global, ESM, strict TypeS
 migration, initialization, validation, checkpoint, and resume consumers. Two independent read-only
 reviews found no P0/P1 issue and retained a release NO-GO until both Windows Node 22 and 24 jobs pass
 on the corrected commit.
+
+## 2026-08-02 — Carrylog beta.7 published with portable checkpoint settlement
+
+Corrected commit `515b1709cdc4522c190543b984d926775883e57a` passed an isolated local
+`release:verify` with 249/249 tests, 94.65% line, 96.40% function, and 88.39% branch coverage. The
+local prepare artifact contained 154 files and 176,417 bytes at SHA-256
+`f7c4111e16524476587df73b41a488cb8ec28ad92cb01f2390dc0ae121d3d625`; it is local prepare
+evidence, not the published Linux artifact. The repository's committed checkpoint resumed cleanly
+with `checkpoint.stale=false` before push.
+
+Exact-commit CI run `30715559240` passed all eleven jobs: Node 22 and 24 quality on Linux, macOS, and
+Windows; packed-artifact smoke on Linux, macOS, and Windows; the minimum Node 22.0.0 consumer; and the
+release npm 11/npm 12 package contracts. Both Windows quality jobs exercised the forced
+`core.autocrlf=true` regression that had failed the preceding candidate. Only after that complete
+matrix passed was immutable annotated tag `v0.1.0-beta.7` created and pushed.
+
+Tagged release run `30715697081` passed Linux, macOS, and Windows preflight. Its protected `npm`
+environment then waited for required review. The first API approval request encoded the environment
+identifier with `gh api -f`, producing HTTP 422 because GitHub received a string rather than an
+integer; no deployment or package mutation occurred. Retrying with the typed `-F` field approved the
+same pending environment and exact tagged SHA. The protected job published through npm trusted
+publishing with GitHub OIDC and no registry token path.
+
+The publish job built, verified, and published one 154-file, 176,272-byte tarball at SHA-256
+`47e3ae98efb3984124ec31d5090db5e1e7b592692942905d996d73a00e657e4e`. An independent
+registry stream matched that SHA-256, SHA-1 `ce87dd099b86430e70f86134ca4bc130bc146b41`, and
+SHA-512 integrity
+`7vt+b2SFVvjlM9NOB3XZnHCdPBqckbnGleoDqlyNZ3MdcpZTbmXDi+fP5ug3QdZs0KGmHJLFxGa/+5YX18ShmA==`.
+Registry metadata reports 154 files and 665,104 unpacked bytes. The explicit `beta` dist-tag resolves
+to beta.7 while the registry-required `latest` tag remains fixed at the beta.4 bootstrap.
+
+The public package exposes one registry signature and two attestations: npm publish provenance and
+SLSA provenance v1. The SLSA statement binds `pkg:npm/carrylog@0.1.0-beta.7` to repository
+`Jaemani/Carrylog`, `.github/workflows/release.yml`, `refs/tags/v0.1.0-beta.7`, exact commit
+`515b1709cdc4522c190543b984d926775883e57a`, and run `30715697081` attempt 1. Its transparency-log
+index is `2314202813`; the npm publish attestation uses index `2314203390`. An isolated installed
+graph passed `npm audit signatures`, reporting verified signatures for both installed packages and a
+verified attestation for the attested package, with zero audit vulnerabilities.
+
+An empty-directory `npx` invocation using a private cache and an isolated-prefix global installation
+both printed `0.1.0-beta.7`. A fresh Git repository then used only that isolated global package to
+initialize all 14 configuration-v2 files and Codex, Claude, Cursor, and Gemini surfaces. Validation
+returned no diagnostics. A clean checkpoint reported `settlementEligible=true`; after committing the
+checkpoint, `resume --check --json` returned `checkpoint.stale=false`. This verifies artifact
+delivery and deterministic repository checkpoint reconstruction. It does not establish transcript
+portability, semantic compaction value, repeated-switch invariance, or formal comparative outcome
+evidence.
