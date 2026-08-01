@@ -2,9 +2,9 @@
 
 ## Active objective
 
-Finalize reviewed `0.1.0-beta.6` through a clean release commit, content-sensitive verification,
-fresh CI, immutable tag, OIDC publication, and registry/provenance verification. Journaling and
-compaction remain out of scope.
+Move from beta.6 release engineering to bounded external outcome evidence: verify the five-minute
+adoption path and repeated Codex-to-Claude/GPT-router repository-memory continuation without
+expanding claims beyond observed behavior. Journaling and compaction remain out of scope.
 
 ## Implemented and verified
 
@@ -18,9 +18,9 @@ compaction remain out of scope.
   evidence gates; research protocols remain outside the product package.
 - Dogfood lifecycle, package consumers, complete dist-tag policy, and independent post-fix
   code/security and release reviews pass locally. Exact measurements belong to the engineering log.
-- Immutable beta.5 is publicly installable through the explicit npm `beta` channel. Its tagged
+- Immutable beta.6 is publicly installable through the explicit npm `beta` channel. Its tagged
   cross-platform preflight, token-free OIDC publication, registry artifact, executable, dist-tags,
-  signature, and SLSA provenance were independently verified.
+  signature, SLSA provenance, and fresh-repository lifecycle were independently verified.
 - The continuity-Skill correction passes the complete Node 22/24 quality matrix on Linux, macOS, and
   Windows, the minimum-Node and three-OS packed-artifact matrix, and npm 11/npm 12 package contracts.
   Windows exercised the directory-junction regression; macOS retained the actual Seatbelt integration.
@@ -44,9 +44,8 @@ compaction remain out of scope.
   exercised a Carrylog v2 checkpoint through the generated Claude Skill. The test exposed and fixed
   project-local executable discovery through ignored `node_modules`; this is delivery and
   reconstruction evidence, not a scored Tier 1 result.
-- Beta.6 metadata, exact-version quality/package/audit gates, registry-absence check, and release
-  review pass. The changelog is promoted to the dated beta.6 heading; clean-commit verification and
-  fresh CI remain before tagging.
+- The Personal Context smoke is one external-repository adoption example. It found the executable
+  discovery defect fixed in beta.6, but no repeated-switch task or scored comparison has been run.
 
 ## Blockers and risks
 
@@ -67,6 +66,9 @@ compaction remain out of scope.
   work.
 - npmjs.org does not allow removing `latest`; beta.4 remains the documented bare-install bootstrap
   until stable while `@beta` advances.
+- Local prepare and tagged publish hosts can produce different tarball bytes from the same commit.
+  Release integrity binds the registry download to the one artifact built, verified, and published
+  inside the protected job; cross-host bit-for-bit packing is not claimed.
 - Cross-harness behavioral continuity, repeated-switch retention, conversation reconstruction, and
   compaction value remain unproven and outside the supported runtime.
 - A process killed while holding the exclusion registry lock can leave a stale lock that requires
@@ -74,6 +76,7 @@ compaction remain out of scope.
 
 ## Next best task
 
-Commit the settled beta.6 release bytes, run `npm run release:verify` on the clean commit, push and
-require fresh CI, then tag only that exact green commit and verify OIDC publication and registry
-provenance independently.
+Commit the beta.6 publication checkpoint, then define and run a bounded public-beta adoption pilot
+using the installed Codex and Claude/GPT-router surfaces. Measure setup friction, fact retention,
+contradictions, repeated work, and user-visible resume acknowledgement before changing continuity
+claims or the frozen Tier 1 protocol.

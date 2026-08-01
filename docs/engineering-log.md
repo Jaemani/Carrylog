@@ -1246,3 +1246,41 @@ tracked research bindings, package contents, and claim boundaries. The review is
 finding. It does not convert pending authenticated Tier 1 canaries into passes. The changelog was then
 promoted to the dated beta.6 heading; clean-commit `release:verify`, fresh CI, immutable tagging, OIDC
 publication, and independent registry/provenance checks remain required.
+
+## 2026-08-02 — Carrylog beta.6 published through protected OIDC
+
+Release commit `d447dfc1a95491712342a1f0079c369408f469b2` passed the complete local
+`release:verify` gate and all eleven exact-commit CI jobs in run `30710993638`. Annotated immutable
+tag `v0.1.0-beta.6` resolves locally and on `origin` to that commit. Tagged release run
+`30711101598` passed Linux, macOS, and Windows preflight before the required `npm` environment review
+was approved. The protected publish job then completed through npm trusted publishing with GitHub
+OIDC and no registry token path.
+
+The publish job built and verified one 148-file tarball, recorded SHA-256
+`c434fc14e61a3395f79b63a6d7395015d7ae55ac2673ebc59d366d8fd822871e`, and published those
+same bytes. An independent registry download matched that SHA-256, SHA-1
+`d54e5d6e58f0e841288dfff2ca01535acc0af60e`, and SHA-512 integrity
+`QiRPpB3KjUD567iNJHGKyWcHhnu8ffsWCe/cudyqhtUE5aU9jvR7xCNWuoFpDnVHj9rKhUdoK0rPrXYhOkcD8A==`.
+The registry reports 148 files, 159,196 packed bytes, and 601,312 unpacked bytes. The `beta` tag
+resolves to beta.6 while the policy-bound `latest` tag remains fixed at beta.4.
+
+The public package exposes one npm registry signature and two attestations. `npm audit signatures`
+verified the installed dependency graph and its attestation. The SLSA statement names
+`Jaemani/Carrylog`, `.github/workflows/release.yml`, `refs/tags/v0.1.0-beta.6`, the exact release
+commit, and run `30711101598` attempt 1; its transparency-log index is `2313524884`. An isolated
+`npx` invocation and an isolated-prefix global installation both printed `0.1.0-beta.6`.
+
+The local macOS prepare manifest recorded a different 158,946-byte tarball at SHA-256
+`e5ddd129234e46bca78c97e56084ca186e41488668fbad9cb831c3ffdb5e10da`. That manifest was not
+misrepresented as the published artifact: the tagged Linux job repacked the same release commit,
+then verified and published one unchanged job-local tarball. Cross-host byte-for-byte packing is not
+a current product or release invariant. The release procedure now distinguishes local prepare
+evidence from the authoritative publish-job digest and requires the registry download to match the
+latter.
+
+Finally, a public-package lifecycle test used an isolated-prefix global beta.6 installation in a
+fresh Git repository. It initialized configuration v2 with Codex, Claude, Cursor, and Gemini
+surfaces, created all 14 planned files, committed them, validated without diagnostics, refreshed the
+checkpoint, and returned a `resume --check` envelope with `checkpoint.stale=false`. This confirms the
+published package's deterministic repository lifecycle. It does not add transcript portability,
+repeated-switch behavior, semantic compaction, or formal Tier 1 outcome evidence.

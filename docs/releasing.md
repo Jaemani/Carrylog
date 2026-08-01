@@ -93,6 +93,13 @@ dogfood context consistency, quality/coverage, package contents, runtime audit, 
 smoke tests. It writes the tarball and `artifact.json` under ignored `release/`; the manifest records
 commit, size, and SHA-256.
 
+The local prepare gate and the tagged publish job each pack the same reviewed source on their own
+host. Their tarball digests are not a cross-host reproducibility contract. The protected publish job
+must build, verify, and publish one unchanged tarball, and the independently downloaded registry
+tarball must match that job's recorded digest. A local prepare manifest proves what was checked on
+that host; it must not be substituted for the publish job's artifact record or described as the
+published bytes unless the digests actually match.
+
 ## Publish and verify
 
 Pushing a matching `v*-beta.*` tag starts `.github/workflows/release.yml`. Tagged preflight pins npm
