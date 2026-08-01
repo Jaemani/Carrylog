@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile, spawn } from "node:child_process";
-import { link, mkdir, readFile, writeFile } from "node:fs/promises";
+import { chmod, link, mkdir, readFile, rmdir, symlink, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { promisify } from "node:util";
@@ -16,7 +16,10 @@ import {
   parseCheckpointSections,
   validateCheckpointStructure,
 } from "../dist/continuity/checkpoint.js";
-import { renderAgentContinuitySkill } from "../dist/continuity/skills.js";
+import {
+  PROJECT_LOCAL_CARRYLOG_PROBE,
+  renderAgentContinuitySkill,
+} from "../dist/continuity/skills.js";
 import { createDefaultConfig, createTemplateFiles } from "../dist/templates/defaults.js";
 import {
   createTemporaryDirectory,
@@ -32,17 +35,115 @@ test("continuity skill resolves source and pinned executables before a compatibl
   const skill = renderAgentContinuitySkill();
   assert.match(skill, /npx --no-install carrylog resume --json/);
   assert.match(skill, /node_modules\/\.bin\/carrylog/);
+  assert.match(skill, /process\.platform===\x27win32\x27\?\x27carrylog\.cmd\x27:\x27carrylog\x27/);
+  assert.match(skill, /f\.lstatSync/);
+  assert.match(skill, /f\.accessSync/);
+  assert.match(skill, /Do not use Glob, Read, or directory listings/);
+  assert.match(skill, /Exit 1 means it is\s+absent and permits checking the global candidate/);
+  assert.match(skill, /present but unusable or uncertain/);
   assert.match(skill, /node dist\/cli\.js resume --json/);
   assert.match(skill, /node dist\/cli\.js resume --help/);
   assert.match(skill, /npx --no-install carrylog resume --help/);
   assert.match(skill, /carrylog resume --help/);
   const source = skill.indexOf("node dist/cli.js resume --json");
+  const pinnedProbe = skill.indexOf("f.accessSync");
   const pinned = skill.indexOf("npx --no-install carrylog resume --json");
   const compatibleGlobal = skill.lastIndexOf("carrylog resume --help");
-  assert.equal(source >= 0 && source < pinned && pinned < compatibleGlobal, true);
+  assert.equal(
+    source >= 0 && source < pinnedProbe && pinnedProbe < pinned && pinned < compatibleGlobal,
+    true,
+  );
   assert.match(skill, /selected version lacks `resume`/);
   assert.match(skill, /do not fall through to a different global version/);
   assert.doesNotMatch(skill, /npx --yes|npm install/);
+});
+
+test("project-local executable probe observes the platform bin without a global fallback", async () => {
+  const root = await createTemporaryDirectory("carrylog-local-probe-");
+  try {
+    await assert.rejects(
+      execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root }),
+      (error) => error !== null && typeof error === "object" && error.code === 1,
+    );
+
+    const modulesDirectory = path.join(root, "node_modules");
+    const binDirectory = path.join(modulesDirectory, ".bin");
+    const executable = path.join(
+      binDirectory,
+      process.platform === "win32" ? "carrylog.cmd" : "carrylog",
+    );
+    await writeFile(modulesDirectory, "not a directory\n", "utf8");
+    await assert.rejects(
+      execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root }),
+      (error) => error !== null && typeof error === "object" && error.code === 2,
+    );
+    await unlink(modulesDirectory);
+    await mkdir(binDirectory, { recursive: true });
+    await mkdir(executable);
+    await assert.rejects(
+      execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root }),
+      (error) => error !== null && typeof error === "object" && error.code === 2,
+    );
+    await rmdir(executable);
+    await writeFile(executable, process.platform === "win32" ? "@exit /b 0\r\n" : "#!/bin/sh\n", {
+      encoding: "utf8",
+      mode: 0o755,
+    });
+    if (process.platform !== "win32") await chmod(executable, 0o755);
+
+    await execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root });
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("project-local executable probe rejects dangling filesystem candidates", async (context) => {
+  const root = await createTemporaryDirectory("carrylog-dangling-probe-");
+  try {
+    const modulesDirectory = path.join(root, "node_modules");
+    try {
+      await symlink(
+        path.join(root, "missing-modules"),
+        modulesDirectory,
+        process.platform === "win32" ? "junction" : "dir",
+      );
+    } catch (error) {
+      if (
+        process.platform === "win32" &&
+        error !== null &&
+        typeof error === "object" &&
+        "code" in error &&
+        error.code === "EPERM"
+      ) {
+        context.skip("Windows host does not permit creation of the required junction fixture.");
+        return;
+      }
+      throw error;
+    }
+    await assert.rejects(
+      execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root }),
+      (error) => error !== null && typeof error === "object" && error.code === 2,
+    );
+
+    await unlink(modulesDirectory);
+    const binDirectory = path.join(modulesDirectory, ".bin");
+    await mkdir(binDirectory, { recursive: true });
+    const executable = path.join(
+      binDirectory,
+      process.platform === "win32" ? "carrylog.cmd" : "carrylog",
+    );
+    await symlink(
+      path.join(root, "missing-carrylog"),
+      executable,
+      process.platform === "win32" ? "junction" : "file",
+    );
+    await assert.rejects(
+      execFileAsync(process.execPath, ["-e", PROJECT_LOCAL_CARRYLOG_PROBE], { cwd: root }),
+      (error) => error !== null && typeof error === "object" && error.code === 2,
+    );
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
 });
 
 test("checkpoint parser requires every canonical section exactly once", () => {

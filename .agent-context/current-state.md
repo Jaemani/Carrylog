@@ -35,18 +35,26 @@ gates without implementing journaling or compaction.
 - Authenticated canaries bind Codex results to one immutable exact-command probe and bind Claude
   permission denials to exact tool IDs, names, and inputs. Analysis dependencies, review
   attestations, manifest bytes, and concurrent exclusion writes now fail closed on drift or races.
+- A real Personal Context smoke test reconstructed Codex-authored repository handoff facts through
+  Claude Code using a GPT router, resumed the resulting Claude session without file tools, and then
+  exercised a Carrylog v2 checkpoint through the generated Claude Skill. The test exposed and fixed
+  project-local executable discovery through ignored `node_modules`; this is delivery and
+  reconstruction evidence, not a scored Tier 1 result.
 
 ## Blockers and risks
 
-- The organization currently disables Claude Code subscription OAuth and no `ANTHROPIC_API_KEY` is
-  available. Authenticated Claude isolation therefore remains a prerequisite blocker; the local
-  Claude MCP broker and Seatbelt contracts pass but are not a substitute.
+- Claude Code is now reachable through an explicitly loaded local GPT router, but that route does not
+  match the frozen Tier 1 Claude CLI/model configuration. The formal authenticated prerequisite must
+  remain pending until the protocol is deliberately amended and its synthetic-authentication and
+  isolation contract is reviewed for the router.
 - The Codex authenticated canary passed immediately before the final redaction-only critical change,
   but its rerun then hit the provider usage limit. The stale pass was correctly discarded and no
   current-byte pass is claimed.
 - Cursor CLI is unavailable locally; broader Cursor/Gemini outcome evidence remains future work.
 - Automated resume needs a compatible source build, project-pinned install, or global install; Skills
   never download, build, or upgrade it implicitly.
+- The user-level Claude default model and router settings currently require explicit `--settings`
+  and `--model` flags; a normal unqualified Claude invocation still selects an unavailable model.
 - Sequential cross-file rename and the final path-to-syscall TOCTOU window remain under ADR-0007.
 - External outcome evidence and additional Windows reparse/hard-link coverage remain stable-release
   work.
@@ -59,6 +67,7 @@ gates without implementing journaling or compaction.
 
 ## Next best task
 
-Complete fresh post-fix security and methodology reviews, restore authorized Claude access, rerun its
-authenticated canary, and only then obtain two formal GO attestations over one unchanged digest and
-write the freeze manifest before any scored execution.
+Finish verification and review of the project-local executable-discovery fix, then decide whether to
+amend the uncommitted Tier 1 candidate to current Codex and Claude-router harness identities. If
+amended, refresh and rerun both authenticated prerequisites before generating any formal review
+digest or scored output.

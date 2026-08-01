@@ -1119,3 +1119,68 @@ branches, and package inspection retained 148 files while excluding `research/`.
 pending because authorized access is unavailable; Codex is also pending until the current critical
 bytes can be re-authenticated after the usage limit resets. No formal review digest, manifest, raw
 result, score, or behavioral continuity claim exists.
+
+## 2026-08-02 — A real cross-harness smoke test found a generated-Skill discovery defect
+
+Claude Code 2.1.220 became reachable through an explicitly loaded GPT router. The ordinary user
+configuration still selected an unavailable model, so the smoke test recorded the required explicit
+settings and model override rather than treating default setup as successful. No router credential,
+provider session store, native transcript, or raw model stream was copied into the repository.
+
+The first read-only baseline started Claude in the Personal Context repository and required it to
+read the Codex-authored `AGENTS.md` and tracked development handoff. It reconstructed the exact
+working branch, product boundary, first milestone step, and one protected prohibition. Resuming that
+same Claude session with every file and shell tool disabled reproduced the branch, next step, and
+prohibition from the resumed conversation alone. This establishes repository-artifact delivery and
+fact reconstruction plus Claude-native session persistence. It does not establish that Claude can
+open a Codex-native transcript, that Carrylog transfers provider sessions, or that the resumed model
+will preserve those facts during a substantive implementation task.
+
+A second smoke test created an isolated local clone of Personal Context, initialized Carrylog
+configuration v2 for Codex and Claude, imported reviewed continuation facts into canonical context,
+and generated a current checkpoint. Validation returned no diagnostics and the resume envelope
+reported a current checkpoint on `codex/runtime-v1-stabilization` at `6c046ce`. The released beta.5
+artifact was first installed as the project-pinned baseline. After the Skill source changed, its
+validator correctly rejected the new generated Skill as drift; the final retest therefore used a
+clearly identified unpublished working-tree package candidate and made no claim about immutable
+beta.5 bytes.
+
+The generic continuation attempt did not run the resume envelope. Claude reported the global
+candidate after failing to observe the project-local executable. An explicit Skill attempt confirmed
+the defect: ignored `node_modules/.bin` content was invisible to the agent's normal file-discovery
+tools even though the operator shell and `npx --no-install` resolved the local beta.5 executable.
+Always trying `npx --no-install` was rejected because a repository without a local install resolved
+the incompatible global beta.4, proving that `--no-install` alone does not establish project
+ownership in this environment.
+
+The generated Skill now uses one silent, cross-platform Node filesystem probe for
+`node_modules/.bin/carrylog` or `carrylog.cmd`, explicitly forbids Glob, Read, and directory listings
+for that decision, and runs `npx --no-install` only after the probe succeeds. A regression executes
+the probe with an absent candidate and a platform-specific local executable, allowing the supported
+OS CI matrix to exercise the same contract. The corrected explicit-Skill run selected the pinned
+candidate, returned the Carrylog envelope, reconstructed the objective, boundary, risks, branch,
+HEAD, dirty-tree state, and next action, and reported `checkpoint.stale` as false. Resuming that
+Claude session with no tools retained the branch, current checkpoint state, and next action.
+
+Narrow command-pattern approval initially denied Claude's compound Bash invocation even after the
+local probe succeeded. The successful product smoke therefore allowed Bash inside the isolated clone
+while denying write/edit tools, then verified repository state afterward. That result is not an
+approval-policy or sandbox-isolation claim. The formal Tier 1 candidate remains unexecuted: its
+preregistered Codex and Claude CLI/model identities do not match the current clients or GPT router,
+and neither authenticated prerequisite was updated from this smoke test.
+
+The first broad read-only review attempt did not return within the bounded operator wait and was
+terminated without a verdict. A narrower retry returned NO-GO: leaf `lstat` can report `ENOENT` for a
+dangling ancestor, so the first probe could still classify uncertain path state as true absence and
+fall through to the global executable. The corrected probe now checks `node_modules` and `.bin`
+separately, accepts only real directories for those ancestors, and distinguishes their true absence
+from symlinks, non-directories, permission failures, and other uncertainty. The leaf candidate is
+then checked as a file or symbolic link and must pass executable access.
+
+New process regressions cover an absent module directory, a non-directory ancestor, a directory in
+place of the executable, a dangling ancestor, a dangling executable, and a usable platform-specific
+candidate. The same read-only reviewer then returned GO with no finding. Its residual caveats were
+that review was static, Windows junction behavior still depends on Windows CI, and the probe checks
+filesystem selection rather than CLI compatibility; the existing mandatory `resume --help` step
+continues to provide the compatibility gate. The final unpublished candidate was repackaged and the
+isolated Claude Skill and no-tool native-resume checks both passed again on those corrected bytes.

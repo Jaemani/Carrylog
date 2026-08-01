@@ -16,7 +16,14 @@ substantial project session.
    a. In the Carrylog source repository itself, when its built `dist/cli.js` exists, first require
       `node dist/cli.js resume --help` to succeed, then use `node dist/cli.js resume --json` from
       that repository root. If it fails, report a stale or incompatible build and stop.
-   b. Otherwise, when the nearest project has `node_modules/.bin/carrylog`, first require
+   b. Otherwise, from the project root run this exact cross-platform probe for the project-local
+      `node_modules/.bin/carrylog` or `node_modules/.bin/carrylog.cmd` executable:
+      `node -e "const f=require('node:fs'),p=require('node:path');const n=process.platform==='win32'?'carrylog.cmd':'carrylog';const m=p.join(process.cwd(),'node_modules'),b=p.join(m,'.bin'),x=p.join(b,n);const d=y=>{let s;try{s=f.lstatSync(y)}catch(e){if(e&&e.code==='ENOENT')return false;process.exit(2)}if(!s.isDirectory())process.exit(2);return true};if(!d(m)||!d(b))process.exit(1);let s;try{s=f.lstatSync(x)}catch(e){process.exit(e&&e.code==='ENOENT'?1:2)}if(!s.isFile()&&!s.isSymbolicLink())process.exit(2);try{f.accessSync(x,f.constants.X_OK)}catch{process.exit(2)}"`
+      Do not use Glob, Read, or directory listings for this check; ignored `node_modules` entries
+      may be hidden from agent file tools. Exit 0 selects the local candidate. Exit 1 means it is
+      absent and permits checking the global candidate. Any other exit means a local candidate is
+      present but unusable or uncertain; report it and stop without falling through. When selected,
+      first require
       `npx --no-install carrylog resume --help` to succeed, then run
       `npx --no-install carrylog resume --json` from that project root. If it fails, report the
       incompatible pinned version and stop; do not fall through to a different global version.

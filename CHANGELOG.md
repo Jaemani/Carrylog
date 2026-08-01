@@ -5,6 +5,17 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [Unreleased]
 
+### Changed
+
+- Made the generated continuity Skill detect a project-pinned Carrylog executable with an exact
+  cross-platform filesystem probe instead of agent file-discovery tools, which can hide ignored
+  `node_modules/.bin` entries and incorrectly fall through to a global version.
+
+### Testing
+
+- Added platform-aware executable-probe regressions for absent, invalid, dangling-ancestor,
+  dangling-leaf, and usable local candidates without consulting a global installation.
+
 ## [0.1.0-beta.5] - 2026-07-12
 
 ### Added
