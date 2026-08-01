@@ -5,6 +5,7 @@ import { CarrylogError, issueError } from "../core/errors.js";
 import { atomicWriteTexts, inspectAtomicPath, readTextIfExists } from "../core/files.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
 import type { LoadedProject } from "../domain/types.js";
+import { createCheckpointSettlementMetadata } from "../git/checkpoint-settlement.js";
 import { type GitSnapshot, inspectGitProject } from "../git/inspect.js";
 import { renderHandoffSnapshot, upsertHandoffSnapshot } from "../handoff/snapshot-block.js";
 import { validateContext } from "../validation/validate.js";
@@ -21,6 +22,7 @@ export interface HandoffResult {
   wrote: boolean;
   drift: boolean;
   snapshot: GitSnapshot;
+  settlementEligible: boolean;
 }
 
 export async function refreshHandoff(
@@ -46,7 +48,11 @@ export async function refreshHandoff(
   }
 
   const snapshot = await inspectGitProject(project.root, portablePath);
-  const content = upsertHandoffSnapshot(existing, renderHandoffSnapshot(snapshot));
+  const settlement =
+    project.config.version === 2
+      ? await createCheckpointSettlementMetadata(project.root, portablePath, snapshot)
+      : undefined;
+  const content = upsertHandoffSnapshot(existing, renderHandoffSnapshot(snapshot, settlement));
   const prospectiveDiagnostics = await validateContext(project, new Map([[portablePath, content]]));
   if (prospectiveDiagnostics.some((diagnostic) => diagnostic.level === "error")) {
     throw new CarrylogError(
@@ -84,5 +90,6 @@ export async function refreshHandoff(
     wrote: shouldWrite,
     drift,
     snapshot,
+    settlementEligible: settlement !== undefined,
   };
 }

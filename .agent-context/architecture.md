@@ -40,6 +40,7 @@ network boundary.
   parses provider-native transcripts or session databases.
 
 Detailed boundaries and residual gaps live in `docs/architecture.md`; security assumptions live in
-`docs/threat-model.md`; configuration, Git, identity, v2 migration, and continuity choices are
-ADR-0005, ADR-0006, ADR-0008, ADR-0009, ADR-0010, ADR-0011, and ADR-0012. ADR-0012 keeps
-journaling and semantic compaction outside the supported runtime until staged evidence gates pass.
+`docs/threat-model.md`; configuration, Git, identity, v2 migration, continuity, and checkpoint
+settlement choices are ADR-0005, ADR-0006, ADR-0008, ADR-0009, ADR-0010, ADR-0011, ADR-0012, and
+ADR-0013. ADR-0012 keeps journaling and semantic compaction outside the supported runtime until
+staged evidence gates pass.

@@ -4,89 +4,109 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "d16af41 at 2026-08-02T03:00:29+09:00"
-- Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: 0 staged, 4 unstaged, 1 untracked, 0 conflicted
-- Staged diff: 0 file(s), +0/-0, 0 binary
-- Unstaged diff: 4 file(s), +40/-10, 0 binary
+- HEAD: "1cbb235 at 2026-08-02T03:24:36+09:00"
+- Upstream: "origin/main; ahead 1, behind 0"
+- Working tree: 25 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 25 file(s), +1239/-49, 0 binary
+- Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (5)
+### Changed paths (25)
 
-    {"status":" M","path":".agent-context/current-state.md"}
-    {"status":" M","path":"ROADMAP.md"}
-    {"status":" M","path":"docs/engineering-log.md"}
-    {"status":" M","path":"research/continuity/README.md"}
-    {"status":"??","path":"research/continuity/public-beta-switch-smoke-2026-08-02.md"}
+    {"status":"M ","path":".agent-context/architecture.md"}
+    {"status":"M ","path":".agent-context/current-state.md"}
+    {"status":"M ","path":".agent-context/decisions.md"}
+    {"status":"M ","path":".agents/skills/carrylog-continuity/SKILL.md"}
+    {"status":"M ","path":"CHANGELOG.md"}
+    {"status":"M ","path":"README.md"}
+    {"status":"M ","path":"ROADMAP.md"}
+    {"status":"M ","path":"docs/architecture.md"}
+    {"status":"A ","path":"docs/decisions/0013-checkpoint-commit-settlement.md"}
+    {"status":"M ","path":"docs/decisions/README.md"}
+    {"status":"M ","path":"docs/engineering-log.md"}
+    {"status":"M ","path":"docs/releasing.md"}
+    {"status":"M ","path":"docs/testing-strategy.md"}
+    {"status":"M ","path":"docs/threat-model.md"}
+    {"status":"M ","path":"package-lock.json"}
+    {"status":"M ","path":"package.json"}
+    {"status":"M ","path":"src/cli.ts"}
+    {"status":"M ","path":"src/commands/handoff.ts"}
+    {"status":"M ","path":"src/commands/resume.ts"}
+    {"status":"M ","path":"src/continuity/skills.ts"}
+    {"status":"A ","path":"src/git/checkpoint-settlement.ts"}
+    {"status":"M ","path":"src/git/inspect.ts"}
+    {"status":"M ","path":"src/handoff/snapshot-block.ts"}
+    {"status":"M ","path":"tests/cli.test.mjs"}
+    {"status":"M ","path":"tests/continuity.test.mjs"}
 
 ### Recent commits (5)
 
+    {"commit":"1cbb235","committedAt":"2026-08-02T03:24:36+09:00","subject":"research: record public beta switch smoke"}
     {"commit":"d16af41","committedAt":"2026-08-02T03:00:29+09:00","subject":"docs: record Carrylog beta6 publication"}
     {"commit":"d447dfc","committedAt":"2026-08-02T02:43:39+09:00","subject":"release: prepare Carrylog beta6"}
     {"commit":"60e2833","committedAt":"2026-08-02T02:37:39+09:00","subject":"research: refresh continuity harness binding"}
     {"commit":"dc2e7cb","committedAt":"2026-08-02T02:32:32+09:00","subject":"fix: restore cross-platform continuity contracts"}
-    {"commit":"191db00","committedAt":"2026-08-02T01:39:51+09:00","subject":"fix: resolve pinned Carrylog without agent file discovery"}
+
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"1cbb235d6f7d30fbe023e9ebcaaa2248d02b6c30","detached":false,"branch":"main","indexCommitment":"0d5ea4ce7bd2ac2d674477b91885b7fcc47e00e2bed1901267b07873f7006253"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Record the completed public beta.6 switch smoke and hand off to a bounded second-repository
-comparative adoption design.
+Prepare the portable checkpoint-settlement correction as an immutable beta.7 release candidate, then
+return to the second-repository comparative adoption design.
 
 ## Completed
 
-- Released immutable `v0.1.0-beta.6` from commit `d447dfc` after clean local release verification,
-  eleven green exact-commit CI jobs, and a dedicated release review.
-- Release run `30711101598` passed tagged Linux, macOS, and Windows preflight and the protected npm
-  OIDC publish job.
-- Independently verified the registry artifact, dist-tags, signature, SLSA provenance, isolated
-  `npx`, isolated-prefix global installation, and a fresh-repository public-package lifecycle.
-- Recorded the original cross-harness Skill discovery defect, failed diagnostic CI runs, root-cause
-  corrections, and complete publication evidence in `docs/engineering-log.md`.
-- Ran a fresh Codex-to-Claude/GPT-router-to-Codex sequence in an isolated Personal Context fixture.
-  Every stage resumed a current checkpoint, retained the protected decisions, preserved prior stage
-  bytes, ran its assigned check, and stayed inside the allowed three-file change boundary.
-- Added a sanitized research report without provider transcripts, credentials, settings, histories,
-  hidden reasoning, or raw streams.
+- Committed the sanitized public beta.6 Codex-to-Claude/GPT-router-to-Codex switch observation without
+  provider transcripts, credentials, settings, histories, hidden reasoning, or raw streams.
+- Reproduced the post-commit `resume --check` stale result and identified the impossible exact
+  self-reference between a checkpoint file and the commit containing it.
+- Added ADR-0013 and a v2-only portable settlement proof over the full base parent, branch/detached
+  identity, object format, clean Git-visible state, and project-scoped staged-index/committed-tree
+  commitments. Configuration v1 output remains frozen.
+- Removed rejected reflog and upstream-divergence dependencies, exposed settlement eligibility in
+  human/JSON output, and updated the generated continuity Skill without granting commit authority.
+- Closed two independent review cycles, including a P1 where `submodule.*.ignore=all` could hide a
+  dirty submodule from freshness evidence.
 
 ## Verification
 
-- The publish job and independent download share SHA-256
-  `c434fc14e61a3395f79b63a6d7395015d7ae55ac2673ebc59d366d8fd822871e`; the registry reports
-  148 files, 159,196 packed bytes, and 601,312 unpacked bytes.
-- `beta` resolves to `0.1.0-beta.6`; the policy-bound `latest` remains `0.1.0-beta.4`.
-- `npm audit signatures` verified the installed graph and attestation. SLSA binds the package to
-  `Jaemani/Carrylog`, `release.yml`, tag beta.6, commit `d447dfc`, and run `30711101598` attempt 1.
-- A public beta.6 installation initialized all four harness surfaces in a fresh Git repository,
-  validated cleanly, refreshed its checkpoint, and resumed with `checkpoint.stale=false`.
-- Pre-release quality passed 235/235 tests; exact measurements and workflow identifiers are recorded
-  once in the engineering log.
-- The repeated-switch fixture passed Stage A typecheck, Stage B's 63 tests, Stage C build, and final
-  Carrylog validation with `checkpoint.stale=false`.
+- The focused continuity suite passes 30/30 cases, including SHA-256 Git, conflicts, clean partial
+  mismatch, ignored files, dirty ignored submodules, detached state, object-format mismatch, and
+  branch-backed push/fresh-clone reconstruction.
+- The complete local quality gate passes above every enforced coverage floor.
+- Beta.7 package inspection passes with 153 files and 171,802 bytes.
+- Packed-artifact smoke passes local, ephemeral, global, ESM, strict TypeScript, v1-to-v2 migration,
+  initialization, validation, checkpoint, and resume paths.
+- `carrylog validate --json`, generated-surface drift, and whitespace checks are clean.
+- Independent post-fix reviewers report no unresolved P0/P1 issue; the original submodule-ignore P1
+  is closed in source, tests, threat model, and ADR.
 
 ## Decisions
 
-- Ignored project-local executables use exact filesystem probing and fail closed on unusable or
-  uncertain candidates; only true absence permits global fallback.
-- Local prepare and protected publish hosts are separate pack operations. Registry bytes are bound
-  to the one job artifact that was verified and published; cross-host reproducible tarballs are not
-  claimed.
-- Beta.6 evidence covers repository-memory delivery, reconstruction, and deterministic lifecycle.
-  The new smoke adds one bounded two-switch behavior sequence, not arbitrary switch invariance,
-  transcript portability, or compaction value.
+- Exact Git-snapshot freshness remains the default. Commit settlement is a second fail-closed state,
+  not a heuristic that ignores `HEAD` or accepts arbitrary descendants.
+- Settlement uses repository-owned Git object evidence and deliberately excludes reflog, provider
+  session, upstream-tracking, and ignored-file state.
+- A content-equivalent rewrite with the same sole parent and project tree remains fresh; altered-tree,
+  merge, later, partial, dirty, malformed, or uncertain states remain stale.
+- Git status and diff evidence always override submodule-ignore configuration.
 
 ## Risks
 
-- Formal Tier 1 Codex and Claude prerequisites remain pending for the current critical harness bytes;
-  the installed Claude/GPT router does not match the frozen native-Claude protocol identity.
-- Cursor CLI is unavailable locally, and Gemini/Cursor behavioral evidence remains future work.
-- A normal Claude invocation still needs explicit router settings and model selection.
-- Wrapper-aware command permissions and reliable router input-token accounting are unresolved; the
-  first narrow Claude attempt denied `rtk npx ...` even though unwrapped `npx ...` was allowed.
+- Beta.7 has not yet passed clean-commit release verification or the committed Linux/macOS/Windows CI
+  matrix; no publication claim exists.
+- Large or sparse-index projects can exceed bounded tree enumeration and receive settlement
+  unavailable while exact freshness remains supported.
+- Git-ignored files are outside the evidence boundary by design; Carrylog proves Git-visible project
+  state, not physical worktree cleanliness or semantic document truth.
+- Formal Tier 1 prerequisites, native Claude identity, Cursor availability, wrapper-aware permissions,
+  and reliable router input-token accounting remain unresolved.
 - Sequential cross-file rename, final path-to-syscall TOCTOU, and stale exclusion-lock recovery remain
   documented residual risks.
 
 ## Next action
 
-Commit the sanitized switch-smoke evidence, then design a second-repository comparison across
-repository-only, manual-handoff, and Carrylog conditions before executing it or changing claims.
+Stage the reviewed beta.7 changes, generate and stage the settlement-aware checkpoint, commit once,
+then require clean `release:verify` and the complete exact-commit CI matrix before tagging or
+publishing.

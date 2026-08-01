@@ -191,6 +191,10 @@ test("CLI handoff refresh, check, dry-run, and JSON form one stable lifecycle", 
     const checkpoint = await runCli(["checkpoint", "--root", root, "--check", "--json"]);
     assert.equal(checkpoint.code, 0);
     assert.equal(JSON.parse(checkpoint.stdout).drift, false);
+    assert.equal(JSON.parse(checkpoint.stdout).settlementEligible, true);
+    const checkpointHuman = await runCli(["checkpoint", "--root", root, "--check"]);
+    assert.equal(checkpointHuman.code, 0);
+    assert.match(checkpointHuman.stdout, /Commit settlement: eligible\./);
     const resumed = await runCli(["resume", "--root", root, "--check", "--json"]);
     assert.equal(resumed.code, 0);
     assert.equal(JSON.parse(resumed.stdout).project.configVersion, 2);

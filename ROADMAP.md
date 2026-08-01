@@ -47,6 +47,11 @@ Codex-to-Claude/GPT-router-to-Codex sequence. It is bounded behavior evidence, n
 Tier 1 result. The next adoption step must add a second repository and repository-only/manual-handoff
 comparators while measuring wrapper permissions, task outcome, latency, and usable token accounting.
 
+The post-smoke checkpoint review exposed a deterministic lifecycle defect: committing a freshly
+written checkpoint changed `HEAD` and immediately made the committed checkpoint stale. The next beta
+therefore adds a portable, project-scoped settlement proof for one fully staged commit before the
+comparative adoption work resumes. It does not broaden Carrylog into transcript or compaction state.
+
 Implemented in the `0.1.0-beta.5` prerelease line:
 
 - explicit configuration v2 migration without changing frozen v1 semantics;

@@ -9,8 +9,17 @@ import { CarrylogError, issueError } from "../core/errors.js";
 import { type GuardedTextRead, readGuardedText } from "../core/files.js";
 import { resolveProjectPath } from "../core/paths.js";
 import type { Diagnostic, LoadedProject } from "../domain/types.js";
+import {
+  createCheckpointSettlementMetadata,
+  isCheckpointSettlementFresh,
+} from "../git/checkpoint-settlement.js";
 import { type GitSnapshot, inspectGitProject } from "../git/inspect.js";
-import { renderHandoffSnapshot, upsertHandoffSnapshot } from "../handoff/snapshot-block.js";
+import {
+  extractHandoffSnapshotBody,
+  parseCheckpointSettlementMetadata,
+  renderHandoffSnapshot,
+  upsertHandoffSnapshot,
+} from "../handoff/snapshot-block.js";
 import { validateContext } from "../validation/validate.js";
 import { validateProject } from "./validate.js";
 
@@ -113,8 +122,23 @@ export async function createResumeEnvelope(project: LoadedProject): Promise<Resu
         `Observed checkpoint is missing: ${checkpointDocument.id}`,
       );
     }
-    const renderedCurrent = upsertHandoffSnapshot(checkpointRead.text, renderHandoffSnapshot(git));
-    const stale = renderedCurrent !== checkpointRead.text;
+    const recordedSettlement = parseCheckpointSettlementMetadata(
+      extractHandoffSnapshotBody(checkpointRead.text),
+    );
+    const currentSettlement =
+      recordedSettlement === undefined
+        ? undefined
+        : await tryCreateCheckpointSettlementMetadata(project.root, checkpointPath, git);
+    const renderedCurrent = upsertHandoffSnapshot(
+      checkpointRead.text,
+      renderHandoffSnapshot(git, currentSettlement),
+    );
+    const exactSnapshot = renderedCurrent === checkpointRead.text;
+    const settled =
+      !exactSnapshot &&
+      recordedSettlement !== undefined &&
+      (await isCheckpointSettlementFresh(project.root, checkpointPath, git, recordedSettlement));
+    const stale = !exactSnapshot && !settled;
     const diagnostics: Diagnostic[] = uniqueDiagnostics([
       ...validation.diagnostics.filter((diagnostic) => diagnostic.level === "warning"),
       ...observedContextDiagnostics.filter((diagnostic) => diagnostic.level === "warning"),
@@ -284,4 +308,16 @@ function projectCommit(commit: GitSnapshot["recentCommits"][number]): ResumeGitC
 
 function contextPath(documentPath: string): string {
   return path.posix.join(".agent-context", documentPath);
+}
+
+async function tryCreateCheckpointSettlementMetadata(
+  projectRoot: string,
+  checkpointPath: string,
+  snapshot: GitSnapshot,
+) {
+  try {
+    return await createCheckpointSettlementMetadata(projectRoot, checkpointPath, snapshot);
+  } catch {
+    return undefined;
+  }
 }

@@ -3,6 +3,37 @@
 All notable changes are documented here using Keep a Changelog categories. Package versions follow
 Semantic Versioning; configuration versions follow the separate contract in ADR-0005.
 
+## [0.1.0-beta.7] - 2026-08-02
+
+### Added
+
+- Added versioned checkpoint-settlement evidence so a fully staged v2 checkpoint can remain fresh
+  after one verified commit and in a fresh clone without relying on provider sessions or local Git
+  reflogs.
+- Added explicit human and JSON checkpoint output that reports whether the current state is eligible
+  for commit settlement.
+
+### Changed
+
+- Updated the generated continuity Skill to run verification before checkpointing and to describe
+  the reviewed stage-checkpoint-stage-commit workflow without granting itself commit authority.
+- Kept configuration v1 handoff bytes on their frozen format; commit-settlement metadata is v2-only.
+
+### Security
+
+- Bound settlement to the full base parent, detached/branch identity, Git object format, clean
+  checkpoint/worktree state, and domain-separated project-scoped index/tree commitments observed
+  twice without Git writes, shell execution, content filters, or machine-local history.
+- Forced Git status and diff inspection to ignore repository submodule-ignore configuration so a
+  dirty submodule cannot be hidden from checkpoint freshness.
+
+### Testing
+
+- Added accepted staged, checkpoint-only, content-equivalent rewrite, nested-project, detached,
+  SHA-256 object-format, push/fresh-clone, and submodule cases.
+- Added rejected unstaged, partial, altered-tree, later-commit, merge, conflicted, dirty index,
+  dirty worktree, dirty checkpoint, branch-transition, malformed-metadata, and frozen-v1 cases.
+
 ## [0.1.0-beta.6] - 2026-08-02
 
 ### Fixed

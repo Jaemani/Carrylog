@@ -179,6 +179,23 @@ stdout—or collection retries three times and then fails closed. Sandbox stderr
 state under ADR-0011. Semantic narrative remains human/agent-authored. Process and trust boundaries
 are defined in [ADR-0006](decisions/0006-deterministic-git-handoff-evidence.md).
 
+### Checkpoint-settlement freshness
+
+Exact Git-snapshot freshness remains the normal resume rule. A checkpoint captured after all
+Git-visible, non-ignored project changes are staged can also survive one qualifying settlement when
+its full recorded base is the resumed commit's sole parent; detached/branch identity, Git object
+format, clean checkpoint/Git-visible project state, and the exact project-scoped
+staged-index/committed-tree commitment (excluding the checkpoint evidence update) all verify. This is
+a narrow settlement, not a general descendant or history-equivalence rule. A content-equivalent
+amend/rewrite with the same parent and project tree is accepted because it has no portable durable
+distinction; an altered-tree rewrite is stale. Dirty trees, partial staging, untracked/conflicted
+capture, legacy/malformed/unavailable evidence, merges, and later descendants remain stale. The
+comparison uses project-scoped Git index/tree object identifiers, so Git content filters are
+irrelevant. It does not depend on reflog state and must verify after push and in a fresh clone for
+branch-backed evidence. Git-ignored files remain outside this boundary. Carrylog never stages or
+commits. See
+[ADR-0013](decisions/0013-checkpoint-commit-settlement.md).
+
 ### Skills and MCP
 
 The v2 continuity Skill teaches compatible agents how to resume and checkpoint without embedding

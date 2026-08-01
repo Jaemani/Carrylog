@@ -48,7 +48,7 @@ matrix.
 - parseable JSON on both success and failure.
 - handoff refresh, check, dry-run, idempotence, and JSON output.
 - checkpoint alias, migration target/help behavior, deterministic resume JSON, raw hostile-Unicode
-  escaping with parsed-value preservation, and stale `--check`.
+  escaping with parsed-value preservation, stale `--check`, and visible commit-settlement eligibility.
 - canonical Carrylog help/version and debug precedence while retaining the beta.3 error/debug aliases.
 
 ### Package and platform tests
@@ -97,6 +97,9 @@ These are implementation contracts, not current benchmark results:
 
 Character budgets are deterministic safety limits, not tokenizer or context-quality estimates.
 Changes to these limits require matching accepted/rejected boundary tests and documentation updates.
+Commit settlement additionally enumerates the complete project-scoped index and committed tree under
+the same per-process output and deadline limits. Large or sparse-index repositories may therefore
+report settlement as unavailable and retain exact-snapshot freshness instead of weakening the bound.
 
 The Carrylog rename has a dedicated `@jaemani/agent-context-kit@0.1.0-beta.3` repository-upgrade
 contract. It freezes the published v1 root, schema identity and bytes, adapter markers, handoff
@@ -129,8 +132,8 @@ Every feature review should consider combinations from these dimensions:
 | Location | project root, nested directory, missing config, nested context root |
 | Output | human text, JSON, CI exit status |
 | Scale | catalog limits, large always context, router budget, large existing adapters |
-| Git | unborn/detached, rename/conflict, upstream divergence, mixed observations, worktree, nested project, hostile environment |
-| Continuity | missing/duplicate/empty sections, stale/current evidence, always/on-demand projection, linked or replaced files, provider metadata exclusion |
+| Git | unborn/detached, rename/conflict, submodule ignore overrides, upstream divergence, mixed observations, worktree, nested project, hostile environment |
+| Continuity | missing/duplicate/empty sections, stale/current evidence, fully staged settlement, partial/altered/dirty rejection, SHA-1/SHA-256, push/fresh clone, always/on-demand projection, linked or replaced files, provider metadata exclusion |
 
 ## Current gates
 
@@ -174,9 +177,6 @@ correctness requirement.
   filesystem failures and stale expectations.
 - Authenticated fresh-session checks across every supported harness; offline Codex prompt inspection
   and Gemini Skill discovery are covered, Claude is installed, and Cursor CLI is not locally present.
-- A successful first publication of the unscoped `carrylog` package, followed by a later Carrylog
-  prerelease published through trusted OIDC with no bootstrap registry token. The historical
-  `@jaemani/agent-context-kit@0.1.0-beta.3` package used the documented bootstrap path; the attempted
-  `carrylog@0.1.0-beta.4` creation was rejected with `E403` and did not establish the package.
 - Outcome studies on external real repositories; current adoption suite covers three representative
-  repository states plus this repository's dogfood context.
+  repository states plus this repository's dogfood context, and one bounded public-beta two-switch
+  observation exists without a scored comparator.

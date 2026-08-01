@@ -43,6 +43,9 @@ substantial project session.
 2. Record consequential architecture or dependency decisions in the project's decision records.
 3. Keep these checkpoint sections exactly once and in order: Objective, Completed, Verification,
    Decisions, Risks, Next action.
-4. Run `carrylog checkpoint`, then `carrylog validate` and the relevant project checks, using the
-   same offline executable resolution as resume.
-5. Never persist raw transcripts, hidden reasoning, credentials, or unreviewed tool output.
+4. Run the relevant project checks and `carrylog validate` using the same offline executable
+   resolution as resume, then run `carrylog checkpoint`.
+5. If an authorized workflow will create a Git commit and requires a fresh clean resume, stage every
+   reviewed non-checkpoint change before `carrylog checkpoint`, then stage the updated checkpoint,
+   commit once, and require `carrylog resume --check` to succeed. Carrylog never stages or commits.
+6. Never persist raw transcripts, hidden reasoning, credentials, or unreviewed tool output.

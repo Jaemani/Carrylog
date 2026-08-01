@@ -71,8 +71,10 @@ content-sensitive release gates on the exact release commit before creating the 
    current state, handoff, and compatibility docs.
 2. Complete the required large-change review and resolve every high-severity finding.
 3. Run the full quality/package/audit suite.
-4. Promote the changelog heading, settle the checkpoint, commit and push, then require the release
-   gates and CI matrix to pass on that clean exact commit.
+4. Promote the changelog heading, stage the intended release changes, settle the checkpoint, stage
+   its checkpoint document, commit and push, then require `carrylog resume --check`, the release
+   gates, and CI matrix to pass on that clean exact commit. Carrylog does not stage or commit these
+   files; the one-commit settlement contract is defined by ADR-0013.
 5. Tag the exact reviewed commit as `v<package-version>`.
 
 Never move or overwrite a pushed release tag. If a tagged workflow exposes a source, workflow,

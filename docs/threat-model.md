@@ -42,6 +42,8 @@ the normal npm supply-chain boundary.
 | Git process/resource abuse | No shell, no prompts, deadline with KILL escalation, combined 1 MiB output |
 | Malicious Git filenames, subjects, or repository Markdown | NUL-delimited Buffer parsing, reversible invalid-UTF-8 hex, HTML-aware checkpoint structure, and terminal-safe human/JSON output while preserving parsed JSON values |
 | Mixed-time Git evidence | Two observations matching allowed exit codes and exact stdout per attempt, three bounded retries, then fail closed |
+| Checkpoint commit mistaken for unrelated history | Optional v1 settlement evidence requires a fully staged project index, full base parent, detached/branch identity, object format, clean checkpoint/worktree, and matching project-scoped index/tree commitments; observations are repeated and any mismatch falls back to stale |
+| Dirty submodule hidden by repository configuration | Every status and diff observation forces `--ignore-submodules=none`, overriding `.gitmodules` and local `submodule.*.ignore` settings |
 | Handoff context inflation | 200-path rendering cap plus prospective file/context-budget validation |
 | Resume path substitution, linked export, or same-size overwrite with restored mtime | Guarded handle/path checks over device, inode, size, mtime, ctime, and link count plus symlink and hard-link rejection |
 | Mixed-time resume envelope | Config/documents → stable Git → config/documents observation with three bounded retries and exact-byte revalidation |
@@ -70,6 +72,11 @@ the normal npm supply-chain boundary.
   responsibility.
 - Agents can still place inaccurate or sensitive prose into reviewed checkpoint sections. Carrylog
   validates structure and file identity, not semantic truth or secret classification.
+- Repository-controlled Git objects and settlement metadata remain repository input, not signed
+  provenance. A content-equivalent history rewrite with the same base parent and exact project tree
+  remains fresh by design; Carrylog proves repository-state equivalence, not who created a commit.
+- Git-ignored files are outside checkpoint evidence by design. Carrylog does not claim physical
+  worktree cleanliness for generated output, dependency directories, or other ignored content.
 
 ## Security principles for future features
 

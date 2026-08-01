@@ -127,6 +127,11 @@ async function runHandoff(
     process.stdout.write(
       `${result.wrote ? "refreshed" : "checked"}: ${result.snapshot.changes.length + result.snapshot.omittedChanges} changed path(s), ${result.snapshot.recentCommits.length} recent commit(s).\n`,
     );
+    if (commandName === "checkpoint") {
+      process.stdout.write(
+        `Commit settlement: ${result.settlementEligible ? "eligible" : "unavailable; exact freshness only"}.\n`,
+      );
+    }
   }
   return values["check"] === true && result.drift ? EXIT_ISSUES : EXIT_SUCCESS;
 }

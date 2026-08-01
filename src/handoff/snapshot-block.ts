@@ -1,12 +1,21 @@
 import { issueError } from "../core/errors.js";
 import { detectTextEol, standaloneMarkerLines } from "../core/marker-lines.js";
 import { stringifyTerminalSafeJson } from "../core/text.js";
+import {
+  type CheckpointSettlementMetadata,
+  isCheckpointSettlementMetadata,
+} from "../git/checkpoint-settlement.js";
 import type { GitSnapshot } from "../git/inspect.js";
 
 export const HANDOFF_SNAPSHOT_START = "<!-- agent-context-kit:handoff-snapshot:start -->";
 export const HANDOFF_SNAPSHOT_END = "<!-- agent-context-kit:handoff-snapshot:end -->";
+const CHECKPOINT_SETTLEMENT_PREFIX = "<!-- carrylog:checkpoint-settlement:";
+const CHECKPOINT_SETTLEMENT_SUFFIX = " -->";
 
-export function renderHandoffSnapshot(snapshot: GitSnapshot): string {
+export function renderHandoffSnapshot(
+  snapshot: GitSnapshot,
+  settlement?: CheckpointSettlementMetadata,
+): string {
   const branch = snapshot.branch ?? (snapshot.detached ? "(detached HEAD)" : "(unborn branch)");
   const head = snapshot.head
     ? `${snapshot.head.shortSha} at ${snapshot.head.committedAt}`
@@ -55,7 +64,46 @@ export function renderHandoffSnapshot(snapshot: GitSnapshot): string {
       );
     }
   }
+  if (settlement !== undefined) {
+    lines.push("", renderCheckpointSettlementMetadata(settlement));
+  }
   return lines.join("\n");
+}
+
+export function parseCheckpointSettlementMetadata(
+  body: string | undefined,
+): CheckpointSettlementMetadata | undefined {
+  if (body === undefined) return undefined;
+  const lines = body.split(/\r?\n/);
+  const matches = lines.filter(
+    (line) =>
+      line.startsWith(CHECKPOINT_SETTLEMENT_PREFIX) && line.endsWith(CHECKPOINT_SETTLEMENT_SUFFIX),
+  );
+  if (matches.length !== 1) return undefined;
+  const match = matches[0];
+  if (match === undefined) return undefined;
+  const payload = match.slice(
+    CHECKPOINT_SETTLEMENT_PREFIX.length,
+    -CHECKPOINT_SETTLEMENT_SUFFIX.length,
+  );
+  const separator = payload.indexOf(" ");
+  if (payload.slice(0, separator) !== "v1" || separator < 0) return undefined;
+  try {
+    const metadata: unknown = JSON.parse(payload.slice(separator + 1));
+    return isCheckpointSettlementMetadata(metadata) ? metadata : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function renderCheckpointSettlementMetadata(metadata: CheckpointSettlementMetadata): string {
+  if (!isCheckpointSettlementMetadata(metadata)) {
+    throw issueError(
+      "E_CHECKPOINT_SETTLEMENT",
+      "Cannot render invalid checkpoint settlement metadata.",
+    );
+  }
+  return `${CHECKPOINT_SETTLEMENT_PREFIX}v1 ${JSON.stringify(metadata)}${CHECKPOINT_SETTLEMENT_SUFFIX}`;
 }
 
 function stringifyEvidence(value: unknown): string {

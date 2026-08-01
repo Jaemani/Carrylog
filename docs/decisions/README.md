@@ -17,6 +17,7 @@ for clarification; a later decision supersedes an old one rather than rewriting 
 | [0010](0010-portable-checkpoint-and-resume-boundary.md) | Portable checkpoint and verified resume boundary | Accepted | 2026-07-11 |
 | [0011](0011-git-stability-consumed-channels.md) | Git stability compares only consumed result channels | Accepted | 2026-07-11 |
 | [0012](0012-evidence-gates-before-continuity-expansion.md) | Evidence gates before continuity expansion | Accepted | 2026-07-12 |
+| [0013](0013-checkpoint-commit-settlement.md) | One verified checkpoint-settlement commit | Accepted | 2026-08-02 |
 
 ## Record template
 

@@ -20,6 +20,8 @@ import {
   PROJECT_LOCAL_CARRYLOG_PROBE,
   renderAgentContinuitySkill,
 } from "../dist/continuity/skills.js";
+import { inspectGitProject } from "../dist/git/inspect.js";
+import { renderHandoffSnapshot, upsertHandoffSnapshot } from "../dist/handoff/snapshot-block.js";
 import { createDefaultConfig, createTemplateFiles } from "../dist/templates/defaults.js";
 import {
   createTemporaryDirectory,
@@ -56,6 +58,8 @@ test("continuity skill resolves source and pinned executables before a compatibl
   );
   assert.match(skill, /selected version lacks `resume`/);
   assert.match(skill, /do not fall through to a different global version/);
+  assert.match(skill, /stage every\s+reviewed non-checkpoint change before `carrylog checkpoint`/);
+  assert.match(skill, /Carrylog never stages or commits/);
   assert.doesNotMatch(skill, /npx --yes|npm install/);
 });
 
@@ -291,6 +295,417 @@ test("resume JSON is byte-deterministic, portable, and reports stale checkpoints
     );
   } finally {
     await removeTemporaryDirectory(root);
+  }
+});
+
+test("checkpoint settlement accepts staged project changes and a checkpoint-only commit", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-success-");
+  try {
+    await initializeV2GitProject(root);
+    await writeFile(path.join(root, "tracked.txt"), "settled project change\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    await refreshHandoff(await loadProject(root), { check: false, dryRun: false });
+    const recorded = await readFile(path.join(root, checkpointPath), "utf8");
+    assert.match(recorded, /carrylog:checkpoint-settlement:v1/);
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Settle staged checkpoint"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+
+    await refreshHandoff(await loadProject(root), { check: false, dryRun: false });
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Settle checkpoint only"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("legacy exact snapshot freshness remains valid without settlement metadata", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-legacy-");
+  try {
+    await initializeV2GitProject(root);
+    const handoff = await readFile(path.join(root, checkpointPath), "utf8");
+    const snapshot = await inspectGitProject(root, checkpointPath);
+    await writeFile(
+      path.join(root, checkpointPath),
+      upsertHandoffSnapshot(handoff, renderHandoffSnapshot(snapshot)),
+      "utf8",
+    );
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("configuration v1 handoff output remains frozen without settlement metadata", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-v1-frozen-");
+  try {
+    await initializeV1Project(root);
+    await git(root, ["init", "-b", "main"]);
+    await git(root, ["config", "user.email", "carrylog-tests@example.invalid"]);
+    await git(root, ["config", "user.name", "Carrylog Tests"]);
+    await git(root, ["add", "."]);
+    await git(root, ["commit", "-m", "V1 settlement fixture"]);
+    const result = await refreshHandoff(await loadProject(root), {
+      check: false,
+      dryRun: false,
+    });
+    const handoff = await readFile(path.join(root, ".agent-context", "handoff.md"), "utf8");
+    assert.equal(result.settlementEligible, false);
+    assert.doesNotMatch(handoff, /carrylog:checkpoint-settlement/);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("checkpoint settlement supports SHA-256 Git repositories when available", async (context) => {
+  const root = await createTemporaryDirectory("carrylog-settlement-sha256-");
+  try {
+    try {
+      await git(root, ["init", "--object-format=sha256", "-b", "main"]);
+    } catch {
+      context.skip("installed Git does not support SHA-256 repositories");
+      return;
+    }
+    await git(root, ["config", "user.email", "carrylog-tests@example.invalid"]);
+    await git(root, ["config", "user.name", "Carrylog Tests"]);
+    await initProject({
+      root,
+      name: "SHA-256 settlement fixture",
+      adapters: ["codex", "claude", "gemini"],
+      adopt: false,
+      dryRun: false,
+    });
+    await writeFile(path.join(root, "tracked.txt"), "sha256 baseline\n", "utf8");
+    await git(root, ["add", "."]);
+    await git(root, ["commit", "-m", "SHA-256 fixture baseline"]);
+    await writeFile(path.join(root, "tracked.txt"), "sha256 settled change\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    const result = await refreshHandoff(await loadProject(root), {
+      check: false,
+      dryRun: false,
+    });
+    assert.equal(result.settlementEligible, true);
+    const handoff = await readFile(path.join(root, checkpointPath), "utf8");
+    assert.match(handoff, /"objectFormat":"sha256"/);
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Settle SHA-256 checkpoint"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("checkpoint settlement is unavailable while the project index is conflicted", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-conflict-");
+  try {
+    await initializeV2GitProject(root);
+    await git(root, ["checkout", "-b", "conflict-side"]);
+    await writeFile(path.join(root, "tracked.txt"), "side conflict\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    await git(root, ["commit", "-m", "Side conflict"]);
+    await git(root, ["checkout", "main"]);
+    await writeFile(path.join(root, "tracked.txt"), "main conflict\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    await git(root, ["commit", "-m", "Main conflict"]);
+    await assert.rejects(git(root, ["merge", "conflict-side"]));
+    const checkpoint = await refreshHandoff(await loadProject(root), {
+      check: false,
+      dryRun: false,
+    });
+    assert.equal(checkpoint.snapshot.conflicted, 1);
+    assert.equal(checkpoint.settlementEligible, false);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("checkpoint settlement rejects unstaged capture, partial commit, and altered committed content", async () => {
+  const unstaged = await createTemporaryDirectory("carrylog-settlement-unstaged-");
+  const partial = await createTemporaryDirectory("carrylog-settlement-partial-");
+  const altered = await createTemporaryDirectory("carrylog-settlement-altered-");
+  try {
+    await initializeV2GitProject(unstaged);
+    await writeFile(path.join(unstaged, "tracked.txt"), "unstaged capture\n", "utf8");
+    await refreshHandoff(await loadProject(unstaged), { check: false, dryRun: false });
+    await git(unstaged, ["add", checkpointPath]);
+    await git(unstaged, ["commit", "-m", "Commit checkpoint after dirty capture"]);
+    assert.equal((await createResumeEnvelope(await loadProject(unstaged))).checkpoint.stale, true);
+
+    await initializeV2GitProject(partial);
+    await writeFile(path.join(partial, "tracked.txt"), "first staged change\n", "utf8");
+    await writeFile(path.join(partial, "second.txt"), "second staged change\n", "utf8");
+    await git(partial, ["add", "tracked.txt", "second.txt"]);
+    await refreshHandoff(await loadProject(partial), { check: false, dryRun: false });
+    await git(partial, ["restore", "--staged", "second.txt"]);
+    await git(partial, ["add", checkpointPath]);
+    await git(partial, ["commit", "-m", "Partially settle checkpoint"]);
+    await unlink(path.join(partial, "second.txt"));
+    assert.equal((await createResumeEnvelope(await loadProject(partial))).checkpoint.stale, true);
+
+    await initializeV2GitProject(altered);
+    await writeFile(path.join(altered, "tracked.txt"), "captured staged content\n", "utf8");
+    await git(altered, ["add", "tracked.txt"]);
+    await refreshHandoff(await loadProject(altered), { check: false, dryRun: false });
+    await writeFile(path.join(altered, "tracked.txt"), "altered committed content\n", "utf8");
+    await git(altered, ["add", "tracked.txt", checkpointPath]);
+    await git(altered, ["commit", "-m", "Commit altered checkpoint"]);
+    assert.equal((await createResumeEnvelope(await loadProject(altered))).checkpoint.stale, true);
+  } finally {
+    await removeTemporaryDirectory(unstaged);
+    await removeTemporaryDirectory(partial);
+    await removeTemporaryDirectory(altered);
+  }
+});
+
+test("checkpoint settlement rejects later, altered amend, merge, and dirty post-commit states", async () => {
+  const later = await createTemporaryDirectory("carrylog-settlement-later-");
+  const amended = await createTemporaryDirectory("carrylog-settlement-amended-");
+  const merged = await createTemporaryDirectory("carrylog-settlement-merge-");
+  const dirty = await createTemporaryDirectory("carrylog-settlement-dirty-");
+  try {
+    await commitSettledCheckpoint(later);
+    await writeFile(path.join(later, "later.txt"), "later commit\n", "utf8");
+    await git(later, ["add", "later.txt"]);
+    await git(later, ["commit", "-m", "Later project commit"]);
+    assert.equal((await createResumeEnvelope(await loadProject(later))).checkpoint.stale, true);
+
+    await commitSettledCheckpoint(amended);
+    await git(amended, ["commit", "--amend", "--no-edit"]);
+    assert.equal((await createResumeEnvelope(await loadProject(amended))).checkpoint.stale, false);
+    await writeFile(path.join(amended, "tracked.txt"), "amended project content\n", "utf8");
+    await git(amended, ["add", "tracked.txt"]);
+    await git(amended, ["commit", "--amend", "--no-edit"]);
+    assert.equal((await createResumeEnvelope(await loadProject(amended))).checkpoint.stale, true);
+
+    const base = await commitSettledCheckpoint(merged);
+    await git(merged, ["branch", "settlement-side", base]);
+    await git(merged, ["checkout", "settlement-side"]);
+    await writeFile(path.join(merged, "side.txt"), "side branch\n", "utf8");
+    await git(merged, ["add", "side.txt"]);
+    await git(merged, ["commit", "-m", "Side branch commit"]);
+    await git(merged, ["checkout", "main"]);
+    await git(merged, ["merge", "--no-ff", "settlement-side", "-m", "Merge side branch"]);
+    assert.equal((await createResumeEnvelope(await loadProject(merged))).checkpoint.stale, true);
+
+    await commitSettledCheckpoint(dirty);
+    await writeFile(path.join(dirty, "tracked.txt"), "unstaged after commit\n", "utf8");
+    assert.equal((await createResumeEnvelope(await loadProject(dirty))).checkpoint.stale, true);
+    await git(dirty, ["restore", "tracked.txt"]);
+    await writeFile(path.join(dirty, "staged.txt"), "staged after commit\n", "utf8");
+    await git(dirty, ["add", "staged.txt"]);
+    assert.equal((await createResumeEnvelope(await loadProject(dirty))).checkpoint.stale, true);
+    await git(dirty, ["restore", "--staged", "staged.txt"]);
+    await unlink(path.join(dirty, "staged.txt"));
+    await writeFile(path.join(dirty, "untracked.txt"), "untracked after commit\n", "utf8");
+    assert.equal((await createResumeEnvelope(await loadProject(dirty))).checkpoint.stale, true);
+    await unlink(path.join(dirty, "untracked.txt"));
+    await writeFile(path.join(dirty, checkpointPath), "\n", { encoding: "utf8", flag: "a" });
+    assert.equal((await createResumeEnvelope(await loadProject(dirty))).checkpoint.stale, true);
+  } finally {
+    await removeTemporaryDirectory(later);
+    await removeTemporaryDirectory(amended);
+    await removeTemporaryDirectory(merged);
+    await removeTemporaryDirectory(dirty);
+  }
+});
+
+test("checkpoint settlement scopes its commitment to a nested project", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-nested-");
+  const nested = path.join(root, "packages", "feature");
+  try {
+    await mkdir(nested, { recursive: true });
+    await initProject({
+      root: nested,
+      name: "Nested settlement fixture",
+      adapters: ["codex", "claude", "gemini"],
+      adopt: false,
+      dryRun: false,
+    });
+    await writeFile(path.join(nested, "tracked.txt"), "nested baseline\n", "utf8");
+    await git(root, ["init", "-b", "main"]);
+    await git(root, ["config", "user.email", "carrylog-tests@example.invalid"]);
+    await git(root, ["config", "user.name", "Carrylog Tests"]);
+    await git(root, ["add", "."]);
+    await git(root, ["commit", "-m", "Nested fixture baseline"]);
+    await writeFile(path.join(nested, "tracked.txt"), "nested settled change\n", "utf8");
+    await git(nested, ["add", "tracked.txt"]);
+    await refreshHandoff(await loadProject(nested), { check: false, dryRun: false });
+    await git(nested, ["add", checkpointPath]);
+    await git(nested, ["commit", "-m", "Settle nested checkpoint"]);
+    assert.equal((await createResumeEnvelope(await loadProject(nested))).checkpoint.stale, false);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("checkpoint settlement ignores files outside the Git-visible evidence boundary", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-ignored-");
+  try {
+    await initializeV2GitProject(root);
+    await writeFile(path.join(root, ".gitignore"), "ignored-output/\n", "utf8");
+    await git(root, ["add", ".gitignore"]);
+    await git(root, ["commit", "-m", "Add ignored-output policy"]);
+    await mkdir(path.join(root, "ignored-output"));
+    await writeFile(path.join(root, "ignored-output", "artifact.bin"), "ignored\n", "utf8");
+    await writeFile(path.join(root, "tracked.txt"), "settled with ignored output\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    const checkpoint = await refreshHandoff(await loadProject(root), {
+      check: false,
+      dryRun: false,
+    });
+    assert.equal(checkpoint.snapshot.untracked, 0);
+    assert.equal(checkpoint.settlementEligible, true);
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Settle with ignored output"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("checkpoint settlement cannot hide dirty submodules through repository ignore config", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-submodule-");
+  const source = await createTemporaryDirectory("carrylog-settlement-submodule-source-");
+  const child = path.join(root, "vendor", "child");
+  try {
+    await git(source, ["init", "-b", "main"]);
+    await git(source, ["config", "user.email", "carrylog-tests@example.invalid"]);
+    await git(source, ["config", "user.name", "Carrylog Tests"]);
+    await writeFile(path.join(source, "child.txt"), "submodule baseline\n", "utf8");
+    await git(source, ["add", "child.txt"]);
+    await git(source, ["commit", "-m", "Submodule baseline"]);
+
+    await initializeV2GitProject(root);
+    await git(root, [
+      "-c",
+      "protocol.file.allow=always",
+      "submodule",
+      "add",
+      source,
+      "vendor/child",
+    ]);
+    await git(root, ["add", ".gitmodules", "vendor/child"]);
+    await git(root, ["commit", "-m", "Add submodule fixture"]);
+    await git(root, ["config", "submodule.vendor/child.ignore", "all"]);
+
+    await writeFile(path.join(child, "child.txt"), "dirty before capture\n", "utf8");
+    const ineligible = await refreshHandoff(await loadProject(root), {
+      check: false,
+      dryRun: false,
+    });
+    assert.equal(ineligible.snapshot.unstaged, 1);
+    assert.equal(ineligible.settlementEligible, false);
+
+    await git(child, ["restore", "child.txt"]);
+    await writeFile(path.join(root, "tracked.txt"), "settled with clean submodule\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    const eligible = await refreshHandoff(await loadProject(root), {
+      check: false,
+      dryRun: false,
+    });
+    assert.equal(eligible.settlementEligible, true);
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Settle checkpoint with submodule"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+
+    await writeFile(path.join(child, "child.txt"), "dirty after settlement\n", "utf8");
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, true);
+  } finally {
+    await removeTemporaryDirectory(root);
+    await removeTemporaryDirectory(source);
+  }
+});
+
+test("checkpoint settlement accepts a detached transition and rejects attaching a branch", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-detached-");
+  try {
+    await initializeV2GitProject(root);
+    await git(root, ["checkout", "--detach"]);
+    await writeFile(path.join(root, "tracked.txt"), "detached settled change\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    const checkpoint = await refreshHandoff(await loadProject(root), {
+      check: false,
+      dryRun: false,
+    });
+    assert.equal(checkpoint.settlementEligible, true);
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Settle detached checkpoint"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+    await git(root, ["switch", "-c", "attached-after-settlement"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, true);
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("checkpoint settlement survives push and fresh clone but rejects a branch transition", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-upstream-");
+  const remote = await createTemporaryDirectory("carrylog-settlement-remote-");
+  const cloneParent = await createTemporaryDirectory("carrylog-settlement-clone-");
+  const clone = path.join(cloneParent, "project");
+  try {
+    await initializeV2GitProject(root);
+    await git(remote, ["init", "--bare"]);
+    await git(root, ["remote", "add", "origin", remote]);
+    await git(root, ["push", "-u", "origin", "main"]);
+    await git(remote, ["symbolic-ref", "HEAD", "refs/heads/main"]);
+    await writeFile(path.join(root, "tracked.txt"), "upstream settled change\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    await refreshHandoff(await loadProject(root), { check: false, dryRun: false });
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Settle with upstream"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+    await git(root, ["push"]);
+    await git(cloneParent, ["clone", remote, clone]);
+    assert.equal((await createResumeEnvelope(await loadProject(clone))).checkpoint.stale, false);
+    await git(root, ["checkout", "-b", "different-branch"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, true);
+  } finally {
+    await removeTemporaryDirectory(root);
+    await removeTemporaryDirectory(remote);
+    await removeTemporaryDirectory(cloneParent);
+  }
+});
+
+test("malformed or object-format-mismatched metadata cannot make a checkpoint fresh", async () => {
+  const root = await createTemporaryDirectory("carrylog-settlement-malformed-");
+  const mismatched = await createTemporaryDirectory("carrylog-settlement-object-mismatch-");
+  try {
+    await initializeV2GitProject(root);
+    await writeFile(path.join(root, "tracked.txt"), "captured project change\n", "utf8");
+    await git(root, ["add", "tracked.txt"]);
+    await refreshHandoff(await loadProject(root), { check: false, dryRun: false });
+    const handoff = await readFile(path.join(root, checkpointPath), "utf8");
+    await writeFile(
+      path.join(root, checkpointPath),
+      handoff.replace('"indexCommitment"', '"invalidCommitment"'),
+      "utf8",
+    );
+    await git(root, ["add", checkpointPath]);
+    await git(root, ["commit", "-m", "Commit malformed settlement metadata"]);
+    assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, true);
+
+    await initializeV2GitProject(mismatched);
+    await writeFile(path.join(mismatched, "tracked.txt"), "captured object format\n", "utf8");
+    await git(mismatched, ["add", "tracked.txt"]);
+    await refreshHandoff(await loadProject(mismatched), { check: false, dryRun: false });
+    const formatHandoff = await readFile(path.join(mismatched, checkpointPath), "utf8");
+    const changedFormat = formatHandoff.replace(
+      /"objectFormat":"sha1","baseHead":"([0-9a-f]{40})"/,
+      (_match, baseHead) => `"objectFormat":"sha256","baseHead":"${baseHead}${"0".repeat(24)}"`,
+    );
+    assert.notEqual(changedFormat, formatHandoff);
+    await writeFile(path.join(mismatched, checkpointPath), changedFormat, "utf8");
+    await git(mismatched, ["add", checkpointPath]);
+    await git(mismatched, ["commit", "-m", "Commit mismatched object format"]);
+    assert.equal(
+      (await createResumeEnvelope(await loadProject(mismatched))).checkpoint.stale,
+      true,
+    );
+  } finally {
+    await removeTemporaryDirectory(root);
+    await removeTemporaryDirectory(mismatched);
   }
 });
 
@@ -617,8 +1032,24 @@ async function initializeV1Project(root) {
   }
 }
 
+async function commitSettledCheckpoint(root) {
+  await initializeV2GitProject(root);
+  const base = (await gitOutput(root, ["rev-parse", "HEAD"])).stdout.trim();
+  await writeFile(path.join(root, "tracked.txt"), "settled project change\n", "utf8");
+  await git(root, ["add", "tracked.txt"]);
+  await refreshHandoff(await loadProject(root), { check: false, dryRun: false });
+  await git(root, ["add", checkpointPath]);
+  await git(root, ["commit", "-m", "Settle project checkpoint"]);
+  assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
+  return base;
+}
+
 async function git(root, arguments_) {
-  await execFileAsync("git", arguments_, {
+  await gitOutput(root, arguments_);
+}
+
+async function gitOutput(root, arguments_) {
+  return await execFileAsync("git", arguments_, {
     cwd: root,
     encoding: "utf8",
     env: { ...process.env, GIT_OPTIONAL_LOCKS: "0", LC_ALL: "C" },

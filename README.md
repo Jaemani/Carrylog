@@ -293,6 +293,31 @@ The project must be inside a Git worktree. Configuration v2 selects an always-lo
 document; v1 retains the `handoff` ID convention. `checkpoint` is the continuity-oriented alias and
 `handoff` remains compatible.
 
+For the reviewed commit workflow, stage the intended project changes before checkpointing, then
+stage the checkpoint document and create one commit:
+
+```bash
+git add <intended-project-changes>
+carrylog checkpoint
+git add .agent-context/handoff.md
+git commit -m "..."
+carrylog resume --check
+```
+
+The normal rule is exact Git-snapshot freshness. The final command may also accept this qualifying
+settlement when Carrylog verifies the full recorded base as the current commit's sole parent,
+detached/branch identity, Git object format, clean Git-visible checkpoint/project state, and the exact
+project-scoped index/tree commitment excluding the checkpoint evidence update. This remains
+verifiable after push and in a fresh clone for a branch-backed checkpoint; it does not use reflog
+state. A content-equivalent amend or rewrite with the same parent and project tree is accepted, while
+an altered-tree rewrite is stale. Git-visible unstaged, non-ignored untracked, or conflicted capture;
+partial staging; a dirty Git-visible tree; merge; later commit; malformed/legacy/unavailable evidence;
+or any ambiguity remains stale under the exact rule. Carrylog never stages or commits; Git content
+filters cannot change this determination because it compares project-scoped index/tree object
+identifiers. The checkpoint command reports whether commit settlement is eligible before the user
+commits. See
+[ADR-0013](docs/decisions/0013-checkpoint-commit-settlement.md).
+
 ### `carrylog resume`
 
 ```bash

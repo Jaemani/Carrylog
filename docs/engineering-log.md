@@ -1301,3 +1301,54 @@ used only equivalent wrapper-prefixed permissions. Detailed sanitized procedure,
 limits, and claim boundaries live in
 `research/continuity/public-beta-switch-smoke-2026-08-02.md`. This is one bounded behavior sequence,
 not formal Tier 1, transcript portability, universal switch invariance, or compaction evidence.
+
+## 2026-08-02 — Committed checkpoints required a portable settlement proof
+
+Immediately after committing the sanitized public-beta switch-smoke evidence, `resume --check`
+reported the checkpoint stale. The checkpoint block had correctly recorded the parent `HEAD` and
+dirty staged/unstaged state before the commit, but the resulting clean commit necessarily had a new
+identity and no working-tree changes. A tracked file cannot contain the hash of the commit that will
+contain that same file, so repeatedly refreshing and committing the snapshot cannot produce a clean,
+exactly self-referential checkpoint.
+
+The correction preserves exact snapshot freshness and adds one narrower v2-only settlement state.
+When every Git-visible, non-ignored project change is staged, `checkpoint` records the full base
+parent, detached/branch identity, Git object format, and a domain-separated SHA-256 commitment over
+the project-scoped index entries excluding the checkpoint. A later resume accepts only a clean state
+whose `HEAD` has that full base as its sole parent and whose committed project tree has the same
+commitment. The index, committed tree, checkpoint status, and ordinary snapshot are reobserved; any
+mismatch, unsupported format, resource failure, legacy metadata, or malformed metadata remains stale.
+Carrylog still never stages or commits.
+
+Three tempting shortcuts were rejected. Ignoring `HEAD` would admit unrelated clean descendants.
+Requiring a local reflog action would make the proof fail after push or clone. Binding upstream
+divergence would make mutable remote-tracking state invalidate unchanged project bytes. The portable
+contract instead accepts a content-equivalent rewrite with the same sole parent and project tree,
+because no repository-owned evidence distinguishes it and the reviewed context is unchanged. ADR-0013
+records this boundary and the explicit stage-checkpoint-stage-commit workflow.
+
+The first independent review found a release-blocking counterexample: repository configuration can
+set `submodule.<name>.ignore=all`, hiding a dirty submodule while the superproject index and gitlink
+remain unchanged. Git status and both diff observations now force `--ignore-submodules=none`, as does
+the settlement checkpoint-status check. A real local-submodule regression proves dirty capture is
+ineligible and dirty state after settlement is stale even under `ignore=all`. The follow-up review
+closed that P1 and found no remaining P0/P1 issue. A second portability review also required the
+contract to say Git-visible rather than physical worktree cleanliness: ignored build output and
+dependency directories intentionally remain outside the evidence boundary.
+
+The focused continuity suite passes all 30 cases, including frozen v1 output, SHA-1 and SHA-256
+repositories, conflicts, staged and checkpoint-only commits, partial and altered clean commits,
+equivalent and altered amendments, merge/later history, nested roots, dirty index/worktree/checkpoint,
+ignored files, ignored dirty submodules, detached identity, branch transition, malformed and
+object-format-mismatched metadata, and branch-backed push/fresh-clone reconstruction. The complete
+local quality gate passes above every coverage floor. From beta.7 candidate bytes, package inspection
+passes with 153 files and 171,802 bytes, and installed-artifact smoke passes local, ephemeral, global,
+ESM, strict TypeScript, v1-to-v2 migration, initialization, validation, checkpoint, and resume paths.
+Large or sparse-index projects can exceed the bounded one-MiB/ten-second tree enumeration and then
+receive explicit settlement-unavailable output with unchanged exact freshness; no broader scalability
+claim is made.
+
+The first release-candidate dogfood checkpoint made no write because the always-loaded context had
+reached 16,016 characters against its configured 16,000-character limit. The limit was not raised to
+hide the failure. Repeated Tier 1 status prose in `current-state.md` was consolidated while preserving
+the pending prerequisites and evidence links, then validation and checkpointing were rerun.
