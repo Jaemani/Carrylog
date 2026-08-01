@@ -17,11 +17,14 @@ import {
   validateCheckpointStructure,
 } from "../dist/continuity/checkpoint.js";
 import {
+  AGENT_SKILL_PATH,
+  CLAUDE_SKILL_PATH,
   PROJECT_LOCAL_CARRYLOG_PROBE,
   renderAgentContinuitySkill,
 } from "../dist/continuity/skills.js";
 import { inspectGitProject } from "../dist/git/inspect.js";
 import { renderHandoffSnapshot, upsertHandoffSnapshot } from "../dist/handoff/snapshot-block.js";
+import { PUBLIC_SCHEMA_PATH } from "../dist/schema/public-schema.js";
 import { createDefaultConfig, createTemplateFiles } from "../dist/templates/defaults.js";
 import {
   createTemporaryDirectory,
@@ -657,8 +660,21 @@ test("checkpoint settlement survives push and fresh clone but rejects a branch t
     await git(root, ["commit", "-m", "Settle with upstream"]);
     assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, false);
     await git(root, ["push"]);
-    await git(cloneParent, ["clone", remote, clone]);
-    assert.equal((await createResumeEnvelope(await loadProject(clone))).checkpoint.stale, false);
+    await git(cloneParent, ["-c", "core.autocrlf=true", "clone", remote, clone]);
+    await git(clone, ["config", "core.autocrlf", "true"]);
+    for (const generatedPath of [PUBLIC_SCHEMA_PATH, AGENT_SKILL_PATH, CLAUDE_SKILL_PATH]) {
+      assert.match(
+        await readFile(path.join(clone, ...generatedPath.split("/")), "utf8"),
+        /\r\n/,
+        `${generatedPath} must exercise an autocrlf checkout`,
+      );
+    }
+    const clonedProject = await loadProject(clone);
+    assert.equal(
+      (await syncProject(clonedProject, { adopt: false, check: true, dryRun: false })).drift,
+      false,
+    );
+    assert.equal((await createResumeEnvelope(clonedProject)).checkpoint.stale, false);
     await git(root, ["checkout", "-b", "different-branch"]);
     assert.equal((await createResumeEnvelope(await loadProject(root))).checkpoint.stale, true);
   } finally {
@@ -953,6 +969,34 @@ test("resume rejects damaged generated skills before Git inspection", async () =
       (error) =>
         error.code === "E_CONTEXT_INVALID" &&
         error.diagnostics.some((diagnostic) => diagnostic.code === "E_SKILL_UNMANAGED"),
+    );
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("resume rejects owned generated skills with non-EOL byte drift", async () => {
+  const root = await createTemporaryDirectory("carrylog-continuity-skill-drift-");
+  try {
+    await initProject({
+      root,
+      name: "Drifted continuity fixture",
+      adapters: ["codex", "claude", "gemini"],
+      adopt: false,
+      dryRun: false,
+    });
+    const skillPath = path.join(root, ...AGENT_SKILL_PATH.split("/"));
+    const skill = await readFile(skillPath, "utf8");
+    await writeFile(
+      skillPath,
+      skill.replace("# Carrylog continuity", "# Changed continuity"),
+      "utf8",
+    );
+    await assert.rejects(
+      async () => createResumeEnvelope(await loadProject(root)),
+      (error) =>
+        error.code === "E_CONTEXT_INVALID" &&
+        error.diagnostics.some((diagnostic) => diagnostic.code === "E_SKILL_DRIFT"),
     );
   } finally {
     await removeTemporaryDirectory(root);

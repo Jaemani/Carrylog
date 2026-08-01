@@ -7,3 +7,7 @@ export function detectTextEol(value: string): "\n" | "\r\n" {
   const firstLf = value.indexOf("\n");
   return firstLf > 0 && value[firstLf - 1] === "\r" ? "\r\n" : "\n";
 }
+
+export function hasEquivalentCrLf(left: string, right: string): boolean {
+  return left.replaceAll("\r\n", "\n") === right.replaceAll("\r\n", "\n");
+}

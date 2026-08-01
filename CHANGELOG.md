@@ -5,6 +5,12 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 ## [0.1.0-beta.7] - 2026-08-02
 
+### Fixed
+
+- Accepted paired CRLF/LF checkout representation for the copied schema and generated continuity
+  Skills so clean Windows clones do not report false drift; ownership and every non-EOL content
+  change remain fail closed.
+
 ### Added
 
 - Added versioned checkpoint-settlement evidence so a fully staged v2 checkpoint can remain fresh
@@ -33,6 +39,8 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
   SHA-256 object-format, push/fresh-clone, and submodule cases.
 - Added rejected unstaged, partial, altered-tree, later-commit, merge, conflicted, dirty index,
   dirty worktree, dirty checkpoint, branch-transition, malformed-metadata, and frozen-v1 cases.
+- Added a forced `core.autocrlf=true` fresh-clone regression that requires CRLF generated artifacts,
+  no-drift synchronization, and a fresh settled resume on every CI operating system.
 
 ## [0.1.0-beta.6] - 2026-08-02
 

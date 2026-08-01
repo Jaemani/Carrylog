@@ -39,6 +39,7 @@ matrix.
 - guarded resume reads covering containment, regular-file identity, hard links, symlinks, UTF-8,
   bounds, same-size overwrite with restored mtime, detached Git, warning deduplication, and damaged
   generated Skills;
+- generated schema and Skill LF/CRLF equivalence with non-EOL drift rejection;
 
 ### CLI contract tests
 
@@ -134,6 +135,7 @@ Every feature review should consider combinations from these dimensions:
 | Scale | catalog limits, large always context, router budget, large existing adapters |
 | Git | unborn/detached, rename/conflict, submodule ignore overrides, upstream divergence, mixed observations, worktree, nested project, hostile environment |
 | Continuity | missing/duplicate/empty sections, stale/current evidence, fully staged settlement, partial/altered/dirty rejection, SHA-1/SHA-256, push/fresh clone, always/on-demand projection, linked or replaced files, provider metadata exclusion |
+| Git checkout | clean LF checkout, forced `core.autocrlf=true` CRLF clone, content drift beyond EOL conversion |
 
 ## Current gates
 

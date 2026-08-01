@@ -4,6 +4,7 @@ import { assertLoadedProjectSnapshot } from "../config/load.js";
 import { continuitySkillFiles, hasContinuitySkillMarker } from "../continuity/skills.js";
 import { CarrylogError } from "../core/errors.js";
 import { atomicWriteTexts, inspectAtomicPath, readTextIfExists } from "../core/files.js";
+import { hasEquivalentCrLf } from "../core/marker-lines.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
 import type { Diagnostic, LoadedProject } from "../domain/types.js";
 import { planContextV1Migrations } from "../migrations/context-v1.js";
@@ -95,11 +96,8 @@ export async function planContinuitySkillChanges(project: LoadedProject): Promis
     try {
       await assertNoSymlink(project.root, absolutePath);
       const existing = await readTextIfExists(absolutePath);
-      if (
-        existing !== undefined &&
-        existing !== skill.content &&
-        !hasContinuitySkillMarker(existing)
-      ) {
+      const contentMatches = existing !== undefined && hasEquivalentCrLf(existing, skill.content);
+      if (existing !== undefined && !contentMatches && !hasContinuitySkillMarker(existing)) {
         diagnostics.push({
           level: "error",
           code: "E_SKILL_CONFLICT",
@@ -111,8 +109,7 @@ export async function planContinuitySkillChanges(project: LoadedProject): Promis
       }
       changes.push({
         path: skill.path,
-        kind:
-          existing === undefined ? "create" : existing === skill.content ? "unchanged" : "update",
+        kind: existing === undefined ? "create" : contentMatches ? "unchanged" : "update",
         content: skill.content,
         expectedContent: existing ?? null,
       });
@@ -140,7 +137,12 @@ export async function planPublicSchemaChange(project: LoadedProject): Promise<Pl
   const content = readPublicSchema(project.config.version);
   return {
     path: PUBLIC_SCHEMA_PATH,
-    kind: existing === undefined ? "create" : existing === content ? "unchanged" : "update",
+    kind:
+      existing === undefined
+        ? "create"
+        : hasEquivalentCrLf(existing, content)
+          ? "unchanged"
+          : "update",
     content,
     expectedContent: existing ?? null,
   };

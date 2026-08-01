@@ -15,5 +15,6 @@
 | ADR-0011 | Accepted | Git stability compares allowed exit codes and stdout, not sandbox stderr noise |
 | ADR-0012 | Accepted | Continuity claims expand only after staged behavioral evidence gates |
 | ADR-0013 | Accepted | A fully staged checkpoint may settle under portable project-scoped Git object commitments |
+| ADR-0014 | Accepted | Generated schema and Skill drift ignores only Git CRLF checkout conversion |
 
 Full records and the template are indexed in `docs/decisions/README.md`.

@@ -18,6 +18,7 @@ for clarification; a later decision supersedes an old one rather than rewriting 
 | [0011](0011-git-stability-consumed-channels.md) | Git stability compares only consumed result channels | Accepted | 2026-07-11 |
 | [0012](0012-evidence-gates-before-continuity-expansion.md) | Evidence gates before continuity expansion | Accepted | 2026-07-12 |
 | [0013](0013-checkpoint-commit-settlement.md) | One verified checkpoint-settlement commit | Accepted | 2026-08-02 |
+| [0014](0014-generated-artifact-eol-equivalence.md) | Generated standalone artifact CRLF equivalence | Accepted | 2026-08-02 |
 
 ## Record template
 

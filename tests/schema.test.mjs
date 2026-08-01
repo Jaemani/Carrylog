@@ -201,6 +201,19 @@ test("validate and sync distinguish missing and drifted schema artifacts", async
     assert.equal(diagnosticCodes(await validateProject(project)).includes("E_SCHEMA_DRIFT"), true);
     await syncProject(project, { adopt: false, check: false, dryRun: false });
     assert.equal(await readFile(schemaPath, "utf8"), readPublicSchema(2));
+
+    const crlfSchema = readPublicSchema(2).replaceAll("\n", "\r\n");
+    await writeFile(schemaPath, crlfSchema, "utf8");
+    assert.equal(diagnosticCodes(await validateProject(project)).includes("E_SCHEMA_DRIFT"), false);
+    const crlfPlan = await syncProject(project, { adopt: false, check: true, dryRun: false });
+    assert.equal(
+      crlfPlan.changes.find((change) => change.path === PUBLIC_SCHEMA_PATH)?.kind,
+      "unchanged",
+    );
+    assert.equal(await readFile(schemaPath, "utf8"), crlfSchema);
+
+    await writeFile(schemaPath, crlfSchema.replace("\r\n", "\rchanged\n"), "utf8");
+    assert.equal(diagnosticCodes(await validateProject(project)).includes("E_SCHEMA_DRIFT"), true);
   } finally {
     await removeTemporaryDirectory(root);
   }

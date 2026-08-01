@@ -49,6 +49,7 @@ the normal npm supply-chain boundary.
 | Mixed-time resume envelope | Config/documents → stable Git → config/documents observation with three bounded retries and exact-byte revalidation |
 | Private-session leakage | Resume excludes transcripts, hidden reasoning, provider stores, absolute roots, session IDs, and commit timestamps |
 | Generated Skill overwrite | Exactly one standalone ownership marker; no adoption or merge of unowned Skill files |
+| Clean CRLF checkout rejected as generated drift | Schema and Skill comparison normalizes only CRLF pairs; ownership and every non-EOL byte remain enforced |
 
 ## Residual risks
 

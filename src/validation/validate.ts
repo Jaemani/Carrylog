@@ -5,6 +5,7 @@ import { getCheckpointDocument, validateCheckpointStructure } from "../continuit
 import { continuitySkillFiles, hasContinuitySkillMarker } from "../continuity/skills.js";
 import { CarrylogError } from "../core/errors.js";
 import { readTextIfExists } from "../core/files.js";
+import { hasEquivalentCrLf } from "../core/marker-lines.js";
 import { assertNoSymlink, resolveProjectPath } from "../core/paths.js";
 import type { Diagnostic, LoadedProject } from "../domain/types.js";
 import {
@@ -196,7 +197,7 @@ export async function validateContinuitySkills(project: LoadedProject): Promise<
           message: `Continuity skill is not owned by Carrylog: ${skill.path}`,
           path: skill.path,
         });
-      } else if (existing !== skill.content) {
+      } else if (!hasEquivalentCrLf(existing, skill.content)) {
         diagnostics.push({
           level: "error",
           code: "E_SKILL_DRIFT",
@@ -228,7 +229,7 @@ export async function validatePublicSchema(project: LoadedProject): Promise<Diag
         },
       ];
     }
-    if (existing !== readPublicSchema(project.config.version)) {
+    if (!hasEquivalentCrLf(existing, readPublicSchema(project.config.version))) {
       return [
         {
           level: "error",

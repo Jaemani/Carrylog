@@ -1370,3 +1370,24 @@ function, and 88.28% branch coverage; validation and generated surfaces were cle
 vulnerabilities. Filtered silence remains non-evidence. A release claim requires the process exit,
 explicit success marker, and artifact identity to agree, and the documentation settlement still needs
 its own exact-commit rerun and cross-platform CI before tagging.
+
+Exact-commit CI run `30714928860` passed release-client/npm 12 contracts, all three packed-artifact
+jobs, and both Linux and both macOS quality jobs. Both Windows quality jobs failed the same fresh-clone
+settlement regression. Git had materialized the copied schema and generated Skills with CRLF under
+`core.autocrlf=true`; exact LF comparison then produced `E_SCHEMA_DRIFT` and `E_SKILL_DRIFT` before
+resume could evaluate the otherwise clean portable settlement. The tag was not created.
+
+ADR-0014 rejects disabling checkout conversion in the test and rejects taking control of the user's
+root `.gitattributes`. Validation and sync planning now compare only Carrylog-owned complete schema
+and Skill artifacts modulo paired CRLF/LF line endings. They preserve equivalent checked-out bytes,
+while lone carriage returns and every non-EOL content change remain drift. The fresh-clone regression
+forces and retains `core.autocrlf=true` on every host, proves all three generated files contain CRLF,
+requires no-drift sync, and then requires the settled checkpoint to remain fresh. Focused continuity
+and schema tests pass 44/44; complete quality, review, and a new cross-platform run remain required.
+
+The complete corrected local quality gate passes 249/249 tests with 94.65% line, 96.40% function,
+and 88.39% branch coverage. Package inspection passes with 154 files and 176,297 bytes. The same
+candidate passes publish-dry-run and local, ephemeral, global, ESM, strict TypeScript, v1-to-v2
+migration, initialization, validation, checkpoint, and resume consumers. Two independent read-only
+reviews found no P0/P1 issue and retained a release NO-GO until both Windows Node 22 and 24 jobs pass
+on the corrected commit.

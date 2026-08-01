@@ -14,9 +14,9 @@ frozen v1 behavior and portable fail-closed semantics. Journaling and compaction
   continuity Skills with fail-closed ownership and migration.
 - Resume binds guarded context reads to stable Git evidence, enforces per-file and aggregate resource
   limits, and emits terminal-safe human and JSON projections without provider-session data.
-- ADR-0009 through ADR-0013 define universal surfaces, continuity boundaries, Git stability, evidence
-  gates, and portable checkpoint commit settlement; research protocols remain outside the product
-  package.
+- ADR-0009 through ADR-0014 define universal surfaces, continuity boundaries, Git stability, evidence
+  gates, portable checkpoint commit settlement, and generated-artifact EOL equivalence; research
+  protocols remain outside the product package.
 - Dogfood lifecycle, package consumers, complete dist-tag policy, and independent post-fix
   code/security and release reviews pass locally. Exact measurements belong to the engineering log.
 - Immutable beta.6 is publicly installable through the explicit npm `beta` channel. Its tagged
@@ -28,17 +28,19 @@ frozen v1 behavior and portable fail-closed semantics. Journaling and compaction
 
 ## In progress
 
-- The committed beta.7 candidate recognizes one qualifying fully staged checkpoint commit through a full base
+- The beta.7 candidate recognizes one qualifying fully staged checkpoint commit through a full base
   parent, detached/branch identity, Git object format, clean state, and matching project-scoped
   index/tree commitments. It avoids reflog and upstream-state dependencies, survives push/fresh clone,
   and keeps legacy or uncertain states on exact freshness.
 - Review found and corrected repository submodule-ignore configuration that could hide dirty nested
   work. Status and diff evidence now force submodule inspection, with a real `ignore=all` regression.
-- The beta.7 correction passes the complete local quality gate, package inspection, installed-artifact
-  smoke, focused settlement suite, and clean-commit release verification. Its committed dogfood
-  checkpoint settles as current on a clean worktree. Two independent read-only reviews closed the
-  submodule blocker and found no remaining P0/P1 issue. Exact-commit cross-platform CI is still
-  required before publication.
+- Candidate `c727177` passed local release verification but CI run `30714928860` failed both Windows
+  quality jobs because Git's CRLF checkout conversion made unchanged generated schema and Skill files
+  appear drifted. The tag was not created.
+- The correction compares only paired CRLF/LF representation for complete Carrylog-owned generated
+  schema and Skill artifacts. Forced-autocrlf fresh-clone and non-EOL rejection regressions pass with
+  the complete local quality and package gates. Two independent read-only reviews found no P0/P1
+  issue. Clean-commit release and new cross-platform gates are still required before publication.
 
 - The unexecuted Tier 1 candidate retains 10 fixtures, 60 balanced runs, blind evaluation, privacy
   review, permanent first-ADD, and mechanical Tier 2 gates. It has no manifest, formal attestations,
@@ -88,6 +90,6 @@ frozen v1 behavior and portable fail-closed semantics. Journaling and compaction
 
 ## Next best task
 
-Push the settled beta.7 release commit, require the complete exact-commit CI matrix, and publish the
-new immutable beta only if it passes. Then design the second-repository comparison across
+Settle the reviewed CRLF portability correction, rerun exact-commit release verification and the full
+CI matrix, and publish beta.7 only if they pass. Then design the second-repository comparison across
 repository-only, manual-handoff, and Carrylog conditions before changing claims.
