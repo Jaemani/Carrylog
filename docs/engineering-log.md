@@ -1205,7 +1205,18 @@ Regressions cover an existing directory target and the same junction after its t
 addition to the prior absent, invalid, dangling-ancestor, and usable cases. A fresh full matrix is
 required before these corrections can support a prerelease claim.
 
-Local focused contracts and the complete quality gate passed after the correction. Package
-inspection retained 148 files at 157,928 bytes, and packed-artifact smoke passed local, ephemeral,
-global, ESM, strict TypeScript, v1-to-v2 migration, initialization, validation, checkpoint, and
-resume consumers. These local macOS results do not replace the pending Linux and Windows jobs.
+Local focused contracts passed after the correction. The first complete local quality invocation did
+not: changing `analysis/harness-contract.mjs` invalidated its tracked critical-file digest, as the
+research gate is designed to detect. The token-filtered command produced no immediate output, and the
+operator failed to inspect the subprocess exit code before recording a pass. That local quality claim
+is retracted; an empty filtered stream is not evidence of success.
+
+The same omission made workflow run `30710553011` fail every quality job at the stale digest before
+the portability cases could become matrix evidence. All packed-artifact jobs and the npm 11/npm 12
+contract job passed. The prerequisite binding was then deliberately refreshed, changing only the
+critical digest and retaining both authenticated harnesses as pending; no stale canary result was
+reused. With the refreshed binding, local quality returned exit code zero with 235/235 tests and
+94.77% line, 96.02% function, and 89.39% branch coverage. Package inspection from the unchanged
+product bytes retained 148 files at 157,928 bytes, and packed-artifact smoke had already passed local,
+ephemeral, global, ESM, strict TypeScript, v1-to-v2 migration, initialization, validation, checkpoint,
+and resume consumers. A new committed matrix is still required.

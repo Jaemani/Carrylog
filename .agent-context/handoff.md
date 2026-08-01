@@ -4,8 +4,8 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "191db00 at 2026-08-02T01:39:51+09:00"
-- Upstream: "origin/main; ahead 3, behind 0"
+- HEAD: "dc2e7cb at 2026-08-02T02:32:32+09:00"
+- Upstream: "origin/main; ahead 0, behind 0"
 - Working tree: Clean (snapshot file excluded)
 - Staged diff: 0 file(s), +0/-0, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
@@ -17,11 +17,11 @@ None.
 
 ### Recent commits (5)
 
+    {"commit":"dc2e7cb","committedAt":"2026-08-02T02:32:32+09:00","subject":"fix: restore cross-platform continuity contracts"}
     {"commit":"191db00","committedAt":"2026-08-02T01:39:51+09:00","subject":"fix: resolve pinned Carrylog without agent file discovery"}
     {"commit":"f64f5df","committedAt":"2026-07-13T03:10:55+09:00","subject":"research: harden Tier 1 continuity candidate"}
     {"commit":"c9e8c2d","committedAt":"2026-07-12T14:39:51+09:00","subject":"docs: record Carrylog beta5 publication"}
     {"commit":"343b4e3","committedAt":"2026-07-12T14:17:33+09:00","subject":"release: prepare Carrylog beta5"}
-    {"commit":"660b0ce","committedAt":"2026-07-12T04:24:45+09:00","subject":"docs: record beta5 candidate CI"}
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
@@ -55,6 +55,11 @@ then prepare beta.6 only from fresh committed evidence.
 - Strengthened the project-local executable probe to dereference file candidates and require a
   regular-file target before executable access. Added accepted regular-file/symlink cases and rejected
   directory-target/dangling-junction cases.
+- Workflow `30710553011` passed all package and npm-client jobs but failed every quality job because
+  the changed harness contract's tracked critical digest was stale. Refreshed that binding without
+  reusing either pending authenticated prerequisite.
+- Retracted an earlier local-quality claim made without checking the token-filtered subprocess exit
+  code. Re-ran the gate after refresh and verified the explicit zero exit status.
 
 ## Verification
 
@@ -65,7 +70,7 @@ then prepare beta.6 only from fresh committed evidence.
   state, and next action from the resumed conversation alone.
 - The focused continuity and research harness contracts pass on the local macOS host, including both
   real Seatbelt integrations and the valid symlink-to-regular-file probe case.
-- `npm run quality` passes the complete format, strict TypeScript, test, and coverage gates.
+- `npm run quality` passes 235/235 tests with 94.77% line, 96.02% function, and 89.39% branch coverage.
 - `npm run pack:check` passes with 148 files and 157,928 packed bytes.
 - `npm run test:package` passes local, ephemeral, global, ESM, strict-type, migration, initialization,
   validation, checkpoint, and resume consumers.
@@ -97,7 +102,8 @@ then prepare beta.6 only from fresh committed evidence.
 - Cross-harness behavior, repeated-switch retention, transcript portability, and compaction value
   remain unproven.
 - The portability correction has no fresh committed Linux or Windows result yet. Workflow
-  `30710079223` remains a failed diagnostic run, not reusable evidence.
+  `30710079223` and the stale-binding run `30710553011` remain failed diagnostics, not reusable
+  evidence.
 
 ## Next action
 

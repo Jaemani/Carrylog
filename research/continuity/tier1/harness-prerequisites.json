@@ -8,7 +8,7 @@
     },
     {
       "path": "analysis/harness-contract.mjs",
-      "sha256": "75109ad28e2b02bc3906ec2cf33023ce38b0699ae317255d792fc1474675a7d5"
+      "sha256": "06c06fb7be45f8e4c461e37a3b71af57d4628ec11b6d897946b091d36724e93f"
     },
     {
       "path": "analysis/harness-isolation-canary.mjs",

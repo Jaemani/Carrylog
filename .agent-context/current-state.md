@@ -44,6 +44,10 @@ new prerelease only from fresh green evidence. Journaling and compaction remain 
   Seatbelt-only integration tests, and a Windows junction case that executable access alone did not
   reject. Corrections now compile target paths with POSIX semantics, scope only actual Seatbelt
   execution to macOS, and require a dereferenced regular-file executable target; fresh CI is pending.
+- A subsequent matrix passed every packed-artifact and npm-client job but correctly rejected the
+  changed harness contract because its tracked critical digest had not been refreshed. The binding is
+  now refreshed with both authenticated prerequisites still pending, and local quality passes; another
+  committed matrix remains required.
 
 ## Blockers and risks
 
