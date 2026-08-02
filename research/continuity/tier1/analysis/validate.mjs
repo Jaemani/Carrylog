@@ -50,8 +50,23 @@ assert.equal(preregistration.matrix.plannedRuns, 60);
 assert.equal(preregistration.controls.networkDuringTask, false);
 assert.equal(preregistration.controls.productionAccess, false);
 assert.equal(preregistration.controls.fixtureSourceRef, frozenSourceRef);
+assert.deepEqual(preregistration.controls.initialComparisonBlocks, [
+  "r2-busycafe-01-objective|codex",
+  "r2-busycafe-01-objective|claude",
+]);
 assert.equal(preregistration.privacy.storeHiddenReasoning, false);
 assert.equal(preregistration.privacy.storeCredentials, false);
+assert.equal(preregistration.harnesses.claude.authenticationMode, "router-key-environment");
+assert.match(preregistration.harnesses.claude.nativeExecutableSha256, /^[0-9a-f]{64}$/);
+assert.match(preregistration.harnesses.claude.routerBaseUrl, /^https:\/\//);
+assert.match(preregistration.harnesses.claude.routeCatalogSha256, /^[0-9a-f]{64}$/);
+assert.equal(preregistration.harnesses.claude.model, "gpt-5.6-sol");
+assert.equal(
+  preregistration.harnesses.claude.routeCatalogSha256,
+  "229d0d794270e15f3da521962cc7d2521bd61e07a1e1c3b7e0af70f7b444cc9d",
+);
+assert.deepEqual(preregistration.harnesses.claude.allowedResolvedModels, ["gpt-5.6-sol"]);
+assert.equal(preregistration.harnesses.claude.providerIdentityClaimed, false);
 assert.equal(preregistration.analysisRules.formalNonInferiorityClaimed, false);
 assert.deepEqual(preregistration.analysisRules.tier2DecisionRule.precedence, [
   "stop",
@@ -97,7 +112,15 @@ for (const repository of repositoryIds.values()) {
   assert.match(repository.commit, /^[0-9a-f]{40}$/);
   assert.match(repository.url, /^https:\/\/github\.com\//);
 }
-assert.equal(repositories.carrylogRuntime.version, "0.1.0-beta.5");
+assert.equal(repositories.carrylogRuntime.version, "0.1.0-beta.7");
+assert.equal(
+  repositories.carrylogRuntime.releaseCommit,
+  "515b1709cdc4522c190543b984d926775883e57a",
+);
+assert.equal(
+  repositories.carrylogRuntime.integrity,
+  "sha512-7vt+b2SFVvjlM9NOB3XZnHCdPBqckbnGleoDqlyNZ3MdcpZTbmXDi+fP5ug3QdZs0KGmHJLFxGa/+5YX18ShmA==",
+);
 assert.match(repositories.carrylogRuntime.tarballSha256, /^[0-9a-f]{64}$/);
 
 const taskDirectory = path.join(root, "tasks");
@@ -234,6 +257,14 @@ for (const [index, run] of order.runs.entries()) {
   assert.match(run.blindId, /^b-[0-9a-f]{12}$/);
 }
 assert.equal(expectedRunKeys.size, 0, "run order does not cover the full matrix exactly once");
+assert.deepEqual(
+  order.runs.slice(0, 6).map((run) => `${run.fixtureId}|${run.harness}`),
+  [
+    ...Array(3).fill("r2-busycafe-01-objective|codex"),
+    ...Array(3).fill("r2-busycafe-01-objective|claude"),
+  ],
+  "the bounded second-repository comparison must remain the first two execution blocks",
+);
 const positionCounts = new Map(
   preregistration.matrix.conditions.map((condition) => [condition, [0, 0, 0]]),
 );
@@ -397,7 +428,7 @@ function rejectSensitiveLiteral(value, label) {
   const forbidden = [
     /\/Users\//,
     /-----BEGIN [A-Z ]*PRIVATE KEY-----/,
-    /(?:ghp_|github_pat_|npm_|sk-)[A-Za-z0-9_-]{16,}/,
+    /(?:ghp_|github_pat_|npm_|jmr_|sk-)[A-Za-z0-9_-]{16,}/,
     /(?:DATABASE_URL|SEOUL_API_KEY)\s*=/,
   ];
   for (const pattern of forbidden) {

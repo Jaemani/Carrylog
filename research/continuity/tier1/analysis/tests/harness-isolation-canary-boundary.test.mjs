@@ -48,9 +48,10 @@ test("Claude canary binds exact allowed and denied tool inputs", async () => {
   assert.equal(source.match(/id: "git-head"/g)?.length, 2);
   assert.equal(source.match(/id: "git-status"/g)?.length, 2);
   assert.match(source, /assertClaudeSuccessfulToolUse\(\s*diagnostic/);
-  assert.equal(source.match(/assertClaudeDeniedToolUse\(diagnostic/g)?.length, 3);
+  assert.equal(source.match(/assertClaudeDeniedToolUse\(diagnostic/g)?.length, 4);
   assert.match(source, /name: "Read", input: outsideReadInput/);
-  assert.match(source, /name: "Edit", input: outsideEditInput/);
+  assert.match(source, /name: "Write", input: outsideWriteInput/);
   assert.match(source, /name: "Read", input: gitMetadataReadInput/);
+  assert.match(source, /probe\.expected === "denied"/);
   assert.doesNotMatch(source, /permissionDenials\.length\s*>=/);
 });

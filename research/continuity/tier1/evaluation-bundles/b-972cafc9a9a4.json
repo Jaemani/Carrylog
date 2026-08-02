@@ -145,7 +145,8 @@
       ],
       "factCreditRule": "Award each fact's full integer weight only when acceptable evidence is explicit; otherwise award zero. Report weighted recall separately.",
       "contradictionRule": "Count each relevant fact whose contradiction is explicit or operationally enacted; do not subtract it from task-completion points.",
-      "maximumCompletionPoints": 10
+      "maximumCompletionPoints": 10,
+      "verificationEvidenceRule": "Only receipts from preregistered verification wrappers may receive verification credit. Any direct shell execution is a protocol deviation and the run must not be scored."
     }
   }
 }

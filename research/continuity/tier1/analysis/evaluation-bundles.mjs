@@ -52,6 +52,8 @@ export async function buildEvaluationBundles(root = defaultRoot) {
           factCreditRule: task.value.scoring.factCreditRule,
           contradictionRule: task.value.scoring.contradictionRule,
           maximumCompletionPoints: task.value.scoring.taskCompletion.maximumPoints,
+          verificationEvidenceRule:
+            "Only receipts from preregistered verification wrappers may receive verification credit. Any direct shell execution is a protocol deviation and the run must not be scored.",
         },
       },
     };

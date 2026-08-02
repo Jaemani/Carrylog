@@ -6,7 +6,7 @@ test("sanitizer preserves safe bounded artifacts and redacts supported scalar se
   const root = "/private/tmp/carrylog-run";
   const sanitized = sanitizeValue(
     {
-      message: `${root}/workspace Bearer abcdefghijklmnop ghp_abcdefghijklmnop`,
+      message: `${root}/workspace Bearer abcdefghijklmnop ghp_abcdefghijklmnop jmr_0123456789abcdef`,
       nested: ["authorization was denied", "cookie policy"],
       sessionId: "provider-state",
     },
@@ -16,6 +16,7 @@ test("sanitizer preserves safe bounded artifacts and redacts supported scalar se
   assert.match(sanitized.message, /<RUN_ROOT>/);
   assert.match(sanitized.message, /Bearer <REDACTED_TOKEN>/);
   assert.match(sanitized.message, /<REDACTED_TOKEN>/);
+  assert.equal(sanitized.message.includes("jmr_0123456789abcdef"), false);
   assert.doesNotThrow(() => rejectUnsafeArtifact(sanitized));
   assert.equal(sanitize("ordinary output", ""), "ordinary output");
 });

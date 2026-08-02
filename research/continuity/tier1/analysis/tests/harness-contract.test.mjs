@@ -7,11 +7,13 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   assertClaudeDeniedToolUse,
+  assertClaudeResponseModels,
   assertClaudeSuccessfulToolUse,
   assertCodexProbeEvidence,
   assertExecutionPredecessors,
   assertReceiptBinding,
   bindVerificationProgram,
+  buildCarrylogToolInstallArguments,
   buildClaudeInvocation,
   buildCodexInvocation,
   buildLocalExactCommitFetchArguments,
@@ -36,6 +38,20 @@ import {
   renderCodexVerificationPermissions,
 } from "../harness-contract.mjs";
 
+test("Carrylog tool installation permits setup network only when explicitly selected", () => {
+  const tarball = path.join(tmpdir(), "carrylog.tgz");
+  const online = buildCarrylogToolInstallArguments(tarball, { allowNetwork: true });
+  const offline = buildCarrylogToolInstallArguments(tarball, { allowNetwork: false });
+  assert.equal(online.includes("--offline"), false);
+  assert.equal(offline.includes("--offline"), true);
+  assert.equal(online.at(-1), tarball);
+  assert.equal(offline.at(-1), tarball);
+  assert.throws(
+    () => buildCarrylogToolInstallArguments("relative.tgz", { allowNetwork: true }),
+    /must be absolute/,
+  );
+});
+
 const analysisRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 test("Codex runner and canary invocation contract carries the explicit permission profile", () => {
@@ -44,13 +60,14 @@ test("Codex runner and canary invocation contract carries the explicit permissio
     mcpTools: ["mcp__carrylog_verification__verify_registered"],
   };
   const invocation = buildCodexInvocation({
+    executable: "/native/codex",
     prompt: "PROMPT",
     model: "codex-model",
     reasoningEffort: "medium",
     permissionProfile: "pilot-read",
     verification,
   });
-  assert.equal(invocation.executable, "codex");
+  assert.equal(invocation.executable, "/native/codex");
   assert.deepEqual(invocation.arguments, [
     "exec",
     "--ephemeral",
@@ -90,6 +107,7 @@ test("Codex runner and canary invocation contract carries the explicit permissio
   );
   assert.throws(() =>
     buildCodexInvocation({
+      executable: "/native/codex",
       prompt: "PROMPT",
       model: "codex-model",
       reasoningEffort: "medium",
@@ -99,6 +117,18 @@ test("Codex runner and canary invocation contract carries the explicit permissio
         mcpTools: ["mcp__other_server__verify_registered"],
       },
     }),
+  );
+  assert.throws(
+    () =>
+      buildCodexInvocation({
+        executable: "codex",
+        prompt: "PROMPT",
+        model: "codex-model",
+        reasoningEffort: "medium",
+        permissionProfile: "pilot-read",
+        verification,
+      }),
+    /must be absolute/,
   );
 });
 
@@ -135,6 +165,26 @@ test("Claude invocation exposes no Bash and wires the self-bound MCP server", ()
     JSON.parse(invocation.arguments[configIndex + 1]).mcpServers.carrylog_verification.args,
     ["/verification/server.mjs"],
   );
+
+  const writable = buildClaudeInvocation({
+    prompt: "PROMPT",
+    model: "claude-model",
+    effort: "medium",
+    maximumBudgetUsd: 0.75,
+    writable: true,
+    checkout: "/workspace",
+    verification,
+  });
+  assert.equal(writable.arguments.includes("Read,Glob,Grep,Edit,Write"), true);
+  const allowedIndex = writable.arguments.indexOf("--allowedTools");
+  assert.ok(allowedIndex >= 0);
+  assert.equal(
+    writable.arguments[allowedIndex + 1],
+    "Read(/workspace/**),Glob(/workspace/**),Grep(/workspace/**),Edit(/workspace/**),Write(/workspace/**),mcp__carrylog_verification__verify_registered",
+  );
+  const readOnlyAllowedIndex = invocation.arguments.indexOf("--allowedTools");
+  assert.equal(invocation.arguments[readOnlyAllowedIndex + 1].includes("Edit("), false);
+  assert.equal(invocation.arguments[readOnlyAllowedIndex + 1].includes("Write("), false);
 });
 
 test("Codex verification is broker-only and fixes the copied wrapper and registry contract", () => {
@@ -406,6 +456,7 @@ test("authentication evidence separates staging, cleanup outcome, and abnormal t
   assert.deepEqual(staged, {
     ephemeralAuthenticationStaged: true,
     stagedAuthenticationFiles: ["codex/auth.json"],
+    stagedAuthenticationEnvironmentFields: [],
     cleanupAttempted: false,
     cleanupSucceeded: null,
     cleanupDiagnostic: null,
@@ -431,6 +482,11 @@ test("authentication evidence separates staging, cleanup outcome, and abnormal t
   assert.equal(unstaged.cleanupSucceeded, null);
   assert.equal(unstaged.cleanupDiagnostic, null);
   assert.equal(unstaged.residualAuthenticationPossible, false);
+
+  const environmentOnly = createAuthenticationEvidence([], ["ANTHROPIC_API_KEY"]);
+  assert.equal(environmentOnly.ephemeralAuthenticationStaged, true);
+  assert.deepEqual(environmentOnly.stagedAuthenticationFiles, []);
+  assert.deepEqual(environmentOnly.stagedAuthenticationEnvironmentFields, ["ANTHROPIC_API_KEY"]);
 });
 
 test("process evidence preserves exit, signal, timeout, and spawn failure independently", () => {
@@ -521,6 +577,7 @@ test("Claude canary binds tool results and permission denials to exact tool-use 
       {
         type: "assistant",
         message: {
+          model: "gpt-5.6-sol",
           content: [
             { type: "tool_use", id: "tool-allowed", ...allowed },
             { type: "tool_use", id: "tool-denied", ...denied },
@@ -556,6 +613,15 @@ test("Claude canary binds tool results and permission denials to exact tool-use 
   );
   assert.doesNotThrow(() => assertClaudeSuccessfulToolUse(diagnostic, allowed, "WORKSPACE_OK"));
   assert.doesNotThrow(() => assertClaudeDeniedToolUse(diagnostic, denied));
+  assert.deepEqual(assertClaudeResponseModels(diagnostic, ["gpt-5.6-sol"]), ["gpt-5.6-sol"]);
+  assert.throws(
+    () => assertClaudeResponseModels(diagnostic, ["gpt-5.6-terra"]),
+    /unregistered model/,
+  );
+  assert.throws(
+    () => assertClaudeResponseModels({ ...diagnostic, responseModels: [] }, ["gpt-5.6-sol"]),
+    /omitted resolved model/,
+  );
 
   const wrongTarget = structuredClone(diagnostic);
   wrongTarget.permissionDenials[0].tool_input.file_path = "/outside/other.txt";
@@ -574,11 +640,12 @@ test("Claude canary binds tool results and permission denials to exact tool-use 
 test("harness diagnostics redact paths, tokens, bearer values, and auth fields", () => {
   const jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcml2YXRlIn0.c2lnbmF0dXJlMTIzNDU2";
   const rendered = redactHarnessDiagnostic(
-    `/private/tmp/run auth={"claudeAiOauth":"secret"} Bearer abcdefghijklmnop ghp_abcdefghijklmnop /Users/person/.claude ${jwt} ANTHROPIC_API_KEY=private-api-key-value OPENAI_API_KEY="quoted private value" GH_TOKEN='private token value' DATABASE_URL=postgres://user:opaque@db/x PUBLIC_URL=https://example.invalid/public`,
+    `/private/tmp/run auth={"claudeAiOauth":"secret"} Bearer abcdefghijklmnop ghp_abcdefghijklmnop jmr_0123456789abcdef /Users/person/.claude ${jwt} ANTHROPIC_API_KEY=private-api-key-value OPENAI_API_KEY="quoted private value" GH_TOKEN='private token value' DATABASE_URL=postgres://user:opaque@db/x PUBLIC_URL=https://example.invalid/public`,
     ["/private/tmp/run"],
   );
   assert.equal(rendered.includes("secret"), false);
   assert.equal(rendered.includes("abcdefghijklmnop"), false);
+  assert.equal(rendered.includes("jmr_0123456789abcdef"), false);
   assert.equal(rendered.includes("/Users/person"), false);
   assert.equal(rendered.includes(jwt), false);
   assert.equal(rendered.includes("private-api-key-value"), false);

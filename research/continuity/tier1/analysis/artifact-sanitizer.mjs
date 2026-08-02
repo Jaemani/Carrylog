@@ -21,7 +21,7 @@ export function sanitize(value, temporaryRoot) {
     .replace(/\/home\/[^\s'"`]+/g, "<ABSOLUTE_PATH>")
     .replace(/[A-Za-z]:\\Users\\[^\s'"`]+/g, "<ABSOLUTE_PATH>")
     .replace(/([a-z][a-z0-9+.-]*:\/\/)[^\s/@:]+:[^\s/@]+@/gi, "$1<REDACTED>@")
-    .replace(/\b(?:ghp_|github_pat_|npm_|sk-)[A-Za-z0-9_-]{16,}\b/g, "<REDACTED_TOKEN>")
+    .replace(/\b(?:ghp_|github_pat_|npm_|jmr_|sk-)[A-Za-z0-9_-]{16,}\b/g, "<REDACTED_TOKEN>")
     .replace(
       /\b(?:ANTHROPIC_API_KEY|CLAUDE_CODE_OAUTH_TOKEN|DATABASE_URL|GITHUB_TOKEN|NPM_TOKEN|OPENAI_API_KEY|SEOUL_API_KEY)\s*=\s*[^\s]+/g,
       "<REDACTED_ENV>",
@@ -36,7 +36,7 @@ export function rejectUnsafeArtifact(value) {
     /\/home\//,
     /[A-Za-z]:\\Users\\/,
     /-----BEGIN [A-Z ]*PRIVATE KEY-----/,
-    /\b(?:ghp_|github_pat_|npm_|sk-)[A-Za-z0-9_-]{16,}\b/,
+    /\b(?:ghp_|github_pat_|npm_|jmr_|sk-)[A-Za-z0-9_-]{16,}\b/,
     /\beyJ[A-Za-z0-9_-]{12,}\.eyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\b/,
     /\b(?:ANTHROPIC_API_KEY|CLAUDE_CODE_OAUTH_TOKEN|DATABASE_URL|GITHUB_TOKEN|NPM_TOKEN|OPENAI_API_KEY|SEOUL_API_KEY)\s*=\s*(?!<REDACTED_ENV>)/,
     /\bBearer\s+(?!<REDACTED_TOKEN>)[A-Za-z0-9._~+/-]{16,}=*\b/i,

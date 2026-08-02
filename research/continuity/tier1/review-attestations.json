@@ -1,5 +1,22 @@
 {
   "formatVersion": 1,
-  "reviewDigest": null,
-  "reviews": []
+  "reviewDigest": "dbe7157f4eb562103b5fea0ec96e03858307c7e0ee504d877848cb30decc222d",
+  "reviews": [
+    {
+      "reviewerId": "methods-reproducibility-reviewer",
+      "independenceStatement": "Independent read-only methods review; no repository files, index, commits, or artifacts were modified.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T04:42:09Z",
+      "reviewDigest": "dbe7157f4eb562103b5fea0ec96e03858307c7e0ee504d877848cb30decc222d",
+      "findings": []
+    },
+    {
+      "reviewerId": "security-bytebinding-r2",
+      "independenceStatement": "Independent read-only security review. I made no repository, staging, commit, or artifact changes; reviewed exact digest and reran validation and test gates.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T04:44:04Z",
+      "reviewDigest": "dbe7157f4eb562103b5fea0ec96e03858307c7e0ee504d877848cb30decc222d",
+      "findings": []
+    }
+  ]
 }

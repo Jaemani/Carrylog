@@ -27,10 +27,10 @@
   ],
   "carrylogRuntime": {
     "package": "carrylog",
-    "version": "0.1.0-beta.5",
-    "releaseCommit": "343b4e381f5994c71a55a39dbcd34cf6862df16f",
-    "tarballSha256": "5f706672adfed5e2e4bc6e347fcdedb23359448d9c7fbca0ed2128c0f44bb1ce",
-    "integrity": "sha512-hBbNpTP0NEEpIAJBzKqAlnUGbUXGyLxnJ82h1+NQgIjvPGNEQrjjwodseRXU8XEoTF0F81vTE0ErpTNEUXF32Q==",
+    "version": "0.1.0-beta.7",
+    "releaseCommit": "515b1709cdc4522c190543b984d926775883e57a",
+    "tarballSha256": "47e3ae98efb3984124ec31d5090db5e1e7b592692942905d996d73a00e657e4e",
+    "integrity": "sha512-7vt+b2SFVvjlM9NOB3XZnHCdPBqckbnGleoDqlyNZ3MdcpZTbmXDi+fP5ug3QdZs0KGmHJLFxGa/+5YX18ShmA==",
     "executablePolicy": "Preinstall the exact released package in an isolated tool prefix, verify its version and registry digest, and prepend only that bin directory to the run PATH."
   }
 }

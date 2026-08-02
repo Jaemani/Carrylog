@@ -5,16 +5,22 @@ import { readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { promisify } from "node:util";
+import { resolveNativeClaudeExecutable } from "./claude-router-auth.mjs";
+import { resolveNativeCodexExecutable } from "./codex-executable.mjs";
+import { redactHarnessDiagnostic } from "./harness-contract.mjs";
 
 const analysisRoot = path.dirname(fileURLToPath(import.meta.url));
 const defaultRoot = path.resolve(analysisRoot, "..");
 const execFileAsync = promisify(execFile);
 const harnesses = ["codex", "claude"];
 const criticalPaths = [
+  "analysis/claude-router-auth.mjs",
+  "analysis/codex-executable.mjs",
   "analysis/fixture-command-wrapper.mjs",
   "analysis/harness-contract.mjs",
   "analysis/harness-isolation-canary.mjs",
   "analysis/harness-prerequisites.mjs",
+  "analysis/pilot-boundaries.mjs",
   "analysis/run-contract.mjs",
   "analysis/run.mjs",
   "analysis/verification-mcp-server.mjs",
@@ -130,10 +136,20 @@ export async function runAuthenticatedHarnessPrerequisite(harness, root = defaul
   const preregistration = JSON.parse(
     await readFile(path.join(root, "preregistration.json"), "utf8"),
   );
+  const executable =
+    harness === "codex"
+      ? await resolveNativeCodexExecutable({
+          expectedSha256: preregistration.harnesses.codex.nativeExecutableSha256,
+          environment: process.env,
+        })
+      : await resolveNativeClaudeExecutable({
+          expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
+          environment: process.env,
+        });
   let cliVersion;
   try {
     cliVersion = (
-      await execFileAsync(harness, ["--version"], {
+      await execFileAsync(executable, ["--version"], {
         cwd: path.resolve(root, "../../.."),
         encoding: "utf8",
         timeout: 30_000,
@@ -155,8 +171,13 @@ export async function runAuthenticatedHarnessPrerequisite(harness, root = defaul
         maxBuffer: 10 * 1024 * 1024,
       },
     );
-  } catch {
-    throw new Error(`${harness} authenticated canary failed; prerequisite remains pending`);
+  } catch (error) {
+    const diagnostic = redactHarnessDiagnostic(
+      `${error?.stdout ?? ""}\n${error?.stderr ?? ""}\n${error instanceof Error ? error.message : String(error)}`,
+    ).slice(0, 6000);
+    throw new Error(
+      `${harness} authenticated canary failed; prerequisite remains pending; redacted diagnostic: ${diagnostic}`,
+    );
   }
   const resultSha256 = sha256(
     `${harness}\0${Buffer.byteLength(result.stdout)}\0${sha256(result.stdout)}\0${Buffer.byteLength(result.stderr)}\0${sha256(result.stderr)}\n`,

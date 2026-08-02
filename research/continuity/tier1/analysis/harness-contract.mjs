@@ -12,13 +12,32 @@ export const VERIFICATION_EXECUTION_MODES = Object.freeze({
   claude: "seatbelt-workspace-isolated",
 });
 
+export function buildCarrylogToolInstallArguments(tarball, { allowNetwork }) {
+  assertNonEmptyString(tarball, "tarball");
+  assert.equal(path.isAbsolute(tarball), true, "tarball must be absolute");
+  assert.equal(typeof allowNetwork, "boolean");
+  return [
+    "install",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--no-save",
+    "--package-lock=false",
+    ...(!allowNetwork ? ["--offline"] : []),
+    tarball,
+  ];
+}
+
 export function buildCodexInvocation({
+  executable,
   prompt,
   model,
   reasoningEffort,
   permissionProfile,
   verification,
 }) {
+  assertNonEmptyString(executable, "executable");
+  assert.equal(path.isAbsolute(executable), true, "Codex executable must be absolute");
   assertNonEmptyString(prompt, "prompt");
   assertNonEmptyString(model, "model");
   assertNonEmptyString(reasoningEffort, "reasoningEffort");
@@ -32,7 +51,7 @@ export function buildCodexInvocation({
   });
   assert.equal(new Set(approvedBrokerTools).size, approvedBrokerTools.length);
   return {
-    executable: "codex",
+    executable,
     arguments: [
       "exec",
       "--ephemeral",
@@ -62,6 +81,7 @@ export function buildCodexInvocation({
 }
 
 export function buildClaudeInvocation({
+  executable = "claude",
   prompt,
   model,
   effort,
@@ -70,6 +90,7 @@ export function buildClaudeInvocation({
   checkout,
   verification,
 }) {
+  assertNonEmptyString(executable, "executable");
   assertNonEmptyString(prompt, "prompt");
   assertNonEmptyString(model, "model");
   assertNonEmptyString(effort, "effort");
@@ -85,10 +106,11 @@ export function buildClaudeInvocation({
     `Read(${checkout}/**)`,
     `Glob(${checkout}/**)`,
     `Grep(${checkout}/**)`,
+    ...(writable ? [`Edit(${checkout}/**)`, `Write(${checkout}/**)`] : []),
     ...verification.mcpTools,
   ].join(",");
   return {
-    executable: "claude",
+    executable,
     arguments: [
       "-p",
       prompt,
@@ -359,12 +381,18 @@ export function renderCodexVerificationPermissions(
   return `${JSON.stringify(verificationDirectory)} = "read"`;
 }
 
-export function createAuthenticationEvidence(stagedAuthenticationFiles) {
+export function createAuthenticationEvidence(
+  stagedAuthenticationFiles,
+  stagedAuthenticationEnvironmentFields = [],
+) {
   assert.ok(Array.isArray(stagedAuthenticationFiles));
-  const staged = stagedAuthenticationFiles.length > 0;
+  assert.ok(Array.isArray(stagedAuthenticationEnvironmentFields));
+  const staged =
+    stagedAuthenticationFiles.length > 0 || stagedAuthenticationEnvironmentFields.length > 0;
   return {
     ephemeralAuthenticationStaged: staged,
     stagedAuthenticationFiles: [...stagedAuthenticationFiles],
+    stagedAuthenticationEnvironmentFields: [...stagedAuthenticationEnvironmentFields],
     cleanupAttempted: false,
     cleanupSucceeded: null,
     cleanupDiagnostic: null,
@@ -492,6 +520,7 @@ export function parseClaudeJsonEvents(stdout) {
   const toolResults = [];
   const toolUses = [];
   const permissionDenials = [];
+  const responseModels = [];
   const events = [];
   for (const line of stdout.split(/\r?\n/)) {
     if (line.trim() === "") continue;
@@ -513,6 +542,7 @@ export function parseClaudeJsonEvents(stdout) {
         }
       }
     } else if (event.type === "assistant") {
+      if (typeof event.message?.model === "string") responseModels.push(event.message.model);
       const blocks = [];
       for (const block of event.message?.content ?? []) {
         if (block.type === "tool_use") {
@@ -538,7 +568,25 @@ export function parseClaudeJsonEvents(stdout) {
       events.push({ type: event.type, subtype: event.subtype ?? null });
     }
   }
-  return { toolResults, toolUses, permissionDenials, events };
+  return { toolResults, toolUses, permissionDenials, responseModels, events };
+}
+
+export function assertClaudeResponseModels(diagnostic, allowedModels) {
+  assert.ok(diagnostic && typeof diagnostic === "object");
+  assert.ok(Array.isArray(allowedModels) && allowedModels.length > 0);
+  for (const model of allowedModels) assertNonEmptyString(model, "allowed Claude response model");
+  assert.ok(
+    Array.isArray(diagnostic.responseModels) && diagnostic.responseModels.length > 0,
+    "Claude response omitted resolved model identity",
+  );
+  for (const model of diagnostic.responseModels) {
+    assert.equal(
+      allowedModels.includes(model),
+      true,
+      `Claude response resolved to an unregistered model: ${model}`,
+    );
+  }
+  return [...new Set(diagnostic.responseModels)];
 }
 
 export function assertClaudeDeniedToolUse(diagnostic, expectedToolUse) {
@@ -572,8 +620,9 @@ export function assertClaudeDeniedToolUse(diagnostic, expectedToolUse) {
   return toolUse;
 }
 
-export function assertClaudeSuccessfulToolUse(diagnostic, expectedToolUse, expectedOutput) {
-  assertNonEmptyString(expectedOutput, "expected Claude tool output");
+export function assertClaudeSuccessfulToolUse(diagnostic, expectedToolUse, expectedOutput = null) {
+  assert.ok(expectedOutput === null || typeof expectedOutput === "string");
+  if (expectedOutput !== null) assertNonEmptyString(expectedOutput, "expected Claude tool output");
   const matchingUses = diagnostic.toolUses.filter(
     (toolUse) =>
       toolUse.name === expectedToolUse.name &&
@@ -589,12 +638,12 @@ export function assertClaudeSuccessfulToolUse(diagnostic, expectedToolUse, expec
     (result) =>
       result.toolUseId === toolUse.id &&
       result.isError !== true &&
-      result.content.includes(expectedOutput),
+      (expectedOutput === null || result.content.includes(expectedOutput)),
   );
   assert.equal(
     matchingResults.length,
     1,
-    `Claude result was not bound to the exact ${expectedToolUse.name} input`,
+    `Claude successful result was not bound to the exact ${expectedToolUse.name} input`,
   );
   return toolUse;
 }
@@ -625,7 +674,7 @@ export function redactHarnessDiagnostic(value, sensitivePrefixes = []) {
     .replace(/\/Users\/[^\s'"`]+/g, "<REDACTED_PATH>")
     .replace(/\/home\/[^\s'"`]+/g, "<REDACTED_PATH>")
     .replace(/[A-Za-z]:\\Users\\[^\s'"`]+/g, "<REDACTED_PATH>")
-    .replace(/\b(?:ghp_|github_pat_|npm_|sk-)[A-Za-z0-9_-]{16,}\b/g, "<REDACTED_TOKEN>")
+    .replace(/\b(?:ghp_|github_pat_|npm_|jmr_|sk-)[A-Za-z0-9_-]{16,}\b/g, "<REDACTED_TOKEN>")
     .replace(/\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b/g, "<REDACTED_JWT>")
     .replace(/\bBearer\s+[A-Za-z0-9._~+/-]{16,}=*\b/gi, "Bearer <REDACTED_TOKEN>")
     .replace(

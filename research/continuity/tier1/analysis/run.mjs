@@ -22,9 +22,17 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { rejectUnsafeArtifact, sanitize, sanitizeValue } from "./artifact-sanitizer.mjs";
 import {
-  assertExecutionPredecessors,
+  clearClaudeRouterAuthentication,
+  resolveNativeClaudeExecutable,
+  stageClaudeRouterAuthentication,
+  verifyClaudePreSpawnIdentity,
+} from "./claude-router-auth.mjs";
+import { resolveNativeCodexExecutable } from "./codex-executable.mjs";
+import {
+  assertClaudeResponseModels,
   assertReceiptBinding,
   bindVerificationProgram,
+  buildCarrylogToolInstallArguments,
   buildClaudeInvocation,
   buildCodexInvocation,
   buildLocalExactCommitFetchArguments,
@@ -35,18 +43,33 @@ import {
   detachGitMetadata,
   digestRegistryBytes,
   partitionVerificationRuntimeReadPaths,
-  processStatus,
   recordAuthenticationCleanup,
   renderCodexRuntimePermissions,
   renderCodexVerificationPermissions,
 } from "./harness-contract.mjs";
-import { assertNoIndexDiffResult, blindReceiptProjection } from "./run-contract.mjs";
+import {
+  assertMacosPilotPlatform,
+  buildSetupInvocation,
+  claimExecutionRun,
+  completePilotCachePopulation,
+  digestInstalledToolTree,
+  resolveBusyCafeBareSource,
+  resolvePilotCacheRoot,
+} from "./pilot-boundaries.mjs";
+import {
+  blindReceiptProjection,
+  captureWorkspaceDelta,
+  classifyHarnessResultFailure,
+  filterClaudeHarnessResult,
+  filterCodexHarnessResult,
+} from "./run-contract.mjs";
 
 class HarnessExecutionError extends Error {
-  constructor(message, evidence) {
+  constructor(message, evidence, stage = "harness-execution") {
     super(message);
     this.name = "HarnessExecutionError";
     this.evidence = evidence;
+    this.stage = stage;
   }
 }
 
@@ -76,17 +99,25 @@ assert.equal(
 const preregistration = await readJson(path.join(tierRoot, "preregistration.json"));
 const repositories = await readJson(path.join(tierRoot, "repositories.json"));
 const order = await readJson(path.join(tierRoot, "run-order.json"));
+assertMacosPilotPlatform(
+  process.platform,
+  process.arch,
+  preregistration.executionPlatform.architecture,
+);
 const run = order.runs.find((candidate) => candidate.runId === args.runId);
 assert.ok(run, `unknown run ID: ${args.runId}`);
 const task = await readJson(path.join(tierRoot, "tasks", `${run.fixtureId}.json`));
 const repositoryId = task.repository.id === "r1-carrylog" ? "carrylog" : "busycafe";
 const repository = repositories.repositories.find((candidate) => candidate.id === repositoryId);
 assert.ok(repository);
+const pilotCache = await resolvePilotCacheRoot(process.env, {
+  allowSetupNetwork: args.allowSetupNetwork,
+  repositoryId,
+});
 let freezeEvidence;
 if (args.execute) {
   assert.equal(preregistration.status, "frozen", "scored execution requires status=frozen");
   freezeEvidence = await assertFrozenSuite();
-  await assertExecutionOrder(order, run);
 }
 
 const byRunPath = path.join(tierRoot, "raw-quarantine", "by-run", run.runId);
@@ -105,6 +136,7 @@ let harnessEnvironment;
 let verificationReceipts = [];
 let gitIntegrityAtFailure = null;
 let preparationStartedMonotonic;
+const assumeUnchangedPaths = [];
 const preparationEvidence = {
   status: "not-started",
   startedAt: null,
@@ -126,19 +158,10 @@ let executionEvidence = {
 const keepTemporary = args.keep;
 try {
   if (args.execute) {
-    await mkdir(path.dirname(byRunPath), { recursive: true });
-    await mkdir(path.dirname(blindPath), { recursive: true });
-    await assertAbsent(byRunPath, `run ID ${run.runId} is already claimed`);
-    await assertAbsent(blindPath, `blind ID ${run.blindId} is already claimed`);
-    await mkdir(byRunPath);
+    const claim = await claimExecutionRun({ tierRoot, order, selectedRun: run });
+    assert.equal(claim.byRunPath, byRunPath);
+    assert.equal(claim.blindPath, blindPath);
     runClaimed = true;
-    await mkdir(blindPath);
-    await writeJsonAtomicExclusive(path.join(byRunPath, "claim.json"), {
-      formatVersion: 1,
-      runId: run.runId,
-      blindId: run.blindId,
-      claimedAt: new Date().toISOString(),
-    });
   }
   temporaryRoot = await realpath(
     await mkdtemp(path.join(tmpdir(), `carrylog-tier1-${run.runId}-`)),
@@ -147,6 +170,7 @@ try {
   deterministicSetupEnvironment = await createSetupEnvironment(
     temporaryRoot,
     args.allowSetupNetwork,
+    pilotCache,
   );
   const preparationStartedAt = new Date().toISOString();
   const preparationStarted = performance.now();
@@ -154,7 +178,7 @@ try {
   preparationEvidence.status = "in-progress";
   preparationEvidence.startedAt = preparationStartedAt;
   stage = "fixture-preparation";
-  const source = resolveSource(repositoryId);
+  const source = await resolveSource(repositoryId);
   const fixtureEvidence = await cloneTrackedFixture(source, repository, checkout, run.condition);
   gitState = fixtureEvidence.git;
   deterministicSetupEnvironment = gitEnvironment(gitState, deterministicSetupEnvironment);
@@ -169,8 +193,29 @@ try {
   };
   await prepareDependencies(repositoryId, checkout, args.allowSetupNetwork);
   preparationEvidence.lastCompletedStep = "dependencies-prepared";
-  const tarball = await ensureCarrylogTarball(args.allowSetupNetwork);
-  const tool = await installCarrylogTool(tarball, path.join(temporaryRoot, "carrylog-tool"));
+  const tarball = await ensureCarrylogTarball(
+    args.allowSetupNetwork,
+    deterministicSetupEnvironment,
+  );
+  const tool = await installCarrylogTool(
+    tarball,
+    path.join(temporaryRoot, "carrylog-tool"),
+    args.allowSetupNetwork,
+    deterministicSetupEnvironment,
+  );
+  const toolTreeSha256 = await digestInstalledToolTree(path.join(tool.prefix, "node_modules"));
+  if (!args.allowSetupNetwork) {
+    assert.equal(
+      pilotCache.lifecycle.toolTreeSha256,
+      toolTreeSha256,
+      "offline cache installed-tool tree differs from its ready receipt",
+    );
+    assert.equal(
+      pilotCache.lifecycle.carrylogTarballSha256,
+      repositories.carrylogRuntime.tarballSha256,
+      "offline cache Carrylog tarball differs from its ready receipt",
+    );
+  }
   preparationEvidence.lastCompletedStep = "carrylog-tool-installed";
   harnessEnvironment = {
     env: undefined,
@@ -197,6 +242,7 @@ try {
     await command("git", ["update-index", "--assume-unchanged", ".agent-context/handoff.md"], {
       cwd: checkout,
     });
+    assumeUnchangedPaths.push(".agent-context/handoff.md");
   }
   assert.equal(await git(gitState, ["status", "--porcelain=v1"]), "");
   gitState = await detachGitMetadata(checkout, path.join(temporaryRoot, "repository.git"));
@@ -245,11 +291,16 @@ try {
       optionalLocks: "0",
     },
     harnessVersions,
+    toolTreeSha256,
+    cacheLifecycle: null,
     harnessIsolation: harnessEnvironment.evidence,
     verificationExecutionMode: verification.executionMode,
     deliveryManifest,
     condition: run.condition,
     harness: run.harness,
+    setupNetworkPolicy: args.allowSetupNetwork
+      ? "explicit-online-cache-population"
+      : "seatbelt-network-denied",
     baselineCommit,
     promptSha256: sha256(prompt),
     promptBytes: Buffer.byteLength(prompt),
@@ -286,6 +337,14 @@ try {
   preparationEvidence.completedAt = new Date().toISOString();
   preparationEvidence.latencyMs = preparation.preparationLatencyMs;
   preparationEvidence.lastCompletedStep = "preparation-complete";
+  preparation.cacheLifecycle = args.allowSetupNetwork
+    ? await completePilotCachePopulation(pilotCache, {
+        repositoryId,
+        runId: run.runId,
+        toolTreeSha256,
+        carrylogTarballSha256: repositories.carrylogRuntime.tarballSha256,
+      })
+    : pilotCache.lifecycle;
   if (!args.execute) {
     process.stdout.write(`${JSON.stringify({ prepared: true, ...preparation }, null, 2)}\n`);
     process.exitCode = 0;
@@ -306,6 +365,7 @@ try {
           : await executeClaude(checkout, prompt, task, verification, harnessEnvironment.env);
     } catch (error) {
       const partial = error instanceof HarnessExecutionError ? error.evidence : null;
+      if (error instanceof HarnessExecutionError) stage = error.stage;
       executionEvidence = buildExecutionEvidence(
         "failed",
         startedAt,
@@ -330,7 +390,14 @@ try {
     preparation.gitMetadata.directorySha256AfterModel = gitMetadataAfterModel;
     preparation.gitMetadata.unchangedDuringModel = true;
     stage = "artifact-sanitization";
-    const diff = await captureDelta(gitState, baselineCommit);
+    const diff = await captureWorkspaceDelta({
+      gitState,
+      baselineCommit,
+      captureRoot: path.join(temporaryRoot, "workspace-delta"),
+      environment: deterministicSetupEnvironment,
+      runCommand: command,
+      assumeUnchangedPaths,
+    });
     const artifact = {
       formatVersion: 1,
       blindId: run.blindId,
@@ -352,10 +419,11 @@ try {
       process: executionEvidence.process,
       usage: result.usage,
       estimatedCostUsd: result.estimatedCostUsd,
+      resolvedModels: result.responseModels ?? [],
       artifactSha256: sha256(`${JSON.stringify(artifact, null, 2)}\n`),
       evidence: {
         resumeEnvelopeDeliveredInPrompt: resumeEnvelope !== undefined,
-        toolReceiptsObserved: result.commandRecords.length > 0,
+        toolReceiptsObserved: verificationReceipts.length > 0,
         verifiedWrapperReceipts: verificationReceipts.length,
         behaviorNotInferredFromReceipt: true,
       },
@@ -509,54 +577,11 @@ async function assertFrozenSuite() {
   return evidence;
 }
 
-async function assertExecutionOrder(order_, selectedRun) {
-  const states = {};
-  for (const planned of order_.runs) {
-    states[planned.runId] = {
-      quarantine: await inspectResultSurface("raw-quarantine", planned),
-      reviewed: await inspectResultSurface("raw-reviewed", planned),
-    };
-  }
-  assertExecutionPredecessors(order_.runs, selectedRun.runId, states);
-}
-
-async function inspectResultSurface(surface, planned) {
-  const byRunPath = path.join(tierRoot, surface, "by-run", planned.runId);
-  const blindPath = path.join(tierRoot, surface, "blind", planned.blindId);
-  const byRunPresent = await pathExists(byRunPath);
-  const blindPresent = await pathExists(blindPath);
-  if (!byRunPresent) {
-    return {
-      byRun: "absent",
-      blind: blindPresent ? "present" : "absent",
-    };
-  }
-  const claim = await pathExists(path.join(byRunPath, "claim.json"));
-  const complete = await pathExists(path.join(byRunPath, "complete.json"));
-  const failure = await pathExists(path.join(byRunPath, "failure.json"));
-  return {
-    byRun:
-      complete && failure
-        ? "conflicting-terminals"
-        : complete
-          ? "complete"
-          : failure
-            ? "failure"
-            : claim
-              ? "claim-only"
-              : "non-terminal",
-    blind: blindPresent ? "present" : "absent",
-  };
-}
-
-function resolveSource(repositoryId) {
-  const configured =
-    repositoryId === "carrylog"
-      ? process.env.CARRYLOG_PILOT_CARRYLOG_SOURCE
-      : process.env.CARRYLOG_PILOT_BUSYCAFE_SOURCE;
+async function resolveSource(repositoryId) {
   const source =
-    configured ??
-    (repositoryId === "carrylog" ? projectRoot : path.resolve(projectRoot, "../BusyCafe"));
+    repositoryId === "carrylog"
+      ? (process.env.CARRYLOG_PILOT_CARRYLOG_SOURCE ?? projectRoot)
+      : await resolveBusyCafeBareSource(process.env);
   assert.equal(path.isAbsolute(source), true, "fixture source must be an absolute local path");
   assert.equal(/^https?:|^ssh:|^git@/i.test(source), false, "remote fixture sources are forbidden");
   return source;
@@ -650,14 +675,20 @@ async function prepareDependencies(repositoryId, checkout, allowNetwork) {
   if (repositoryId === "carrylog") {
     const npmArguments = ["ci", "--ignore-scripts", "--no-audit", "--no-fund"];
     if (!allowNetwork) npmArguments.push("--offline");
-    await command("npm", npmArguments, { cwd: checkout, timeout: 300_000 });
-    await command("npm", ["run", "build"], { cwd: checkout, timeout: 180_000 });
+    await setupCommand("npm", npmArguments, allowNetwork, {
+      cwd: checkout,
+      timeout: 300_000,
+    });
+    await setupCommand("npm", ["run", "build"], false, {
+      cwd: checkout,
+      timeout: 180_000,
+    });
     assert.equal(await git(gitState, ["status", "--porcelain=v1"]), "");
     return;
   }
   const uvArguments = ["sync", "--extra", "dev", "--frozen"];
   if (!allowNetwork) uvArguments.push("--offline");
-  await command("uv", uvArguments, {
+  await setupCommand("uv", uvArguments, allowNetwork, {
     cwd: path.join(checkout, "backend"),
     timeout: 300_000,
   });
@@ -665,13 +696,29 @@ async function prepareDependencies(repositoryId, checkout, allowNetwork) {
 }
 
 async function verifyHarnessVersions() {
+  const codexExecutable = await resolveNativeCodexExecutable({
+    expectedSha256: preregistration.harnesses.codex.nativeExecutableSha256,
+    environment: process.env,
+  });
+  const claudeExecutable = await resolveNativeClaudeExecutable({
+    expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
+    environment: process.env,
+  });
+  const macosProductVersion = (
+    await command("/usr/bin/sw_vers", ["-productVersion"], { cwd: projectRoot })
+  ).stdout.trim();
+  const macosBuildVersion = (
+    await command("/usr/bin/sw_vers", ["-buildVersion"], { cwd: projectRoot })
+  ).stdout.trim();
   const versions = {
-    codex: (await command("codex", ["--version"], { cwd: projectRoot })).stdout.trim(),
-    claude: (await command("claude", ["--version"], { cwd: projectRoot })).stdout.trim(),
+    codex: (await command(codexExecutable, ["--version"], { cwd: projectRoot })).stdout.trim(),
+    claude: (await command(claudeExecutable, ["--version"], { cwd: projectRoot })).stdout.trim(),
     node: (await command("node", ["--version"], { cwd: projectRoot })).stdout.trim(),
     npm: (await command("npm", ["--version"], { cwd: projectRoot })).stdout.trim(),
     git: (await command("git", ["--version"], { cwd: projectRoot })).stdout.trim(),
     uv: (await command("uv", ["--version"], { cwd: projectRoot })).stdout.trim(),
+    os: `macOS ${macosProductVersion} (${macosBuildVersion})`,
+    architecture: process.arch,
   };
   assert.equal(versions.codex, preregistration.harnesses.codex.cli);
   assert.equal(versions.claude, preregistration.harnesses.claude.cli);
@@ -679,14 +726,16 @@ async function verifyHarnessVersions() {
   assert.equal(versions.npm, preregistration.executionPlatform.npm);
   assert.equal(versions.git, `git version ${preregistration.executionPlatform.git}`);
   assert.match(versions.uv, new RegExp(`^uv ${preregistration.executionPlatform.uv}\\b`));
+  assert.equal(versions.os, preregistration.executionPlatform.os);
+  assert.equal(versions.architecture, preregistration.executionPlatform.architecture);
+  versions.claudeExecutableSha256 = sha256(await readFile(claudeExecutable));
+  versions.codexExecutableSha256 = sha256(await readFile(codexExecutable));
   return versions;
 }
 
-async function ensureCarrylogTarball(allowNetwork) {
+async function ensureCarrylogTarball(allowNetwork, environment) {
   const runtime = repositories.carrylogRuntime;
-  const cacheDirectory =
-    process.env.CARRYLOG_PILOT_ARTIFACT_CACHE ??
-    path.join(homedir(), ".cache", "carrylog-tier1", "artifacts");
+  const cacheDirectory = pilotCache.artifacts;
   const cachedTarball = path.join(cacheDirectory, `carrylog-${runtime.version}.tgz`);
   try {
     const bytes = await readFile(cachedTarball);
@@ -708,7 +757,7 @@ async function ensureCarrylogTarball(allowNetwork) {
     const packed = await command(
       "npm",
       ["pack", `carrylog@${runtime.version}`, "--json", "--pack-destination", staging],
-      { cwd: projectRoot, timeout: 180_000 },
+      { cwd: projectRoot, timeout: 180_000, env: environment },
     );
     const envelope = JSON.parse(packed.stdout);
     assert.ok(Array.isArray(envelope) && envelope.length === 1);
@@ -723,32 +772,32 @@ async function ensureCarrylogTarball(allowNetwork) {
   }
 }
 
-async function installCarrylogTool(tarball, prefix) {
+async function installCarrylogTool(tarball, prefix, allowNetwork, environment) {
   const runtime = repositories.carrylogRuntime;
   assert.equal(sha256(await readFile(tarball)), runtime.tarballSha256);
   await mkdir(prefix, { recursive: true });
-  await command(
+  await setupCommand(
     "npm",
-    [
-      "install",
-      "--prefix",
-      prefix,
-      "--ignore-scripts",
-      "--no-audit",
-      "--no-fund",
-      "--no-save",
-      "--package-lock=false",
-      "--offline",
-      tarball,
-    ],
-    { cwd: projectRoot, timeout: 180_000 },
+    ["--prefix", prefix, ...buildCarrylogToolInstallArguments(tarball, { allowNetwork })],
+    allowNetwork,
+    { cwd: projectRoot, timeout: 180_000, env: environment },
   );
   const cli = path.join(prefix, "node_modules", "carrylog", "dist", "cli.js");
   assert.equal(
-    (await command("node", [cli, "--version"], { cwd: projectRoot })).stdout.trim(),
+    (
+      await setupCommand("node", [cli, "--version"], false, {
+        cwd: projectRoot,
+        env: environment,
+      })
+    ).stdout.trim(),
     runtime.version,
   );
   return { prefix, cli, bin: path.join(prefix, "node_modules", ".bin") };
+}
+
+async function setupCommand(executable, arguments_, allowNetwork, options) {
+  const invocation = buildSetupInvocation(executable, arguments_, { allowNetwork });
+  return await command(invocation.executable, invocation.arguments, options);
 }
 
 async function createVerificationWrapper(temporaryRoot, checkout, gitState_, task, harness) {
@@ -944,7 +993,7 @@ async function realpathIfPresent(filePath) {
 async function prepareCarrylogContext(repositoryId, checkout, task, tool) {
   const cli = tool.cli;
   if (repositoryId === "busycafe") {
-    await command("node", [cli, "init", "--name", "BusyCafe"], {
+    await setupCommand("node", [cli, "init", "--name", "BusyCafe"], false, {
       cwd: checkout,
     });
     await writeFile(
@@ -961,7 +1010,7 @@ async function prepareCarrylogContext(repositoryId, checkout, task, tool) {
       checkout,
       readFile(path.resolve(projectRoot, task.deliveryPacket.path), "utf8"),
     );
-    await command("node", [cli, "sync"], { cwd: checkout });
+    await setupCommand("node", [cli, "sync"], false, { cwd: checkout });
     await command("git", ["add", "-A"], { cwd: checkout });
     await fixedCommit(gitState, `pilot: add ${task.fixtureId} context`);
   }
@@ -969,10 +1018,10 @@ async function prepareCarrylogContext(repositoryId, checkout, task, tool) {
     checkout,
     readFile(path.resolve(projectRoot, task.deliveryPacket.path), "utf8"),
   );
-  await command("node", [cli, "checkpoint"], { cwd: checkout });
+  await setupCommand("node", [cli, "checkpoint"], false, { cwd: checkout });
   await command("git", ["add", ".agent-context/handoff.md"], { cwd: checkout });
-  await command("node", [cli, "validate", "--json"], { cwd: checkout });
-  const resumed = await command("node", [cli, "resume", "--check", "--json"], {
+  await setupCommand("node", [cli, "validate", "--json"], false, { cwd: checkout });
+  const resumed = await setupCommand("node", [cli, "resume", "--check", "--json"], false, {
     cwd: checkout,
   });
   return JSON.parse(resumed.stdout);
@@ -1122,7 +1171,12 @@ async function buildDeliveryManifest(checkout, task, condition, packet, resumeEn
 async function executeCodex(checkout, prompt, task, verification, environment) {
   assert.ok(environment, "Codex execution requires an isolated environment");
   const writable = task.taskFamily.ordinal === 2;
+  const executable = await resolveNativeCodexExecutable({
+    expectedSha256: preregistration.harnesses.codex.nativeExecutableSha256,
+    environment,
+  });
   const invocation = buildCodexInvocation({
+    executable,
     prompt,
     model: preregistration.harnesses.codex.model,
     reasoningEffort: preregistration.harnesses.codex.reasoningEffort,
@@ -1136,7 +1190,7 @@ async function executeCodex(checkout, prompt, task, verification, environment) {
     allowExit: true,
     maxBuffer: 50 * 1024 * 1024,
   });
-  const filtered = filterCodex(result);
+  const filtered = filterCodexHarnessResult(result);
   assertSuccessfulHarnessResult("codex", result, filtered);
   return filtered;
 }
@@ -1144,7 +1198,16 @@ async function executeCodex(checkout, prompt, task, verification, environment) {
 async function executeClaude(checkout, prompt, task, verification, environment) {
   assert.ok(environment, "Claude execution requires an isolated environment");
   const writable = task.taskFamily.ordinal === 2;
+  const identity = await verifyClaudePreSpawnIdentity({
+    environment,
+    routerBaseUrl: preregistration.harnesses.claude.routerBaseUrl,
+    model: preregistration.harnesses.claude.model,
+    routeCatalogSha256: preregistration.harnesses.claude.routeCatalogSha256,
+    claudeCliVersion: preregistration.harnesses.claude.cli,
+    nativeExecutableSha256: preregistration.harnesses.claude.nativeExecutableSha256,
+  });
   const invocation = buildClaudeInvocation({
+    executable: identity.executable,
     prompt,
     model: preregistration.harnesses.claude.model,
     effort: "medium",
@@ -1160,28 +1223,19 @@ async function executeClaude(checkout, prompt, task, verification, environment) 
     allowExit: true,
     maxBuffer: 50 * 1024 * 1024,
   });
-  const filtered = filterClaude(result);
+  const filtered = filterClaudeHarnessResult(result);
   assertSuccessfulHarnessResult("claude", result, filtered);
+  filtered.responseModels = assertClaudeResponseModels(
+    filtered,
+    preregistration.harnesses.claude.allowedResolvedModels,
+  );
   return filtered;
 }
 
 function assertSuccessfulHarnessResult(harness, processResult, filtered) {
-  const failures = [];
-  if (processResult.timedOut) failures.push("timeout");
-  if (processResult.spawnError !== null) failures.push(`spawn:${processResult.spawnError}`);
-  if (processResult.exitCode !== 0) failures.push(`exit:${processResult.exitCode}`);
-  if (!filtered.completedEventObserved) failures.push("missing-success-event");
-  if (filtered.finalResponse.trim() === "") failures.push("missing-final-response");
-  if (failures.length > 0) {
-    throw new HarnessExecutionError(
-      `${harness} harness failure ${failures.join(",")}: ${JSON.stringify({
-        signal: processResult.signal,
-        visibleEvents: filtered.visibleEvents.slice(-20),
-        commandRecords: filtered.commandRecords.slice(-20),
-      })}`,
-      filtered,
-    );
-  }
+  const failure = classifyHarnessResultFailure(harness, processResult, filtered);
+  if (failure === null) return;
+  throw new HarnessExecutionError(failure.message, filtered, failure.stage);
 }
 
 async function createHarnessEnvironment(temporaryRoot, harness, tool, verification) {
@@ -1216,6 +1270,8 @@ async function createHarnessEnvironment(temporaryRoot, harness, tool, verificati
   environment.XDG_CACHE_HOME = path.join(syntheticHome, ".cache");
   await mkdir(environment.TMPDIR, { recursive: true, mode: 0o700 });
   const copiedAuthenticationFiles = [];
+  let stagedAuthenticationEnvironmentFields = [];
+  let routerAuthentication = null;
   let authenticationRoot;
   const credentialCandidates = [];
   try {
@@ -1279,7 +1335,17 @@ enabled = false
         label: "claude/.credentials.json",
       });
       await mkdir(isolatedClaudeConfig, { recursive: true, mode: 0o700 });
-      if (await stageMinimalClaudeAuthentication(sourceConfig, isolatedClaudeConfig)) {
+      if (preregistration.harnesses.claude.authenticationMode === "router-key-environment") {
+        routerAuthentication = await stageClaudeRouterAuthentication({
+          hostEnvironment: process.env,
+          targetEnvironment: environment,
+          model: preregistration.harnesses.claude.model,
+          routerBaseUrl: preregistration.harnesses.claude.routerBaseUrl,
+          routeCatalogSha256: preregistration.harnesses.claude.routeCatalogSha256,
+          claudeCliVersion: preregistration.harnesses.claude.cli,
+        });
+        stagedAuthenticationEnvironmentFields = routerAuthentication.stagedEnvironmentFields;
+      } else if (await stageMinimalClaudeAuthentication(sourceConfig, isolatedClaudeConfig)) {
         copiedAuthenticationFiles.push("claude/.credentials.json");
       }
       environment.CLAUDE_CONFIG_DIR = isolatedClaudeConfig;
@@ -1298,6 +1364,8 @@ enabled = false
       authenticationRoot,
       harness,
       copiedAuthenticationFiles,
+      stagedAuthenticationEnvironmentFields,
+      routerAuthentication,
     );
     await cleanupHarnessAuthentication(failedEnvironment);
     throw new HarnessEnvironmentError(
@@ -1311,6 +1379,8 @@ enabled = false
     authenticationRoot,
     harness,
     copiedAuthenticationFiles,
+    stagedAuthenticationEnvironmentFields,
+    routerAuthentication,
   );
 }
 
@@ -1319,6 +1389,8 @@ function buildHarnessEnvironmentState(
   authenticationRoot,
   harness,
   copiedAuthenticationFiles,
+  stagedAuthenticationEnvironmentFields,
+  routerAuthentication,
 ) {
   return {
     env: environment,
@@ -1327,16 +1399,22 @@ function buildHarnessEnvironmentState(
       syntheticHome: true,
       copiedAuthenticationFiles,
       authenticationFields:
-        copiedAuthenticationFiles.length === 0
+        copiedAuthenticationFiles.length === 0 && stagedAuthenticationEnvironmentFields.length === 0
           ? []
-          : harness === "claude"
-            ? ["claudeAiOauth"]
-            : ["provider-required-file"],
+          : routerAuthentication !== null
+            ? ["router-api-key-environment"]
+            : harness === "claude"
+              ? ["claudeAiOauth"]
+              : ["provider-required-file"],
+      routerAuthentication,
       copiedGlobalInstructions: false,
       copiedProviderSessions: false,
       copiedProviderSettings: false,
       repositorySelectionEnvironmentForwarded: false,
-      authentication: createAuthenticationEvidence(copiedAuthenticationFiles),
+      authentication: createAuthenticationEvidence(
+        copiedAuthenticationFiles,
+        stagedAuthenticationEnvironmentFields,
+      ),
     },
   };
 }
@@ -1350,12 +1428,19 @@ async function cleanupHarnessAuthentication(harnessEnvironment_) {
   let succeeded = false;
   let diagnostic = null;
   try {
-    await rm(harnessEnvironment_.authenticationRoot, {
-      recursive: true,
-      force: true,
-    });
-    succeeded = !(await pathExists(harnessEnvironment_.authenticationRoot));
-    if (!succeeded) diagnostic = "authentication path still exists after removal";
+    const environmentCleared = clearClaudeRouterAuthentication(harnessEnvironment_.env);
+    if (harnessEnvironment_.authenticationRoot !== null) {
+      await rm(harnessEnvironment_.authenticationRoot, {
+        recursive: true,
+        force: true,
+      });
+    }
+    const rootCleared =
+      harnessEnvironment_.authenticationRoot === null ||
+      !(await pathExists(harnessEnvironment_.authenticationRoot));
+    succeeded = environmentCleared && rootCleared;
+    if (!environmentCleared) diagnostic = "authentication environment fields remain";
+    else if (!rootCleared) diagnostic = "authentication path still exists after removal";
   } catch (error) {
     succeeded = false;
     diagnostic = error instanceof Error ? error.message : String(error);
@@ -1364,7 +1449,7 @@ async function cleanupHarnessAuthentication(harnessEnvironment_) {
   return succeeded;
 }
 
-async function createSetupEnvironment(temporaryRoot, allowNetwork) {
+async function createSetupEnvironment(temporaryRoot, allowNetwork, cache) {
   const setupHome = path.join(temporaryRoot, "setup-home");
   const setupTmp = path.join(temporaryRoot, "setup-tmp");
   const npmUserConfig = path.join(setupHome, "user.npmrc");
@@ -1405,11 +1490,11 @@ async function createSetupEnvironment(temporaryRoot, allowNetwork) {
     GIT_CONFIG_VALUE_3: "true",
     npm_config_userconfig: npmUserConfig,
     npm_config_globalconfig: npmGlobalConfig,
-    npm_config_cache: process.env.npm_config_cache ?? path.join(homedir(), ".npm"),
+    npm_config_cache: cache.npm,
     npm_config_offline: allowNetwork ? "false" : "true",
     npm_config_audit: "false",
     npm_config_fund: "false",
-    UV_CACHE_DIR: process.env.UV_CACHE_DIR ?? path.join(homedir(), ".cache", "uv"),
+    UV_CACHE_DIR: cache.uv,
     UV_OFFLINE: allowNetwork ? "0" : "1",
   };
 }
@@ -1448,116 +1533,6 @@ async function copyCredentialIfPresent(source, destination) {
     }
     throw error;
   }
-}
-
-function filterCodex(result) {
-  const visibleEvents = [];
-  const commandRecords = [];
-  let finalResponse = "";
-  let usage = null;
-  let completedEventObserved = false;
-  for (const line of result.stdout.split(/\r?\n/)) {
-    if (line.trim() === "") continue;
-    let event;
-    try {
-      event = JSON.parse(line);
-    } catch {
-      visibleEvents.push({ type: "unparsed-visible-output", text: line });
-      continue;
-    }
-    if (event.type === "item.completed" && event.item?.type === "agent_message") {
-      finalResponse = event.item.text ?? finalResponse;
-      visibleEvents.push({
-        type: "agent_message",
-        text: event.item.text ?? "",
-      });
-    } else if (event.type === "item.completed" && event.item?.type === "command_execution") {
-      commandRecords.push({
-        command: event.item.command,
-        exitCode: event.item.exit_code,
-        status: event.item.status,
-        output: event.item.aggregated_output,
-      });
-    } else if (event.type === "turn.completed") {
-      usage = event.usage ?? null;
-      completedEventObserved = true;
-    } else if (event.type === "error" || event.type === "turn.failed") {
-      visibleEvents.push({
-        type: event.type,
-        message: event.message ?? event.error?.message ?? "",
-      });
-    }
-  }
-  if (result.stderr.trim() !== "") {
-    visibleEvents.push({ type: "stderr", text: result.stderr });
-  }
-  return {
-    finalResponse,
-    visibleEvents,
-    commandRecords,
-    usage,
-    estimatedCostUsd: null,
-    exitStatus: result.exitCode,
-    process: processStatus(result),
-    completedEventObserved,
-  };
-}
-
-function filterClaude(result) {
-  const visibleEvents = [];
-  const commandRecords = [];
-  let finalResponse = "";
-  let usage = null;
-  let estimatedCostUsd = null;
-  let completedEventObserved = false;
-  for (const line of result.stdout.split(/\r?\n/)) {
-    if (line.trim() === "") continue;
-    let event;
-    try {
-      event = JSON.parse(line);
-    } catch {
-      visibleEvents.push({ type: "unparsed-visible-output", text: line });
-      continue;
-    }
-    if (event.type === "assistant") {
-      for (const block of event.message?.content ?? []) {
-        if (block.type === "text") {
-          finalResponse = block.text;
-          visibleEvents.push({ type: "agent_message", text: block.text });
-        } else if (block.type === "tool_use") {
-          const receipt = { tool: block.name, input: block.input };
-          if (block.name === "Bash") commandRecords.push(receipt);
-          else visibleEvents.push({ type: "tool_use", ...receipt });
-        }
-      }
-    } else if (event.type === "user") {
-      for (const block of event.message?.content ?? []) {
-        if (block.type === "tool_result") {
-          visibleEvents.push({
-            type: "tool_result",
-            content: block.content,
-            isError: block.is_error,
-          });
-        }
-      }
-    } else if (event.type === "result") {
-      finalResponse = event.result ?? finalResponse;
-      usage = event.usage ?? null;
-      estimatedCostUsd = event.total_cost_usd ?? null;
-      completedEventObserved = event.subtype === "success" && event.is_error !== true;
-    }
-  }
-  if (result.stderr.trim() !== "") visibleEvents.push({ type: "stderr", text: result.stderr });
-  return {
-    finalResponse,
-    visibleEvents,
-    commandRecords,
-    usage,
-    estimatedCostUsd,
-    exitStatus: result.exitCode,
-    process: processStatus(result),
-    completedEventObserved,
-  };
 }
 
 function buildExecutionEvidence(status, startedAt, started, result, receipts) {
@@ -1612,49 +1587,6 @@ async function readVerificationReceiptsForFailure(verification_) {
       diagnostic: error instanceof Error ? error.message : String(error),
     };
   }
-}
-
-async function captureDelta(gitState_, baselineCommit) {
-  const tracked = await command(
-    "git",
-    ["diff", "--binary", "--no-ext-diff", baselineCommit, "--"],
-    {
-      cwd: gitState_.workTree,
-      env: gitEnvironment(gitState_, deterministicSetupEnvironment),
-      maxBuffer: 20 * 1024 * 1024,
-    },
-  );
-  assert.equal(tracked.exitCode, 0);
-  assert.equal(tracked.signal, null);
-  assert.equal(tracked.timedOut, false);
-  assert.equal(tracked.spawnError, null);
-  const untrackedOutput = await git(gitState_, ["ls-files", "--others", "--exclude-standard"]);
-  const untrackedPaths = untrackedOutput === "" ? [] : untrackedOutput.split("\n");
-  let patch = tracked.stdout;
-  for (const relativePath of untrackedPaths) {
-    const filePath = path.join(gitState_.workTree, relativePath);
-    const metadata = await lstat(filePath);
-    if (metadata.isSymbolicLink()) {
-      patch += `\nUntracked symbolic link omitted from diff: ${relativePath}\n`;
-      continue;
-    }
-    if (!metadata.isFile() || metadata.size > 1024 * 1024) {
-      patch += `\nUntracked file omitted from diff: ${relativePath} (${metadata.size} bytes)\n`;
-      continue;
-    }
-    const addition = await command(
-      "git",
-      ["diff", "--no-index", "--binary", "--", "/dev/null", filePath],
-      {
-        cwd: gitState_.workTree,
-        allowExit: true,
-        maxBuffer: 2 * 1024 * 1024,
-      },
-    );
-    assertNoIndexDiffResult(addition, relativePath, metadata.size);
-    patch += addition.stdout;
-  }
-  return { patch, untrackedPaths };
 }
 
 async function command(executable, arguments_, options = {}) {

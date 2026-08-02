@@ -50,7 +50,34 @@ export async function generateOrder(root = defaultRoot) {
     conditionPermutations,
     seed,
   );
-  blocks.sort((left, right) => left.orderKey.localeCompare(right.orderKey));
+  const blindIdByCell = new Map(
+    [...blocks]
+      .sort((left, right) => left.orderKey.localeCompare(right.orderKey))
+      .flatMap((block) => {
+        const permutation = assignmentByBlock.get(`${block.fixtureId}|${block.harness}`);
+        return permutation.map((conditionIndex) => ({
+          fixtureId: block.fixtureId,
+          condition: preregistration.matrix.conditions[conditionIndex],
+          harness: block.harness,
+        }));
+      })
+      .map((run, index) => [
+        `${run.fixtureId}|${run.condition}|${run.harness}`,
+        `b-${digest(`${seed}|blind|${index + 1}`).slice(0, 12)}`,
+      ]),
+  );
+  const initialComparisonBlocks = preregistration.controls.initialComparisonBlocks ?? [];
+  const initialPosition = new Map(initialComparisonBlocks.map((key, index) => [key, index]));
+  blocks.sort((left, right) => {
+    const leftPosition = initialPosition.get(`${left.fixtureId}|${left.harness}`);
+    const rightPosition = initialPosition.get(`${right.fixtureId}|${right.harness}`);
+    if (leftPosition !== undefined || rightPosition !== undefined) {
+      if (leftPosition === undefined) return 1;
+      if (rightPosition === undefined) return -1;
+      return leftPosition - rightPosition;
+    }
+    return left.orderKey.localeCompare(right.orderKey);
+  });
   const combinations = blocks.flatMap((block) => {
     const permutation = assignmentByBlock.get(`${block.fixtureId}|${block.harness}`);
     return permutation.map((conditionIndex) => ({
@@ -63,11 +90,11 @@ export async function generateOrder(root = defaultRoot) {
     formatVersion: 1,
     seed,
     method:
-      "SHA-256 randomized fixture-harness blocks with each harness-repository stratum using five of six condition permutations; paired omitted permutations are deranged to balance both stratum and harness positions",
+      "Preregistered BusyCafe objective comparison blocks first, then SHA-256 randomized fixture-harness blocks; each harness-repository stratum uses five of six condition permutations and paired omitted permutations are deranged to balance both stratum and harness positions",
     runs: combinations.map((run, index) => ({
       ordinal: index + 1,
       runId: `t1-${String(index + 1).padStart(3, "0")}`,
-      blindId: `b-${digest(`${seed}|blind|${index + 1}`).slice(0, 12)}`,
+      blindId: blindIdByCell.get(`${run.fixtureId}|${run.condition}|${run.harness}`),
       ...run,
     })),
   };

@@ -24,20 +24,28 @@
   },
   "harnesses": {
     "codex": {
-      "cli": "codex-cli 0.144.1",
+      "cli": "codex-cli 0.146.0",
       "model": "gpt-5.6-sol",
       "reasoningEffort": "medium",
+      "nativeExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02",
       "freshSession": true
     },
     "claude": {
-      "cli": "2.1.207 (Claude Code)",
-      "model": "claude-haiku-4-5-20251001",
+      "cli": "2.1.220 (Claude Code)",
+      "model": "gpt-5.6-sol",
+      "modelFamily": "GPT through an Anthropic-compatible JM Router route",
+      "authenticationMode": "router-key-environment",
+      "routerBaseUrl": "https://llm.jaemani.com",
+      "routeCatalogSha256": "229d0d794270e15f3da521962cc7d2521bd61e07a1e1c3b7e0af70f7b444cc9d",
+      "allowedResolvedModels": ["gpt-5.6-sol"],
+      "providerIdentityClaimed": false,
+      "nativeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
       "freshSession": true,
       "sessionPersistence": false
     }
   },
   "executionPlatform": {
-    "os": "macOS 26.4 (25E246)",
+    "os": "macOS 26.5.2 (25F84)",
     "architecture": "arm64",
     "node": "22.23.0",
     "npm": "10.9.8",
@@ -48,6 +56,10 @@
     "promptLanguage": "Match each repository's canonical documentation language: English for Carrylog and Korean for BusyCafe.",
     "preserveDomainLabels": true,
     "runOrderSeed": "carrylog-tier1-2026-07-12-01",
+    "initialComparisonBlocks": [
+      "r2-busycafe-01-objective|codex",
+      "r2-busycafe-01-objective|claude"
+    ],
     "fixtureSourceRef": "refs/carrylog-pilot/source",
     "freshTrackedTreePerRun": true,
     "freshProviderSessionPerRun": true,

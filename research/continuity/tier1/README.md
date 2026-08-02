@@ -4,20 +4,25 @@ This directory is the executable, maintainer-run pilot required by ADR-0012. It 
 checkpoint/resume product; it does not test or authorize transcript replay, automatic journaling, or
 semantic compaction.
 
-## Frozen design
+## Candidate design
 
 - Two repositories: Carrylog and BusyCafe at exact commits.
 - Five task families per repository.
 - Three conditions: repository-only, manual handoff, and Carrylog checkpoint/resume.
-- Two authenticated harnesses: Codex CLI and Claude Code.
+- Two authenticated harness surfaces: Codex CLI and Claude Code through the preregistered route.
 - Sixty scored runs in a committed deterministic order.
 - Fresh isolated tracked trees, fresh provider sessions, provider control-plane traffic only, and no
   model-tool or verification-subprocess network or production access.
 - Run-order-masked item-level scoring; condition blindness is not claimed.
 
-The unique first commit that adds `freeze-manifest.json` with the complete reviewed inputs is the
+The current candidate is an amended draft. The unique first commit that adds
+`freeze-manifest.json` with the complete reviewed inputs is the
 permanent freeze boundary. No scored run may start before that commit. Amendments require a new
 experiment identifier and never overwrite earlier raw results.
+
+The executable research harness is macOS-only. Product support remains cross-platform; the research
+runner depends on macOS Seatbelt and the exact preregistered host toolchain and fails before setup on
+another operating system.
 
 ## Files
 
@@ -94,8 +99,25 @@ the prerequisite file. Both `--review-digest` and `--write` reject a pending or 
 Prepare-only runner calls never touch provider authentication or make model calls:
 
 ```bash
+export CARRYLOG_PILOT_CACHE_ROOT=/tmp/carrylog-tier1-cache
+export CARRYLOG_PILOT_BUSYCAFE_SOURCE=/tmp/carrylog-tier1-sources/busycafe.git
+node analysis/run.mjs --run-id t1-001 --allow-setup-network
 node analysis/run.mjs --run-id t1-001
 ```
+
+Both paths are mandatory for BusyCafe preparation. The source must be a bare Git repository under the
+system temporary directory; a live worktree, an unset source, a symlink, or a path outside that
+boundary is rejected. The online command requires a dedicated empty owner-only cache root that
+Carrylog claims exclusively, plus owner-only real directories for artifact, npm, and uv state, and
+writes a ready receipt only after successful preparation. Offline reuse requires the same receipt,
+repository scope, released tarball digest, and installed-tool tree digest. A failed or interrupted
+population is not reusable. Use a separately sealed cache for each repository. Repeat the offline
+preparation for all six comparison cells before review. Scored `--execute` rejects
+`--allow-setup-network`.
+
+Setup dependency traffic is distinct from provider control-plane traffic. During a scored run the
+harness may contact only the preregistered provider endpoint; model tools and verification
+subprocesses remain network-denied.
 
 After every candidate input is stable, set `preregistration.json` to `status=frozen` before producing
 the review digest. `--review-digest` rejects draft candidates and observed results. Give its exact
@@ -103,8 +125,9 @@ digest to two independent reviewers, record both GO attestations, then generate 
 commit every frozen input plus the manifest. Any byte change after review invalidates the
 attestations. Manifest creation re-reads the reviewed surface before and after writing and verifies
 the exact bytes written before returning success. `--check` repeats dependency, prerequisite,
-attestation, review-surface, manifest, and permanent-boundary checks. `--execute` refuses an
-untracked, dirty, or post-boundary suite.
+attestation, review-surface, manifest, and permanent-boundary checks. `--execute` refuses frozen
+inputs or a manifest that differ from their committed boundary; unrelated worktree paths are outside
+that check.
 
 ```bash
 node analysis/freeze.mjs --review-digest
@@ -123,6 +146,27 @@ safe rejection record plus the required exclusion row; the reviewer does not man
 reviews cannot silently overwrite another safety outcome. An abnormal process termination can leave
 that lock behind; treat it as a fail-closed recovery event and confirm that no review writer remains
 before removing it.
+
+Run claims use a separate global scheduler lock around predecessor inspection and write-once claim
+creation. A concurrent process waits for the active transaction and then rechecks order. A lock left
+by abnormal termination is never auto-removed; verify no runner remains before explicit recovery.
+
+Carrylog delivery may temporarily mark the prepared checkpoint `assume-unchanged` so the model and
+registered verification commands see a clean source HEAD. Before evidence capture the runner clears
+that flag, constructs a new temporary Git index directly from the synthetic delivery baseline, and
+compares actual worktree bytes against that independent index. The reset source index is never used
+as the scored delta baseline; an unchanged delivery produces no phantom delta and later checkpoint
+edits remain observable.
+
+Both harnesses execute absolute native binaries whose SHA-256 digests are preregistered and checked
+again immediately before spawn. Codex launcher discovery is used only to locate the platform package;
+the PATH entry and JavaScript launcher are never executed by the controlled runner. Claude execution
+additionally verifies two gateway identities: the live gateway
+catalog record digest for the requested direct model, and the resolved model ID exposed by every
+assistant response. Gateway discovery is disabled and only the preregistered `gpt-5.6-sol` ID is
+accepted; drift aborts instead of being mixed across conditions. The client
+surface does not expose the router's internal `provider_id`, so no provider-identity claim is made,
+and each final executable-check-to-spawn syscall interval remains a documented TOCTOU residual.
 
 ```bash
 node analysis/review-artifact.mjs --run-id t1-001 --reviewer reviewer-1 --approve
@@ -175,5 +219,11 @@ outcome to missingness.
 Claude receives no Bash tool. Frozen verification is exposed through a local no-argument MCP tool per
 registered command, which invokes the OS-network-denied wrapper. Codex uses a workspace-only
 permission profile with model-tool networking disabled; only wrapper receipts count as completed
-verification. The Codex profile follows the current official permission-profile filesystem and
-network model: <https://learn.chatgpt.com/docs/permissions>.
+verification. Any observed direct shell execution, whether successful or failed, terminates the run
+as a retained `protocol-deviation` before a blinded scoring artifact is published. Audit evidence
+detects Codex started, updated, and completed command lifecycles and gives that deviation precedence
+over timeout, nonzero exit, or missing terminal output. Claude Bash uses and their connected results
+receive the same treatment. The retained record keeps only bounded byte counts, digests, status, and
+exit code rather than raw command, output, malformed JSONL, stderr, or provider-error content. The
+Codex profile follows the current official permission-profile filesystem and network model:
+<https://learn.chatgpt.com/docs/permissions>.

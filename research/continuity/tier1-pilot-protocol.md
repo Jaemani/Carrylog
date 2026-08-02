@@ -1,6 +1,6 @@
 # Tier 1 continuity pilot protocol
 
-- Status: Frozen review candidate, not a committed experiment; execute only after authenticated
+- Status: Amended draft review candidate, not a committed experiment; execute only after authenticated
   harness prerequisites, independent reviews, and the manifest are frozen at its unique first-ADD
   commit
 - Governing decision: `docs/decisions/0012-evidence-gates-before-continuity-expansion.md`
@@ -29,6 +29,15 @@ shape. The exact commits or immutable fixture digests must be recorded before ex
 The two harnesses should initially be Codex and Claude Code because they use distinct instruction and
 Skill surfaces. If either is unavailable, substitution requires a committed protocol amendment before
 results are generated.
+
+The 2026-08-02 amendment uses Claude Code through a GPT-backed Anthropic-compatible route because
+native Claude access is unavailable. This preserves a distinct harness surface but not an independent
+model-family replication. The controlled runner invokes the native Claude executable directly; it
+must not use a convenience launcher that weakens the frozen permission boundary. The macOS-only
+runner binds the live direct-model catalog record and every response's resolved model ID, but the client
+surface does not expose the router's internal provider ID; no provider-identity claim is made. The
+resolved model is pinned to the single preregistered ID `gpt-5.6-sol`. Any other resolved model aborts
+the run instead of being pooled across conditions.
 
 ## Task families
 
@@ -96,13 +105,35 @@ self-report evidence, not behavioral success.
   isolation canary for each harness in `harness-prerequisites.json`, bound to the exact runner,
   broker, registry, canary, helper, and declared harness configuration bytes. Pending or stale
   attestations block both the review digest and manifest creation.
+- Treat dependency and exact-package cache population as a separate setup-network boundary. Use one
+  explicit cache root below the system temporary directory per repository; host npm, uv, and artifact
+  caches are forbidden. Online population requires a dedicated empty owner-only root claimed
+  exclusively and seals a ready receipt only after successful preparation. Offline preparation must bind
+  that receipt, repository scope, released tarball, and installed-tool tree before scoring.
+- Require the BusyCafe source environment explicitly and accept only a bare repository below the
+  system temporary directory. Never fall back to a live neighboring worktree.
 - Canary attestations retain only harness/model version, tested time, a fixed safe summary, and a
   digest of the successful process result. Never persist raw canary output, credentials, provider
   sessions, or private configuration.
 - Use synthetic provider homes with only minimum authentication. Prevent model tools from reading
   those homes; never copy provider settings, histories, MCP OAuth, or session stores.
+- Resolve the Codex npm launcher only to locate its platform-native binary; never spawn the mutable
+  PATH entry or JavaScript launcher. Bind both native harness executables to preregistered SHA-256
+  digests and recheck the selected absolute executable immediately before every spawn. Record the
+  remaining final check-to-syscall TOCTOU window as a residual risk.
+- Serialize run-order inspection and write-once claim creation under one global exclusive lock.
+  Never auto-delete an unexplained stale lock.
+- Clear any setup-only `assume-unchanged` marker before evidence capture, reconstruct an isolated
+  temporary index from the delivery baseline commit, and compare that index with actual worktree
+  bytes. Never derive scored delta evidence from the reset source index.
 - Record model and harness versions, context settings, repository commit, Carrylog commit, start time,
   exit status, and unavailable tools.
+- Treat every direct shell execution event as a retained protocol deviation before blinded artifact
+  publication, regardless of its exit status. Only preregistered wrapper receipts may receive
+  verification credit. Detect Codex started, updated, and completed command lifecycles so timeout or
+  abnormal termination cannot erase an observed attempt. When Claude emits a Bash use, project its
+  connected tool results to digests. Retain only bounded digests and process metadata for rejected
+  commands, results, malformed stream output, stderr, and provider-error diagnostics.
 - Preserve sanitized raw visible output. Never collect hidden reasoning, credentials, or private
   provider stores.
 - Store item-level scoring bound to the artifact and scoring-codebook digests. Mask run order; do not

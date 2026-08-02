@@ -210,7 +210,7 @@ function scanArtifact(bytes, label) {
     /\/home\//,
     /[A-Za-z]:\\Users\\/,
     /-----BEGIN [A-Z ]*PRIVATE KEY-----/,
-    /\b(?:ghp_|github_pat_|npm_|sk-)[A-Za-z0-9_-]{16,}\b/,
+    /\b(?:ghp_|github_pat_|npm_|jmr_|sk-)[A-Za-z0-9_-]{16,}\b/,
     /\beyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\b/,
     /\bBearer\s+(?!<REDACTED_TOKEN>)[A-Za-z0-9._~+/-]{16,}=*\b/i,
     /"(?:accessToken|refreshToken|apiKey|cookie|authorization|mcpOAuth|claudeAiOauth)"\s*:/i,

@@ -636,9 +636,9 @@ test("analysis reconciles scored, failed, and unstarted runs from auditable item
       `raw-reviewed/blind/${scoredRun.blindId}/artifact.json`,
     );
     const scoredGroupKey = `${scoredRun.harness}|${scoredRun.condition}`;
-    const zeroGroupKey = Object.keys(result.descriptiveGroups["harness-condition"]).find(
-      (key) => key !== scoredGroupKey,
-    );
+    const zeroGroupKey = Object.entries(result.descriptiveGroups["harness-condition"]).find(
+      ([key, group]) => key !== scoredGroupKey && group.scoredRuns === 0,
+    )?.[0];
     assert.ok(zeroGroupKey);
     assert.equal(result.descriptiveGroups["harness-condition"][zeroGroupKey].plannedRuns, 10);
     assert.equal(result.manualRegressionFlags.screenablePairs, 1);

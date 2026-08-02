@@ -1,30 +1,42 @@
 {
   "formatVersion": 1,
-  "harnessConfigurationSha256": "07e1eb47565a5fa36d2425936bbd7b7576e1ee02233e4e75c8c14e9c756eb6ba",
+  "harnessConfigurationSha256": "cdb2af9444c8d6fe1b7fc2cc57c026e05604caa884ceeb19d0636b5899f1b7b5",
   "criticalFiles": [
+    {
+      "path": "analysis/claude-router-auth.mjs",
+      "sha256": "47353aadaeaed82422b36fe40daa63057a39b1a9825fd235ec370e5331c779ce"
+    },
+    {
+      "path": "analysis/codex-executable.mjs",
+      "sha256": "87b59e2ed8eb9a209750daff933f3828853becbd7161196857ad143973d5d743"
+    },
     {
       "path": "analysis/fixture-command-wrapper.mjs",
       "sha256": "7b0000bb8fd7adab90a3d264487674029b24b08a05f44839eb8d01b2d351dae9"
     },
     {
       "path": "analysis/harness-contract.mjs",
-      "sha256": "06c06fb7be45f8e4c461e37a3b71af57d4628ec11b6d897946b091d36724e93f"
+      "sha256": "003e2393d2f80a71e5edd9a61e0180bcdf22e5da42532bcecffba46700f0fd78"
     },
     {
       "path": "analysis/harness-isolation-canary.mjs",
-      "sha256": "5bcfbeccf4988c55eab1a72df92c9ef0749ccd3cd3101c48b90acb5c5d98c6d5"
+      "sha256": "d8fd1c43661dc94b4e7cb4c50064bd9d777550f1b17e40631ad1e22b0854d88b"
     },
     {
       "path": "analysis/harness-prerequisites.mjs",
-      "sha256": "c17640b09776ef9305478520e1ca9515829c2546f2ebe4b857721ce0a7eee767"
+      "sha256": "3261151fc1a9e4160fd96ef3b466a87da4bfb4385eba83dafa590cf1da751b56"
+    },
+    {
+      "path": "analysis/pilot-boundaries.mjs",
+      "sha256": "6c0eb8b64abedbcc4604e0a7d504bb2f195d47e3ac8df6be687d168ef8b61866"
     },
     {
       "path": "analysis/run-contract.mjs",
-      "sha256": "6f024182c097476d97e4ca785a79b86a4f7ab15c6bb4251fe83d6a5d7300626b"
+      "sha256": "afbe74fa3009897d81da30370bc4d0317c660b08bfe544a1b6c606234fae786d"
     },
     {
       "path": "analysis/run.mjs",
-      "sha256": "7703aa7af9c1776454260d3cb55e97b432a36048637309c7f2487aff25cba0ea"
+      "sha256": "9aa54be8c637124393bd4d94bc5ecb97a339c842527c576cc75b6d429d5b8d9c"
     },
     {
       "path": "analysis/verification-mcp-server.mjs",
@@ -37,20 +49,20 @@
   ],
   "harnesses": {
     "codex": {
-      "status": "pending",
-      "testedAt": null,
-      "cliVersion": null,
-      "model": null,
-      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
-      "resultSha256": null
+      "status": "passed",
+      "testedAt": "2026-08-02T04:36:06.362Z",
+      "cliVersion": "codex-cli 0.146.0",
+      "model": "gpt-5.6-sol",
+      "resultSummary": "Authenticated canary passed workspace access, external-filesystem denial, registered verification, and model-tool network-denial assertions.",
+      "resultSha256": "7a8de3385ecd85e1ab1542ba08c98e814efd07271a23b8b00ed13f371e788af9"
     },
     "claude": {
-      "status": "pending",
-      "testedAt": null,
-      "cliVersion": null,
-      "model": null,
-      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
-      "resultSha256": null
+      "status": "passed",
+      "testedAt": "2026-08-02T04:37:32.684Z",
+      "cliVersion": "2.1.220 (Claude Code)",
+      "model": "gpt-5.6-sol",
+      "resultSummary": "Authenticated canary passed workspace access, external-filesystem denial, registered verification, and model-tool network-denial assertions.",
+      "resultSha256": "b5c687ce60f3a2962356440e14aa508a4ac502d038a5fbf28a320ab7172122f0"
     }
   }
 }

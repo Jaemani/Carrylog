@@ -165,7 +165,8 @@
       ],
       "factCreditRule": "Award each fact's full weight only for explicit equivalent evidence; normalize by total weight.",
       "contradictionRule": "Report contradicted fact weight separately; never net it against recall or completion.",
-      "maximumCompletionPoints": 10
+      "maximumCompletionPoints": 10,
+      "verificationEvidenceRule": "Only receipts from preregistered verification wrappers may receive verification credit. Any direct shell execution is a protocol deviation and the run must not be scored."
     }
   }
 }

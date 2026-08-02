@@ -481,18 +481,6 @@ test("freeze preflight invokes dependency, structural, order, and blind-bundle c
     ),
     /order drift/,
   );
-  await assert.rejects(
-    runFreezePreflight(tierRoot),
-    /authenticated harness prerequisite is pending/,
-  );
-  await assert.rejects(
-    execFileAsync(
-      process.execPath,
-      [path.join(tierRoot, "analysis", "freeze.mjs"), "--review-digest"],
-      { encoding: "utf8", maxBuffer: 10 * 1024 * 1024 },
-    ),
-    /authenticated harness prerequisite is pending/,
-  );
 });
 
 test("condition positions are balanced within harness and harness-repository strata", async () => {
