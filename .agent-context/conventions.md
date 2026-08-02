@@ -15,6 +15,7 @@ npm run format:check
 npm run check
 npm test
 npm run test:coverage
+npm run test:research:active
 npm run quality
 npm run pack:check
 npm run test:package
