@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "lockfileVersion": 3,
+  "rootRequirements": {
+    "ajv": "^8.20.0"
+  },
+  "packages": [
+    {
+      "path": "node_modules/ajv",
+      "lock": {
+        "version": "8.20.0",
+        "resolved": "https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz",
+        "integrity": "sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==",
+        "dev": true,
+        "dependencies": {
+          "fast-deep-equal": "^3.1.3",
+          "fast-uri": "^3.0.1",
+          "json-schema-traverse": "^1.0.0",
+          "require-from-string": "^2.0.2"
+        }
+      },
+      "artifactSha256": "ea10c1e388da21049c9a7873674d65bd57a0d89eca3e1c89cc34c55ccf30611e"
+    },
+    {
+      "path": "node_modules/fast-deep-equal",
+      "lock": {
+        "version": "3.1.3",
+        "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
+        "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==",
+        "dev": true
+      },
+      "artifactSha256": "120e82484f5eba2c6c657a623e8aca12c6f54e066b6cecf2361d01a3feeadf5f"
+    },
+    {
+      "path": "node_modules/fast-uri",
+      "lock": {
+        "version": "3.1.3",
+        "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.3.tgz",
+        "integrity": "sha512-i70LwGWUduXqzicKXWshooq+sWL1K3WUU5rKZNG/0i3a1OSoX3HqhH5WbWwTmqWfor4urUakGPiRQcleRZTwOg==",
+        "dev": true
+      },
+      "artifactSha256": "54c6f603fab4ac3a97cf93b2dd8140f5071a01723aed29744cce03c4d7a912eb"
+    },
+    {
+      "path": "node_modules/json-schema-traverse",
+      "lock": {
+        "version": "1.0.0",
+        "resolved": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz",
+        "integrity": "sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==",
+        "dev": true
+      },
+      "artifactSha256": "8d7636f51d7c31bfd0b6ceea5dfe4693656f1548987468dcd11f89c36f1c487e"
+    },
+    {
+      "path": "node_modules/require-from-string",
+      "lock": {
+        "version": "2.0.2",
+        "resolved": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz",
+        "integrity": "sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==",
+        "dev": true,
+        "engines": {
+          "node": ">=0.10.0"
+        }
+      },
+      "artifactSha256": "6a4ffad72ca70ba6d519509395d199b1b9609e90bcad890360848133342c2998"
+    }
+  ]
+}

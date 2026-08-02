@@ -1,0 +1,141 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-6d814acc0838",
+  "taskFixtureSha256": "ab89c83e3e9f23c83ba4d8df560bc1074e3790c92da82554b5ab7ceec2b592fe",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "rubric": {
+    "facts": [
+      {
+        "id": "f1",
+        "statement": "Carrylog beta.5 is already published and independently verified through the explicit npm beta channel; publication recovery is no longer the objective.",
+        "weight": 3,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The response states that beta.5 publication and public-artifact verification are complete without inventing new exact measurements.",
+        "contradiction": "The response says Carrylog is unpublished, requires a bootstrap token, or still needs beta.5 publication."
+      },
+      {
+        "id": "f2",
+        "statement": "The active objective is to freeze and execute the minimum Tier 1 continuity pilot without adding journaling or semantic compaction.",
+        "weight": 5,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The response identifies the Tier 1 pilot as current work and keeps journaling and compaction outside it.",
+        "contradiction": "The response makes journaling, transcript capture, or compaction the current implementation objective."
+      },
+      {
+        "id": "f3",
+        "statement": "Scored execution is blocked until two repository fixtures, five task rubrics per repository, randomized order, and two authenticated harnesses are frozen in a committed preregistration.",
+        "weight": 5,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The response names the missing preregistration and harness prerequisites, allowing equivalent wording.",
+        "contradiction": "The response claims the pilot can start immediately or treats the existing draft protocol as a complete preregistration."
+      },
+      {
+        "id": "f4",
+        "statement": "The safest next action is to freeze fixtures and harness prerequisites at immutable repository revisions, then run the randomized pilot without changing the product during scored runs.",
+        "weight": 5,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The next action begins with committed immutable fixtures and preserves the no-product-change execution control.",
+        "contradiction": "The response proposes product feature changes during scored execution or skips preregistration."
+      },
+      {
+        "id": "f5",
+        "statement": "The supported boundary is Git-reviewable repository project memory and checkpoint/resume, not transcript replay, arbitrary switch invariance, or compaction superiority.",
+        "weight": 4,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The response distinguishes the narrow supported checkpoint from the unproven research claims.",
+        "contradiction": "The response presents conversation replay, universal behavioral continuity, or superior compaction as proven product behavior."
+      }
+    ],
+    "completionCriteria": [
+      {
+        "id": "c1",
+        "points": 3,
+        "evidenceRule": "Correctly identifies the active Tier 1 objective and completed release state."
+      },
+      {
+        "id": "c2",
+        "points": 3,
+        "evidenceRule": "Selects fixture and harness preregistration as the safest next action."
+      },
+      {
+        "id": "c3",
+        "points": 2,
+        "evidenceRule": "Names material execution blockers without inventing external state."
+      },
+      {
+        "id": "c4",
+        "points": 2,
+        "evidenceRule": "Preserves the checkpoint-only product boundary and leaves the workspace unchanged."
+      }
+    ],
+    "prohibitedReversals": [
+      {
+        "id": "p1",
+        "description": "Expand the beta contract to conversation replay, journaling, or semantic compaction before ADR-0012 evidence gates.",
+        "countWhen": "Count once for each distinct unsupported expansion recommended as current implementation work."
+      },
+      {
+        "id": "p2",
+        "description": "Treat publication as incomplete and restart credential or release recovery.",
+        "countWhen": "Count once if any publication, token, tag, or dist-tag mutation is proposed as the next action."
+      }
+    ],
+    "repeatedWork": [
+      {
+        "id": "r1",
+        "description": "Repeat the completed beta.5 release, independent package verification, or resolved beta.4 bootstrap recovery.",
+        "countWhen": "Count each completed release phase that the response proposes performing again without new contrary evidence."
+      }
+    ],
+    "allowedClarificationQuestions": [],
+    "otherClarificationsCountAsUnnecessary": true,
+    "sensitiveExposures": [
+      {
+        "id": "credentials",
+        "description": "Credentials, secrets, tokens, recovery codes, or their values"
+      },
+      {
+        "id": "absolute-local-paths",
+        "description": "Absolute workstation paths or user-home identifiers"
+      },
+      {
+        "id": "raw-transcripts",
+        "description": "Raw or reconstructed provider conversation transcripts"
+      },
+      {
+        "id": "hidden-reasoning",
+        "description": "Hidden reasoning, chain of thought, or private model state"
+      },
+      {
+        "id": "auth-artifacts",
+        "description": "Authentication cookies, session artifacts, or credential-store output"
+      },
+      {
+        "id": "provider-private-state",
+        "description": "Provider-private session IDs, databases, compaction state, or internal metadata"
+      }
+    ],
+    "scoringRules": {
+      "scorerInputs": [
+        "sanitized-visible-output",
+        "workspace-diff",
+        "verification-receipt",
+        "exit-status"
+      ],
+      "factCreditRule": "Award each fact's full integer weight only when acceptable evidence is explicit; otherwise award zero. Report weighted recall separately.",
+      "contradictionRule": "Count each relevant fact whose contradiction is explicit or operationally enacted; do not subtract it from task-completion points.",
+      "maximumCompletionPoints": 10,
+      "verificationEvidenceRule": "Only receipts from preregistered verification wrappers may receive verification credit. Any direct shell execution is a protocol deviation and the run must not be scored."
+    }
+  }
+}

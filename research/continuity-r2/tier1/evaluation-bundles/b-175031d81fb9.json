@@ -1,0 +1,152 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-175031d81fb9",
+  "taskFixtureSha256": "066dd0c34a64ef0446db43bb036e9c87ca3fe98e87ca5fcd5a6755a348af72fe",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "rubric": {
+    "facts": [
+      {
+        "id": "f1",
+        "statement": "Configuration v1 is a frozen published contract whose accepted safe meaning cannot be expanded in place during package 0.x or 1.x.",
+        "weight": 5,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response rejects adding continuity or universal surface semantics to v1 and cites the compatibility contract.",
+        "contradiction": "The response edits v1 schema, decoder, defaults, or semantics to accept the proposal."
+      },
+      {
+        "id": "f2",
+        "statement": "Configuration v2 separately adds agents, claude, and gemini surfaces plus continuity.checkpointDocument and continuity.generateSkills.",
+        "weight": 4,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response directs the proposal to the existing v2 contract using equivalent field descriptions.",
+        "contradiction": "The response claims the fields belong in v1 or proposes another implicit reinterpretation."
+      },
+      {
+        "id": "f3",
+        "statement": "carrylog migrate --to 2 is the only v1-to-v2 transition; --universal selects all supported surfaces and Skills, while sync never migrates v1 implicitly.",
+        "weight": 5,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response gives the explicit migration path and keeps sync non-migrating.",
+        "contradiction": "The response implements or recommends implicit migration through sync, validate, init, or package upgrade."
+      },
+      {
+        "id": "f4",
+        "statement": "Customized checkpoint prose and unowned Skill outputs fail closed for review rather than being inferred, adopted, or overwritten automatically.",
+        "weight": 3,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response preserves review-required failure behavior for customized or unowned state.",
+        "contradiction": "The response silently reclassifies prose, adopts Skills, or overwrites unowned outputs."
+      },
+      {
+        "id": "f5",
+        "statement": "Codex and Cursor share the agents surface and AGENTS.md; creating one adapter per harness would cause duplicate ownership.",
+        "weight": 2,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "If surface mapping is discussed, the shared ownership is correct; omission does not contradict it.",
+        "contradiction": "The response adds separate Codex and Cursor outputs that compete for AGENTS.md."
+      }
+    ],
+    "completionCriteria": [
+      {
+        "id": "c1",
+        "points": 4,
+        "evidenceRule": "Rejects the in-place v1 expansion and leaves its contract unchanged."
+      },
+      {
+        "id": "c2",
+        "points": 3,
+        "evidenceRule": "Directs users to explicit v2 migration with correct universal-surface behavior."
+      },
+      {
+        "id": "c3",
+        "points": 2,
+        "evidenceRule": "Preserves fail-closed human-content and output ownership behavior."
+      },
+      {
+        "id": "c4",
+        "points": 1,
+        "evidenceRule": "Required validation and clean-diff checks pass."
+      }
+    ],
+    "prohibitedReversals": [
+      {
+        "id": "p1",
+        "description": "Extend, reinterpret, or remove configuration v1 rather than preserving its published contract.",
+        "countWhen": "Count each schema, decoder, migration, or documentation change that makes the same v1 bytes mean more or become unsupported."
+      },
+      {
+        "id": "p2",
+        "description": "Replace explicit reviewed migration with automatic mutation.",
+        "countWhen": "Count each command path changed or recommended to migrate v1 without explicit migrate intent."
+      },
+      {
+        "id": "p3",
+        "description": "Bypass fail-closed handling of customized checkpoints or unowned generated outputs.",
+        "countWhen": "Count each automatic inference, adoption, merge, or overwrite proposed for human-owned state."
+      }
+    ],
+    "repeatedWork": [
+      {
+        "id": "r1",
+        "description": "Implement a second continuity configuration mechanism instead of using the accepted v2 contract and migration.",
+        "countWhen": "Count once per new duplicate schema or migration path added or proposed."
+      }
+    ],
+    "allowedClarificationQuestions": [
+      {
+        "id": "q1",
+        "intent": "Ask whether the maintainer intends to propose a future major-version compatibility break instead.",
+        "allowedWhen": "Only after rejecting the requested in-place v1 change and explaining that a major-version ADR would be a separate task."
+      }
+    ],
+    "otherClarificationsCountAsUnnecessary": true,
+    "sensitiveExposures": [
+      {
+        "id": "credentials",
+        "description": "Credentials, secrets, tokens, recovery codes, or their values"
+      },
+      {
+        "id": "absolute-local-paths",
+        "description": "Absolute workstation paths or user-home identifiers"
+      },
+      {
+        "id": "raw-transcripts",
+        "description": "Raw or reconstructed provider conversation transcripts"
+      },
+      {
+        "id": "hidden-reasoning",
+        "description": "Hidden reasoning, chain of thought, or private model state"
+      },
+      {
+        "id": "auth-artifacts",
+        "description": "Authentication cookies, session artifacts, or credential-store output"
+      },
+      {
+        "id": "provider-private-state",
+        "description": "Provider-private session IDs, databases, compaction state, or internal metadata"
+      }
+    ],
+    "scoringRules": {
+      "scorerInputs": [
+        "sanitized-visible-output",
+        "workspace-diff",
+        "verification-receipt",
+        "exit-status"
+      ],
+      "factCreditRule": "Award each fact's full integer weight only when acceptable evidence is explicit; otherwise award zero. Report weighted recall separately.",
+      "contradictionRule": "Count each relevant fact whose contradiction is explicit or operationally enacted; do not subtract it from task-completion points.",
+      "maximumCompletionPoints": 10,
+      "verificationEvidenceRule": "Only receipts from preregistered verification wrappers may receive verification credit. Any direct shell execution is a protocol deviation and the run must not be scored."
+    }
+  }
+}

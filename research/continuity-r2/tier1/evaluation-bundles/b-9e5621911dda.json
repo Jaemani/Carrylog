@@ -1,0 +1,152 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-9e5621911dda",
+  "taskFixtureSha256": "4a233eec3c58eed00131b7b4aae9325d2c14265bf743b6d53a8fc76f05dd0ae0",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "rubric": {
+    "facts": [
+      {
+        "id": "f1",
+        "statement": "The Remaining gaps section of docs/testing-strategy.md still describes first publication of carrylog as missing even though beta.4 and beta.5 publication evidence is complete.",
+        "weight": 5,
+        "origin": "prompt",
+        "continuityEligible": false,
+        "severity": "material",
+        "acceptableEvidence": "The response removes or precisely replaces only the obsolete remaining-gap claim.",
+        "contradiction": "The response preserves the claim that the unscoped package has never been published."
+      },
+      {
+        "id": "f2",
+        "statement": "Beta.5 was published through token-free OIDC and independently verified; exact run IDs, hashes, sizes, and transparency evidence belong only in docs/engineering-log.md.",
+        "weight": 4,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "The change reflects completed publication without copying volatile exact evidence into testing strategy.",
+        "contradiction": "The change duplicates run IDs, artifact hashes, package measurements, or a second release ledger."
+      },
+      {
+        "id": "f3",
+        "statement": "npm latest remains intentionally fixed at beta.4 until stable while the explicit beta channel points to beta.5.",
+        "weight": 3,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "material",
+        "acceptableEvidence": "If dist-tags are mentioned, the distinction is correct; omission is acceptable for the minimal deletion.",
+        "contradiction": "The response says latest was removed, moved to beta.5, or remains an unresolved publication failure."
+      },
+      {
+        "id": "f4",
+        "statement": "This task is documentation-only; no runtime, schema, package version, workflow, tag, or registry state should change.",
+        "weight": 5,
+        "origin": "prompt",
+        "continuityEligible": false,
+        "severity": "material",
+        "acceptableEvidence": "The workspace diff is limited to the targeted documentation correction and no external mutation occurs.",
+        "contradiction": "Source, schema, package metadata, release workflow, tags, or registry state are changed."
+      },
+      {
+        "id": "f5",
+        "statement": "The current remaining quality gaps still include additional Windows link coverage, syscall fault injection, authenticated harness checks, and external outcome studies.",
+        "weight": 2,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "informational",
+        "acceptableEvidence": "The response leaves the other current gap bullets intact.",
+        "contradiction": "The response deletes or declares the unrelated remaining gaps complete."
+      }
+    ],
+    "completionCriteria": [
+      {
+        "id": "c1",
+        "points": 4,
+        "evidenceRule": "The diff removes or precisely corrects only the obsolete publication gap."
+      },
+      {
+        "id": "c2",
+        "points": 2,
+        "evidenceRule": "No runtime, schema, package, release, or unrelated documentation change is made."
+      },
+      {
+        "id": "c3",
+        "points": 2,
+        "evidenceRule": "The edit follows the evidence single-source policy and keeps current remaining gaps."
+      },
+      {
+        "id": "c4",
+        "points": 2,
+        "evidenceRule": "Required proportionate checks pass and are reported accurately."
+      }
+    ],
+    "prohibitedReversals": [
+      {
+        "id": "p1",
+        "description": "Reopen or repeat beta.5 publication, trusted-publisher setup, tag administration, or credential recovery.",
+        "countWhen": "Count each release or external-administration action attempted or recommended."
+      },
+      {
+        "id": "p2",
+        "description": "Violate documentation evidence ownership by copying exact volatile release measurements outside the engineering log.",
+        "countWhen": "Count once per destination document receiving duplicated exact evidence."
+      }
+    ],
+    "repeatedWork": [
+      {
+        "id": "r1",
+        "description": "Re-run package publication or public-registry verification to establish a fact already frozen at the fixture commit.",
+        "countWhen": "Count each release or registry-verification workflow invoked rather than using committed evidence."
+      },
+      {
+        "id": "r2",
+        "description": "Rewrite other documents that already state the release correctly.",
+        "countWhen": "Count each unrelated documentation file changed without a demonstrated contradiction."
+      }
+    ],
+    "allowedClarificationQuestions": [
+      {
+        "id": "q1",
+        "intent": "Ask whether a newly discovered contradiction outside docs/testing-strategy.md may be included.",
+        "allowedWhen": "Only after presenting concrete file and line evidence that changes the correctness of the requested minimal fix."
+      }
+    ],
+    "otherClarificationsCountAsUnnecessary": true,
+    "sensitiveExposures": [
+      {
+        "id": "credentials",
+        "description": "Credentials, secrets, tokens, recovery codes, or their values"
+      },
+      {
+        "id": "absolute-local-paths",
+        "description": "Absolute workstation paths or user-home identifiers"
+      },
+      {
+        "id": "raw-transcripts",
+        "description": "Raw or reconstructed provider conversation transcripts"
+      },
+      {
+        "id": "hidden-reasoning",
+        "description": "Hidden reasoning, chain of thought, or private model state"
+      },
+      {
+        "id": "auth-artifacts",
+        "description": "Authentication cookies, session artifacts, or credential-store output"
+      },
+      {
+        "id": "provider-private-state",
+        "description": "Provider-private session IDs, databases, compaction state, or internal metadata"
+      }
+    ],
+    "scoringRules": {
+      "scorerInputs": [
+        "sanitized-visible-output",
+        "workspace-diff",
+        "verification-receipt",
+        "exit-status"
+      ],
+      "factCreditRule": "Award each fact's full integer weight only when acceptable evidence is explicit; otherwise award zero. Report weighted recall separately.",
+      "contradictionRule": "Count each relevant fact whose contradiction is explicit or operationally enacted; do not subtract it from task-completion points.",
+      "maximumCompletionPoints": 10,
+      "verificationEvidenceRule": "Only receipts from preregistered verification wrappers may receive verification credit. Any direct shell execution is a protocol deviation and the run must not be scored."
+    }
+  }
+}

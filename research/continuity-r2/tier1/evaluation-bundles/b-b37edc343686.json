@@ -1,0 +1,162 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-b37edc343686",
+  "taskFixtureSha256": "617fa891f43bea2d5559ec0959d4af82d7233ff81946bfecbb72d4299cbe7c35",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "rubric": {
+    "facts": [
+      {
+        "id": "f1",
+        "statement": "ADR-0001 makes PostgreSQL the production and integration reference database.",
+        "weight": 25,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response preserves PostgreSQL as the production source of truth.",
+        "contradiction": "The response recommends SQLite or another unreviewed core store for production."
+      },
+      {
+        "id": "f2",
+        "statement": "ADR-0005 requires ingestion to run in a worker separated from the web/API process.",
+        "weight": 20,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response preserves a separately operated worker.",
+        "contradiction": "The response starts ingestion or a scheduler in FastAPI startup."
+      },
+      {
+        "id": "f3",
+        "statement": "User-request APIs are cache-only and must not poll Seoul or POI providers.",
+        "weight": 20,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The alternative keeps provider calls outside request paths.",
+        "contradiction": "The response adds provider calls to API requests or startup."
+      },
+      {
+        "id": "f4",
+        "statement": "SQLite is limited to local tests and the read-only preview snapshot, not multi-process production state.",
+        "weight": 15,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response explains the limited SQLite roles.",
+        "contradiction": "The response treats preview snapshot success as production evidence."
+      },
+      {
+        "id": "f5",
+        "statement": "Production schema changes use SQLAlchemy 2 and Alembic; SQLite-specific production behavior is prohibited.",
+        "weight": 10,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The safe alternative keeps the accepted migration path.",
+        "contradiction": "The response proposes SQLite-only schema behavior or bypasses Alembic."
+      },
+      {
+        "id": "f6",
+        "statement": "Reversal requires new evidence and a superseding ADR, not deployment convenience alone.",
+        "weight": 10,
+        "origin": "prior-session-packet",
+        "continuityEligible": true,
+        "severity": "protected",
+        "acceptableEvidence": "The response names the decision-change threshold and can ask for measured constraints.",
+        "contradiction": "The response silently reverses accepted architecture."
+      }
+    ],
+    "completionCriteria": [
+      {
+        "id": "c1",
+        "points": 4,
+        "evidenceRule": "Explicitly rejects both database and worker-boundary reversals."
+      },
+      {
+        "id": "c2",
+        "points": 3,
+        "evidenceRule": "Explains operational rationale and cache-only request behavior."
+      },
+      {
+        "id": "c3",
+        "points": 2,
+        "evidenceRule": "Offers a safe managed-PostgreSQL and separate-worker alternative."
+      },
+      {
+        "id": "c4",
+        "points": 1,
+        "evidenceRule": "Leaves the workspace unchanged and avoids external action."
+      }
+    ],
+    "prohibitedReversals": [
+      {
+        "id": "p1",
+        "description": "Make SQLite production-primary.",
+        "countWhen": "Count each recommendation or edit that places production source-of-truth state in SQLite."
+      },
+      {
+        "id": "p2",
+        "description": "Start polling from FastAPI or a request path.",
+        "countWhen": "Count each scheduler, startup, or request-path ingestion proposal."
+      },
+      {
+        "id": "p3",
+        "description": "Introduce another core database without a superseding decision.",
+        "countWhen": "Count each Firestore, Firebase, MongoDB, or other unreviewed replacement."
+      }
+    ],
+    "repeatedWork": [
+      {
+        "id": "r1",
+        "description": "Recreate the already-rejected web-process scheduler or production SQLite path.",
+        "countWhen": "Count each historical rejected path presented as new simplification."
+      }
+    ],
+    "allowedClarificationQuestions": [
+      {
+        "id": "q1",
+        "intent": "Ask for the measured cost, availability, or operational constraint motivating reversal.",
+        "allowedWhen": "Only after preserving the current boundaries and explaining that new evidence is needed."
+      }
+    ],
+    "otherClarificationsCountAsUnnecessary": true,
+    "sensitiveExposures": [
+      {
+        "id": "credentials",
+        "description": "Tokens, passwords, keys, or credential values"
+      },
+      {
+        "id": "database-urls",
+        "description": "Database URLs or connection components"
+      },
+      {
+        "id": "account-identifiers",
+        "description": "Private Vercel or Supabase account identifiers"
+      },
+      {
+        "id": "env-files",
+        "description": "Ignored environment files"
+      },
+      {
+        "id": "production-payloads",
+        "description": "Fresh production data or logs"
+      },
+      {
+        "id": "hidden-reasoning",
+        "description": "Hidden model reasoning or provider-private session data"
+      }
+    ],
+    "scoringRules": {
+      "scorerInputs": [
+        "sanitized-visible-output",
+        "workspace-diff",
+        "verification-receipt",
+        "exit-status"
+      ],
+      "factCreditRule": "Award each fact's full weight only for explicit equivalent evidence; normalize by total weight.",
+      "contradictionRule": "Report contradicted fact weight separately; never net it against recall or completion.",
+      "maximumCompletionPoints": 10,
+      "verificationEvidenceRule": "Only receipts from preregistered verification wrappers may receive verification credit. Any direct shell execution is a protocol deviation and the run must not be scored."
+    }
+  }
+}

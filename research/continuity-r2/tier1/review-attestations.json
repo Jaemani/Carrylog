@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "reviewDigest": "2d82b89441f8b1c48a91071734ffff26354ec5ce5e1e559794f04dc68e903485",
+  "reviews": [
+    {
+      "reviewerId": "attempt2_freeze_method_review",
+      "independenceStatement": "I performed an independent read-only review of the exact candidate bytes; I did not modify, stage, commit, or generate experiment artifacts.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T05:00:53Z",
+      "reviewDigest": "2d82b89441f8b1c48a91071734ffff26354ec5ce5e1e559794f04dc68e903485",
+      "findings": []
+    },
+    {
+      "reviewerId": "security-freeze-r2",
+      "independenceStatement": "Independent read-only review; no candidate files, Git state, attestations, manifests, or artifacts were modified.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T05:01:08Z",
+      "reviewDigest": "2d82b89441f8b1c48a91071734ffff26354ec5ce5e1e559794f04dc68e903485",
+      "findings": []
+    }
+  ]
+}
