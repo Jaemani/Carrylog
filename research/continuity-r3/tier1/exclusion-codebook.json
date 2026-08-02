@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "stages": [
+    "claim",
+    "fixture-preparation",
+    "carrylog-delivery",
+    "harness-authentication",
+    "harness-execution",
+    "artifact-sanitization",
+    "artifact-publication",
+    "privacy-review",
+    "protocol"
+  ],
+  "reasonCodes": [
+    "setup-failure",
+    "strict-resume-failure",
+    "authentication-failure",
+    "provider-timeout",
+    "provider-nonzero-exit",
+    "provider-malformed-output",
+    "sanitization-failure",
+    "sensitive-exposure",
+    "partial-bundle",
+    "protocol-deviation",
+    "manual-privacy-exclusion"
+  ],
+  "reasonStageCompatibility": {
+    "setup-failure": ["claim", "fixture-preparation"],
+    "strict-resume-failure": ["carrylog-delivery"],
+    "authentication-failure": ["harness-authentication"],
+    "provider-timeout": ["harness-execution"],
+    "provider-nonzero-exit": ["harness-execution"],
+    "provider-malformed-output": ["harness-execution"],
+    "sanitization-failure": ["artifact-sanitization"],
+    "sensitive-exposure": ["artifact-sanitization", "privacy-review"],
+    "partial-bundle": ["artifact-publication"],
+    "protocol-deviation": ["protocol"],
+    "manual-privacy-exclusion": ["privacy-review"]
+  },
+  "replacementPolicy": "No replacement run is allowed in Tier 1. A replacement requires a committed protocol amendment and a new experiment identifier.",
+  "privacyRejectionPolicy": "A privacy-review rejection retains sensitive source bytes only in ignored quarantine. The reviewed surface contains a digest-bound safe rejection attestation and failure record, and exclusions.csv records the terminal outcome without a replacement.",
+  "productFeasibilityRule": "A strict Carrylog resume failure remains a Carrylog delivery outcome and must not be hidden as generic technical attrition."
+}

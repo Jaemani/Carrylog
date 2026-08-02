@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "reviewDigest": "aba93a61759b70d8b03aa5ee9ccb88a291fb087268db58f73c515c5144800104",
+  "reviews": [
+    {
+      "reviewerId": "attempt3_freeze_method_review",
+      "independenceStatement": "I performed an independent read-only review of the exact R3 candidate bytes and ran no provider calls; I did not modify files, Git state, attestations, manifests, or artifacts.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T05:19:06Z",
+      "reviewDigest": "aba93a61759b70d8b03aa5ee9ccb88a291fb087268db58f73c515c5144800104",
+      "findings": []
+    },
+    {
+      "reviewerId": "attempt3_freeze_security_review",
+      "independenceStatement": "Independent read-only security, privacy, runner, and freeze-boundary review; no candidate files, Git state, attestations, manifests, artifacts, or provider endpoints were modified or invoked.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T05:19:25Z",
+      "reviewDigest": "aba93a61759b70d8b03aa5ee9ccb88a291fb087268db58f73c515c5144800104",
+      "findings": []
+    }
+  ]
+}

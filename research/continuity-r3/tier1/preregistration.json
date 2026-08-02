@@ -1,0 +1,150 @@
+{
+  "formatVersion": 1,
+  "status": "frozen",
+  "governingDecision": "docs/decisions/0012-evidence-gates-before-continuity-expansion.md",
+  "protocol": "research/continuity-r3/tier1-pilot-protocol.md",
+  "researchQuestion": "In this fixed exploratory matrix, does the released Carrylog product bundle (canonical context, generated router surfaces, and a runner-verified resume envelope) show a beneficial continuation direction over repository-only discovery without item-level regressions against the same prior-session packet delivered as a concise manual handoff?",
+  "hypotheses": {
+    "signal": "Within each harness, Carrylog resume has a beneficial direction over repository-only discovery on relevant-fact recall, contradictions, prohibited reversals, repeated work, unnecessary clarification, and task completion.",
+    "manualBaseline": "Within each harness, every preregistered item-level Carrylog regression against manual handoff is retained and reported; Tier 1 is regression screening, not a formal non-inferiority test.",
+    "stop": "Apply the frozen Tier 2 STOP, GO, then REDESIGN precedence without narrative override; retain repository-memory governance as the supported value unless the GO criteria pass."
+  },
+  "matrix": {
+    "repositories": ["carrylog", "busycafe"],
+    "taskFamilies": [
+      "objective-and-next-action",
+      "bounded-continuation",
+      "protected-decision",
+      "failed-approach",
+      "verification-and-limits"
+    ],
+    "conditions": ["repository-only", "manual-handoff", "carrylog-resume"],
+    "harnesses": ["codex", "claude"],
+    "plannedRuns": 60
+  },
+  "harnesses": {
+    "codex": {
+      "cli": "codex-cli 0.146.0",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "medium",
+      "nativeExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02",
+      "freshSession": true
+    },
+    "claude": {
+      "cli": "2.1.220 (Claude Code)",
+      "model": "gpt-5.6-sol",
+      "modelFamily": "GPT through an Anthropic-compatible JM Router route",
+      "authenticationMode": "router-key-environment",
+      "routerBaseUrl": "https://llm.jaemani.com",
+      "routeCatalogSha256": "229d0d794270e15f3da521962cc7d2521bd61e07a1e1c3b7e0af70f7b444cc9d",
+      "allowedResolvedModels": ["gpt-5.6-sol"],
+      "providerIdentityClaimed": false,
+      "nativeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
+      "freshSession": true,
+      "sessionPersistence": false
+    }
+  },
+  "executionPlatform": {
+    "os": "macOS 26.5.2 (25F84)",
+    "architecture": "arm64",
+    "node": "22.23.0",
+    "npm": "10.9.8",
+    "git": "2.50.1 (Apple Git-155)",
+    "uv": "0.11.23"
+  },
+  "controls": {
+    "promptLanguage": "Match each repository's canonical documentation language: English for Carrylog and Korean for BusyCafe.",
+    "preserveDomainLabels": true,
+    "runOrderSeed": "carrylog-tier1-2026-08-02-attempt-3-2",
+    "initialComparisonBlocks": [
+      "r2-busycafe-01-objective|codex",
+      "r2-busycafe-01-objective|claude"
+    ],
+    "fixtureSourceRef": "refs/carrylog-pilot/source",
+    "freshTrackedTreePerRun": true,
+    "freshProviderSessionPerRun": true,
+    "networkDuringTask": false,
+    "networkBoundary": "Provider API control-plane traffic is required for the harness. Model tools and registered verification subprocesses may not access network endpoints; the macOS runner and verification wrapper enforce and canary-test this boundary.",
+    "productionAccess": false,
+    "ignoredSourceFilesCopied": false,
+    "preprovisionDependencies": true,
+    "conditionBlindScoring": false,
+    "evaluatorMasking": "Randomized blind IDs and behavior-only bundles hide run order and harness metadata, but condition may remain inferable from substantive output; this exploratory pilot records that limitation.",
+    "silentReplacementOfFailedRuns": false,
+    "productChangesDuringScoredRuns": false,
+    "deliveryPacketControl": "Manual and Carrylog conditions use the same separately frozen six-section packet. Carrylog additionally exposes the released product bundle: canonical project/current-state context, generated router and Skill surfaces, and the deterministic resume/Git envelope. This pilot estimates that full bundle, not an isolated envelope-format effect or automatic checkpoint authorship.",
+    "captureQualityClaimed": false,
+    "routerOrSkillAutoDiscoveryClaimed": false,
+    "maximumRunSeconds": 900,
+    "conditionOrderPolicy": "Fixture-harness blocks are SHA-256 ordered. Each harness-repository stratum uses five of the six condition permutations exactly once; the omitted permutations for its two repositories are derangements. Therefore every condition's position counts differ by at most one globally, within each harness, and within each harness-repository stratum."
+  },
+  "measures": [
+    "weighted_relevant_fact_recall",
+    "weighted_contradiction_rate",
+    "prohibited_reversal_count",
+    "repeated_work_count",
+    "unnecessary_clarification_count",
+    "task_completion_score_0_to_10",
+    "delivery_evidence_level",
+    "input_tokens_when_observable",
+    "output_tokens_when_observable",
+    "latency_ms",
+    "estimated_cost_usd_when_observable",
+    "evaluator_confidence_0_to_3",
+    "unavailable_evidence"
+  ],
+  "analysisRules": {
+    "compositeUtilityScore": false,
+    "reportByHarness": true,
+    "reportByRepository": true,
+    "reportByTaskFamily": true,
+    "retainEveryExclusion": true,
+    "receiptsAreBehaviorEvidence": false,
+    "acknowledgementsAreBehaviorEvidence": false,
+    "tier2DecisionRule": {
+      "precedence": ["stop", "go", "redesign"],
+      "primaryMetrics": [
+        "recall",
+        "contradiction",
+        "completion",
+        "reversals",
+        "repeated",
+        "clarifications"
+      ],
+      "contrastDefinition": "Exactly 40 contrast vectors: 2 harnesses x 10 fixtures x 2 comparators (repository-only and manual-handoff). One vector is screenable only when Carrylog and its comparator both have finite outcomes for all six primary metrics.",
+      "favorableOrientation": "Recall and task completion are favorable when Carrylog minus comparator is positive; contradictions, prohibited reversals, repeated work, and unnecessary clarification are multiplied by -1 before comparison so positive is always favorable.",
+      "stop": "STOP if any reviewed Carrylog-resume run has a scored sensitive exposure or any privacy rejection; or if both harnesses have an adverse macro paired mean against repository-only on the same three or more of the six primary metrics; or if the same manual-regression item for the same fixture is flagged in both harnesses. A Carrylog privacy rejection is conservatively safety-significant regardless of its reviewer reason code. Missing or protocol-invalid evidence alone does not trigger STOP.",
+      "go": "GO to Tier 2 only if all 60 runs have reviewed terminal artifacts with zero protocol-invalid runs, all 40 preregistered contrast vectors are screenable, every Carrylog-resume sensitive-exposure and prohibited-reversal outcome is available and zero, the manual-handoff regression screen has zero missing pairs, unavailable items, or flags, and in each harness all six macro paired means against repository-only are non-adverse with at least two strictly favorable means.",
+      "redesign": "REDESIGN is mandatory for every result that satisfies neither STOP nor GO. REDESIGN includes missing pairs, provider attrition, isolated or non-replicated regression flags, inconsistent harness direction, and a valid but insufficiently favorable signal.",
+      "noPostOutcomeOverride": "Apply STOP first, then GO, then REDESIGN. Explanations may contextualize inputs but may not delete flags, change thresholds, or override the resulting class. Any amended rule requires a new frozen protocol and new runs."
+    },
+    "primaryAggregation": "Macro-average normalized task outcomes within harness; never pool raw fact weights across tasks.",
+    "pairedContrasts": [
+      "carrylog-resume-minus-repository-only",
+      "carrylog-resume-minus-manual-handoff"
+    ],
+    "descriptiveInterval": "Fixed-seed fixture bootstrap 95% interval with 10000 resamples; it describes selected-fixture variation only.",
+    "manualRegressionRule": "Flag every item where manual receives a continuity-eligible fact or completion criterion and Carrylog does not, or where Carrylog adds a contradiction, prohibited reversal, repeated-work event, unnecessary clarification, or sensitive exposure. Explanations never delete flags.",
+    "missingness": "Never coerce unavailable evidence to zero or weight by evaluator confidence. Report attrition and availability denominators by condition.",
+    "formalNonInferiorityClaimed": false
+  },
+  "privacy": {
+    "storeHiddenReasoning": false,
+    "storeProviderPrivateSessions": false,
+    "storeCredentials": false,
+    "storeIgnoredRepositoryFiles": false,
+    "storeSanitizedVisibleOutput": true,
+    "storeObservableToolReceipts": true,
+    "storeRepositoryDiff": true
+  },
+  "reviewGate": {
+    "reviewableDigest": "SHA-256 over the exact sorted frozen input path, byte length, and file digest tuples, excluding freeze-manifest.json, review-attestations.json, and observed-result surfaces. Excluding the attestation file prevents self-reference.",
+    "attestationFile": "research/continuity-r3/tier1/review-attestations.json",
+    "requiredIndependentReviewers": 2,
+    "requiredVerdict": "GO",
+    "unresolvedFindingsAllowed": 0,
+    "attestationContract": "First set status=frozen. Then replace the pending null digest and empty reviews with the printed reviewDigest and exactly two review objects. Each object has only reviewerId, an explicit independenceStatement, verdict=GO, UTC reviewedAt, the same reviewDigest, and findings=[]. Reviewer IDs must be distinct.",
+    "machineGate": "freeze --review-digest requires status=frozen, no observed results, and passed Codex and Claude authenticated-canary attestations bound to the current harness-critical bytes. It then runs structural validation plus deterministic order and evaluation-bundle checks before printing the self-reference-free review input. freeze --write repeats those checks, recomputes the digest, and requires two distinct GO attestations over that exact digest before creating the manifest."
+  },
+  "freezeRule": "The unique first Git ADD commit of freeze-manifest.json is the permanent preregistration boundary. The manifest, its frozen inputs, and review attestations may not be deleted, re-added, or changed after that commit; amendments require a new experiment."
+}
