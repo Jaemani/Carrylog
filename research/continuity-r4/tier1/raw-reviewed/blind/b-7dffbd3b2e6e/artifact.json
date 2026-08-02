@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-7dffbd3b2e6e",
+  "finalResponse": "## Verification at `c9e8c2d`\n\n### Resource boundaries\n\n- **Per file:** configuration and each canonical context document are limited to **1 MiB (1,048,576 bytes) per managed read**.  \n  Evidence: `src/config/load.ts:11`, `src/commands/resume.ts:17`, `src/commands/resume.ts:207-223`.\n\n- **Aggregate:** one portable-resume observation is limited to **8 MiB (8,388,608 bytes)** across the configuration and all canonical documents.  \n  Evidence: `src/commands/resume.ts:18`, `src/commands/resume.ts:211-230`; regression coverage at `tests/continuity.test.mjs:198-227`.\n\n- **Always-loaded context:** the generated default policy limits it to **16,000 JavaScript characters**—`string.length` code units, not bytes or tokenizer tokens. It is configurable through `maxAlwaysCharacters`.  \n  Evidence: `src/templates/defaults.ts:107-110`, enforced at `src/validation/validate.ts:85-99`. Documentation explicitly says character budgets are not tokenizer or quality estimates: `docs/testing-strategy.md:78-92`.\n\n### Structural validation versus freshness\n\nCheckpoint structural validation requires the six canonical H2 sections exactly once, in order, with non-empty bodies; parser boundary tests cover fake headings and CommonMark constructs (`tests/continuity.test.mjs:48-134`). This does **not** establish checkpoint freshness.\n\nFreshness is evaluated separately by comparing the checkpoint’s rendered Git evidence with a fresh bounded Git observation (`src/commands/resume.ts:91-131`). A structurally valid checkpoint may therefore be stale. `resume --check` still emits the envelope but exits **1** when `checkpoint.stale` is true (`src/cli.ts:145-159`); semantic code-to-document freshness remains outside the validator (`docs/decisions/0010-portable-checkpoint-and-resume-boundary.md:67-77`).\n\n### Checks actually run\n\n- `npm run format:check` — **passed**, 64 files checked.\n- Focused continuity tests — **failed:** 11 passed, 5 failed. Git-dependent cases reported `E_NOT_GIT_REPOSITORY` or resulting exit-code mismatches in this isolated non-Git fixture. The aggregate-budget test passed.\n- Clean-diff check — **passed** (exit 0).\n\nNo files were modified.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "preCommandStateSha256": "add38e519cabae0b3a2d959e2b8a4a3cb895cce07cd11b1c049851287b1d2dd7",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "430ad8b23856c122e1557472e0d306b72193c0f54d0c8c8e11cfe91576895fc0",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "add38e519cabae0b3a2d959e2b8a4a3cb895cce07cd11b1c049851287b1d2dd7",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 8585,
+      "stderrBytes": 0,
+      "stdoutSha256": "cce5f7f8061a2a0dca39a3d6bb97f822776607f3849c3da03a5a0806d04f6f19",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "add38e519cabae0b3a2d959e2b8a4a3cb895cce07cd11b1c049851287b1d2dd7",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

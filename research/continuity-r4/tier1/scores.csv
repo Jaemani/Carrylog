@@ -1,1 +1,7 @@
 blind_id,weighted_relevant_fact_recall,weighted_contradiction_rate,prohibited_reversal_count,repeated_work_count,unnecessary_clarification_count,task_completion_score_0_to_10,delivery_evidence_level,evaluator_confidence_0_to_3,unavailable_evidence,evaluator_notes
+b-16e28660d6fe,1,0,0,0,0,10,reconstruction,3,,"All six continuity facts are explicitly reconstructed. Receipts establish command execution and exit status, not behavioral success."
+b-a0e045a8669d,0,0.65,0,0,0,4,verified-receipt,3,,"All items are evaluable. Verification receipts support only command execution and exit status, not semantic or behavioral conclusions."
+b-242cc7b9b955,1,0,0,0,0,10,reconstruction,3,,"All six continuity facts are explicitly reconstructed. Receipts establish command execution and exit status, not behavioral success."
+b-f0b2ada28624,0.75,0,0,0,0,8,reconstruction,3,,"All items are evaluable. The response reconstructs f1, f2, f3, and f5; f4 and f6 lack the explicit behavioral/cross-harness qualifications required for credit."
+b-c19c7714f4af,1,0,0,0,0,10,reconstruction,3,,"All six continuity facts are explicitly reconstructed. Receipts establish command execution and exit status, not behavioral success."
+b-7dffbd3b2e6e,0.75,0,0,0,0,8,reconstruction,3,,All items evaluable. f4 and f6 lack explicit behavioral/cross-harness qualifications.

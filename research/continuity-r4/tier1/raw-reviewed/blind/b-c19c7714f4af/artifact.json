@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-c19c7714f4af",
+  "finalResponse": "## Verification result\n\nSource, tests, and committed documentation agree on these boundaries:\n\n- **Per file:** **1 MiB = 1,048,576 bytes** for the configuration and each canonical context document (`src/commands/resume.ts:17`, `src/commands/resume.ts:207-224`, `docs/testing-strategy.md:80`).\n- **Aggregate:** **8 MiB = 8,388,608 bytes** per portable-resume observation, including the configuration and **all** canonical documents—both always-loaded and on-demand (`src/commands/resume.ts:18`, `src/commands/resume.ts:211-232`, `docs/testing-strategy.md:81`). The aggregate-limit regression passed (`tests/continuity.test.mjs:198-231`).\n- **Always-loaded:** configurable `maxAlwaysCharacters`, measured in **JavaScript character units**, not bytes or tokens. The default is **16,000 characters**; accepted configuration values range from **1,000 through 100,000** (`src/validation/validate.ts:30-100`, `src/templates/defaults.ts:108`, `docs/configuration.md:99-107`). The checkpoint participates in this validation total, although resume represents it separately and excludes it from `alwaysContext` (`src/commands/resume.ts:146-153`).\n\n## Structural validity versus freshness\n\n- **Structural validation** requires the six non-empty H2 sections exactly once and in order: Objective, Completed, Verification, Decisions, Risks, and Next action. It rejects missing, duplicate, empty, unknown, or reordered sections while ignoring headings in excluded Markdown contexts (`src/continuity/checkpoint.ts:5-12`, `src/continuity/checkpoint.ts:116-174`). These parser tests passed (`tests/continuity.test.mjs:48-134`).\n- **Checkpoint freshness** is separate: Carrylog regenerates the managed Git snapshot from current repository evidence and compares it with the checkpoint. A mismatch sets `checkpoint.stale: true` and emits `W_CHECKPOINT_STALE`; `resume --check` exits 1 (`src/commands/resume.ts:91-131`, `docs/decisions/0010-portable-checkpoint-and-resume-boundary.md:28-44`).\n- This is **Git-evidence freshness only**. Carrylog does not validate whether narrative content remains semantically current with the code (`docs/decisions/0010-portable-checkpoint-and-resume-boundary.md:74-77`).\n\n## Local checks actually run\n\n- `format-check`: **passed**, 64 files checked.\n- `continuity-tests`: **11 passed, 5 failed**. The failures were Git-dependent cases reporting `E_NOT_GIT_REPOSITORY`; therefore runtime stale-state assertions were not successfully exercised in this fixture. Structural parser and aggregate-budget tests passed.\n- `git-diff`: **exit 0**, no reported differences.\n\nNo files were modified.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "preCommandStateSha256": "b9998ca2c21a76fc6b24f4f28cabf88eddbbd15dddb01d1a39caaad7e6cbc96d",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "3601c4ba4ffb654e16f60ffa161a8170628c27f2acb93c4dafbe006e591abbe6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "b9998ca2c21a76fc6b24f4f28cabf88eddbbd15dddb01d1a39caaad7e6cbc96d",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 8586,
+      "stderrBytes": 0,
+      "stdoutSha256": "b5d55f73ee871540eac5fb5bea3d5872b7f447ccc32e7c2ce4314130757cd861",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "b9998ca2c21a76fc6b24f4f28cabf88eddbbd15dddb01d1a39caaad7e6cbc96d",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

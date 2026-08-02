@@ -4,88 +4,91 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "515b170 at 2026-08-02T04:45:18+09:00"
-- Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: 3 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 3 file(s), +62/-25, 0 binary
+- HEAD: "34352aa at 2026-08-02T16:08:32+09:00"
+- Upstream: "origin/main; ahead 9, behind 0"
+- Working tree: 53 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 53 file(s), +5335/-88, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (3)
+### Changed paths (53)
 
     {"status":"M ","path":".agent-context/current-state.md"}
-    {"status":"M ","path":"README.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
+    {"status":"A ","path":"research/continuity-r4/tier1/evaluations/b-16e28660d6fe.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/evaluations/b-242cc7b9b955.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/evaluations/b-7dffbd3b2e6e.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/evaluations/b-a0e045a8669d.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/evaluations/b-c19c7714f4af.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/evaluations/b-f0b2ada28624.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/raw-reviewed/blind/b-16e28660d6fe/artifact.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/raw-reviewed/blind/b-242cc7b9b955/artifact.json"}
+    {"status":"A ","path":"research/continuity-r4/tier1/raw-reviewed/blind/b-7dffbd3b2e6e/artifact.json"}
+    {"omitted":42}
 
 ### Recent commits (5)
 
-    {"commit":"515b170","committedAt":"2026-08-02T04:45:18+09:00","subject":"fix: tolerate generated CRLF checkouts"}
-    {"commit":"c727177","committedAt":"2026-08-02T04:29:14+09:00","subject":"docs: record beta7 release verification"}
-    {"commit":"af2c560","committedAt":"2026-08-02T04:19:59+09:00","subject":"fix: settle committed checkpoints portably"}
-    {"commit":"1cbb235","committedAt":"2026-08-02T03:24:36+09:00","subject":"research: record public beta switch smoke"}
-    {"commit":"d16af41","committedAt":"2026-08-02T03:00:29+09:00","subject":"docs: record Carrylog beta6 publication"}
+    {"commit":"34352aa","committedAt":"2026-08-02T16:08:32+09:00","subject":"test: isolate active research suite"}
+    {"commit":"185432b","committedAt":"2026-08-02T16:08:26+09:00","subject":"fix: bound handoff path evidence by characters"}
+    {"commit":"88f6427","committedAt":"2026-08-02T15:41:25+09:00","subject":"research: freeze Tier 1 execution attempt 4"}
+    {"commit":"b6fa1ba","committedAt":"2026-08-02T15:04:05+09:00","subject":"research: stop Tier 1 attempt 3 for redesign"}
+    {"commit":"5fdc593","committedAt":"2026-08-02T14:44:57+09:00","subject":"research: record initial Tier 1 comparison"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"515b1709cdc4522c190543b984d926775883e57a","detached":false,"branch":"main","indexCommitment":"fe5123069583aae85e268f983e18ddedace91c48f9c405a0f482421586a053d2"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"34352aae6abc57176933ece346532b6f8bcde727","detached":false,"branch":"main","indexCommitment":"804222151cc41b61897cf958cf15a53c0dd5ac167d224f201883b38f2a9a7c8c"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Design and execute a bounded second-repository comparison across repository-only, manual-handoff,
-and Carrylog conditions without broadening claims before evidence and review exist.
+Close Tier 1 attempt 4 without spending the remaining 54 runs on a known verification-harness
+ceiling, then prototype the missing repository-discovery boundary outside frozen evidence.
 
 ## Completed
 
-- Corrected generated schema and Skill comparison for paired CRLF/LF checkout representation while
-  retaining ownership, non-EOL drift, raw resume digest, and Git settlement boundaries.
-- Committed the correction at `515b170`, pushed it, and required exact-commit CI before creating the
-  immutable annotated `v0.1.0-beta.7` tag.
-- Approved the required protected `npm` environment after tagged Linux, macOS, and Windows preflight
-  passed; the protected job published through npm trusted publishing with GitHub OIDC.
-- Independently verified registry bytes, metadata, dist-tags, signature and attestations, SLSA
-  provenance, isolated npx/global consumers, and a fresh-repository checkpoint lifecycle.
-- Updated user-facing exact-version examples and current project memory to beta.7. Detailed release
-  measurements and the typed environment-approval API correction live in the engineering log.
+- Frozen attempt 4 at commit `88f6427` and rechecked its permanent manifest boundary.
+- Executed the six preregistered verification-readiness cells across Codex, routed Claude, and all
+  three conditions. Each artifact passed explicit privacy review and blind item-level evaluation.
+- Preserved six scored results and left 54 runs unstarted. Frozen inputs and predecessor attempts were
+  not modified.
+- Identified a condition-independent harness defect: all six focused suites passed 11/16 and failed
+  the same five outer-repository Git cases after `gitContext:none` removed detached Git selection.
+- Kept credential values and paths, raw provider output, private sessions, and hidden reasoning out of
+  evidence. Claude resolved only the preregistered direct `gpt-5.6-sol` model.
 
 ## Verification
 
-- Exact-commit CI run `30715559240` passed all eleven Linux, macOS, Windows, minimum-Node, packed
-  artifact, and npm-client contract jobs, including Windows Node 22 and 24 forced-autocrlf tests.
-- Tagged release run `30715697081` passed three-OS preflight, protected OIDC publication, and its
-  registry installation and beta-tag check.
-- The independent registry download matched the publish-job SHA-256, SHA-1, and SHA-512 integrity;
-  `beta` resolves to beta.7 and `latest` remains fixed at beta.4.
-- SLSA provenance binds the exact package to `Jaemani/Carrylog`, `release.yml`, the beta.7 tag,
-  commit `515b170`, and release run attempt 1; the installed graph passed signature audit.
-- Isolated npx and global consumers printed beta.7. A fresh repository initialized 14 files,
-  validated cleanly, reported settlement eligibility, and resumed the committed checkpoint with
-  `checkpoint.stale=false`.
+- Attempt-4 freeze check returned suite digest
+  `02e226886d1a7d99833f243ed686f809d20a23e6b3d2efdb78a7a57a5cb58ef5` and freeze commit
+  `88f6427eb911958e2ac36ebb003f5aee6f31d28b` after results existed.
+- Structural validation reported 10 tasks, 60 runs, and six evaluations. Analysis reports six scored,
+  54 not started, no protocol diagnostics, and mechanical `REDESIGN` while the matrix is incomplete.
+- All six privacy reviews found no sensitive exposure; all six evaluations found zero prohibited
+  reversals, repeated work, and unnecessary clarification.
+- Before execution, product quality, 93 active research tests, package smoke, offline preparation,
+  both authenticated canaries, and two exact-digest reviews passed. Exact prior measurements remain
+  in the engineering log.
 
 ## Decisions
 
-- Exact Git-snapshot freshness remains the default. Commit settlement is a second fail-closed state,
-  not a heuristic that ignores `HEAD` or accepts arbitrary descendants.
-- Settlement uses repository-owned Git object evidence and deliberately excludes reflog, provider
-  session, upstream-tracking, and ignored-file state.
-- A content-equivalent rewrite with the same sole parent and project tree remains fresh; altered-tree,
-  merge, later, partial, dirty, malformed, or uncertain states remain stale.
-- Git status and diff evidence always override submodule-ignore configuration.
-- Generated standalone schema and Skill drift normalizes only paired CRLF/LF representation. Carrylog
-  does not take ownership of the repository's root `.gitattributes`.
-- Release integrity binds the independently downloaded registry bytes to the publish-job artifact;
-  the different local macOS prepare artifact remains separate evidence.
+- Stop attempt 4 after the planned six-cell repair screen. More provider runs cannot validate task
+  completion while the registered verifier hides the fixture repository from the tested process.
+- Do not change frozen attempt-4 inputs or reinterpret its six results as universal continuity proof.
+- Attempt 5 is not authorized by a code-only fix. One non-scored canary must prove outer-repository
+  discovery, nested Git independence, read-only metadata, and network denial together.
+- Keep bounded-handoff product work and mutable research outcomes in separate commits.
 
 ## Risks
 
-- Large or sparse-index projects can exceed bounded tree enumeration and receive settlement
-  unavailable while exact freshness remains supported.
-- Git-ignored files are outside the evidence boundary by design; Carrylog proves Git-visible project
-  state, not physical worktree cleanliness or semantic document truth.
-- Formal Tier 1 prerequisites, native Claude identity, Cursor availability, wrapper-aware permissions,
-  and reliable router input-token accounting remain unresolved.
-- Sequential cross-file rename, final path-to-syscall TOCTOU, and stale exclusion-lock recovery remain
-  documented residual risks.
+- The binary `repository`/`none` policy solved inherited selection but cannot represent a non-Git
+  process that legitimately invokes Git against both the outer fixture and independent nested repos.
+- The six-cell contrasts are single observations. Codex showed Carrylog equal to manual and above
+  repository-only; routed Claude showed repository-only above both supplied-context conditions.
+- Routed Claude is a distinct harness surface over the same GPT model family, not an independent
+  model replication. Its zero input/cache token fields remain unavailable for efficiency claims.
+- Carrylog's own current context exceeded the configured 16,000-character always budget before this
+  handoff/current-state compaction; validation must confirm the repair before checkpointing.
 
 ## Next action
 
-Precommit the second-repository comparison design and acceptance rubric, then run bounded
-repository-only, manual-handoff, and Carrylog conditions without changing product claims first.
+Review and commit the bounded handoff evidence change, commit attempt-4 reviewed outputs and this
+decision separately, then build a throwaway canary for repository discovery without inherited
+`GIT_DIR` or `GIT_WORK_TREE`. Do not create attempt 5 until the exact previously failing tests pass.

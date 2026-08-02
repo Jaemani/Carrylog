@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-242cc7b9b955",
+  "finalResponse": "Verified the portable-resume contracts at `c9e8c2d` from committed source, tests, and documentation:\n\n- Per file: **1 MiB = 1,048,576 bytes** for managed configuration and each canonical document read.\n- Aggregate: **8 MiB = 8,388,608 bytes** across one portable-resume canonical-context observation.\n- Always loaded: **16,000 JavaScript characters** of default context—not bytes, tokens, or a semantic-quality guarantee.\n\nStructural checkpoint validation only verifies canonical sections, uniqueness, and ordering. It does not prove freshness. Git checkpoint evidence is checked separately; `resume --check` must fail when that evidence is stale even if canonical files remain structurally valid. Behavioral continuity is a third, separate evidence layer.\n\nChecks actually run:\n\n- `npm run format:check`: passed; 64 files checked.\n- Focused `tests/continuity.test.mjs`: failed; 11 passed, 5 failed because temporary projects were reported outside a Git working tree.\n- Clean-diff check: passed.\n\nNo files were modified, staged, or committed.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "preCommandStateSha256": "6d45ca84fdb733378fae55dcc25efb8ca7e72afb89fd2362cc2ddf5cc15a9cb8",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "3601c4ba4ffb654e16f60ffa161a8170628c27f2acb93c4dafbe006e591abbe6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "6d45ca84fdb733378fae55dcc25efb8ca7e72afb89fd2362cc2ddf5cc15a9cb8",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 8588,
+      "stderrBytes": 0,
+      "stdoutSha256": "54368a6d6126ed68e087fc0383a398d42c8b763159c58bb0f3b17daab7e41d8d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "6d45ca84fdb733378fae55dcc25efb8ca7e72afb89fd2362cc2ddf5cc15a9cb8",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

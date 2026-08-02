@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-a0e045a8669d",
+  "finalResponse": "At supplied commit `c9e8c2d`:\n\n- Canonical context: **256 KiB per file**, **1 MiB aggregate**.\n- Always-loaded continuity instructions: **32 KiB**.\n- Structural validation is independent of freshness: malformed/missing/duplicated/out-of-order checkpoint sections are rejected; a structurally valid checkpoint may still be reported stale.\n- Freshness changes when recorded Git state no longer matches current branch/HEAD or tracked working-tree state. Staleness is reported, not treated as malformed checkpoint structure.\n\nChecks actually run:\n\n- `format-check`: passed, 64 files.\n- `continuity-tests`: 11 passed, 5 failed because the fixture was not recognized as a Git working tree.\n- `git-diff`: passed; no differences reported.\n\nNo files were modified.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "preCommandStateSha256": "14e8fbf14e0d6e096f6a6d3f718d536faf63ba3a291bb6a27aeb2aada753e64a",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "6cc9b5046ce4e82459275ad59af71e6b91295366f2b43475647c36bbba2cea8a",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "14e8fbf14e0d6e096f6a6d3f718d536faf63ba3a291bb6a27aeb2aada753e64a",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 8583,
+      "stderrBytes": 0,
+      "stdoutSha256": "953805ad73fc194bbef672ae182437df0c8764ba00f21afcdaaa0210751b6165",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "14e8fbf14e0d6e096f6a6d3f718d536faf63ba3a291bb6a27aeb2aada753e64a",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

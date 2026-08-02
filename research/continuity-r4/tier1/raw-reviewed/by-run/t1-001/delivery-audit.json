@@ -1,0 +1,139 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "I’m using the `carrylog-continuity` skill because this is explicitly a portable-resume/checkpoint verification task. I’ll read the repository memory and skill instructions first, then inspect only committed source, tests, and documentation and run only the three allowed verification checks."
+    },
+    {
+      "type": "agent_message",
+      "text": "The bounded-resource contract is consistent across the reviewed checkpoint evidence: 1 MiB for each managed configuration or canonical document read, 8 MiB for one aggregate portable-resume observation, and 16,000 JavaScript characters for default always-loaded context. The focused test command did run, but this isolated fixture prevented five Git-backed cases from recognizing their temporary projects; I’ll report that as a failed check, not smooth it over."
+    },
+    {
+      "type": "agent_message",
+      "text": "Verified contract for the `c9e8c2d` fixture:\n\n- Per file: **1 MiB (1,048,576 bytes)** for each managed configuration or canonical-document read.\n- Aggregate: **8 MiB (8,388,608 bytes)** across one portable-resume observation.\n- Always-loaded context: **16,000 JavaScript characters** by default—not bytes, tokens, or a semantic-quality measure.\n\nStructural validation only establishes schema, required sections, ordering, and managed-adapter integrity. Checkpoint freshness is separate Git evidence: ordinary resume may report `checkpoint.stale: true`, while strict `resume --check` must fail for a stale checkpoint even when every canonical file remains structurally valid.\n\nChecks actually run:\n\n- `npm run format:check`: passed; 65 files checked.\n- Registered `continuity-tests` check: failed; 11/16 passed. Five Git-backed tests could not recognize temporary Git worktrees in this isolated fixture.\n- Registered `git-diff` check: passed with exit 0.\n\nNo files were modified. The supplied checkpoint records this as a fixture derived from `c9e8c2d`; its wrapper HEAD is `eed98fe`, so I do not claim the current HEAD itself equals `c9e8c2d`."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 216,
+      "contentSha256": "0b59c61771a875c556b1171f1567a7cccdada1cb7ad2b91858bbe6cb2599848b"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "registrySha256": "971995cf3b5f5758ac2ecf6ef586349ffa0c082f97445923ac44e0a77a70e730",
+      "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "9d508ca51a0c42ddb05a272b7f8472cc7fc486e392695adea34b23641cb6f40e"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "6d9740c267aa809365f5e718ff819d5585ed68f2f261826a9b75ce88eea13509"
+        }
+      },
+      "preCommandStateSha256": "8ffa6097c561e732826cb4ffa57b13b71f9645375b72ad930d58c558602aba36",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "1655c530fb3438cd0a3e7ae8ea4e1b8da2e009d7bc59452fb060540f0b4949d9",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "registrySha256": "971995cf3b5f5758ac2ecf6ef586349ffa0c082f97445923ac44e0a77a70e730",
+      "commandSha256": "966f4d3374a029b7d4f6404b53d1f85e3c13fedab4cce031a15e629067aac0f2",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "9d508ca51a0c42ddb05a272b7f8472cc7fc486e392695adea34b23641cb6f40e"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "6d9740c267aa809365f5e718ff819d5585ed68f2f261826a9b75ce88eea13509"
+        }
+      },
+      "preCommandStateSha256": "8ffa6097c561e732826cb4ffa57b13b71f9645375b72ad930d58c558602aba36",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 8586,
+      "stderrBytes": 0,
+      "stdoutSha256": "05caa122577282405bf498eef17d4a311c98d836d4d0096e1f7d1b548042b8dc",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "registrySha256": "971995cf3b5f5758ac2ecf6ef586349ffa0c082f97445923ac44e0a77a70e730",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "9d508ca51a0c42ddb05a272b7f8472cc7fc486e392695adea34b23641cb6f40e"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "6d9740c267aa809365f5e718ff819d5585ed68f2f261826a9b75ce88eea13509"
+        }
+      },
+      "preCommandStateSha256": "8ffa6097c561e732826cb4ffa57b13b71f9645375b72ad930d58c558602aba36",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

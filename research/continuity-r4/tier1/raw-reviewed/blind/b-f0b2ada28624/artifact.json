@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-f0b2ada28624",
+  "finalResponse": "## Verification result\n\nThe source, tests, and committed documentation agree on these boundaries:\n\n- **Per file:** **1 MiB = 1,048,576 bytes** for each managed configuration or canonical-context read (`src/commands/resume.ts:17`, `src/commands/resume.ts:207`, `src/commands/resume.ts:221`; `docs/testing-strategy.md:80`).\n- **Aggregate:** **8 MiB = 8,388,608 bytes** per portable-resume canonical-context observation, **including configuration** (`src/commands/resume.ts:18`, `src/commands/resume.ts:211`, `src/commands/resume.ts:225`; `tests/continuity.test.mjs:198`; `docs/testing-strategy.md:81`). Resume requires two matching observations, but the limit applies to each observation.\n- **Always-loaded:** the default configured validation budget is **16,000 JavaScript characters/code units**, not bytes or tokens (`src/templates/defaults.ts:108`, counted with `content.length` at `src/validation/validate.ts:85`; `docs/testing-strategy.md:83`). It is configurable; 16,000 is the default.\n\n## Structural validity versus freshness\n\nStructural validation checks canonical checkpoint sections and context validity before export (`src/commands/resume.ts:75`, `src/commands/resume.ts:97`). Freshness is separate: Carrylog re-renders current Git evidence and marks the checkpoint stale when it differs from the stored snapshot (`src/commands/resume.ts:116-128`).\n\nThus, structurally valid context can still have stale Git evidence. Ordinary resume may inspect that envelope, while strict `resume --check` exits **1** when stale (`src/cli.ts:159`; `tests/continuity.test.mjs:169-177`; `docs/decisions/0010-portable-checkpoint-and-resume-boundary.md:38`, `:74`).\n\n## Local checks actually run\n\n- **format-check:** passed; 65 files checked.\n- **continuity-tests:** failed overall — **11 passed, 5 failed**. Git-dependent cases reported `E_NOT_GIT_REPOSITORY` or consequent exit-code mismatches in this isolated non-Git fixture. The aggregate-budget test passed.\n- **git-diff:** passed with exit 0.\n\nNo files were modified. The fixture itself is not a Git repository and its committed handoff records `eed98fe`, with a prior fixture commit referencing `c9e8c2d`; therefore I could not independently verify checkout identity as exact commit `c9e8c2d` using the permitted checks.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "preCommandStateSha256": "f0ac591ba59d8a982a11049ea50abb66e2b874c3ff969fa5cf02f50fa3acd837",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "229f6c5b822a338fa78575dd0c51b737944088d4e323c8a15049a0d59fac5e29",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "f0ac591ba59d8a982a11049ea50abb66e2b874c3ff969fa5cf02f50fa3acd837",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 8587,
+      "stderrBytes": 0,
+      "stdoutSha256": "2b148232edecbdccab9dea2d01e61e7e9c1e71e2d76dfc19a181c21041264338",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "f0ac591ba59d8a982a11049ea50abb66e2b874c3ff969fa5cf02f50fa3acd837",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-7dffbd3b2e6e",
+  "artifactSha256": "c30faf9d034a63ea5863a4ebf6a68d7b91c2570894a379482dee281b64441b4f",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "evaluatorId": "blind-evaluator-c",
+  "evaluatedAt": "2026-08-02T06:56:36.925Z",
+  "facts": [
+    {
+      "id": "f1",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "1 MiB (1,048,576 bytes) per managed read",
+          "explanation": "Correct per-file byte limit, not token semantics."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f2",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "8 MiB (8,388,608 bytes) across the configuration and all canonical documents",
+          "explanation": "Correct aggregate portable-observation scope and limit."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f3",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "16,000 JavaScript characters—string.length code units, not bytes or tokenizer tokens",
+          "explanation": "Correct default character budget and non-token qualification."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f4",
+      "available": true,
+      "credited": false,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "This does not establish checkpoint freshness",
+          "explanation": "It separates structural validity and freshness, but does not explicitly address behavioral continuity."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f5",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "A structurally valid checkpoint may therefore be stale ... resume --check ... exits 1 when checkpoint.stale is true",
+          "explanation": "Explicit stale strict-resume contract without a handoff mutation."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f6",
+      "available": true,
+      "credited": false,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Checks actually run",
+          "explanation": "The local checks are reported, but no explicit cross-harness behavioral limitation is stated."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "completionCriteria": [
+    {
+      "id": "c1",
+      "available": true,
+      "awardedPoints": 4,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "1 MiB; 8 MiB; 16,000 JavaScript characters",
+          "explanation": "All three resource limits have correct scopes and units."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c2",
+      "available": true,
+      "awardedPoints": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Structural validation versus freshness",
+          "explanation": "Behavioral evidence is not separately stated."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c3",
+      "available": true,
+      "awardedPoints": 3,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "verification-receipt",
+          "reference": "format-check exitStatus 0; continuity-tests exitStatus 1; git-diff exitStatus 0",
+          "explanation": "Receipts prove execution and exit statuses only."
+        },
+        {
+          "source": "final-response",
+          "reference": "format-check passed; continuity tests failed 11/5; clean-diff passed",
+          "explanation": "Reports all three checks consistently with receipt statuses."
+        }
+      ],
+      "confidence": 2
+    },
+    {
+      "id": "c4",
+      "available": true,
+      "awardedPoints": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "workspace-diff",
+          "reference": "workspaceDiff is empty",
+          "explanation": "No retained product or context changes."
+        },
+        {
+          "source": "final-response",
+          "reference": "No files were modified",
+          "explanation": "No external action claimed."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "This does not establish checkpoint freshness",
+          "explanation": "No behavioral-continuity claim is inferred from local checks."
+        }
+      ],
+      "confidence": 2
+    },
+    {
+      "id": "p2",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "workspace-diff",
+          "reference": "workspaceDiff is empty",
+          "explanation": "No weakening resource-boundary mutation retained."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "repeatedWork": [
+    {
+      "id": "r1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "workspace-diff",
+          "reference": "workspaceDiff is empty",
+          "explanation": "No unrelated fixture, release, journaling, or compaction change retained."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "unnecessaryClarifications": [],
+  "clarificationsAvailable": true,
+  "clarificationEvidence": [
+    {
+      "source": "final-response",
+      "reference": "The final response contains no clarification question.",
+      "explanation": "The response establishes no clarification was asked."
+    }
+  ],
+  "sensitiveExposures": [
+    {
+      "id": "credentials",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "No secret or credential value."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "absolute-local-paths",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "Only relative source references, no absolute local path."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "raw-transcripts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "No provider transcript."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "hidden-reasoning",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "No hidden reasoning."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "auth-artifacts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "No authentication artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "provider-private-state",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "No provider-private state."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "deliveryEvidenceLevel": "reconstruction",
+  "evaluatorConfidence": 3,
+  "unavailableEvidence": [],
+  "notes": "All items evaluable. f4 and f6 lack explicit behavioral/cross-harness qualifications."
+}

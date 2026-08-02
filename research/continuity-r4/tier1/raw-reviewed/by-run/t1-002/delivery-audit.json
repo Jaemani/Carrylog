@@ -1,0 +1,139 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "I’ll verify the pinned revision using only repository-scoped source, tests, committed docs, and the three allowed local checks. I’ll keep structural validity separate from freshness and won’t modify the workspace."
+    },
+    {
+      "type": "agent_message",
+      "text": "The allowed checks are now complete: formatting and the clean-diff check pass, while the continuity suite has 11 passes and 5 failures caused by the fixture not being recognized as a Git working tree. I’m treating those failures as observed verification results, not as product-limit evidence."
+    },
+    {
+      "type": "agent_message",
+      "text": "At supplied commit `c9e8c2d`:\n\n- Canonical context: **256 KiB per file**, **1 MiB aggregate**.\n- Always-loaded continuity instructions: **32 KiB**.\n- Structural validation is independent of freshness: malformed/missing/duplicated/out-of-order checkpoint sections are rejected; a structurally valid checkpoint may still be reported stale.\n- Freshness changes when recorded Git state no longer matches current branch/HEAD or tracked working-tree state. Staleness is reported, not treated as malformed checkpoint structure.\n\nChecks actually run:\n\n- `format-check`: passed, 64 files.\n- `continuity-tests`: 11 passed, 5 failed because the fixture was not recognized as a Git working tree.\n- `git-diff`: passed; no differences reported.\n\nNo files were modified."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 236,
+      "contentSha256": "c908961cda512f0c5fd8aa54356702d8838a991aaf4fd3161a2c17e6bd8ff35e"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "registrySha256": "ab1088b2fb244b0b691537b874459d94197c71d7bd88625c6391fed5b9aad4ae",
+      "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "43a206af96cb9ef4f66ceaf640897098bada27af7c040fd71a09599c1ab9425c"
+        }
+      },
+      "preCommandStateSha256": "14e8fbf14e0d6e096f6a6d3f718d536faf63ba3a291bb6a27aeb2aada753e64a",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "6cc9b5046ce4e82459275ad59af71e6b91295366f2b43475647c36bbba2cea8a",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "registrySha256": "ab1088b2fb244b0b691537b874459d94197c71d7bd88625c6391fed5b9aad4ae",
+      "commandSha256": "966f4d3374a029b7d4f6404b53d1f85e3c13fedab4cce031a15e629067aac0f2",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "43a206af96cb9ef4f66ceaf640897098bada27af7c040fd71a09599c1ab9425c"
+        }
+      },
+      "preCommandStateSha256": "14e8fbf14e0d6e096f6a6d3f718d536faf63ba3a291bb6a27aeb2aada753e64a",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 8583,
+      "stderrBytes": 0,
+      "stdoutSha256": "953805ad73fc194bbef672ae182437df0c8764ba00f21afcdaaa0210751b6165",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "registrySha256": "ab1088b2fb244b0b691537b874459d94197c71d7bd88625c6391fed5b9aad4ae",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "43a206af96cb9ef4f66ceaf640897098bada27af7c040fd71a09599c1ab9425c"
+        }
+      },
+      "preCommandStateSha256": "14e8fbf14e0d6e096f6a6d3f718d536faf63ba3a291bb6a27aeb2aada753e64a",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
