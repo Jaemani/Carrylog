@@ -1,1 +1,2 @@
 run_id,blind_id,stage,reason_code,retained_artifact_path,replacement_run_id
+t1-011,b-9e568e8544fb,carrylog-delivery,strict-resume-failure,raw-reviewed/by-run/t1-011,

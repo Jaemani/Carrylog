@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-3c60a065fd55",
+  "finalResponse": "At fixture commit `c9e8c2d`, the documented portable-resume boundaries are:\n\n- Per canonical-context file: **256 KiB** (262,144 bytes).\n- Aggregate canonical-context reads: **1 MiB** (1,048,576 bytes).\n- Always-loaded context: **32 KiB** (32,768 bytes) total.\n\nStructural checkpoint validation requires every canonical H2 section exactly once, in canonical order, with no unknown H2 sections. Freshness is separate: a structurally valid checkpoint may still be stale when its recorded Git state no longer matches the current state; resume reports that staleness rather than treating it as a schema failure.\n\nChecks actually run:\n\n- `format-check`: passed; 64 files checked.\n- `continuity-tests`: 9/16 passed. Seven failed during fixture setup because the sandbox prohibited `git init` from locking `repository.git/config`, not from assertion failures.\n- `git-diff`: passed, exit 0.\n\nNo files or Git state were modified.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "84743f4a0628c139da0c208f60cfccc3a806035c4d10863314e0fd771d916520",
+      "exitStatus": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 12036,
+      "stderrBytes": 0,
+      "stdoutSha256": "1ba489526626e88cc59f6b155a753d0501cc4c507ef141ffe154a68fa518b531",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "format-check",
+      "preCommandStateSha256": "84743f4a0628c139da0c208f60cfccc3a806035c4d10863314e0fd771d916520",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutSha256": "ece5a23f7362991937afe0de4e5fc4e648286e255b7181f3ffef034af42f8aa0",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "84743f4a0628c139da0c208f60cfccc3a806035c4d10863314e0fd771d916520",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

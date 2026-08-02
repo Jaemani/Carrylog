@@ -45,10 +45,10 @@ behavior and portable fail-closed semantics. Journaling and compaction remain ou
   opaque diagnostics, and PATH-resolved Codex execution. Both harnesses spawn preregistered native
   bytes by absolute path after an immediate digest recheck. Two exact-digest reviews approved attempt
   3 before its manifest and freeze commit.
-- Runs `t1-001` through `t1-006` completed, passed privacy review, and received blind evaluations.
-  Carrylog recall exceeded repository-only in both harnesses, matched manual handoff in Codex, and
-  trailed manual handoff on one fact and one completion item in Claude. This is one-fixture directional
-  evidence; 54 runs remain and no Tier 1 or universal-continuity conclusion exists.
+- Attempt 3 stopped after 11 scored runs and one reviewed delivery failure. The initial BusyCafe
+  screen favored Carrylog over repository-only recall in both harnesses, but the first Carrylog-repo
+  resume cell exposed unsynchronized generated Skill drift. The analyzer reports REDESIGN with 48
+  runs unstarted; no Tier 1 or universal-continuity conclusion exists.
 - The Personal Context dogfood reconstructed a Codex handoff through Claude Code, resumed that Claude
   session, and exercised the generated Skill. It found the project-local executable discovery defect;
   this remains one external adoption example, not a controlled comparison.
@@ -85,6 +85,9 @@ behavior and portable fail-closed semantics. Journaling and compaction remain ou
 - The frozen attempt-3 suite passes 92/93 after results exist because one synthetic analyzer test
   copies mutable quarantine state. Freeze, analysis, privacy, and score bindings pass; modifying the
   frozen test would invalidate the experiment, so a future experiment must correct it.
+- Attempt 3 synchronized generated surfaces only for BusyCafe, so Carrylog-repository resume delivery
+  fails on old Skill bytes before provider access. Registered non-Git verification children also
+  inherit broker `GIT_DIR`/`GIT_WORK_TREE`, redirecting nested Git setup into protected metadata.
 - A process killed while holding the exclusion registry lock can leave a stale lock that requires
   operator review before removal; the system prefers an explicit blocked retry over lost safety data.
 - The execution scheduler lock has the same explicit stale-lock recovery policy. Native Claude is
@@ -98,5 +101,5 @@ behavior and portable fail-closed semantics. Journaling and compaction remain ou
 
 ## Next best task
 
-Commit the reviewed initial six-cell evidence and continue from `t1-007` in frozen order, retaining
-the execute, privacy-review, blind-evaluation, and analyzer gates for every run.
+Commit the attempt-3 REDESIGN evidence, then prepare a separately reviewed successor that synchronizes
+all released Carrylog surfaces and isolates broker Git state from non-Git verification children.

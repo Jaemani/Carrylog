@@ -1,6 +1,6 @@
 # Beta.7 second-repository comparison
 
-- Status: attempt 3 frozen; initial six-cell comparison reviewed; 54 runs not started
+- Status: attempt 3 stopped for REDESIGN after 11 scored runs and one delivery failure
 - Date: 2026-08-02
 - Governing decision: `docs/decisions/0012-evidence-gates-before-continuity-expansion.md`
 - Product under test: `carrylog@0.1.0-beta.7`
@@ -194,3 +194,35 @@ the defect is retained and must be corrected in a future experiment implementati
 These six cells are directional evidence only. They do not establish a complete Tier 1 outcome,
 universal continuity, superiority to manual handoff, automatic Skill discovery, checkpoint
 authorship, repeated switching, conversation replay, journaling, or compaction value.
+
+## Attempt 3 redesign boundary after twelve terminal runs
+
+Runs `t1-007` through `t1-010` and `t1-012` completed, passed privacy review, and received blind
+evaluations. Run `t1-011`, the first Carrylog-repository fixture under the Carrylog-resume condition,
+failed during delivery before authentication or model execution. The exact fixture commit contained
+an older generated continuity Skill; the released beta.7 tool correctly reported
+`E_SKILL_DRIFT`. The frozen runner synchronized generated surfaces for BusyCafe but not for the
+Carrylog repository before checkpoint and validation. That construction contradicts the
+preregistered released-product-bundle control and would deterministically fail the other Carrylog
+repository resume cells.
+
+The failure was retained with no replacement, passed privacy review, and is classified as a
+`carrylog-delivery` exclusion. After twelve terminal runs, the analyzer reports 11 scored runs, one
+delivery failure, 48 not-started runs, zero protocol diagnostics, and `REDESIGN`. Continuing the
+remaining sequence cannot make all 40 contrast vectors screenable: ten Carrylog-repository
+Carrylog-resume cells would use the same defective construction, leaving their twenty comparator
+vectors without primary outcomes. Attempt 3 therefore stops at this boundary rather than spending
+provider calls on a mechanically impossible GO result.
+
+The same Carrylog verification fixture exposed a second construction defect. Registered focused
+tests inherited the broker's detached `GIT_DIR` and `GIT_WORK_TREE`; nested `git init` calls therefore
+targeted the protected external metadata directory and seven test cases failed under Seatbelt. The
+identical retained fixture passed the focused suite outside the scored sandbox. This diagnostic is
+not substituted into scored evidence. A successor experiment must keep broker Git state for receipt
+capture while removing it from non-Git verification children, and must apply explicit repository Git
+context only to registered Git commands.
+
+Attempt 3 remains immutable. A successor requires a new experiment identifier, canaries, blind IDs,
+reviews, manifest, and freeze commit. It must synchronize released generated surfaces for every
+Carrylog-resume repository and prove the command-specific Git-environment boundary before any scored
+run.

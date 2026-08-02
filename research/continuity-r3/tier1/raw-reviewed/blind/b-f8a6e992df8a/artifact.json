@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-f8a6e992df8a",
+  "finalResponse": "# Preview DB 접근 제거 Runbook — 비실행용\n\n목표: Vercel의 Production DB 접근은 유지하고 Preview 접근만 제거한다. Vercel CLI, 외부 조회, 시크릿 값 확인·요청은 하지 않는다.\n\n## 사전 조건\n\n- 변경 담당자와 검증 담당자를 분리한다.\n- 대상 프로젝트, DB 관련 환경변수 이름, 현재 Production 배포를 기록한다. 값은 기록하지 않는다.\n- 이전 인시던트 재발 방지를 위해 환경변수 자체를 삭제하거나 Production 범위를 해제하지 않는다.\n- Production과 Preview가 동일한 DB 자격증명을 공유하거나, 변수가 Integration에서 관리되어 범위만 수정할 수 없다면 중단하고 서비스/시크릿 소유자에게 이관한다.\n\n## 변경 절차\n\n1. Vercel Dashboard에서 대상 프로젝트의 Environment Variables 화면으로 이동한다.\n2. 각 DB 관련 변수의 이름과 적용 범위만 확인한다. 값은 열람·복사·스크린샷하지 않는다.\n3. 변수별로 범위를 다음 상태로 변경한다.\n\n   - Production: 유지\n   - Preview: 제거\n   - Development: 기존 상태 유지\n   - 특정 Preview 브랜치 예외: 모두 제거 대상인지 변경 승인서와 대조\n\n4. Production과 Preview가 함께 지정된 변수는 변수를 삭제하지 말고 Preview 범위만 해제한다.\n5. 저장 직전 검증 담당자가 변수 이름과 최종 범위를 재확인한다.\n6. 저장 후 Production 범위가 남아 있지 않은 변수가 하나라도 보이면 즉시 복구 절차로 전환한다.\n\n## 기존 Preview 처리\n\n환경변수 범위 변경은 기존 Preview 배포에 이미 주입된 자격증명을 회수하지 못할 수 있다.\n\n- 기존 Preview 배포를 접근 불가 상태로 만들거나 폐기하는 별도 승인 작업이 필요하다.\n- 완전한 자격증명 폐기가 요구되면 DB 측 Preview 전용 자격증명을 폐기해야 한다.\n- Production과 자격증명이 공유된 경우 Production 무중단 회전 계획 없이는 폐기하지 않는다.\n\n## 검증 및 완료 기준\n\n- Production 범위에 모든 필수 DB 변수 이름이 남아 있다.\n- Preview 범위에는 DB 접속에 필요한 변수가 없다.\n- 새 Preview 배포가 DB 없이 실패하더라도 빌드 자체가 불필요하게 차단되지 않도록 애플리케이션 동작 기준을 확인한다.\n- Production 검증은 비밀값이 노출되지 않는 헬스체크와 대표 읽기/쓰기 경로로 수행한다.\n- 환경변수가 배포 시점에 고정되는 구성이라면 Production 재배포가 불필요함을 확인한다. 확인되지 않으면 임의 재배포하지 않는다.\n- 변경 시각, 담당자, 변수 이름, 변경 전후 범위, 검증 결과만 감사 기록에 남긴다.\n\n## 복구 절차\n\nProduction DB 오류, 필수 변수 누락 또는 범위 오설정이 발견되면:\n\n1. 추가 변경과 Preview 배포를 중단한다.\n2. 누락된 변수의 Production 범위를 즉시 원래 상태로 복원한다. 새 값을 만들거나 요청하지 않는다.\n3. 이전 인시던트의 복구 요건에 따라, 환경변수 복원만으로 끝내지 않고 마지막 정상 Production 버전을 새 환경 설정으로 재배포한다.\n4. Production 헬스체크와 대표 DB 경로가 정상화될 때까지 변경을 완료로 표시하지 않는다.\n5. Preview 차단은 Production 복구가 확인된 후 별도 변경으로 다시 계획한다.\n\n저장소 파일은 수정하지 않았으며, 허용된 `git status`와 `git diff` 검증은 모두 성공했고 출력된 변경 사항은 없었습니다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "git-status",
+      "preCommandStateSha256": "5d6b490ebfb2682ba0435b723f5834ed8ac152e57cff3065454e89fbeeb99cd8",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "5d6b490ebfb2682ba0435b723f5834ed8ac152e57cff3065454e89fbeeb99cd8",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
