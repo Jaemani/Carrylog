@@ -1,0 +1,97 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "불변 ref와 작업 트리 상태를 등록된 검증 도구로 확인한 뒤, 저장소 안의 문서·diff 증거만 읽어 네 항목으로 압축하겠습니다. 외부 상태 조회나 파일 변경은 하지 않겠습니다."
+    },
+    {
+      "type": "agent_message",
+      "text": "### 읽기 전용 인수인계 요약\n\n- **제품 의미:** BusyCafe는 카페 좌석 점유가 아니라, 카페 주변 지역의 보행 혼잡도를 추정하는 제품이다.\n- **검증된 운영 상태:** 불변 fixture HEAD는 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`이며 상태 검증도 통과했다. 저장소에는 관리형 PostgreSQL bootstrap의 hotspot 121개, active cafe 4,933개, 최초 complete cycle `121/121/0`(약 4분 6초)이 역사적 증거로 남아 있다. interrupt finalization, worker/job 제한, hard kill, 연속 실패 circuit, DB 없는 read-only canary도 구현돼 있다. 공개 preview는 SQLite snapshot이므로 현재 live 운영 증거는 아니다.\n- **핵심 미해결 위험:** 후속 poll timeout이 durable cycle을 잘못 `running`으로 남길 수 있어 cycle/freshness 판단을 신뢰하기 어렵다. Phase 6의 HUMAN POI 검수·현장 관측·보고서도 미완료다.\n- **가장 안전한 다음 작업:** 기존 canary와 poll 수정에 대해 bounded verification을 수행하고, owner-controlled cycle 완료 및 freshness 증거를 확보한다. 그 전에는 live 승격과 Track 2·3 확장을 동결한다.\n\n파일 수정, 외부 접속, staging·commit은 수행하지 않았다."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 413,
+      "contentSha256": "7876c84cfca4b8de7ecfcc855a7ff7d792b03fbe750e037902ea86a6187919e7"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "git-status",
+      "registrySha256": "b5b3b16757285b7fc56d37136a2f7f9f0383e9e0d67ac7fb22400d65fb2e9f8a",
+      "commandSha256": "f837b8e561a52dc3ec455cc09abb1414d17a5a7bf865d3e134d73549c4befb5a",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "0bb33700cdc9c7bb714c64daf38aa9b7fe4cfb9b83ecd71c083fbfa5cf9cf033"
+        }
+      },
+      "preCommandStateSha256": "a52f5ec6bc5f18cf39a47986fa65508f88556aaab57931716e6c01c929962407",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-head",
+      "registrySha256": "b5b3b16757285b7fc56d37136a2f7f9f0383e9e0d67ac7fb22400d65fb2e9f8a",
+      "commandSha256": "eac8d7c4ed9cd2c436ca95f310566d767ff1c371013072a8bb73d4af1515cbb6",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "0bb33700cdc9c7bb714c64daf38aa9b7fe4cfb9b83ecd71c083fbfa5cf9cf033"
+        }
+      },
+      "preCommandStateSha256": "a52f5ec6bc5f18cf39a47986fa65508f88556aaab57931716e6c01c929962407",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

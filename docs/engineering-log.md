@@ -1438,3 +1438,402 @@ checkpoint, `resume --check --json` returned `checkpoint.stale=false`. This veri
 delivery and deterministic repository checkpoint reconstruction. It does not establish transcript
 portability, semantic compaction value, repeated-switch invariance, or formal comparative outcome
 evidence.
+
+## 2026-08-02 — Current-router comparison preparation exposed hidden harness assumptions
+
+The beta.7 second-repository comparison deliberately did not reuse the live BusyCafe working tree.
+Before the experiment, its Git-visible identity was recorded as HEAD
+`81d9f1d47ddec2671d8633cb1a5edb3e3bf88755`, an empty tracked diff digest, and status-path digest
+`cfca9384d814fef6c51bdd6bbd33723d047d928b6983057325384ea8b50fa06d`. No untracked contents were
+read. The exact preregistered fixture commit
+`0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6` was fetched from GitHub into a bare repository under
+`/tmp`; it exposes one shallow commit, no parent, and tree
+`826f6da85498720f3c6d37963f1765e4c7243613`.
+
+The unexecuted Tier 1 candidate was stale against the available environment: it still named beta.5,
+Codex CLI 0.144.1, Claude Code 2.1.207 with native Haiku, and macOS 26.4. The amended draft binds
+beta.7, Codex CLI 0.146.0, Claude Code 2.1.220, macOS 26.5.2, and the GPT-backed
+`claude-route-codex` route. This remains a comparison between two harness surfaces, not an
+independent model-family replication. The installed JM Router convenience launcher was rejected for
+controlled execution because it appends `--dangerously-skip-permissions`.
+
+A new router-authentication boundary invokes the exact native Claude executable by SHA-256, reads an
+operator-supplied key file only after no-follow regular-file, size, mode, identity, and format checks,
+and stages the key only in the child environment. It retains no key path, value, or digest and clears
+the staged environment after execution. Missing, relative, symbolic-link, broad-mode, malformed,
+oversized, wrong-executable, and unsafe-endpoint cases have regression coverage.
+
+The first clean-cache BusyCafe preparation failed with npm `ENOTCACHED`: the runner accepted
+`--allow-setup-network` for the package download but still forced the tarball dependency install to
+`--offline`. Earlier prepare matrices had silently depended on a warm user npm cache containing
+`yaml`. The fix passes the explicit setup-network decision and synthetic npm environment through
+both package fetch and installation. Network-enabled preparation now warms the isolated `/tmp`
+cache; the five remaining condition/harness preparations then pass offline. All six constructions use
+the exact shallow fixture. Repository-only delivers neither packet nor resume envelope, manual
+handoff delivers only the packet, and Carrylog delivers the packet, generated discovery surfaces,
+and resume envelope.
+
+Claude isolation initially failed for three distinct reasons, none of which was promoted to a pass.
+One attempt reached workspace and MCP checks before the external router returned Cloudflare Tunnel
+530/1033. A multi-action prompt allowed the routed model to omit an outside-Edit probe, so canary
+actions were split into fresh one-action invocations. The writable invocation then revealed a real
+contract defect: `Edit` and `Write` were exposed in `--tools` but absent from `--allowedTools`.
+Workspace-scoped allow entries now exist only for writable runs. Claude Code also adds the explicit
+default `replace_all:false` to Edit calls, so the expected input now includes that field instead of
+loosening deep-equality. Finally, edits and writes to existing files require a prior read before path
+permissions are evaluated; the outside-write canary now targets an absent file and independently
+requires that it remain absent.
+
+The final Claude router canary passed exact workspace Read/Edit, external Read/Write and external Git
+metadata denial, all three registered MCP commands, native-executable binding, and ephemeral auth
+cleanup. The matching Codex canary passed the current critical bytes, and the machine gate reports
+both authenticated prerequisites passed. No scored provider run, reviewed artifact, evaluation, or
+comparison outcome exists yet.
+
+After the harness and ordering corrections, the focused research contract passes 66/66 tests. The
+complete product quality gate passes 254/254 tests with 94.65% line, 96.40% function, and 88.39%
+branch coverage. Package dry-run passes with 154 files and 179,212 packed bytes; the research tree
+remains outside the npm artifact. Structural validation, deterministic order, all 60 blinded bundles,
+and both authenticated prerequisite bindings pass for the same working bytes.
+
+The deterministic run order now places the two BusyCafe objective fixture-harness blocks first while
+retaining their previously assigned balanced condition permutations and blind IDs. This creates a
+six-run partial comparison through the existing formal freeze, quarantine, review, and evaluation
+path rather than adding a local execution bypass. The candidate remains draft until complete tests,
+independent review, review attestations, and the first immutable manifest commit exist.
+
+## 2026-08-02 — Independent review reversed hidden-source, cache, route, and scheduler assumptions
+
+Two independent reviews returned NO-GO for scored execution. The runner still fell back to the live
+neighboring BusyCafe worktree, inherited host npm and uv caches, bound only the requested router
+alias, and checked execution order before a separately written claim. The review also identified
+macOS-only implementation assumptions, ambiguous “variance pilot” wording, and a native-executable
+check-to-spawn residual risk. No freeze manifest or scored result existed, so the candidate could be
+corrected without rewriting evidence.
+
+The BusyCafe source is now mandatory, absolute, canonical, below an accepted temporary root, and a
+bare Git repository. There is no live-worktree fallback. One explicit temporary cache root owns the
+artifact, npm, and uv caches; host HOME caches are not consulted. A cold online preparation populated
+that root, and all six BusyCafe comparison cells then prepared offline from the same bytes. Every cell
+reported source tree `826f6da85498720f3c6d37963f1765e4c7243613` and installed-tool tree digest
+`9fbfa1e1bb3de48cfdd879121fc4182f2ffb6f29c1cc107217c9c009f6d91529`.
+
+The first cold-cache retry found a meaningful implementation error rather than an environment
+failure: the new installed-tree evidence reused the Git-metadata digester, which correctly rejects
+all non-file/directory entries and therefore rejected npm's internal `.bin/carrylog` symlink. The Git
+metadata invariant was not weakened. A separate installed-tool digester now binds files, directories,
+and only relative symlinks that remain inside the installation tree; absolute and escaping links fail.
+
+Scored order inspection and write-once claim creation now run under one global cross-process lock.
+The active holder releases the lock after either success or an ordinary rejected transaction. A killed
+process leaves the lock for explicit operator review; the runner never auto-deletes an unexplained
+stale lock. A real two-process regression races `t1-001` and `t1-002` and proves that the later run
+cannot be admitted before its predecessor has both terminal quarantine and reviewed state.
+
+Claude identity now has three layers. The exact native executable is rechecked immediately before
+every spawn. The complete live `/v1/models` record for `claude-route-codex`, including route target
+`codex-default`, must match reviewed digest
+`76978a1d811d405d8b9c45a6bed0e3cf465badb9a16f9949e583ec228d3603e4`. Every assistant event must
+also expose one of the preregistered resolved GPT model IDs. The client surface does not expose the
+router's internal provider ID, so the protocol explicitly makes no provider-identity claim. The final
+native check-to-spawn syscall interval remains a documented TOCTOU residual.
+
+Current authenticated Codex and routed-Claude canaries passed these exact critical bytes. The full
+local quality gate passes 262/262 tests with 94.65% line, 96.40% function, and 88.39% branch coverage.
+Package inspection passes with 154 files and 179,341 bytes. Generated surfaces and product validation
+are clean; the research validator accepts 10 tasks and 60 runs, deterministic order is current, and
+both current harness prerequisites are passed.
+
+The final original-repository check retained BusyCafe HEAD
+`81d9f1d47ddec2671d8633cb1a5edb3e3bf88755` and the empty tracked diff digest. Its untracked-path
+digest changed from the earlier observation while still containing one path. Carrylog never used or
+modified that worktree, and no untracked contents or paths were read, but physical-repository
+invariance is therefore not claimed. The isolated bare source identity remained the experiment input.
+
+## 2026-08-02 — Offline preparation received an operating-system network boundary
+
+The post-review runner still relied on npm and uv offline flags during preparation. Those flags are
+useful dependency-manager controls, but they do not prove that a subprocess cannot open a socket.
+Offline setup now runs every package preparation, installation, build, and Carrylog initialization
+command inside a macOS Seatbelt profile that denies all network access. Online cache population
+remains a separate, explicit setup action. A localhost listener regression verifies an actual denied
+connection rather than inferring isolation from command arguments.
+
+The first focused retry exposed two test defects before any scored work. The router-catalog timeout
+was referenced inside the attestation function without being declared there; the staged-auth path now
+forwards its bounded timeout and the direct attestation API has the same default. A cache-symlink test
+also assumed that the symbolic-link-specific diagnostic would win, even though the earlier canonical
+temporary-root check correctly failed closed first. The test now accepts either safe rejection without
+weakening the containment rule.
+
+A new cold cache under the system temporary directory was populated once with setup network enabled.
+The same cache then prepared `t1-001` through `t1-006` offline under the Seatbelt boundary. All six
+cells used the preregistered bare BusyCafe source, reported source tree
+`826f6da85498720f3c6d37963f1765e4c7243613`, and agreed on one installed-tool tree. The original
+BusyCafe worktree was not a runner input and was not modified.
+
+Refreshing the harness binding reset both authenticated prerequisites to pending. Fresh Codex and
+routed-Claude canaries then passed the current critical bytes; the Claude run re-attested the live
+route catalog and native executable before spawn. The complete local quality gate passes 264/264
+tests with 94.65% line, 96.40% function, and 88.39% branch coverage. Package inspection, generated
+surface checks, product validation, Tier 1 structural validation, deterministic ordering, the
+synthetic isolation canary, and both current prerequisite gates pass. Exact package and installed-tree
+artifact measurements belong to the excluded research record because this engineering log is itself
+part of the npm package; embedding a digest of an artifact containing that digest would be
+self-referential.
+
+No freeze manifest, GO attestation, scored provider run, privacy-reviewed artifact, evaluation, or
+comparison result exists. The corrected candidate still requires independent review over its final
+bytes before the preregistration can move from draft to frozen.
+
+## 2026-08-02 — Independent review found a cache escape and model-allocation confound
+
+The next independent protocol review kept scored execution at NO-GO and found a P0 boundary defect.
+The configured cache root was canonical and temporary, but its existing `artifacts`, `npm`, or `uv`
+children were created recursively without independent link checks. A same-user or pre-provisioned
+child symlink could therefore redirect package-manager or artifact writes outside the accepted root.
+The earlier preparation evidence was superseded before any scored run, manifest, or reviewed result
+existed.
+
+Cache population now requires a dedicated empty owner-only root claimed exclusively. The runner
+writes an exclusive population claim, creates each child as an owner-only real directory, revalidates canonical layout,
+and writes a ready receipt only after successful preparation. Offline use requires that receipt,
+repository scope, released tarball digest, and installed `node_modules` tree digest. An interrupted
+population remains unsealed and cannot be reused. Regression coverage rejects each of the three child
+symlink escapes before external use. The installed-tree digest deliberately excludes prefix-level npm
+metadata whose absolute tarball path varies with the temporary cache location.
+
+The review also rejected the original three-model allowlist. The `claude-route-codex` alias is an
+automatic Sol-to-Terra-to-Luna route, so recording the selected model did not prevent condition-level
+allocation confounding. A first single-model canary pinned Sol and failed on Terra; changing the pin
+to Terra then failed on Sol. Neither failure was promoted. The controlled Claude harness now bypasses
+the load-balancing alias, disables gateway discovery, binds the direct `gpt-5.6-sol` catalog record,
+requests that exact model, and rejects every other response ID. Fresh direct-model and Codex canaries
+pass the current critical bytes.
+
+A new sealed BusyCafe cache completed one explicit online population and all six offline preparation
+cells under macOS Seatbelt network denial. Every offline cell reported the same cache ID, ready-receipt
+digest, source tree, released tarball, and installed-tool tree. This remains prerequisite evidence,
+not behavioral comparison evidence. The candidate remains draft until final tests and both independent
+reviews pass over the same bytes.
+
+## 2026-08-02 — The first formal freeze review exposed a lifecycle-sensitive test
+
+The first exact-digest review returned NO-GO before manifest creation. The candidate had moved from
+`draft-until-committed` to `frozen`, but one real-root preflight test still expected the authenticated
+prerequisite failure from an earlier draft state. The implementation correctly allowed review-digest
+generation; the test failed because it coupled its expected result to the repository's mutable freeze
+lifecycle. No scored run, attestation, manifest, or result existed.
+
+An asynchronous quality invocation initially returned only a running process identifier. Treating
+that yield as completion temporarily hid the failing exit status; explicit polling later recovered
+the complete 264/265 result and exit code 1. Future long-running gates must be polled through terminal
+completion before any pass is recorded.
+
+A second assigned reviewer then violated its read-only contract by changing the failing test and the
+candidate-status wording during review. That review and its child reviews were interrupted and are
+not eligible attestations. Their changed digest was discarded. The candidate returned to draft, and
+the fix was reviewed locally before any new formal digest: the preflight test now verifies real
+preflight only, while the existing synthetic fixture continues to test both draft rejection and
+frozen acceptance deterministically. This removes ambient lifecycle dependence instead of encoding
+the current status as a one-off expectation.
+
+The focused freeze-contract suite passes 20/20 in draft state. The complete local quality gate then
+passes 265/265 tests with 94.65% line, 96.40% function, and 88.39% branch coverage. Formatting,
+whitespace, current critical-file bindings, and both authenticated prerequisite gates also pass. A
+new frozen digest and two genuinely read-only independent reviews remain required.
+
+## 2026-08-02 — Formal review rejected distorted delta and unclassified shell evidence
+
+The next exact-digest review returned NO-GO with two P1 findings before any manifest or scored run.
+The Carrylog condition reset the prepared handoff's index entry to the source HEAD and marked it
+`assume-unchanged` so verification saw a clean repository, but ordinary final Git diff reused that
+index. A later model edit to the handoff could therefore be hidden or compared through the wrong
+index state. The runner now clears the setup-only flag and builds a new temporary index directly from
+the synthetic delivery baseline. Scored delta compares that isolated index with actual worktree
+bytes. A real Git regression proves both sides: an untouched prepared handoff produces no phantom
+delta, while a later handoff edit appears exactly in the patch.
+
+The same review found that Codex `command_execution` events were recorded but did not invalidate an
+otherwise successful run. Claude exposes no Bash tool, so this created a harness-asymmetric path for
+unregistered verification to reach scoring. Both successful and failed direct command events now
+become terminal `protocol-deviation` failures before any blinded artifact is published. The retained
+audit record contains only byte counts, SHA-256 digests, normalized status, and exit code; raw command
+and output text are not persisted. No-command and registered-wrapper cases remain accepted, and the
+blind evaluation rubric states the wrapper-only credit rule.
+
+The fixes also removed the last real-root lifecycle dependency from the preflight unit test. The
+complete quality gate passes 267/267 tests with 94.65% line, 96.40% function, and 88.39% branch
+coverage. Package dry-run passes with 154 files and 182,857 bytes; isolated package smoke covers local,
+ephemeral, global, ESM, strict types, migration, initialization, validation, checkpoint, and resume.
+All six BusyCafe cells prepare offline from the sealed cache under macOS Seatbelt network denial and
+the isolated bare source. The original BusyCafe worktree remains unused.
+
+The authenticated Codex canary passed the corrected critical bytes at
+`2026-08-02T00:10:14.429Z`. The Claude canary failed closed before authentication because the current
+shell did not provide `CARRYLOG_PILOT_CLAUDE_ROUTER_KEY_FILE`; it remains pending. No credential was
+searched, copied, or persisted, and no new freeze digest may be produced until that operator-supplied
+path is available and the Claude canary passes.
+
+## 2026-08-02 — Stream-lifecycle review closed timeout and raw-diagnostic gaps
+
+Two follow-up read-only reviews kept the candidate at NO-GO. Codex detection covered only completed
+`command_execution` events, so a command that emitted `item.started` and then timed out or crashed
+could be misclassified as a provider failure. Claude Bash inputs were projected to digests, but the
+connected `tool_result.content` could remain raw in delivery evidence. Neither defect had reached a
+manifest or scored run.
+
+Harness filtering now recognizes Codex started, updated, and completed command lifecycles, merges
+events by transient item identity only in memory, and never retains that identity. A started-only
+attempt is sufficient to terminate the run as a protocol deviation. Protocol classification occurs
+before timeout, spawn, nonzero-exit, missing-success-event, and missing-response classification, so
+provider failure cannot hide an observed direct command. Claude filtering first identifies Bash tool
+uses and then replaces connected and otherwise ambiguous tool results with byte-count and SHA-256
+projections whenever a Bash deviation exists. Raw command, output, tool-use identity, and Bash result
+content are not persisted.
+
+Local review found one additional privacy edge before re-freeze: malformed JSONL, stderr, and
+provider-error diagnostics were still stored as raw visible events. A command event truncated inside
+its JSON line could therefore expose arbitrary text that pattern-based secret sanitization could not
+recognize. These opaque channels now retain only typed byte counts and SHA-256 digests. This preserves
+failure correlation without pretending that a redaction pattern can classify every secret.
+
+Regression coverage now includes successful no-command and registered-MCP turns, successful and
+failed direct commands, started-only commands followed by timeout, nonzero exit, and truncated
+output, lifecycle identity deduplication, Claude string and structured Bash results, absence of raw
+secret markers from retained evidence, and protocol-stage precedence over provider failures. The
+complete quality gate passes 274 tests with 94.65% line, 96.40% function, and 88.39% branch coverage.
+Package dry-run and isolated package smoke also pass; the research harness remains outside the npm
+artifact.
+
+All six BusyCafe objective cells again prepare offline through the sealed cache and isolated bare
+source under macOS Seatbelt network denial. The original BusyCafe worktree is not read or modified.
+The current-byte Codex authenticated prerequisite passed at `2026-08-02T00:36:31.262Z`. Claude remains
+pending because `CARRYLOG_PILOT_CLAUDE_ROUTER_KEY_FILE` is absent. Existing user configuration exposes
+an `apiKeyHelper`, but invoking it to manufacture an undeclared temporary credential input was
+rejected as a local workaround; the reviewed contract still requires an explicit owner-only key file.
+
+The documentation update initially raised always-loaded project context to 16,165 characters against
+the configured 16,000-character budget, and `carrylog sync --check` correctly failed. The limit was
+not raised. Repeated implementation detail was condensed in `current-state.md` while the full account
+remained here; the final generated-surface and validation checks then passed without adapter drift.
+
+## 2026-08-02 — Checkpoint dogfood replaced an entry-count bound with a context bound
+
+The first checkpoint attempt after the research amendment failed closed before writing. Although the
+current always-loaded context was valid, replacing its old three-path snapshot with the 89-file draft
+would have raised the total to 23,056 characters. Git inspection limited examples to 200 entries, but
+that count did not bound rendered size because portable paths and terminal-safe JSON escaping have
+variable length. Raising the repository's 16,000-character policy or committing the draft before its
+review boundary would have hidden the defect rather than fixed it.
+
+ADR-0015 adds a second deterministic bound. Git inspection still parses the complete bounded status
+response and preserves every aggregate count, but the sorted displayed prefix must fit both 200
+entries and 1,024 rendered characters including indentation and line separation. Remaining records
+become an explicit `omittedChanges` count. If the first record alone is too large, the snapshot shows
+only the omission count instead of incorrectly saying that no paths changed. Resume uses the same
+projection, so an older expanded checkpoint becomes visibly stale and requires refresh.
+
+Focused handoff and performance tests pass 25/25, including a 205-path fixture, a near-1 MiB 20,000-
+record corpus, and an oversized first path. On the live draft, dry-run retained 12 example paths,
+reported 81 omitted paths, reduced the rendered snapshot from 9,119 to 2,010 characters, and kept the
+prospective always context at 15,947 of 16,000 characters. The complete quality gate passes 275 tests
+with 94.67% line, 96.41% function, and 88.45% branch coverage.
+
+## 2026-08-02 — Exact-digest review rejected PATH-resolved Codex identity
+
+The Claude authenticated prerequisite passed through the documented owner-only JM Router key file,
+so both harness prerequisites initially passed and the candidate produced review digest
+`7f3df7250b563e04e9a194aceee12d0adcefd3c0a38cf2086d6d2ae5eee43338`. The independent methods review
+returned GO, but the independent security review returned NO-GO before any attestation, manifest,
+commit, or scored run. Codex execution still spawned the mutable PATH name `codex` and checked only
+its reported version, while Claude resolved and digest-bound an absolute native executable. A
+PATH-shadowed program could report the expected version and change the experiment boundary.
+
+The candidate immediately returned to `draft-until-committed`; the prior GO is ineligible because its
+digest is superseded. The fix does not whitelist this workstation's launcher path. It resolves the
+installed `@openai/codex` launcher only to find the platform package, selects the actual native binary,
+verifies its preregistered SHA-256 digest, and passes that absolute path to every canary and scored
+spawn. Direct native installations remain supported by the same byte check. The invocation builder
+now rejects missing or relative Codex executable paths, which removes the ambient PATH fallback from
+the executable contract. Version setup and every pre-spawn boundary repeat native resolution and
+digest verification. The final verified-path-to-spawn syscall interval remains an explicit TOCTOU
+risk shared with Claude.
+
+Regression tests cover npm-launcher bypass, direct native installation, digest drift, unsupported
+platforms, relative paths, and the absolute invocation contract. The first targeted run exposed a
+macOS `/var` to `/private/var` canonical-path expectation in the test; the expectation was corrected
+to compare real paths rather than weakening production canonicalization. The corrected targeted suite
+passes 20/20. Critical-file bindings and both authenticated prerequisites must now be refreshed, and
+two new read-only reviews over one new frozen digest remain mandatory.
+
+After the binding refresh, the corrected research suite passes 91/91. Current-byte Codex and Claude
+authenticated canaries pass at `2026-08-02T04:36:06.362Z` and `2026-08-02T04:37:32.684Z`. The complete
+quality gate passes 277/277 with 94.67% line, 96.02% function, and 88.44% branch coverage; package
+dry-run reports 155 files and 187,651 bytes, and the full package consumer smoke passes. All six
+BusyCafe comparison cells prepare offline from the same sealed cache and isolated bare source under
+Seatbelt network denial, recording both native executable digests. The candidate remains draft until
+two new exact-digest GO reviews succeed.
+
+## 2026-08-02 — Frozen attempt 1 aborted before claim and became a new experiment
+
+The first scored invocation exposed a bootstrap defect that the unit and prepare-only matrices did
+not exercise. `run.mjs` called `freeze --check` through its shared command helper before the lexical
+declaration of `deterministicSetupEnvironment`, so JavaScript raised a temporal-dead-zone
+`ReferenceError`. The failure occurred before claim creation, provider authentication, or model
+execution. Inspection found no quarantine record beyond tracked policy files, and the immutable suite
+still passes `freeze --check` at commit `382cda0e2a5efb3eca5e487e482c7316d6394617` and suite digest
+`3809b850da94f259ff9f2749918cfa45dbe5657bf9b4dc095a69cde4f2d59fc8`.
+
+Changing that runner in place would violate the permanent first-ADD boundary. Attempt 1 therefore
+remains an auditable aborted experiment. `research/continuity-r2/tier1` is a separate experiment with
+one behavioral amendment: declare setup environment before freeze verification and give the offline
+freeze subprocess an explicit host environment. The new suite rebinds its task/schema paths and blind
+bundle task digests to its own namespace, resets attestations and prerequisites, contains no copied
+manifest or result, and adds a regression contract for declaration order and explicit freeze
+environment. It does not reuse attempt-1 reviews.
+
+Attempt 2 passes 92/92 suite tests, both new authenticated canaries, and all six offline BusyCafe
+preparations. The full repository gate passes 369/369 with 94.67% line, 96.41% function, and 88.45%
+branch coverage; package dry-run passes with 155 files and 187,818 bytes. A read-only diff review found
+zero unresolved findings and confirmed that the old freeze is untouched, the new runtime difference
+is limited to namespace/bootstrap binding, and no result or provider call was reused. Two fresh
+exact-digest reviews and a new manifest boundary remain required before execution.
+
+## 2026-08-02 — Attempt 3 produced the first reviewed behavioral comparison
+
+Attempt 2 wrote the first scheduler claim but then encountered a second temporal-dead-zone defect in
+terminal publication. Because the retained bytes cannot prove whether provider execution occurred,
+the event remains unavailable and contributes no score. The suite was not repaired in place.
+
+Attempt 3 received new blind identities, execution order, canaries, exact-digest reviews, and a
+permanent manifest boundary. It froze at `b72127e`; its suite and manifest digest is
+`2427a17f2e0c02415bf7f6604edf026e619f4ff260ac0910336d98986ee2eb9b`. Pre-result suite tests passed
+93/93. The full repository gate passed 462/462 with 94.67% line, 96.41% function, and 88.45% branch
+coverage, and package dry-run reported 155 files and 188,502 bytes.
+
+The first six frozen runs completed across both harnesses and all three conditions. Every artifact
+passed explicit privacy review and blind item-level evaluation. Freeze verification and analysis
+reconcile six scored runs and 54 not-started runs with no protocol diagnostic, exclusion, sensitive
+exposure, contradiction, prohibited reversal, repeated work, or unnecessary clarification. The
+canonical interim table and interpretation are recorded in
+`research/continuity/beta7-second-repository-comparison.md` rather than duplicated here.
+
+Independent result review found one non-blocking measurement defect: Claude metadata reports zero
+input tokens for non-empty prompts with nonzero output and cost. Those raw fields remain immutable but
+are unavailable for efficiency inference. The behavioral metrics do not depend on them, and the
+preregistered STOP rule is false, so the review authorized continuing the remaining 54 runs.
+
+Running the frozen suite tests after result publication passes 92/93. The failing synthetic analyzer
+contract copies mutable quarantine results and therefore observes two more terminal cells than its
+pre-result expected count. Freeze verification, analyzer reconciliation, exact artifact/evaluation
+hashes, and privacy bindings pass. Editing that test would mutate the frozen suite, so attempt 3
+retains the known defect and a future experiment must make its synthetic fixture independent of
+ambient result surfaces.
+
+The first post-result formatting gate also rejected generated quarantine and reviewed JSON because
+Biome preferred different array wrapping. Reformatting those files would invalidate their artifact,
+bundle, privacy-review, and evaluation digests. The repository formatter now excludes only
+`raw-quarantine` and `raw-reviewed` trees under `research`; their dedicated schema, sanitizer, digest,
+privacy, and analyzer gates remain authoritative. Source, frozen inputs, evaluations, and derived
+tables remain in the normal formatting gate.

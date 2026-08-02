@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-d5b52db9f9e9",
+  "finalResponse": "## 읽기 전용 인수인계 — `0f2b9c3`\n\n- **기준 확인:** 등록된 검증 도구로 fixture ref가 정확히 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`을 가리키며 작업 트리가 깨끗함을 확인했다. 인수인계 스냅샷에 적힌 `05c0123`은 fixture 포장 커밋 정보이므로 제품 판단 기준으로 사용하지 않았다.\n- **제품의 실제 의미:** BusyCafe는 카페 좌석 점유율을 측정하지 않는다. 서울 지역의 **보행 혼잡 추정치**를 주변 카페에 매핑해 상대적으로 한산할 가능성을 제시한다. 신뢰도 역시 적중 확률이 아니라 입력 근거의 충분도다 (`README.md:3-5`, `README.md:22-23`).\n- **검증된 운영 상태:** 2026-07-12 관리형 PostgreSQL bootstrap에서 hotspot 121개와 active cafe 4,933개가 적재됐고, 최초 수집 cycle은 `121/121/0` complete로 약 4분 6초가 걸렸다. 이는 저장소에 남은 **역사적 검증 결과**일 뿐 현재 live 상태의 증거는 아니다 (`docs/VERIFICATION.md:537-550`). 공개 preview도 기록상 읽기 전용 SQLite snapshot이며 실시간으로 간주하면 안 된다 (`README.md:7-11`).\n- **가장 중요한 미해결 위험:** 핵심 제품 가설이 아직 현장에서 검증되지 않았다. Phase 6의 후보 POI HUMAN 검수, 동네별 현장 관측, 평가 보고서가 미완료다 (`docs/VERIFICATION.md:440-447`). 운영 측면에서도 hard kill·runner 장애 시 오래된 `running` cycle을 회수하는 정책과 수정 후 `121/121/0` 재확인이 남아 있다 (`docs/INCIDENTS.md:450-452`).\n- **가장 안전한 다음 작업 하나:** live 승격이나 Track 2·3 확장을 시작하지 말고, 기존 canary 및 poll 수정에 대해 **범위가 제한된 검증을 실행하여 owner-controlled cycle 완료와 freshness 증거를 먼저 확보**한다. 이후에만 production gate를 판단한다. Track 2·3은 현장 검증과 실시간 production 완료 전까지 동결 상태를 유지한다 (`docs/ROADMAP.md:7-12`).\n\n외부 서비스에는 접속하지 않았고 파일도 수정하지 않았다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "git-head",
+      "preCommandStateSha256": "21d52e5cff8052c6b2407959ef94969a35e811d2d43ce112b2cfb90a148f99e1",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-status",
+      "preCommandStateSha256": "21d52e5cff8052c6b2407959ef94969a35e811d2d43ce112b2cfb90a148f99e1",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

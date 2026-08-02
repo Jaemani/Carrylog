@@ -1,0 +1,144 @@
+{
+  "runId": "t1-003",
+  "blindId": "b-13172b3d5482",
+  "repository": "busycafe",
+  "baseCommit": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+  "sourceTree": "826f6da85498720f3c6d37963f1765e4c7243613",
+  "fixtureHead": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+  "sourceRef": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+  "sourceHistory": {
+    "reachableCommitCount": 1,
+    "shallowBoundary": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+    "parentInaccessible": true
+  },
+  "conditionBaseline": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+  "gitMetadata": {
+    "external": true,
+    "detachedAfterContextPreparation": true,
+    "detachedBeforeProviderAuthentication": true,
+    "directorySha256BeforeModel": "31b53ee88c37b7040264a7ebb94a80593feeb7c01761b40274ef1105e139522a",
+    "checkoutDotGitAbsent": true,
+    "optionalLocks": "0",
+    "directorySha256AfterModel": "31b53ee88c37b7040264a7ebb94a80593feeb7c01761b40274ef1105e139522a",
+    "unchangedDuringModel": true
+  },
+  "harnessVersions": {
+    "codex": "codex-cli 0.146.0",
+    "claude": "2.1.220 (Claude Code)",
+    "node": "v22.23.0",
+    "npm": "10.9.8",
+    "git": "git version 2.50.1 (Apple Git-155)",
+    "uv": "uv 0.11.23 (Homebrew 2026-06-19 aarch64-apple-darwin)",
+    "os": "macOS 26.5.2 (25F84)",
+    "architecture": "arm64",
+    "claudeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
+    "codexExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02"
+  },
+  "toolTreeSha256": "1550d9bf6627ba2f87facd63baf5c5bf42ff71a71a62a1a854c1c8bcc4c0d69c",
+  "cacheLifecycle": {
+    "mode": "sealed-offline-reuse",
+    "cacheId": "6695eeeaa6cb152fdb8eb8cd0a9eb25e",
+    "repositoryId": "busycafe",
+    "claimSha256": "e7828dce0c13791b6ce9aa034352e8bc960be3e544f0bbc3efa1c0c4587b2565",
+    "readySha256": "98fb0dcdba70c25a8b32e6f99a54ad50e087c8cd60a1ece79f91f808459d3aa2",
+    "populatedByRunId": "t1-001",
+    "toolTreeSha256": "1550d9bf6627ba2f87facd63baf5c5bf42ff71a71a62a1a854c1c8bcc4c0d69c",
+    "carrylogTarballSha256": "47e3ae98efb3984124ec31d5090db5e1e7b592692942905d996d73a00e657e4e"
+  },
+  "harnessIsolation": {
+    "syntheticHome": true,
+    "copiedAuthenticationFiles": [
+      "codex/auth.json"
+    ],
+    "authenticationFields": [
+      "provider-required-file"
+    ],
+    "routerAuthentication": null,
+    "copiedGlobalInstructions": false,
+    "copiedProviderSessions": false,
+    "copiedProviderSettings": false,
+    "repositorySelectionEnvironmentForwarded": false,
+    "authentication": {
+      "ephemeralAuthenticationStaged": true,
+      "stagedAuthenticationFiles": [
+        "codex/auth.json"
+      ],
+      "stagedAuthenticationEnvironmentFields": [],
+      "cleanupAttempted": true,
+      "cleanupSucceeded": true,
+      "cleanupDiagnostic": null,
+      "residualAuthenticationPossible": false,
+      "cleanupNotGuaranteedAfter": [
+        "SIGKILL",
+        "host-crash",
+        "power-loss"
+      ]
+    }
+  },
+  "verificationExecutionMode": "seatbelt-broker-isolated",
+  "deliveryManifest": {
+    "estimand": "released-product-bundle",
+    "condition": "manual-handoff",
+    "taskPromptSha256": "3fee7445f31fd069e6e85a06d12131b028d29667c36bb81ae499964de6380b81",
+    "priorSessionPacket": {
+      "sha256": "3f7a06f880804e929dcc838c92ad61da0e562e4b526181a6af43a540a92d32f3",
+      "delivered": true,
+      "channel": "prompt-section"
+    },
+    "resumeEnvelope": {
+      "delivered": false,
+      "sha256": null
+    },
+    "repositoryDiscoverySurfaces": [],
+    "continuityEligibleFactIds": [
+      "f1",
+      "f2",
+      "f3",
+      "f4",
+      "f5",
+      "f6"
+    ],
+    "promptExplicitFactIds": [],
+    "semanticParityWithManualClaimed": false,
+    "automaticCheckpointAuthorshipClaimed": false,
+    "automaticRouterDiscoveryClaimed": false
+  },
+  "condition": "manual-handoff",
+  "harness": "codex",
+  "setupNetworkPolicy": "seatbelt-network-denied",
+  "baselineCommit": "b3ba62b717a6f322ffa895c1ac97098d7ecd410b",
+  "promptSha256": "da57f82898ca94c9ed609e60917240303114b268421eec7279953fc71f8dd8ac",
+  "promptBytes": 2335,
+  "promptCharacters": 1687,
+  "deliveryPacketSha256": "3f7a06f880804e929dcc838c92ad61da0e562e4b526181a6af43a540a92d32f3",
+  "deliveryPacketBytes": 1246,
+  "deliveryPacketCharacters": 824,
+  "resumeEnvelopeSha256": null,
+  "preparationLatencyMs": 2415,
+  "freezeCommit": "b72127e700b85ad2fb14744355a72e65ee508f79",
+  "frozenSuiteSha256": "2427a17f2e0c02415bf7f6604edf026e619f4ff260ac0910336d98986ee2eb9b",
+  "startedAt": "2026-08-02T05:24:23.867Z",
+  "latencyMs": 51075,
+  "process": {
+    "exitCode": 0,
+    "signal": null,
+    "timedOut": false,
+    "spawnError": null
+  },
+  "usage": {
+    "input_tokens": 118727,
+    "cached_input_tokens": 96768,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1205,
+    "reasoning_output_tokens": 478
+  },
+  "estimatedCostUsd": null,
+  "resolvedModels": [],
+  "artifactSha256": "239887222de4a4433965896102adb93e793a28dfd1bd6659b70beb70c67a4e0b",
+  "evidence": {
+    "resumeEnvelopeDeliveredInPrompt": false,
+    "toolReceiptsObserved": true,
+    "verifiedWrapperReceipts": 2,
+    "behaviorNotInferredFromReceipt": true
+  }
+}

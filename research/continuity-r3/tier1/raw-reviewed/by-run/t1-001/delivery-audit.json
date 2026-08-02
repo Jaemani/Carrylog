@@ -1,0 +1,97 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "`carrylog-continuity` 절차가 이 인수인계 작업에 해당하므로 적용하겠습니다. 다만 해당 스킬 원문은 저장소 밖에 있고 이번 fixture가 허용한 읽기 범위·명령에 포함되지 않으므로, 제공된 Carrylog envelope와 저장소 범위의 근거만 사용해 동일한 검증 경계를 지키겠습니다. 먼저 immutable ref와 작업 트리 상태를 등록된 두 검증기로 확인하겠습니다."
+    },
+    {
+      "type": "agent_message",
+      "text": "## 읽기 전용 인수인계\n\n- **기준:** 등록 검증기가 `refs/carrylog-pilot/source`의 커밋을 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`으로 확인했다. Git 상태 검증도 성공했다.\n- **제품 의미:** BusyCafe는 카페 좌석 점유율이 아니라, 서울 지역의 **보행 혼잡 추정치**를 인근 카페에 연결해 보여준다.\n- **검증된 운영 상태:** 관리형 PostgreSQL bootstrap에서 hotspot 121개와 active cafe 4,933개, 최초 complete cycle `121/121/0`(약 4분 6초)이 역사적으로 확인됐다. 기준 커밋에는 interrupt finalization, worker 8분/job 9분 제한, 30초 hard kill, 5회 연속 실패 circuit, DB 없는 read-only canary가 구현돼 있다. 공개 preview는 SQLite snapshot이므로 현재 production/live 상태의 증거는 아니다.\n- **가장 중요한 미해결 위험:** 후속 poll timeout이 durable cycle을 잘못 `running`으로 남길 수 있어 cycle 완료 및 freshness 판단을 왜곡한다. Phase 6 현장 검증도 아직 완료되지 않았다.\n- **가장 안전한 다음 작업 하나:** 기존 canary와 poll 수정에 대해 **owner-controlled bounded verification**을 수행하고 cycle 종료·freshness 증거를 확보한다. 그 전에는 live 승격이나 Track 2·3 확장을 진행하지 않는다.\n\n파일 수정, 외부 접속, stage·commit은 수행하지 않았다."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 39,
+      "contentSha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "git-head",
+      "registrySha256": "9b2c485d9dbbbc469aef2cd4fadbace25338a20b708bb2f74f2e972377fadc48",
+      "commandSha256": "eac8d7c4ed9cd2c436ca95f310566d767ff1c371013072a8bb73d4af1515cbb6",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "3f531e40cc26defd263284fabacb10605a8b55dc0b099d2d603127574fba16e6"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "9c9b964ca467ed796550b45110420ace9a0af081da814647fd3448906067fd76"
+        }
+      },
+      "preCommandStateSha256": "bccde82511cbaff7011bc2635523c030af731634ab1d5d2f753414194957c77f",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-status",
+      "registrySha256": "9b2c485d9dbbbc469aef2cd4fadbace25338a20b708bb2f74f2e972377fadc48",
+      "commandSha256": "f837b8e561a52dc3ec455cc09abb1414d17a5a7bf865d3e134d73549c4befb5a",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "3f531e40cc26defd263284fabacb10605a8b55dc0b099d2d603127574fba16e6"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "9c9b964ca467ed796550b45110420ace9a0af081da814647fd3448906067fd76"
+        }
+      },
+      "preCommandStateSha256": "bccde82511cbaff7011bc2635523c030af731634ab1d5d2f753414194957c77f",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

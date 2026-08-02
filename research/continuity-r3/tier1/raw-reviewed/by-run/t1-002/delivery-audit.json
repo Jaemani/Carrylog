@@ -1,0 +1,101 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "불변 ref가 정확히 `0f2b9c3`을 가리키는지와 작업 트리 상태를 등록된 검증 도구로 확인한 뒤, 저장소 내부 문서·코드의 근거만 읽어 인수인계 요약을 작성하겠습니다. 파일 수정이나 외부 접근은 하지 않겠습니다."
+    },
+    {
+      "type": "agent_message",
+      "text": "검증 결과 ref의 전체 커밋은 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`이고, 등록된 status 검사는 exit 0입니다. 이제 제공된 로컬 리소스 중 저장소 읽기 전용 자료가 있는지만 확인해 근거 범위를 정하겠습니다."
+    },
+    {
+      "type": "agent_message",
+      "text": "### 읽기 전용 인수인계\n\n- **기준 소스:** `refs/carrylog-pilot/source`는 정확히 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`을 가리킨다.\n- **제품 의미:** 이번에 접근 가능한 검증 결과만으로는 제품의 사용자 가치나 실제 기능을 입증할 수 없다.\n- **검증 상태:** 등록된 `git-head` 검증과 `git-status` 검증(exit 0)만 확인했다. 배포·트래픽·데이터·외부 의존성 등 현재 live 운영 상태는 검증하지 않았다.\n- **핵심 미해결 위험:** 운영 중인 빌드가 이 불변 커밋과 일치하는지 증명되지 않아 소스와 live 환경이 어긋났을 가능성이다.\n- **가장 안전한 다음 작업:** 변경 없이 배포 provenance를 조회하여 운영 artifact의 commit SHA가 위 전체 SHA와 일치하는지 확인한다.\n\n저장소 파일 수정, 외부 접속, stage/commit은 수행하지 않았다."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 359,
+      "contentSha256": "a3962c3bdf407620ab9a905c91a6f2d410e84833764205fe44c28e9f46a11c54"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 2,
+      "commandId": "git-status",
+      "registrySha256": "5b8dbe02ff6cc4ae066b110b7565f3661922d07b6f35b4ad05eb07bb3af718b8",
+      "commandSha256": "f837b8e561a52dc3ec455cc09abb1414d17a5a7bf865d3e134d73549c4befb5a",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "43d07b601d4976150d74fe0af4ff9d38c1ad5335fa8650fbfd084ccbf643a61d"
+        }
+      },
+      "preCommandStateSha256": "593fa4270a8727ba4f64e6aac28d1875e158f4fc8e107b35afb97055ed9e5da5",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 2,
+      "commandId": "git-head",
+      "registrySha256": "5b8dbe02ff6cc4ae066b110b7565f3661922d07b6f35b4ad05eb07bb3af718b8",
+      "commandSha256": "eac8d7c4ed9cd2c436ca95f310566d767ff1c371013072a8bb73d4af1515cbb6",
+      "executionMode": "seatbelt-broker-isolated",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "43d07b601d4976150d74fe0af4ff9d38c1ad5335fa8650fbfd084ccbf643a61d"
+        }
+      },
+      "preCommandStateSha256": "593fa4270a8727ba4f64e6aac28d1875e158f4fc8e107b35afb97055ed9e5da5",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

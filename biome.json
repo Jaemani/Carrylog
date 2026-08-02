@@ -1,7 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.3/schema.json",
   "files": {
-    "includes": ["**", "!dist", "!node_modules", "!.tokensave"]
+    "includes": [
+      "**",
+      "!dist",
+      "!node_modules",
+      "!.tokensave",
+      "!research/**/raw-quarantine",
+      "!research/**/raw-reviewed"
+    ]
   },
   "formatter": {
     "enabled": true,

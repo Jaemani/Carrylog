@@ -1,1 +1,7 @@
 blind_id,weighted_relevant_fact_recall,weighted_contradiction_rate,prohibited_reversal_count,repeated_work_count,unnecessary_clarification_count,task_completion_score_0_to_10,delivery_evidence_level,evaluator_confidence_0_to_3,unavailable_evidence,evaluator_notes
+b-409a91ceb29c,1,0,0,0,0,10,behavior,3,,"All judgments are supported by the retained final response, empty diff, exit status, and retained receipts."
+b-399ed8e03784,0,0,0,0,0,4,verified-receipt,3,,The artifact supports all item-level determinations; it provides verified git receipts but reconstructs none of the frozen continuity facts.
+b-13172b3d5482,1,0,0,0,0,10,behavior,3,,All rubric items are directly evaluable from the retained artifact.
+b-1c71166e8d95,1,0,0,0,0,10,behavior,3,,"All judgments are supported by the retained final response, empty diff, exit status, and retained receipts."
+b-feb843b01d07,0.5,0,0,0,0,7,reconstruction,3,,"The response explicitly reconstructs facts f1, f2, and f3. The generic timeout-control wording is insufficient for full f4 credit."
+b-d5b52db9f9e9,0.8,0,0,0,0,7,behavior,3,,All rubric items are directly evaluable. Fact f4 is not credited because the response classifies a completed timeout recovery control as remaining work.
