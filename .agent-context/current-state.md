@@ -2,9 +2,9 @@
 
 ## Active objective
 
-Close Tier 1 attempt 4 after its repair screen found a remaining verification-repository isolation
-defect. Preserve all six scored results, stop the other 54 runs, and design a successor only after a
-canary proves both outer-repository access and nested Git independence.
+Turn the reviewed repository-discovery prototype into an attempt-5 draft without changing frozen
+attempts 1 through 4. Require a new experiment identity, complete registry/wrapper integration, and
+fresh review gates before any provider execution.
 
 ## Implemented and verified
 
@@ -21,6 +21,11 @@ canary proves both outer-repository access and nested Git independence.
   checkpoint lifecycle. Exact measurements remain in the engineering log.
 - Handoff path examples now obey both a 200-entry cap and a 1,024-character rendered-evidence cap
   while preserving complete aggregate counts and explicit omission.
+- A separate non-scored repository-discovery prototype defines `none`, direct `repository`, and
+  `repository-discovery` execution policies without changing the shipped runtime or frozen studies.
+- Its macOS live canary simultaneously proves outer gitfile discovery, nested Git independence,
+  read-only external metadata, immutable outer gitfile identity, external-symlink write denial, and
+  localhost denial. The exact five Git-backed continuity cases that failed in attempt 4 pass.
 
 ## In progress
 
@@ -43,13 +48,17 @@ canary proves both outer-repository access and nested Git independence.
   undiscoverable to Node tests. Remaining runs are stopped rather than measuring this harness ceiling.
 - The Personal Context dogfood remains one external reconstruction example, not a controlled proof of
   universal continuity, transcript replay, repeated switching, or compaction value.
+- The successor boundary's pure and live tests pass 9/9 and independent review returned GO with no
+  blocking finding. Repository-wide quality and active research gates pass after the final guards.
 
 ## Blockers and risks
 
-- A successor needs a third verified execution boundary: runtime children must discover the outer
-  read-only fixture repository without inheriting repository-selection variables, while nested
-  `git init` and nested-repository operations remain independent. Both properties need one canary and
-  the exact focused suite before any new freeze.
+- The boundary is not yet integrated into a successor registry, validator, wrapper, fixture setup,
+  authenticated canary, or frozen verification-command surface. The prototype alone does not
+  authorize attempt-5 provider calls.
+- A scored successor must bind `/etc/gitconfig` state or release an explicit product-level Git
+  configuration policy. Its process helper must add timeout state, grace-period `SIGKILL`, and output
+  bounds rather than copying the prototype helper unchanged.
 - Attempt 4's favorable Codex contrast and unfavorable routed-Claude contrast are one item each and
   are not product claims. Claude used a GPT-backed Anthropic-compatible route, not an independent
   model-family replication, and its reported zero input/cache tokens are unavailable evidence.
@@ -66,6 +75,7 @@ canary proves both outer-repository access and nested Git independence.
 
 ## Next best task
 
-Commit the reviewed attempt-4 results and bounded-handoff product change separately. Then prototype a
-non-scored repository-discovery boundary and require the exact five previously failing Git-backed
-tests plus nested-Git and metadata-isolation canaries to pass before drafting attempt 5.
+Commit the reviewed non-scored boundary independently. Then create an unfrozen attempt-5 draft with a
+new namespace and identities, integrate `repository-discovery` across every digest-bound execution
+surface, and rerun only offline structural, isolation, and preparation gates before seeking two new
+exact-digest reviews.

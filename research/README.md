@@ -7,5 +7,9 @@ Research does not change product behavior or authorize a claim. A supported feat
 scope, an accepted ADR where consequential, implementation and regression coverage, user-facing
 documentation, and the normal release gates.
 
+`continuity-discovery-boundary/` is a non-scored successor-design prototype. It is deliberately
+separate from immutable Tier 1 attempts and does not authorize another provider run or continuity
+claim.
+
 Never store credentials, hidden reasoning, private provider session databases, or unsanitized
 conversation transcripts here.

@@ -1933,3 +1933,45 @@ registered command from satisfying its contract. Attempt 4 remains immutable and
 review or freeze, one canary that simultaneously proves read-only outer-repository discovery, nested
 Git independence without inherited repository-selection variables, detached-metadata confinement, and
 network denial. The exact five previously failing cases must pass in that boundary.
+
+## 2026-08-02 — Repository-discovery boundary passed before attempt 5 design
+
+A throwaway `--separate-git-dir` clone first proved that an ordinary Git gitfile can expose an outer
+repository without inheriting `GIT_DIR` or `GIT_WORK_TREE`. The first Seatbelt run failed at process
+startup with `uv_cwd` because `/tmp` had canonicalized to `/private/tmp` without matching ancestor
+traversal rules. Reusing the existing realpath and ancestor policy removed that failure.
+
+Three further failures exposed runtime dependencies rather than reasons to restore inherited
+repository selection. Homebrew Node needed its OpenSSL configuration root. Carrylog's reconstructed
+Git environment then attempted to probe `/etc/gitconfig`, and macOS Git needed
+`/usr/share/i18n/esdb/UTF/UTF-8-MAC.esdb` for the hostile-Unicode path case. Exact read-only roots
+raised the focused result from 11/16 to 15/16 and finally 16/16. External metadata remained outside
+every write root and network remained denied.
+
+The successful experiment was not copied into frozen attempt 4. A separate non-scored
+`research/continuity-discovery-boundary` prototype now defines three explicit policies: `none`,
+`repository` for direct Git, and `repository-discovery` for a non-Git command that must both discover
+the outer fixture and create independent nested repositories. Unknown or executable-incompatible
+policies fail closed. Discovery children receive no repository-selection variables; their checkout
+contains a canonical gitfile pointing to read-only external metadata.
+
+The policy additionally rejects broad or physical-alias runtime roots that contain protected
+metadata. It permits checkout writes while explicitly denying direct and atomic-replacement writes
+to the outer `.git` gitfile. The live canary proves those denials, external metadata immutability,
+write denial through an in-checkout external symlink, nested Git independence, outer HEAD discovery,
+and localhost denial in one Seatbelt process. It also replays the exact five Git-backed continuity
+cases that failed in attempt 4; all five pass. Pure and live prototype tests pass 9/9.
+
+Independent review returned GO with no blocking finding after the gitfile, inherited-environment,
+and physical-alias guards were added. The reviewer retained one non-blocking P2: prototype process
+timeouts send `SIGTERM` but do not yet enforce a grace-period `SIGKILL`, explicit timed-out state, or
+combined output cap. A scored successor must use the mature runner process contract rather than
+copying that helper unchanged. It must also bind `/etc/gitconfig` state or adopt a released explicit
+product policy so host configuration cannot become an invisible experimental input.
+
+After the final hardening, the complete quality gate passes with 94.67% line, 96.41% function, and
+88.37% branch coverage. The active research gate reports 102/102, including the nine discovery
+tests. Final package dry-run reports 155 files and 193,579 bytes, and the full local, ephemeral,
+global, ESM, strict-types, migration, init, validation, checkpoint, and resume smoke passes. No
+provider call was made, attempts 1 through 4 were not modified, and this evidence does not authorize
+a continuity claim or a scored attempt by itself.

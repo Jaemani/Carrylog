@@ -78,6 +78,11 @@ receipt, and parser contracts run on every supported CI operating system. The tw
 capability-specific integrations as skipped rather than attempting to emulate a different security
 boundary. Project-local executable selection remains a product-level cross-platform process test,
 including Windows directory junctions, dereferenced target type, and dangling-target rejection.
+The separate non-scored repository-discovery prototype adds pure three-policy contracts on every
+platform and one macOS live canary. That canary uses a fresh external-git-dir clone and replays the
+five Git-backed continuity cases that failed in Tier 1 attempt 4 while also checking nested Git,
+metadata immutability, external-symlink writes, and localhost denial. It is design evidence, not a
+continuity result or authorization for another scored attempt.
 
 ### Performance and resource budgets
 
@@ -146,6 +151,10 @@ Every feature review should consider combinations from these dimensions:
 3. compilation;
 4. the complete Node test suite;
 5. coverage thresholds of 90% lines, 90% functions, and 85% branches.
+
+The active research portion also runs the immutable attempt-4 contract suite plus the non-scored
+repository-discovery contract. Its live Seatbelt case runs on macOS and is explicitly skipped on
+other operating systems.
 
 `npm run pack:check` separately inspects the npm artifact. `npm run release:verify` adds dogfood
 sync/validation, one clean release tarball, smoke testing of that exact SHA-256 artifact, runtime
