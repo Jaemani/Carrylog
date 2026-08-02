@@ -44,7 +44,7 @@ the normal npm supply-chain boundary.
 | Mixed-time Git evidence | Two observations matching allowed exit codes and exact stdout per attempt, three bounded retries, then fail closed |
 | Checkpoint commit mistaken for unrelated history | Optional v1 settlement evidence requires a fully staged project index, full base parent, detached/branch identity, object format, clean checkpoint/worktree, and matching project-scoped index/tree commitments; observations are repeated and any mismatch falls back to stale |
 | Dirty submodule hidden by repository configuration | Every status and diff observation forces `--ignore-submodules=none`, overriding `.gitmodules` and local `submodule.*.ignore` settings |
-| Handoff context inflation | 200-path rendering cap plus prospective file/context-budget validation |
+| Handoff context inflation | 200-entry and 1,024-rendered-character path-evidence caps with conservative CRLF accounting, plus prospective file/context-budget validation |
 | Resume path substitution, linked export, or same-size overwrite with restored mtime | Guarded handle/path checks over device, inode, size, mtime, ctime, and link count plus symlink and hard-link rejection |
 | Mixed-time resume envelope | Config/documents → stable Git → config/documents observation with three bounded retries and exact-byte revalidation |
 | Private-session leakage | Resume excludes transcripts, hidden reasoning, provider stores, absolute roots, session IDs, and commit timestamps |

@@ -19,6 +19,7 @@ for clarification; a later decision supersedes an old one rather than rewriting 
 | [0012](0012-evidence-gates-before-continuity-expansion.md) | Evidence gates before continuity expansion | Accepted | 2026-07-12 |
 | [0013](0013-checkpoint-commit-settlement.md) | One verified checkpoint-settlement commit | Accepted | 2026-08-02 |
 | [0014](0014-generated-artifact-eol-equivalence.md) | Generated standalone artifact CRLF equivalence | Accepted | 2026-08-02 |
+| [0015](0015-character-bounded-handoff-path-evidence.md) | Character-bounded handoff path evidence | Accepted | 2026-08-02 |
 
 ## Record template
 

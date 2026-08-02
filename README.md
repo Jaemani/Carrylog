@@ -284,8 +284,9 @@ carrylog checkpoint --check
 ```
 
 Evidence includes branch/HEAD, upstream divergence, staged and unstaged line stats, aggregate status,
-up to 200 project-relative changed paths, and five recent scoped commits. The command does not call a
-model, contact a remote, stage, commit, or push.
+up to 200 project-relative changed paths within a 1,024-character rendered evidence budget using
+conservative CRLF accounting, and five recent scoped commits. Omitted paths remain visible as an
+aggregate count. The command does not call a model, contact a remote, stage, commit, or push.
 
 Two complete evidence observations must match. Repository changes during collection trigger up to
 three bounded attempts and then `E_GIT_CONCURRENT_MODIFICATION`, rather than a mixed-time snapshot.

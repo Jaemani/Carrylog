@@ -1,8 +1,11 @@
 import { spawn } from "node:child_process";
 import { CarrylogError, issueError } from "../core/errors.js";
+import { stringifyTerminalSafeJson } from "../core/text.js";
 
 const MAX_GIT_OUTPUT_BYTES = 1024 * 1024;
 const MAX_CHANGED_PATHS = 200;
+export const MAX_CHANGED_PATH_EVIDENCE_CHARACTERS = 1024;
+const MAX_CHANGED_PATH_LINE_SEPARATOR_CHARACTERS = 2;
 const MAX_GIT_SNAPSHOT_ATTEMPTS = 3;
 const GIT_TIMEOUT_MS = 10_000;
 const GIT_TERMINATION_GRACE_MS = 250;
@@ -347,7 +350,7 @@ export function parseGitStatus(
     changes.push(change);
   }
   changes.sort(compareChanges);
-  const renderedChanges = changes.slice(0, MAX_CHANGED_PATHS);
+  const renderedChanges = selectRenderedChanges(changes);
   return {
     changes: renderedChanges,
     omittedChanges: total - renderedChanges.length,
@@ -356,6 +359,20 @@ export function parseGitStatus(
     untracked,
     conflicted,
   };
+}
+
+function selectRenderedChanges(changes: readonly GitChangeEvidence[]): GitChangeEvidence[] {
+  const selected: GitChangeEvidence[] = [];
+  let renderedCharacters = 0;
+  for (const change of changes) {
+    if (selected.length >= MAX_CHANGED_PATHS) break;
+    const recordCharacters =
+      stringifyTerminalSafeJson(change).length + 4 + MAX_CHANGED_PATH_LINE_SEPARATOR_CHARACTERS;
+    if (renderedCharacters + recordCharacters > MAX_CHANGED_PATH_EVIDENCE_CHARACTERS) break;
+    selected.push(change);
+    renderedCharacters += recordCharacters;
+  }
+  return selected;
 }
 
 function parseCommitLine(line: string): GitCommitEvidence {

@@ -43,15 +43,15 @@ export function renderHandoffSnapshot(
   ];
 
   lines.push("", `### Changed paths (${snapshot.changes.length + snapshot.omittedChanges})`, "");
-  if (snapshot.changes.length === 0) {
+  if (snapshot.changes.length === 0 && snapshot.omittedChanges === 0) {
     lines.push("None.");
   } else {
     for (const change of snapshot.changes) {
       lines.push(`    ${stringifyEvidence(change)}`);
     }
-    if (snapshot.omittedChanges > 0) {
-      lines.push(`    ${stringifyEvidence({ omitted: snapshot.omittedChanges })}`);
-    }
+  }
+  if (snapshot.omittedChanges > 0) {
+    lines.push(`    ${stringifyEvidence({ omitted: snapshot.omittedChanges })}`);
   }
 
   lines.push("", `### Recent commits (${snapshot.recentCommits.length})`, "");

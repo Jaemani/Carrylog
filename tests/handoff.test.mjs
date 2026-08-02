@@ -4,8 +4,10 @@ import { chmod, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { promisify } from "node:util";
+import { stringifyTerminalSafeJson } from "../dist/core/text.js";
 import {
   inspectGitProjectWithRunner,
+  MAX_CHANGED_PATH_EVIDENCE_CHARACTERS,
   parseGitNumstat,
   parseGitStatus,
   runGitProcess,
@@ -76,6 +78,35 @@ function commitLine(version) {
 
 function versionNumber(version) {
   return version.charCodeAt(0) - "a".charCodeAt(0) + 1;
+}
+
+function snapshotWithChanges(changes, omittedChanges = 0) {
+  return {
+    branch: "main",
+    detached: false,
+    changes,
+    omittedChanges,
+    staged: 0,
+    unstaged: 0,
+    untracked: changes.length + omittedChanges,
+    conflicted: 0,
+    stagedDiff: { files: 0, insertions: 0, deletions: 0, binaryFiles: 0 },
+    unstagedDiff: { files: 0, insertions: 0, deletions: 0, binaryFiles: 0 },
+    recentCommits: [],
+  };
+}
+
+function renderedChangeRecordLines(rendered, eol) {
+  return rendered
+    .split(eol)
+    .filter((line) => line.startsWith("    {") && line.includes('"status"'));
+}
+
+function renderedChangeEvidenceCharacters(rendered, eol) {
+  return renderedChangeRecordLines(rendered, eol).reduce(
+    (total, line) => total + line.length + eol.length,
+    0,
+  );
 }
 
 async function git(root, arguments_) {
@@ -202,12 +233,91 @@ test("snapshot caps rendered paths while preserving aggregate counts", async () 
       ),
     );
     const snapshot = await inspectGitProject(root, ".agent-context/handoff.md");
-    assert.equal(snapshot.changes.length, 200);
-    assert.equal(snapshot.omittedChanges, 5);
+    assert.equal(snapshot.changes.length > 0 && snapshot.changes.length < 200, true);
+    assert.equal(snapshot.changes.length + snapshot.omittedChanges, 205);
     assert.equal(snapshot.untracked, 205);
+    assert.match(renderHandoffSnapshot(snapshot), /{"omitted":\d+}/);
   } finally {
     await removeTemporaryDirectory(root);
   }
+});
+
+test("snapshot renders an omission record when no changed path fits the evidence budget", () => {
+  const parsed = parseGitStatus(Buffer.from(`?? ${"x".repeat(1024)}\0?? z.txt\0`, "utf8"));
+  assert.equal(parsed.changes.length, 0);
+  assert.equal(parsed.omittedChanges, 2);
+  const rendered = renderHandoffSnapshot(
+    snapshotWithChanges(parsed.changes, parsed.omittedChanges),
+  );
+  assert.match(rendered, /Changed paths \(2\)/);
+  assert.match(rendered, /{"omitted":2}/);
+  assert.doesNotMatch(rendered.split("### Recent commits")[0], /None\./);
+});
+
+test("snapshot path evidence enforces exact CRLF-budget fit and rejects one character over", () => {
+  const emptyRecordCharacters = stringifyTerminalSafeJson({ status: "??", path: "" }).length;
+  const exactPath = "x".repeat(
+    MAX_CHANGED_PATH_EVIDENCE_CHARACTERS - emptyRecordCharacters - 4 - 2,
+  );
+  const exact = parseGitStatus(Buffer.from(`?? ${exactPath}\0`, "utf8"));
+  assert.equal(exact.changes.length, 1);
+  assert.equal(exact.omittedChanges, 0);
+
+  const lf = renderHandoffSnapshot(snapshotWithChanges(exact.changes));
+  const crlf = upsertHandoffSnapshot("# Handoff\r\n", lf);
+  assert.equal(
+    renderedChangeEvidenceCharacters(crlf, "\r\n"),
+    MAX_CHANGED_PATH_EVIDENCE_CHARACTERS,
+  );
+  assert.equal(
+    renderedChangeEvidenceCharacters(lf, "\n") < MAX_CHANGED_PATH_EVIDENCE_CHARACTERS,
+    true,
+  );
+
+  const over = parseGitStatus(Buffer.from(`?? ${exactPath}x\0`, "utf8"));
+  assert.equal(over.changes.length, 0);
+  assert.equal(over.omittedChanges, 1);
+});
+
+test("snapshot budget uses the same terminal-safe records for complex and invalid paths", () => {
+  const status = Buffer.concat([
+    Buffer.from('?? quote"slash\\control\u0001format\u202eastral😀.txt\0', "utf8"),
+    Buffer.from('R  renamed😀.txt\0original\\name".txt\0', "utf8"),
+    Buffer.from("?? ", "ascii"),
+    Buffer.from([0xff, 0]),
+  ]);
+  const parsed = parseGitStatus(status);
+  assert.equal(parsed.changes.length + parsed.omittedChanges, 3);
+  assert.equal(parsed.omittedChanges, 0);
+  assert.equal(
+    parsed.changes.some((change) => change.originalPath !== undefined),
+    true,
+  );
+  assert.equal(
+    parsed.changes.some((change) => change.pathEncoding === "hex"),
+    true,
+  );
+
+  const lf = renderHandoffSnapshot(snapshotWithChanges(parsed.changes));
+  const crlf = upsertHandoffSnapshot("# Handoff\r\n", lf);
+  for (const [rendered, eol] of [
+    [lf, "\n"],
+    [crlf, "\r\n"],
+  ]) {
+    const lines = renderedChangeRecordLines(rendered, eol);
+    assert.deepEqual(
+      lines.map((line) => JSON.parse(line.trim())),
+      parsed.changes,
+    );
+    assert.equal(
+      renderedChangeEvidenceCharacters(rendered, eol) <= MAX_CHANGED_PATH_EVIDENCE_CHARACTERS,
+      true,
+    );
+  }
+  assert.equal(lf.includes("\u0001"), false);
+  assert.equal(lf.includes("\u202e"), false);
+  assert.match(lf, /\\u0001/);
+  assert.match(lf, /\\u202e/);
 });
 
 test("handoff rejects non-Git projects and missing handoff configuration", async () => {

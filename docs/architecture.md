@@ -176,8 +176,11 @@ The implemented handoff command collects deterministic Git evidence—branch, st
 changed paths, staged/unstaged diff stat, upstream divergence, and recent commits—inside a separate
 managed block. Two observations must match in every consumed channel—allowed exit code and exact
 stdout—or collection retries three times and then fails closed. Sandbox stderr is not repository
-state under ADR-0011. Semantic narrative remains human/agent-authored. Process and trust boundaries
-are defined in [ADR-0006](decisions/0006-deterministic-git-handoff-evidence.md).
+state under ADR-0011. Changed-path examples obey both entry and rendered-character budgets under
+worst-case CRLF accounting while aggregate counts remain complete. Semantic narrative remains
+human/agent-authored. Process and trust boundaries are defined in
+[ADR-0006](decisions/0006-deterministic-git-handoff-evidence.md) and
+[ADR-0015](decisions/0015-character-bounded-handoff-path-evidence.md).
 
 ### Checkpoint-settlement freshness
 
