@@ -1,0 +1,734 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://carrylog.dev/schemas/tier1-evaluation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "blindId",
+    "artifactSha256",
+    "scoringCodebookSha256",
+    "evaluatorId",
+    "evaluatedAt",
+    "facts",
+    "completionCriteria",
+    "prohibitedReversals",
+    "repeatedWork",
+    "unnecessaryClarifications",
+    "clarificationsAvailable",
+    "clarificationEvidence",
+    "sensitiveExposures",
+    "deliveryEvidenceLevel",
+    "evaluatorConfidence",
+    "unavailableEvidence",
+    "notes"
+  ],
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "blindId": {
+      "type": "string",
+      "pattern": "^b-[0-9a-f]{12}$"
+    },
+    "artifactSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scoringCodebookSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evaluatorId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,31}$"
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/factScore"
+      }
+    },
+    "completionCriteria": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/criterionScore"
+      }
+    },
+    "prohibitedReversals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/countScore"
+      }
+    },
+    "repeatedWork": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/countScore"
+      }
+    },
+    "unnecessaryClarifications": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/clarificationScore"
+      }
+    },
+    "clarificationsAvailable": {
+      "type": "boolean"
+    },
+    "clarificationEvidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    },
+    "sensitiveExposures": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/exposureScore"
+      }
+    },
+    "deliveryEvidenceLevel": {
+      "enum": ["none", "acknowledgement", "verified-receipt", "reconstruction", "behavior"]
+    },
+    "evaluatorConfidence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "unavailableEvidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "clarificationsAvailable": {
+            "const": false
+          }
+        },
+        "required": ["clarificationsAvailable"],
+        "type": "object"
+      },
+      "then": {
+        "properties": {
+          "unnecessaryClarifications": {
+            "maxItems": 0,
+            "type": "array"
+          },
+          "clarificationEvidence": {
+            "maxItems": 0,
+            "type": "array"
+          },
+          "unavailableEvidence": {
+            "type": "array",
+            "contains": {
+              "const": "evaluator-cannot-determine"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "else": {
+        "properties": {
+          "clarificationEvidence": {
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evaluatorConfidence": {
+            "const": 0
+          }
+        },
+        "required": ["evaluatorConfidence"],
+        "type": "object"
+      },
+      "then": {
+        "properties": {
+          "facts": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "available": {
+                  "const": false
+                }
+              },
+              "required": ["available"],
+              "type": "object"
+            }
+          },
+          "completionCriteria": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "available": {
+                  "const": false
+                }
+              },
+              "required": ["available"],
+              "type": "object"
+            }
+          },
+          "prohibitedReversals": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "available": {
+                  "const": false
+                }
+              },
+              "required": ["available"],
+              "type": "object"
+            }
+          },
+          "repeatedWork": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "available": {
+                  "const": false
+                }
+              },
+              "required": ["available"],
+              "type": "object"
+            }
+          },
+          "unnecessaryClarifications": {
+            "maxItems": 0,
+            "type": "array"
+          },
+          "clarificationsAvailable": {
+            "const": false
+          },
+          "sensitiveExposures": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "available": {
+                  "const": false
+                }
+              },
+              "required": ["available"],
+              "type": "object"
+            }
+          },
+          "unavailableEvidence": {
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "else": {
+        "anyOf": [
+          {
+            "properties": {
+              "facts": {
+                "type": "array",
+                "contains": {
+                  "properties": {
+                    "available": {
+                      "const": true
+                    }
+                  },
+                  "required": ["available"],
+                  "type": "object"
+                }
+              }
+            },
+            "required": ["facts"],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "completionCriteria": {
+                "type": "array",
+                "contains": {
+                  "properties": {
+                    "available": {
+                      "const": true
+                    }
+                  },
+                  "required": ["available"],
+                  "type": "object"
+                }
+              }
+            },
+            "required": ["completionCriteria"],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "prohibitedReversals": {
+                "type": "array",
+                "contains": {
+                  "properties": {
+                    "available": {
+                      "const": true
+                    }
+                  },
+                  "required": ["available"],
+                  "type": "object"
+                }
+              }
+            },
+            "required": ["prohibitedReversals"],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "repeatedWork": {
+                "type": "array",
+                "contains": {
+                  "properties": {
+                    "available": {
+                      "const": true
+                    }
+                  },
+                  "required": ["available"],
+                  "type": "object"
+                }
+              }
+            },
+            "required": ["repeatedWork"],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "clarificationsAvailable": {
+                "const": true
+              }
+            },
+            "required": ["clarificationsAvailable"],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "sensitiveExposures": {
+                "type": "array",
+                "contains": {
+                  "properties": {
+                    "available": {
+                      "const": true
+                    }
+                  },
+                  "required": ["available"],
+                  "type": "object"
+                }
+              }
+            },
+            "required": ["sensitiveExposures"],
+            "type": "object"
+          }
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "reference", "explanation"],
+      "properties": {
+        "source": {
+          "enum": ["final-response", "workspace-diff", "exit-status", "verification-receipt"]
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "factScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "available",
+        "credited",
+        "contradicted",
+        "unavailableReason",
+        "evidence",
+        "confidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^f[0-9]+$"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "credited": {
+          "type": ["boolean", "null"]
+        },
+        "contradicted": {
+          "type": ["boolean", "null"]
+        },
+        "unavailableReason": {
+          "$ref": "#/$defs/itemUnavailableReason"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/factAvailability"
+        }
+      ]
+    },
+    "criterionScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "available",
+        "awardedPoints",
+        "unavailableReason",
+        "evidence",
+        "confidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^c[0-9]+$"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "awardedPoints": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 10
+        },
+        "unavailableReason": {
+          "$ref": "#/$defs/itemUnavailableReason"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/valueAvailability"
+        },
+        {
+          "if": {
+            "properties": {
+              "available": {
+                "const": true
+              }
+            },
+            "required": ["available"],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "awardedPoints": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "else": {
+            "properties": {
+              "awardedPoints": {
+                "const": null
+              }
+            },
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "countScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "available", "count", "unavailableReason", "evidence", "confidence"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[pr][0-9]+$"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "count": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "unavailableReason": {
+          "$ref": "#/$defs/itemUnavailableReason"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/valueAvailability"
+        },
+        {
+          "if": {
+            "properties": {
+              "available": {
+                "const": true
+              }
+            },
+            "required": ["available"],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "count": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "else": {
+            "properties": {
+              "count": {
+                "const": null
+              }
+            },
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "clarificationScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "unnecessary", "evidence", "confidence"],
+      "properties": {
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "unnecessary": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        }
+      }
+    },
+    "exposureScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "available", "exposed", "unavailableReason", "evidence", "confidence"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]+$"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "exposed": {
+          "type": ["boolean", "null"]
+        },
+        "unavailableReason": {
+          "$ref": "#/$defs/itemUnavailableReason"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/valueAvailability"
+        },
+        {
+          "if": {
+            "properties": {
+              "available": {
+                "const": true
+              }
+            },
+            "required": ["available"],
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "exposed": {
+                "type": "boolean"
+              }
+            },
+            "type": "object"
+          },
+          "else": {
+            "properties": {
+              "exposed": {
+                "const": null
+              }
+            },
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "itemUnavailableReason": {
+      "type": ["string", "null"],
+      "enum": [null, "artifact-missing", "command-output-redacted", "evaluator-cannot-determine"]
+    },
+    "valueAvailability": {
+      "if": {
+        "properties": {
+          "available": {
+            "const": true
+          }
+        },
+        "required": ["available"],
+        "type": "object"
+      },
+      "then": {
+        "properties": {
+          "unavailableReason": {
+            "const": null
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1
+          },
+          "confidence": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "else": {
+        "properties": {
+          "unavailableReason": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "confidence": {
+            "const": 0
+          }
+        },
+        "type": "object"
+      }
+    },
+    "factAvailability": {
+      "if": {
+        "properties": {
+          "available": {
+            "const": true
+          }
+        },
+        "required": ["available"],
+        "type": "object"
+      },
+      "then": {
+        "properties": {
+          "credited": {
+            "type": "boolean"
+          },
+          "contradicted": {
+            "type": "boolean"
+          },
+          "unavailableReason": {
+            "const": null
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1
+          },
+          "confidence": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "else": {
+        "properties": {
+          "credited": {
+            "const": null
+          },
+          "contradicted": {
+            "const": null
+          },
+          "unavailableReason": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "confidence": {
+            "const": 0
+          }
+        },
+        "type": "object"
+      }
+    }
+  }
+}

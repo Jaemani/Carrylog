@@ -1,0 +1,193 @@
+{
+  "formatVersion": 1,
+  "fixtures": {
+    "r1-carrylog-01-objective": [
+      {
+        "id": "git-head",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["rev-parse", "refs/carrylog-pilot/source"]
+      },
+      {
+        "id": "git-status",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["status", "--short", "--branch"]
+      }
+    ],
+    "r1-carrylog-02-bounded-continuation": [
+      {
+        "id": "diff-check",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["diff", "--check"]
+      },
+      {
+        "id": "format-check",
+        "cwd": ".",
+        "executable": "npm",
+        "gitContext": "none",
+        "arguments": ["run", "format:check"]
+      }
+    ],
+    "r1-carrylog-03-protected-decision": [
+      {
+        "id": "format-check",
+        "cwd": ".",
+        "executable": "npm",
+        "gitContext": "none",
+        "arguments": ["run", "format:check"]
+      },
+      {
+        "id": "git-diff",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["diff", "--exit-code"]
+      }
+    ],
+    "r1-carrylog-04-failed-approach": [
+      {
+        "id": "continuity-tests",
+        "cwd": ".",
+        "executable": "node",
+        "gitContext": "none",
+        "arguments": ["--test", "--test-concurrency=1", "tests/continuity.test.mjs"]
+      },
+      {
+        "id": "git-diff",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["diff", "--exit-code"]
+      }
+    ],
+    "r1-carrylog-05-verify-readiness": [
+      {
+        "id": "format-check",
+        "cwd": ".",
+        "executable": "npm",
+        "gitContext": "none",
+        "arguments": ["run", "format:check"]
+      },
+      {
+        "id": "continuity-tests",
+        "cwd": ".",
+        "executable": "node",
+        "gitContext": "none",
+        "arguments": ["--test", "--test-concurrency=1", "tests/continuity.test.mjs"]
+      },
+      {
+        "id": "git-diff",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["diff", "--exit-code"]
+      }
+    ],
+    "r2-busycafe-01-objective": [
+      {
+        "id": "git-head",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["rev-parse", "refs/carrylog-pilot/source"]
+      },
+      {
+        "id": "git-status",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["status", "--short"]
+      }
+    ],
+    "r2-busycafe-02-bounded-continuation": [
+      {
+        "id": "focused-tests",
+        "cwd": "backend",
+        "executable": "uv",
+        "gitContext": "none",
+        "arguments": ["run", "pytest", "tests/test_poller.py", "tests/test_ingest_repository.py"]
+      },
+      {
+        "id": "backend-tests",
+        "cwd": "backend",
+        "executable": "uv",
+        "gitContext": "none",
+        "arguments": ["run", "pytest"]
+      },
+      {
+        "id": "compileall",
+        "cwd": "backend",
+        "executable": "uv",
+        "gitContext": "none",
+        "arguments": ["run", "python", "-m", "compileall", "-q", "app", "scripts", "tests"]
+      },
+      {
+        "id": "diff-check",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["diff", "--check"]
+      }
+    ],
+    "r2-busycafe-03-protected-decision": [
+      {
+        "id": "git-status",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["status", "--short"]
+      },
+      {
+        "id": "git-diff",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["diff", "--exit-code"]
+      }
+    ],
+    "r2-busycafe-04-failed-approach": [
+      {
+        "id": "git-status",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["status", "--short"]
+      },
+      {
+        "id": "git-diff",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["diff", "--exit-code"]
+      }
+    ],
+    "r2-busycafe-05-verify-readiness": [
+      {
+        "id": "freshness-tests",
+        "cwd": "backend",
+        "executable": "uv",
+        "gitContext": "none",
+        "arguments": ["run", "pytest", "tests/test_check_freshness.py"]
+      },
+      {
+        "id": "compileall",
+        "cwd": "backend",
+        "executable": "uv",
+        "gitContext": "none",
+        "arguments": ["run", "python", "-m", "compileall", "-q", "app", "scripts", "tests"]
+      },
+      {
+        "id": "git-status",
+        "cwd": ".",
+        "executable": "git",
+        "gitContext": "repository",
+        "arguments": ["status", "--short"]
+      }
+    ]
+  }
+}

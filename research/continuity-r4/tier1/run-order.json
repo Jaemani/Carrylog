@@ -1,0 +1,487 @@
+{
+  "formatVersion": 1,
+  "seed": "carrylog-tier1-2026-08-02-attempt-4-1",
+  "method": "Preregistered Carrylog verification repair blocks first, then SHA-256 randomized fixture-harness blocks; each harness-repository stratum uses five of six condition permutations and paired omitted permutations are deranged to balance both stratum and harness positions",
+  "runs": [
+    {
+      "ordinal": 1,
+      "runId": "t1-001",
+      "blindId": "b-16e28660d6fe",
+      "fixtureId": "r1-carrylog-05-verify-readiness",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 2,
+      "runId": "t1-002",
+      "blindId": "b-a0e045a8669d",
+      "fixtureId": "r1-carrylog-05-verify-readiness",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 3,
+      "runId": "t1-003",
+      "blindId": "b-242cc7b9b955",
+      "fixtureId": "r1-carrylog-05-verify-readiness",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 4,
+      "runId": "t1-004",
+      "blindId": "b-f0b2ada28624",
+      "fixtureId": "r1-carrylog-05-verify-readiness",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 5,
+      "runId": "t1-005",
+      "blindId": "b-c19c7714f4af",
+      "fixtureId": "r1-carrylog-05-verify-readiness",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 6,
+      "runId": "t1-006",
+      "blindId": "b-7dffbd3b2e6e",
+      "fixtureId": "r1-carrylog-05-verify-readiness",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 7,
+      "runId": "t1-007",
+      "blindId": "b-7c704f9c942a",
+      "fixtureId": "r1-carrylog-01-objective",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 8,
+      "runId": "t1-008",
+      "blindId": "b-42a40abdf118",
+      "fixtureId": "r1-carrylog-01-objective",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 9,
+      "runId": "t1-009",
+      "blindId": "b-bfa253552390",
+      "fixtureId": "r1-carrylog-01-objective",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 10,
+      "runId": "t1-010",
+      "blindId": "b-316e773003d4",
+      "fixtureId": "r1-carrylog-03-protected-decision",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 11,
+      "runId": "t1-011",
+      "blindId": "b-4b822420520f",
+      "fixtureId": "r1-carrylog-03-protected-decision",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 12,
+      "runId": "t1-012",
+      "blindId": "b-9d2eac1573fe",
+      "fixtureId": "r1-carrylog-03-protected-decision",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 13,
+      "runId": "t1-013",
+      "blindId": "b-5ca87734b494",
+      "fixtureId": "r2-busycafe-02-bounded-continuation",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 14,
+      "runId": "t1-014",
+      "blindId": "b-df38b54acb99",
+      "fixtureId": "r2-busycafe-02-bounded-continuation",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 15,
+      "runId": "t1-015",
+      "blindId": "b-d9577cf6778e",
+      "fixtureId": "r2-busycafe-02-bounded-continuation",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 16,
+      "runId": "t1-016",
+      "blindId": "b-f42c08b284d9",
+      "fixtureId": "r1-carrylog-01-objective",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 17,
+      "runId": "t1-017",
+      "blindId": "b-7f917ad4c440",
+      "fixtureId": "r1-carrylog-01-objective",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 18,
+      "runId": "t1-018",
+      "blindId": "b-1207a6b0b6a0",
+      "fixtureId": "r1-carrylog-01-objective",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 19,
+      "runId": "t1-019",
+      "blindId": "b-9634344b2531",
+      "fixtureId": "r2-busycafe-05-verify-readiness",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 20,
+      "runId": "t1-020",
+      "blindId": "b-7afb3402e5b2",
+      "fixtureId": "r2-busycafe-05-verify-readiness",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 21,
+      "runId": "t1-021",
+      "blindId": "b-232b2376f0f6",
+      "fixtureId": "r2-busycafe-05-verify-readiness",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 22,
+      "runId": "t1-022",
+      "blindId": "b-2335895a355c",
+      "fixtureId": "r2-busycafe-03-protected-decision",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 23,
+      "runId": "t1-023",
+      "blindId": "b-68196913f7ee",
+      "fixtureId": "r2-busycafe-03-protected-decision",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 24,
+      "runId": "t1-024",
+      "blindId": "b-ba84839697d0",
+      "fixtureId": "r2-busycafe-03-protected-decision",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 25,
+      "runId": "t1-025",
+      "blindId": "b-3a05b2a57e74",
+      "fixtureId": "r1-carrylog-04-failed-approach",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 26,
+      "runId": "t1-026",
+      "blindId": "b-0f5f5f348e91",
+      "fixtureId": "r1-carrylog-04-failed-approach",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 27,
+      "runId": "t1-027",
+      "blindId": "b-fa2a7a1e9233",
+      "fixtureId": "r1-carrylog-04-failed-approach",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 28,
+      "runId": "t1-028",
+      "blindId": "b-5c7beb20512c",
+      "fixtureId": "r2-busycafe-01-objective",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 29,
+      "runId": "t1-029",
+      "blindId": "b-da112fd14588",
+      "fixtureId": "r2-busycafe-01-objective",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 30,
+      "runId": "t1-030",
+      "blindId": "b-7ac65ad057e4",
+      "fixtureId": "r2-busycafe-01-objective",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 31,
+      "runId": "t1-031",
+      "blindId": "b-3a792b5a3c5e",
+      "fixtureId": "r2-busycafe-01-objective",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 32,
+      "runId": "t1-032",
+      "blindId": "b-c614ba51463e",
+      "fixtureId": "r2-busycafe-01-objective",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 33,
+      "runId": "t1-033",
+      "blindId": "b-51f7a946f64f",
+      "fixtureId": "r2-busycafe-01-objective",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 34,
+      "runId": "t1-034",
+      "blindId": "b-7747d0d738d5",
+      "fixtureId": "r2-busycafe-05-verify-readiness",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 35,
+      "runId": "t1-035",
+      "blindId": "b-f834a37e30f7",
+      "fixtureId": "r2-busycafe-05-verify-readiness",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 36,
+      "runId": "t1-036",
+      "blindId": "b-34988fb69a5e",
+      "fixtureId": "r2-busycafe-05-verify-readiness",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 37,
+      "runId": "t1-037",
+      "blindId": "b-7b667f21c1c7",
+      "fixtureId": "r1-carrylog-03-protected-decision",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 38,
+      "runId": "t1-038",
+      "blindId": "b-f98c51fab9f0",
+      "fixtureId": "r1-carrylog-03-protected-decision",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 39,
+      "runId": "t1-039",
+      "blindId": "b-5f4f89e187ed",
+      "fixtureId": "r1-carrylog-03-protected-decision",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 40,
+      "runId": "t1-040",
+      "blindId": "b-e7601bf2bfea",
+      "fixtureId": "r2-busycafe-03-protected-decision",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 41,
+      "runId": "t1-041",
+      "blindId": "b-17603a3150f2",
+      "fixtureId": "r2-busycafe-03-protected-decision",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 42,
+      "runId": "t1-042",
+      "blindId": "b-75a9ea35cb03",
+      "fixtureId": "r2-busycafe-03-protected-decision",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 43,
+      "runId": "t1-043",
+      "blindId": "b-e12f8894fdd4",
+      "fixtureId": "r2-busycafe-04-failed-approach",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 44,
+      "runId": "t1-044",
+      "blindId": "b-6bd4253c57f5",
+      "fixtureId": "r2-busycafe-04-failed-approach",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 45,
+      "runId": "t1-045",
+      "blindId": "b-d449eef2558a",
+      "fixtureId": "r2-busycafe-04-failed-approach",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 46,
+      "runId": "t1-046",
+      "blindId": "b-d59b948226b7",
+      "fixtureId": "r2-busycafe-02-bounded-continuation",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 47,
+      "runId": "t1-047",
+      "blindId": "b-d0d6c078db42",
+      "fixtureId": "r2-busycafe-02-bounded-continuation",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 48,
+      "runId": "t1-048",
+      "blindId": "b-5d97baa3287d",
+      "fixtureId": "r2-busycafe-02-bounded-continuation",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 49,
+      "runId": "t1-049",
+      "blindId": "b-8241e0f8a9e0",
+      "fixtureId": "r1-carrylog-02-bounded-continuation",
+      "condition": "manual-handoff",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 50,
+      "runId": "t1-050",
+      "blindId": "b-55de7e8b81f2",
+      "fixtureId": "r1-carrylog-02-bounded-continuation",
+      "condition": "carrylog-resume",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 51,
+      "runId": "t1-051",
+      "blindId": "b-b3acc4fa0b5c",
+      "fixtureId": "r1-carrylog-02-bounded-continuation",
+      "condition": "repository-only",
+      "harness": "claude"
+    },
+    {
+      "ordinal": 52,
+      "runId": "t1-052",
+      "blindId": "b-892863506356",
+      "fixtureId": "r1-carrylog-04-failed-approach",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 53,
+      "runId": "t1-053",
+      "blindId": "b-04ae2df1f1b9",
+      "fixtureId": "r1-carrylog-04-failed-approach",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 54,
+      "runId": "t1-054",
+      "blindId": "b-bb9eae23be31",
+      "fixtureId": "r1-carrylog-04-failed-approach",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 55,
+      "runId": "t1-055",
+      "blindId": "b-3179e2c14cd3",
+      "fixtureId": "r2-busycafe-04-failed-approach",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 56,
+      "runId": "t1-056",
+      "blindId": "b-274d420429f0",
+      "fixtureId": "r2-busycafe-04-failed-approach",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 57,
+      "runId": "t1-057",
+      "blindId": "b-412e31f8cb0d",
+      "fixtureId": "r2-busycafe-04-failed-approach",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 58,
+      "runId": "t1-058",
+      "blindId": "b-d2874423a43f",
+      "fixtureId": "r1-carrylog-02-bounded-continuation",
+      "condition": "repository-only",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 59,
+      "runId": "t1-059",
+      "blindId": "b-e6e97c860850",
+      "fixtureId": "r1-carrylog-02-bounded-continuation",
+      "condition": "manual-handoff",
+      "harness": "codex"
+    },
+    {
+      "ordinal": 60,
+      "runId": "t1-060",
+      "blindId": "b-73ee37be2cf5",
+      "fixtureId": "r1-carrylog-02-bounded-continuation",
+      "condition": "carrylog-resume",
+      "harness": "codex"
+    }
+  ]
+}

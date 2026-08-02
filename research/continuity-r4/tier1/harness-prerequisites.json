@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "harnessConfigurationSha256": "cdb2af9444c8d6fe1b7fc2cc57c026e05604caa884ceeb19d0636b5899f1b7b5",
+  "criticalFiles": [
+    {
+      "path": "analysis/claude-router-auth.mjs",
+      "sha256": "47353aadaeaed82422b36fe40daa63057a39b1a9825fd235ec370e5331c779ce"
+    },
+    {
+      "path": "analysis/codex-executable.mjs",
+      "sha256": "87b59e2ed8eb9a209750daff933f3828853becbd7161196857ad143973d5d743"
+    },
+    {
+      "path": "analysis/fixture-command-wrapper.mjs",
+      "sha256": "41a9a947da56bd1c93563c3235e95ddf6db999db443e2983e8e52cc2a72882f4"
+    },
+    {
+      "path": "analysis/harness-contract.mjs",
+      "sha256": "708f1630e67eab72c1761b45120c0a560f24fb6ce9c35d38100e534234ef343c"
+    },
+    {
+      "path": "analysis/harness-isolation-canary.mjs",
+      "sha256": "b561545fa14c070456fadb45ebbd336f1af97db1234ea73373db17bd2555afce"
+    },
+    {
+      "path": "analysis/harness-prerequisites.mjs",
+      "sha256": "3261151fc1a9e4160fd96ef3b466a87da4bfb4385eba83dafa590cf1da751b56"
+    },
+    {
+      "path": "analysis/pilot-boundaries.mjs",
+      "sha256": "6c0eb8b64abedbcc4604e0a7d504bb2f195d47e3ac8df6be687d168ef8b61866"
+    },
+    {
+      "path": "analysis/run-contract.mjs",
+      "sha256": "afbe74fa3009897d81da30370bc4d0317c660b08bfe544a1b6c606234fae786d"
+    },
+    {
+      "path": "analysis/run.mjs",
+      "sha256": "400a822baae1a12f8294e8ed3750e582be6cc7ee6da0379e3079ee6e1ea55fc0"
+    },
+    {
+      "path": "analysis/verification-mcp-server.mjs",
+      "sha256": "7c1ba07289b28ad96b20bc10f2d95da5fc3da664fcedd7cdd68bc62b0bb2e134"
+    },
+    {
+      "path": "verification-commands.json",
+      "sha256": "3424d708e2ea22b8e3017b721c44fab3c412548f29dd7a19703c43122ba64367"
+    }
+  ],
+  "harnesses": {
+    "codex": {
+      "status": "passed",
+      "testedAt": "2026-08-02T06:32:39.563Z",
+      "cliVersion": "codex-cli 0.146.0",
+      "model": "gpt-5.6-sol",
+      "resultSummary": "Authenticated canary passed workspace access, external-filesystem denial, registered verification, and model-tool network-denial assertions.",
+      "resultSha256": "7a8de3385ecd85e1ab1542ba08c98e814efd07271a23b8b00ed13f371e788af9"
+    },
+    "claude": {
+      "status": "passed",
+      "testedAt": "2026-08-02T06:34:12.516Z",
+      "cliVersion": "2.1.220 (Claude Code)",
+      "model": "gpt-5.6-sol",
+      "resultSummary": "Authenticated canary passed workspace access, external-filesystem denial, registered verification, and model-tool network-denial assertions.",
+      "resultSha256": "b5c687ce60f3a2962356440e14aa508a4ac502d038a5fbf28a320ab7172122f0"
+    }
+  }
+}

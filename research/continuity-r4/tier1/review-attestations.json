@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "reviewDigest": "c6de504d9b526016ce129c7754010713cc7b7deec7d70552e7efa40c0ac91fa8",
+  "reviews": [
+    {
+      "reviewerId": "attempt4_freeze_methodology_review",
+      "independenceStatement": "I performed an independent read-only methodology and freeze-boundary review of the exact R4 candidate bytes; I did not modify files, Git state, attestations, manifests, artifacts, caches, or provider state.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T06:38:48Z",
+      "reviewDigest": "c6de504d9b526016ce129c7754010713cc7b7deec7d70552e7efa40c0ac91fa8",
+      "findings": []
+    },
+    {
+      "reviewerId": "attempt4_freeze_security_review",
+      "independenceStatement": "I performed an independent read-only security, privacy, runner, and isolation review of the exact R4 candidate bytes; I did not modify files, Git state, attestations, manifests, artifacts, caches, or call providers.",
+      "verdict": "GO",
+      "reviewedAt": "2026-08-02T06:38:48Z",
+      "reviewDigest": "c6de504d9b526016ce129c7754010713cc7b7deec7d70552e7efa40c0ac91fa8",
+      "findings": []
+    }
+  ]
+}
