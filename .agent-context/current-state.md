@@ -48,6 +48,9 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   reviewed GitHub adoption and bug forms collect public, sanitized, structured outcomes without
   requesting raw conversations or private context; their repository contracts and full product and
   package gates pass.
+- The STOP analysis, corrected roadmap, and adoption intake are on `origin/main`. The public repository
+  now exposes an npm homepage, discovery topics, and enabled Discussions for the issue-form support
+  route.
 
 ## Blockers and risks
 
@@ -67,5 +70,5 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
 
 ## Next best task
 
-Ship the STOP analysis, roadmap correction, and sanitized adoption intake. Then obtain the next
-real-repository adoption outcome before adding continuity features or provider experiments.
+Obtain a sanitized real-repository adoption outcome through the published beta path before adding
+continuity features or provider experiments.

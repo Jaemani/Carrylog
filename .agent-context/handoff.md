@@ -4,41 +4,32 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "5adb811 at 2026-08-05T03:54:06+09:00"
-- Upstream: "origin/main; ahead 26, behind 0"
-- Working tree: 10 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 10 file(s), +629/-6, 0 binary
+- HEAD: "d2d3a39 at 2026-08-05T04:15:43+09:00"
+- Upstream: "origin/main; ahead 0, behind 0"
+- Working tree: 2 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 2 file(s), +10/-2, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (10)
+### Changed paths (2)
 
     {"status":"M ","path":".agent-context/current-state.md"}
-    {"status":"A ","path":".github/ISSUE_TEMPLATE/adoption-report.yml"}
-    {"status":"A ","path":".github/ISSUE_TEMPLATE/bug-report.yml"}
-    {"status":"A ","path":".github/ISSUE_TEMPLATE/config.yml"}
-    {"status":"M ","path":"README.md"}
-    {"status":"M ","path":"ROADMAP.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"A ","path":"research/continuity-r5/attempt-5-stop-analysis.md"}
-    {"status":"A ","path":"research/continuity-r6/README.md"}
-    {"status":"A ","path":"tests/repository-metadata.test.mjs"}
 
 ### Recent commits (5)
 
+    {"commit":"d2d3a39","committedAt":"2026-08-05T04:15:43+09:00","subject":"docs: ship STOP analysis and adoption intake"}
     {"commit":"5adb811","committedAt":"2026-08-05T03:54:06+09:00","subject":"research: stop Attempt 5 at forty-run boundary"}
     {"commit":"bd0f7b3","committedAt":"2026-08-05T03:19:07+09:00","subject":"research: checkpoint first thirty Attempt 5 runs"}
     {"commit":"69688d2","committedAt":"2026-08-05T02:49:36+09:00","subject":"research: checkpoint first twenty Attempt 5 runs"}
     {"commit":"c68d38a","committedAt":"2026-08-05T02:22:58+09:00","subject":"research: checkpoint first ten Attempt 5 runs"}
-    {"commit":"ec8ab1e","committedAt":"2026-08-04T20:08:33+09:00","subject":"docs: record context budget dogfood finding"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"5adb8118a4b5c1df750495fe6f3bd29456e7705a","detached":false,"branch":"main","indexCommitment":"0f7339792a2ccd0bdaddfa6cb565a4730df591ab38cd96904fdede6bbe0eb098"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"d2d3a39853338adadc384817d8ca4177a614c3dd","detached":false,"branch":"main","indexCommitment":"0ab452794a38bcbf1828e8dfde96720dc622c63d1f87f288e127b94103d756a3"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Pivot from the stopped Attempt-5 research batch to external adoption and measurable user outcomes
-without expanding Carrylog's continuity claims.
+Collect a sanitized real-repository adoption outcome without expanding Carrylog's continuity claims.
 
 ## Completed
 
@@ -52,6 +43,8 @@ without expanding Carrylog's continuity claims.
 - Sanitized adoption and bug issue forms now warn that submission is public, require privacy
   acknowledgement, collect structured outcome and evidence basis, and route security reports privately.
   Repository-contract tests and independent re-review cover the final forms.
+- Commit `d2d3a39` and its 26 predecessors were pushed to `origin/main`. The public repository now has
+  an npm homepage, eight discovery topics, enabled Discussions, and working public intake routes.
 
 ## Verification
 
@@ -63,6 +56,8 @@ without expanding Carrylog's continuity claims.
   validate, checkpoint, and resume smoke paths pass.
 - Five issue-form contract tests, adapter sync, Carrylog validation, diff checks, and two independent
   final reviews pass.
+- GitHub reports `main` at the pushed delivery commit with Discussions enabled and the configured
+  description, npm homepage, and eight repository topics.
 
 ## Decisions
 
@@ -83,5 +78,5 @@ without expanding Carrylog's continuity claims.
 
 ## Next action
 
-Review and publish the STOP analysis, roadmap correction, and adoption intake. Then collect a sanitized
-real-repository adoption outcome before implementing a projection or running another provider batch.
+Collect a sanitized real-repository adoption outcome through the published beta path before
+implementing a projection or running another provider batch.

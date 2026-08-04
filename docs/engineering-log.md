@@ -2469,3 +2469,8 @@ contact links, the README adoption route, and the private security path.
 The corrected delivery passed the full product quality and coverage gate, active research 131/131,
 package inspection at 155 files and 207,061 bytes, all package-consumer smoke paths, adapter sync,
 Carrylog validation, and two independent final reviews. No R6 renderer or provider execution occurred.
+
+The reviewed batch was pushed through commit `d2d3a39`. Repository discovery metadata now points to
+the npm package, eight focused topics describe the supported use case, and Discussions is enabled so
+the issue-form support link has a live destination. The next evidence target is a sanitized adoption
+outcome from the published beta path, not another continuity mechanism or provider experiment.
