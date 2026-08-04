@@ -72,20 +72,18 @@ install coverage because its incomplete provenance bundle fails while loading th
 even when provenance is disabled. Release-artifact tests reject ambiguous selection, record or commit
 mismatch, unsafe filenames, non-regular artifacts, and digest drift before npm can run.
 
-The Tier 1 verification broker targets macOS Seatbelt. Its pure registry, permission, POSIX PATH,
-receipt-ledger, and parser contracts run on every supported CI operating system. Receipt format 5
+The Tier 1 verification broker targets macOS Seatbelt. Its registry, permission, POSIX PATH,
+receipt-ledger, parser, signal, Git-diagnostic, and profile contracts are research evidence owned by
+that macOS harness rather than product support claims. Receipt format 5
 tests bind each MCP invocation's explicit origin and broker ID to one live broker, bind starts to
 matching terminals, require a final count/byte/digest seal,
 and reject partial, duplicate, mismatched, missing, rewritten, truncated, late, or unsettled streams.
 A repeated process-level regression kills the MCP parent after an invocation start and accepts either
 a late wrapper terminal or a permanently unsettled invocation only as fail-closed evidence; its broker
-must remain unsettled. The two tests that execute `sandbox-exec` run only on macOS, where the required
-runtime exists. The separate discovery canary uses the test runner's platform skip. The Attempt-5
-network-denial test belongs to the immutable frozen suite, so the active-research launcher leaves that
-file unchanged: on Linux and Windows it runs the other active files, then invokes the frozen file through
-an exact positive allowlist of its eight portable tests. The launcher pins TAP output and requires all
-eight to pass with no failures or skips; it also fails closed if the frozen file is absent or ambiguous.
-No other security boundary is emulated. Project-local executable selection remains a product-level cross-platform process test,
+must remain unsettled. The complete active research suite runs only on macOS, where its frozen POSIX and
+Seatbelt assumptions exist. Linux and Windows do not emulate or selectively skip that evidence. The
+separate discovery canary still uses the test runner's platform skip for its live macOS boundary.
+Project-local executable selection remains a product-level cross-platform process test,
 including Windows directory junctions, dereferenced target type, and dangling-target rejection.
 The live MCP contract also proves that a detached descendant can write only to verification scratch,
 not to the read-only checkout after its supervised parent exits. Offline BusyCafe screens cover both
@@ -164,11 +162,14 @@ Every feature review should consider combinations from these dimensions:
 4. the complete Node test suite;
 5. coverage thresholds of 90% lines, 90% functions, and 85% branches.
 
-The active research portion runs the Attempt-5 contract suite plus the separately committed non-scored
-repository-discovery contract. macOS runs all 132 tests. Linux and Windows omit only the single frozen
-Seatbelt execution through the launcher partition described above; the frozen file itself is not edited.
-The discovery live canary is skipped outside macOS and pins its focused child to the TAP reporter before
-parsing aggregate metrics.
+This product gate runs on Node.js 22 and 24 across Linux, macOS, and Windows. It does not include the
+platform-owned research harness.
+
+`npm run test:research:active` builds current product bytes and runs the complete Attempt-5 contract
+suite plus the separately committed non-scored repository-discovery contract on macOS. Branch CI runs
+it in dedicated jobs on Node.js 22 and 24. `npm run quality:research` composes product quality
+and complete research for local macOS review. The discovery live canary pins its focused child to the TAP
+reporter before parsing aggregate metrics. Frozen Attempt-5 files and outcomes remain unchanged.
 
 `npm run pack:check` separately inspects the npm artifact. `npm run release:verify` adds dogfood
 sync/validation, one clean release tarball, smoke testing of that exact SHA-256 artifact, runtime
@@ -176,7 +177,8 @@ audit, clean-tree/version/license policy, and package-content checks.
 
 Tagged preflight pins the exact npm version used by the publish job and verifies that its provenance
 module and transitive dependencies load. This prevents protected publication from being the first
-environment to exercise the release client. The publish boundary selects one artifact from its
+environment to exercise the release client. A separate tagged macOS matrix runs the complete active
+research suite on both Node majors, and publication depends on both preflight job families. The publish boundary selects one artifact from its
 verified record and invokes npm without a shell or glob.
 
 The first public beta additionally verified the registry-only boundary that local package smoke

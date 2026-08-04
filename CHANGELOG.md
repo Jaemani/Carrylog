@@ -22,9 +22,9 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 - Added full, partial, CRLF, human-output, and reviewed-content cases so conservative placeholder
   detection remains visible without classifying edited context as stock.
-- Added a platform-aware active-research runner that preserves the frozen Attempt-5 files, executes all
-  tests on macOS, and on other systems runs the frozen pilot boundary through an explicit eight-test
-  portable allowlist instead of invoking unavailable Seatbelt.
+- Separated the supported cross-platform product gate from the complete macOS-owned research gate.
+  Branch CI runs both Node majors for the research suite on macOS, and tagged publication depends on a
+  matching two-major research matrix as well as every cross-platform product and package preflight.
 - Pinned the discovery canary's focused child process to the TAP reporter before parsing aggregate
   metrics, avoiding Node-version-dependent default reporter output.
 

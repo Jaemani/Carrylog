@@ -4,96 +4,99 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "f18780d at 2026-08-05T04:42:49+09:00"
+- HEAD: "16476f3 at 2026-08-05T04:58:35+09:00"
 - Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: 9 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 9 file(s), +224/-9, 0 binary
+- Working tree: 14 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 14 file(s), +254/-194, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (9)
+### Changed paths (14)
 
     {"status":"M ","path":".agent-context/current-state.md"}
+    {"status":"M ","path":".agent-context/decisions.md"}
+    {"status":"M ","path":".github/workflows/ci.yml"}
+    {"status":"M ","path":".github/workflows/release.yml"}
     {"status":"M ","path":"CHANGELOG.md"}
+    {"status":"A ","path":"docs/decisions/0016-product-and-research-quality-gates.md"}
+    {"status":"M ","path":"docs/decisions/README.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
+    {"status":"M ","path":"docs/releasing.md"}
     {"status":"M ","path":"docs/testing-strategy.md"}
     {"status":"M ","path":"package.json"}
-    {"status":"M ","path":"research/continuity-discovery-boundary/live-canary.mjs"}
-    {"status":"M ","path":"research/continuity-discovery-boundary/tests/live-canary.test.mjs"}
-    {"status":"A ","path":"scripts/run-active-research.mjs"}
-    {"status":"A ","path":"tests/research-runner.test.mjs"}
+    {"status":"D ","path":"scripts/run-active-research.mjs"}
+    {"status":"M ","path":"tests/product-identity.test.mjs"}
+    {"status":"D ","path":"tests/research-runner.test.mjs"}
 
 ### Recent commits (5)
 
+    {"commit":"16476f3","committedAt":"2026-08-05T04:58:35+09:00","subject":"fix: restore cross-platform research gates"}
     {"commit":"f18780d","committedAt":"2026-08-05T04:42:49+09:00","subject":"feat: warn on uninitialized resume context"}
     {"commit":"b913ae9","committedAt":"2026-08-05T04:16:33+09:00","subject":"docs: advance checkpoint to adoption evidence"}
     {"commit":"d2d3a39","committedAt":"2026-08-05T04:15:43+09:00","subject":"docs: ship STOP analysis and adoption intake"}
     {"commit":"5adb811","committedAt":"2026-08-05T03:54:06+09:00","subject":"research: stop Attempt 5 at forty-run boundary"}
-    {"commit":"bd0f7b3","committedAt":"2026-08-05T03:19:07+09:00","subject":"research: checkpoint first thirty Attempt 5 runs"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"f18780d94a5a26ff534eecb66a021784f0346c80","detached":false,"branch":"main","indexCommitment":"53ee76912f840fc18959b2e85f23fa5f06a85f99f85d060f7b0ea28aee2925de"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"16476f339fe6fc3f4f1124d5c1c465d21e55dc62","detached":false,"branch":"main","indexCommitment":"85266b33cb87d485ec9e4eb7f105b067cffbe9bf075a65784ccd6e058e3ca242"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Ship the stock-placeholder diagnostic and restore the full cross-platform gate without changing frozen
-Attempt-5 evidence or expanding Carrylog's continuity claims.
+Separate supported cross-platform product quality from the macOS-owned research harness without changing
+frozen Attempt-5 evidence, weakening release blocking, or expanding Carrylog's continuity claims.
 
 ## Completed
 
-- Maintainer dogfood report #7 used a sandbox clone and left the original repository unchanged. A
-  Codex-authored checkpoint was structurally fresh, and a fresh Claude Code destination recovered the
-  reviewed repository memory while explicitly distinguishing it from provider conversation history.
-- The outcome remains partial: initialization originally contained only stock templates, and one
-  narrative statement became semantically stale after its checkpoint commit. It is a directional
-  workflow signal, not external adoption, independent model-family replication, or proof of semantic
-  continuity.
-- Added `W_CONTEXT_PLACEHOLDER` to JSON and human resume diagnostics. It compares only always-loaded
-  project/current stock templates and the configured snapshot-free checkpoint, follows renamed IDs and
-  moved paths, tolerates CRLF and formatting whitespace, and ignores matching on-demand references.
-- Generated continuity Skills now prohibit continuity claims from stock initialization and permit
-  bootstrapping only from reviewed repository evidence or user-provided facts. Human diagnostics are
-  terminal-safe on stderr, while `--check` exit 1 remains reserved for stale Git evidence.
-- Fixed the macOS repository-discovery canary so current focused tests and helpers are overlaid with the
-  current build; the frozen Attempt-5 surface and stopped outcomes were not changed.
-- CI run 30944540371 exposed Linux execution of macOS Seatbelt and Node 24 parsing of an unpinned test
-  reporter. A shell-free runner now partitions the exact eight portable frozen tests with TAP-count
-  guards, and the discovery canary pins TAP. Frozen files and outcomes remain unchanged.
+- Exact-commit run 30944540371 exposed unconditional Seatbelt execution on Linux and an unpinned child
+  reporter on Node 24. The reporter is now explicit, while failed run 30945728644 disproved the first
+  eight-test portable partition by exposing ten additional Windows failures from POSIX/macOS assumptions.
+- Removed the temporary allowlist runner and its regression instead of accumulating post-hoc skips around
+  frozen research evidence. Attempt-5 files, manifests, results, evaluations, and STOP outcome are
+  unchanged.
+- ADR-0016 assigns formatting, strict type checking, product tests, and coverage to `npm run quality` on
+  Linux, macOS, and Windows. Complete active research runs separately on macOS through
+  `test:research:active`; `quality:research` composes both for local review.
+- Branch CI now has dedicated macOS Node 22/24 research jobs. Tagged release has an equivalent two-major
+  macOS research matrix, and publication depends on it plus the three-OS product/package preflight.
+- Added a parsed package/workflow regression and updated the testing, release, decision, changelog,
+  current-state, and engineering records to the same ownership contract.
+- Independent review caught that the first tagged design covered research only on Node 24. The release
+  matrix and dependency regression now cover both supported Node majors.
 
 ## Verification
 
-- Focused continuity tests pass 33/33, including renamed IDs, moved paths, CRLF, trailing whitespace,
-  repeated blank lines, checkpoint snapshots, partial editing, human diagnostics, and an on-demand stock
-  reference that must not warn.
-- `npm run quality` passes with all configured coverage floors and active research 132/132 on macOS.
-  The forced non-macOS frozen pilot selection passes its exact portable set 8/8. Package
-  inspection and local, ephemeral, global, ESM, strict-types, migration, init, validate, checkpoint, and
-  resume smoke paths pass.
-- Adapter sync check, Carrylog JSON validation, formatting, type checking, and Git diff checks pass.
-- Independent methodology review returned GO. Independent code review found and then verified fixes for
-  mutable-ID false negatives and on-demand false positives; its final static verdict is GO.
-- Further independent code and methodology reviews verified the platform partition, exact eight-item
-  portable allowlist, TAP metric guard, and frozen-file immutability with GO verdicts.
+- `npm run format:check`, `npm run quality`, and the composed `npm run quality:research` pass on the
+  current macOS worktree. Product quality includes all configured coverage floors; complete active
+  research runs without a platform-selection wrapper.
+- Package inspection reports one `carrylog-0.1.0-beta.7.tgz` with 156 files and 214,292 bytes. Local,
+  ephemeral, global, ESM, strict-types, migration, init, validate, checkpoint, and resume smoke paths
+  pass.
+- Adapter sync check, Carrylog JSON validation, Git diff checks, and an explicit frozen
+  `research/continuity-r5` diff check pass.
+- Initial independent code and methodology reviews returned NO-GO for a Node 22 tagged-release bypass,
+  stale handoff text, and unproven “required” branch-check wording. The implementation and documents were
+  corrected; both final read-only re-reviews returned GO with no remaining finding.
 
 ## Decisions
 
-- Treat initialization validity, populated project memory, Git freshness, and semantic freshness as
-  separate states. `W_CONTEXT_PLACEHOLDER` identifies only exact stock initialization wording.
-- Preserve the JSON envelope and `--check` automation contract. Placeholder state is a warning that
-  consumers inspect explicitly, not a new nonzero exit condition.
+- Product support and research execution environment are separate ownership boundaries. Linux and
+  Windows do not emulate or partially select a frozen macOS/POSIX experiment.
+- Research remains release-blocking through complete macOS Node 22 and 24 jobs rather than by remaining
+  inside the cross-platform `quality` command.
 - Keep R6 projection, transcript journaling, and compaction prohibited until external adoption evidence
   creates an actionable product decision.
 
 ## Risks
 
-- Exact-template detection cannot identify edited but stale, incomplete, or false memory.
-- Report #7 is one maintainer-controlled, routed same-model-family case. External adoption, perceived
-  continuity, Cursor behavior, conversation reconstruction, repeated switching, journaling, and
-  compaction value remain unproven.
-- CI run 30944540371 is retained as failed evidence for the platform defects above. A fresh exact-commit
-  matrix is required before this follow-up can be considered delivered.
+- Research contracts are not cross-platform replication. A future protocol must define portable
+  contracts before freeze if that evidence is needed.
+- Repository workflows prove job execution and publication dependencies, not external branch-protection
+  configuration. No merge-blocking “required check” claim is made.
+- Runs 30944540371 and 30945728644 remain failed evidence. A fresh exact-commit branch matrix is required
+  before this gate split can be considered delivered or used for a beta.8 decision.
+- External adoption, perceived continuity, Cursor behavior, conversation reconstruction, repeated
+  switching, journaling, and compaction value remain unproven.
 
 ## Next action
 
-Collect a sanitized non-maintainer adoption outcome through the published beta path before implementing
-a projection, transcript feature, compaction mechanism, or another provider batch.
+Obtain final independent GO, settle and push the checkpoint, then require a green exact-commit matrix
+before returning to sanitized non-maintainer adoption evidence.

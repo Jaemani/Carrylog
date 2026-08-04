@@ -20,6 +20,7 @@ for clarification; a later decision supersedes an old one rather than rewriting 
 | [0013](0013-checkpoint-commit-settlement.md) | One verified checkpoint-settlement commit | Accepted | 2026-08-02 |
 | [0014](0014-generated-artifact-eol-equivalence.md) | Generated standalone artifact CRLF equivalence | Accepted | 2026-08-02 |
 | [0015](0015-character-bounded-handoff-path-evidence.md) | Character-bounded handoff path evidence | Accepted | 2026-08-02 |
+| [0016](0016-product-and-research-quality-gates.md) | Cross-platform product and macOS research gates | Accepted | 2026-08-05 |
 
 ## Record template
 

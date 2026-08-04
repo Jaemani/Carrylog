@@ -2562,3 +2562,33 @@ verification passes the runner contract, the exact portable frozen subset 8/8, a
 and the complete quality gate. Independent code and methodology reviews confirmed the platform partition
 and frozen-file immutability with GO verdicts. Cross-platform delivery still requires a fresh exact-commit
 CI run.
+
+## 2026-08-05 — Windows CI rejected the partial research partition
+
+Exact-commit run 30945728644 passed Linux and macOS after the first platform correction, but both
+Windows quality jobs failed. Ten additional failures reflected POSIX or macOS assumptions including Unix
+permission modes, POSIX signals, Homebrew and Seatbelt paths, Git CRLF diagnostics, and synthetic POSIX
+path projections. The eight-test allowlist had fixed one observed Linux failure without
+establishing a coherent Windows ownership boundary. Extending that list would create a growing set of
+post-hoc exceptions and could silently weaken immutable Attempt-5 evidence.
+
+ADR-0016 therefore separates supported product behavior from platform-owned research evidence.
+`npm run quality` now covers formatting, strict type checking, product tests, and coverage on both Node
+majors across Linux, macOS, and Windows. `npm run test:research:active` builds current product bytes and
+runs the complete active research suite on macOS only; `npm run quality:research` composes both gates for
+local macOS review. Branch CI adds explicit macOS research jobs for Node 22 and 24. Tagged release adds
+an equivalent two-major macOS research matrix, and publication depends on that matrix plus every
+cross-platform product and package preflight.
+
+The temporary partition runner and its tests were removed rather than retained as dead policy. Frozen
+Attempt-5 files, manifests, results, evaluations, and the STOP outcome remain byte-unchanged. Failed runs
+30944540371 and 30945728644 remain the motivating evidence. This change does not claim that the research
+harness is portable; a future preregistered protocol must define platform-neutral contracts before its
+freeze if cross-platform replication is required.
+
+The first independent code review returned NO-GO because the initial tagged workflow ran complete
+research only on its Node 24 macOS preflight while ADR-0016 promised release blocking on both supported
+Node majors. A tag could therefore publish despite a Node 22-only research regression. The release
+workflow now has a separate macOS Node 22/24 research matrix, and the publish job depends on both that
+matrix and the three-operating-system product/package preflight. The workflow regression asserts those
+exact dependencies rather than inferring release coverage from branch CI.

@@ -17,5 +17,6 @@
 | ADR-0013 | Accepted | A fully staged checkpoint may settle under portable project-scoped Git object commitments |
 | ADR-0014 | Accepted | Generated schema and Skill drift ignores only Git CRLF checkout conversion |
 | ADR-0015 | Accepted | Handoff changed-path examples obey a fixed rendered-character budget |
+| ADR-0016 | Accepted | Cross-platform product quality is separate from macOS research evidence |
 
 Full records and the template are indexed in `docs/decisions/README.md`.

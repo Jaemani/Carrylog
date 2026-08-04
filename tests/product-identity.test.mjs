@@ -99,3 +99,39 @@ test("release publication is OIDC-only after the first-package bootstrap", async
   assert.equal(steps[verifyRegistry].run, "node scripts/verify-published.mjs");
   assert.equal(releaseClient < publishArtifact && publishArtifact < verifyRegistry, true);
 });
+
+test("product and macOS research gates remain separate and release-blocking", async () => {
+  const manifest = JSON.parse(await readFile(path.resolve("package.json"), "utf8"));
+  assert.equal(
+    manifest.scripts.quality,
+    "npm run format:check && npm run check && npm run test:coverage",
+  );
+  assert.equal(
+    manifest.scripts["quality:research"],
+    "npm run quality && npm run test:research:active",
+  );
+  assert.match(manifest.scripts["test:research:active"], /^npm run build && node --test /);
+
+  const ci = parse(await readFile(path.resolve(".github/workflows/ci.yml"), "utf8"));
+  const research = ci.jobs["active-research"];
+  assert.equal(research["runs-on"], "macos-15");
+  assert.deepEqual(research.strategy.matrix.node, [22, 24]);
+  assert.equal(
+    research.steps.find((step) => step.name === "Run macOS active research gates").run,
+    "npm run test:research:active",
+  );
+  assert.equal(
+    ci.jobs.quality.steps.find((step) => step.name === "Run quality gates").run,
+    "npm run quality",
+  );
+
+  const release = parse(await readFile(path.resolve(".github/workflows/release.yml"), "utf8"));
+  const releaseResearch = release.jobs["active-research"];
+  assert.equal(releaseResearch["runs-on"], "macos-15");
+  assert.deepEqual(releaseResearch.strategy.matrix.node, [22, 24]);
+  assert.equal(
+    releaseResearch.steps.find((step) => step.name === "Run macOS active research gates").run,
+    "npm run test:research:active",
+  );
+  assert.deepEqual(release.jobs.publish.needs, ["preflight", "active-research"]);
+});

@@ -13,8 +13,9 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   context layer and installs offline continuity Skills with fail-closed ownership.
 - Resume uses stable bounded file and Git observations and exports no provider transcript or session
   state. Structural validity, Git freshness, and behavioral continuity remain separate evidence.
-- ADR-0009 through ADR-0015 define universal surfaces, continuity boundaries, Git stability, evidence
-  gates, checkpoint settlement, generated-artifact EOL equivalence, and bounded handoff path evidence.
+- ADR-0009 through ADR-0016 define universal surfaces, continuity boundaries, Git stability, evidence
+  gates, checkpoint settlement, generated-artifact EOL equivalence, bounded handoff path evidence, and
+  separate ownership for cross-platform product quality and macOS research evidence.
 - Immutable beta.7 passed the full Node 22/24 and three-OS matrices, protected OIDC publication,
   registry digest and provenance verification, isolated consumers, signature audit, and a fresh
   checkpoint lifecycle. Exact release measurements remain in the engineering log.
@@ -62,8 +63,10 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   initialization wording after EOL and formatting-whitespace normalization. Detection follows mutable
   document IDs and paths, ignores on-demand template references, does not infer semantic freshness, and
   does not change the Git-staleness-only `--check` exit contract.
-- Active research preserves frozen Attempt-5 bytes while gating macOS Seatbelt separately from portable
-  Linux and Windows tests; discovery metrics use an explicit TAP reporter across Node versions.
+- Product quality remains required on Node.js 22 and 24 across Linux, macOS, and Windows. The complete
+  active research suite runs in separate macOS CI jobs on both Node majors; tagged publication depends
+  on an equivalent two-major research matrix. Discovery metrics use an explicit TAP reporter across Node
+  versions.
 
 ## Blockers and risks
 
@@ -79,6 +82,9 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   journaling, compaction value, Cursor CLI behavior, and wider external adoption remain unproven.
 - Placeholder diagnostics detect exact initialization wording only. Edited but stale, incomplete, or
   false project memory remains a human and agent review responsibility.
+- Failed exact-commit runs 30944540371 and 30945728644 show that the frozen macOS/POSIX research harness
+  is not a Windows product contract. A future portable research protocol must define those contracts
+  before freeze rather than accumulating post-hoc skip lists.
 - No external adoption report yet establishes how often users retype or lose protected checkpoint
   details. The mechanism follow-up cannot be justified or frozen until that user-facing need exists.
 - TOCTOU, Windows depth, process escape, and abnormal-termination locks remain explicit residual risks.

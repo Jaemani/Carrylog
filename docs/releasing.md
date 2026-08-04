@@ -70,7 +70,7 @@ content-sensitive release gates on the exact release commit before creating the 
 1. Set the target version as needed; keep candidate changes under `[Unreleased]` while updating
    current state, handoff, and compatibility docs.
 2. Complete the required large-change review and resolve every high-severity finding.
-3. Run the full quality/package/audit suite.
+3. Run the cross-platform product and package gates, plus `npm run quality:research` on macOS.
 4. Promote the changelog heading, stage the intended release changes, settle the checkpoint, stage
    its checkpoint document, commit and push, then require `carrylog resume --check`, the release
    gates, and CI matrix to pass on that clean exact commit. Carrylog does not stage or commit these
@@ -106,7 +106,9 @@ published bytes unless the digests actually match.
 
 Pushing a matching `v*-beta.*` tag starts `.github/workflows/release.yml`. Tagged preflight pins npm
 11.18.0 across Linux, macOS, and Windows and loads its provenance implementation before running
-package gates. The protected publish job pins Node 24.15.0 and the same npm 11.18.0 client,
+product and package gates. An independent tagged macOS matrix runs the complete active research suite
+on Node 22 and 24. Publication depends on all three
+product/package preflight members and both research members. The protected publish job pins Node 24.15.0 and the same npm 11.18.0 client,
 rebuilds/verifies the release artifact, publishes that same recorded tarball with public access,
 `beta` dist-tag, and provenance, then retries registry `npm exec` verification. Publication does not
 pass a shell glob to npm: a shell-free script reads `release/artifact.json`, requires exactly one
