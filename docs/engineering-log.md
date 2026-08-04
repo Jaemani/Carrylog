@@ -2113,3 +2113,19 @@ repair uses two no-persistence processes whose integer-cent caps are asserted to
 tool sequence independently, retains every assistant event as a string model or explicit null, and
 rejects null or unregistered identities. The unsupported temporal claim was removed. Both
 prerequisites remain pending and no provider call occurred during this repair.
+
+From clean commit `f5f7ff4`, the Codex prerequisite passed again. The first Claude run entered the
+registered `gpt-5.6-sol` route but failed closed with `verification brokers cannot overlap`. The model
+or Claude Code had dispatched multiple verification tool calls concurrently despite the numbered
+prompt, so the sealed receipt ledger refused to treat their interleaved start and terminal records as
+evidence. No freeze work followed and the Claude prerequisite remained pending. Native Claude Code
+2.1.220 exposes the validated integer environment control
+`CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY`; the controlled child now sets it to `1`. This serializes local
+tool execution at the harness boundary instead of relying on prompt compliance. A shared contract
+applies the setting to both authenticated canaries and scored Claude runs and rejects inherited or
+preconfigured values. The change is harness-critical, so refreshing bindings invalidates the recorded
+Codex pass and requires both exact prerequisites to run again from another reviewed clean commit.
+Independent review returned GO after verifying both harness paths use the shared control before
+authentication, host values cannot leak through either environment allowlist, the receipt protocol
+remains strict, and native Claude 2.1.220 recognizes the setting. The review explicitly leaves runtime
+effectiveness to the next authenticated canary rather than treating binary inspection as proof.

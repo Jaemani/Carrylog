@@ -35,6 +35,7 @@ import {
   buildVerificationScratch,
   classifyClaudeAuthenticationFailure,
   digestRegistryBytes,
+  enforceSerialClaudeToolExecution,
   parseClaudeJsonEvents,
   parseCodexJsonEvents,
   partitionVerificationRuntimeReadPaths,
@@ -648,9 +649,12 @@ async function runClaudeCanary() {
   const executable = await resolveNativeClaudeExecutable({
     expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
   });
-  const claudeEnvironment = isolatedEnvironment(syntheticHome, {
-    CLAUDE_CONFIG_DIR: claudeConfig,
-  });
+  const claudeEnvironment = enforceSerialClaudeToolExecution(
+    isolatedEnvironment(syntheticHome, {
+      CLAUDE_CONFIG_DIR: claudeConfig,
+    }),
+  );
+  assert.equal(claudeEnvironment.CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY, "1");
   if (routerMode) {
     await stageClaudeRouterAuthentication({
       hostEnvironment: process.env,

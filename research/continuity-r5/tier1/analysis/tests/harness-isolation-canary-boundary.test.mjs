@@ -55,6 +55,11 @@ test("Claude canary bounds two permission profiles and binds exact tool evidence
   assert.equal(source.match(/buildClaudeInvocation\(/g)?.length, 1);
   assert.match(source, /for \(const session of probeSessions\)/);
   assert.match(source, /Claude canary must cover both permission profiles/);
+  assert.match(source, /enforceSerialClaudeToolExecution\(/);
+  assert.match(
+    source,
+    /assert\.equal\(claudeEnvironment\.CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY, "1"\)/,
+  );
   assert.match(source, /diagnostic\.toolUses\.map\(\(\{ name, input \}\)/);
   assert.match(source, /session\.probes\.map\(\(\{ tool, input \}\)/);
   assert.equal(source.match(/id: "repository-discovery"/g)?.length, 2);

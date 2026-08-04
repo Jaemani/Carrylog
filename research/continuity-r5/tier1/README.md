@@ -131,6 +131,10 @@ process-per-probe design would multiply this ceiling and is not allowed. Each pr
 registered call order and exact inputs, bind every expected denial and successful result, contain no
 additional tool use, and expose an allowed model ID on every assistant event. A lower USD 0.05 cap
 became invalid once the router began reporting nonzero estimated input usage.
+Both canary and scored Claude children set `CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=1` through one shared
+contract. Claude Code may receive several tool calls in one GPT response even when the prompt requests
+order; serial execution prevents verification brokers from overlapping and keeps the sealed receipt
+ledger unambiguous.
 
 Prepare-only runner calls never touch provider authentication or make model calls:
 

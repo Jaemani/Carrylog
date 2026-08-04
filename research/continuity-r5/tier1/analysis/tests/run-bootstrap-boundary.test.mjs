@@ -6,6 +6,17 @@ import { fileURLToPath } from "node:url";
 
 const analysisRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
+test("scored Claude execution fixes tool concurrency before authentication staging", async () => {
+  const source = await readFile(path.join(analysisRoot, "run.mjs"), "utf8");
+  const serial = source.indexOf("enforceSerialClaudeToolExecution(environment);");
+  const authentication = source.indexOf(
+    "routerAuthentication = await stageClaudeRouterAuthentication",
+    serial,
+  );
+  assert.ok(serial >= 0, "scored Claude environment omitted serial tool execution");
+  assert.ok(authentication > serial, "tool concurrency must be fixed before provider access");
+});
+
 test("scored freeze verification cannot read the setup environment in its temporal dead zone", async () => {
   const source = await readFile(path.join(analysisRoot, "run.mjs"), "utf8");
   const declaration = source.indexOf("let deterministicSetupEnvironment;");
