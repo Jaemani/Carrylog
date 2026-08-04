@@ -162,17 +162,6 @@ export function buildClaudeInvocation({
   };
 }
 
-export function enforceSerialClaudeToolExecution(environment) {
-  assert.ok(environment && typeof environment === "object");
-  assert.equal(
-    Object.hasOwn(environment, "CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY"),
-    false,
-    "Claude tool concurrency must not be inherited or preconfigured",
-  );
-  environment.CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY = "1";
-  return environment;
-}
-
 export function buildVerificationMcpConfiguration(verification) {
   return {
     mcpServers: {

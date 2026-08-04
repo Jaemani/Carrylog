@@ -34,7 +34,7 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
   canaries, and screens. Verification has bounded process/output handling, read-only checkouts,
   writable scratch, digest-bound support programs and host Git state, and a sealed broker/invocation
   receipt ledger. Detailed invariants and review history live in the attempt README and engineering log.
-- The current draft passes the attempt-5 suite at 118/118, active research at 127/127, the isolation
+- The current draft passes the attempt-5 suite at 122/122, active research at 131/131, the isolation
   canary, Carrylog continuity at 16/16, BusyCafe pytest at 22/22, BusyCafe compileall, product quality,
   package inspection, and package smoke.
 - The reviewed offline draft was checkpointed and committed at `844a456`. The first authenticated
@@ -52,16 +52,17 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
   process, fixes the aggregate ceiling at USD 0.75, and rejects every model-less or unregistered
   assistant response. This critical-byte change reset both prerequisites to pending. Independent
   review returned GO for the offline repair and commit gate. From commit `f5f7ff4`, Codex passed again,
-  while routed Claude failed closed because concurrent verification tool dispatch overlapped sealed
-  broker receipts. The controlled Claude child now fixes tool-use concurrency at one; this new critical
-  repair is shared with scored runs, and independent review returned GO. Another clean commit is still
-  required before either prerequisite is rerun.
+  while routed Claude failed closed because two MCP broker lifetimes overlapped in the sealed receipt
+  stream. A reviewed tool-concurrency repair did not change that failure and was disproved.
+  The canary now requires each process's MCP broker and invocations to settle under the strict receipt
+  parser before starting the next permission profile. Independent review returned GO after all critical
+  settlement branches received regression coverage. Another clean commit remains required before rerun.
 
 ## Blockers and risks
 
-- Both harness prerequisites are pending after the Claude tool-concurrency repair. The last Codex
-  execution passed; the last Claude execution reached the registered route but parallel verification
-  dispatch violated the non-overlapping receipt contract.
+- Both harness prerequisites are pending after the Claude broker-lifecycle repair. The last Codex
+  execution passed; the last Claude execution reached the registered route but the next process began
+  before the preceding MCP broker terminal was observable.
 - The Claude surface is the native Claude Code executable
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
@@ -81,6 +82,6 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
 
 ## Next best task
 
-Commit the reviewed Claude concurrency repair, then run Codex first and native Claude through JM Router
-second from the new clean commit. Report any routed-model, stream, authentication, budget, or tool
-anomaly and prohibit freeze work until both exact prerequisites pass.
+Commit the reviewed broker-settlement barrier, then run Codex first and native Claude through JM Router
+second from the new clean commit. Report any routed-model, stream, authentication, budget, tool, or
+receipt anomaly and prohibit freeze work until both exact prerequisites pass.

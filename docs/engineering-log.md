@@ -2129,3 +2129,22 @@ Independent review returned GO after verifying both harness paths use the shared
 authentication, host values cannot leak through either environment allowlist, the receipt protocol
 remains strict, and native Claude 2.1.220 recognizes the setting. The review explicitly leaves runtime
 effectiveness to the next authenticated canary rather than treating binary inspection as proof.
+
+The next clean-commit run disproved the tool-concurrency hypothesis: Codex passed, but Claude produced
+the same `verification brokers cannot overlap` failure with the environment control set to one. Receipt
+semantics narrowed the defect. Tool invocations inside one MCP server share one broker; this assertion
+can fail when the second Claude process starts its own MCP server before the first server has written
+its broker terminal. The speculative environment control and scored-run changes were removed. The
+canary now places a bounded settlement barrier between its read-only and writable processes. It polls
+the append-only ledger with the unchanged strict parser, requires the exact cumulative broker-start and
+broker-terminal count plus zero unsettled brokers or invocations, and starts the next process only after
+that state is observed. A five-second timeout remains a hard failure. Regression tests cover delayed
+terminal arrival and permanent active-broker timeout. Both prerequisites were reset; no freeze or
+scored execution followed the failed run.
+Independent review found no production defect in the barrier but returned NO-GO because its critical
+branches lacked direct regression coverage. Focused tests now prove immediate rejection of extra broker
+counts and sealed streams, bounded rejection of permanently malformed history and a terminal broker
+with an unsettled invocation, and recovery when a transient partial read becomes a valid settled
+stream. The attempt-5 suite passes 122/122 and active research passes 131/131 after these additions.
+Independent re-review returned GO with no blocking findings and confirmed the staged scope remained
+limited to Attempt-5 and repository-context files. No authenticated call or freeze occurred in review.

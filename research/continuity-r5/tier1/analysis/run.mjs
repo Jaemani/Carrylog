@@ -42,7 +42,6 @@ import {
   createAuthenticationEvidence,
   detachGitMetadata,
   digestRegistryBytes,
-  enforceSerialClaudeToolExecution,
   partitionVerificationRuntimeReadPaths,
   recordAuthenticationCleanup,
   renderCodexRuntimePermissions,
@@ -1523,7 +1522,6 @@ enabled = false
         copiedAuthenticationFiles.push("codex/auth.json");
       }
     } else {
-      enforceSerialClaudeToolExecution(environment);
       const sourceConfig = process.env.CLAUDE_CONFIG_DIR ?? path.join(homedir(), ".claude");
       const isolatedClaudeConfig = path.join(syntheticHome, ".claude");
       authenticationRoot = isolatedClaudeConfig;

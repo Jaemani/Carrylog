@@ -39,7 +39,6 @@ import {
   deriveMacosRuntimeReadPaths,
   detachGitMetadata,
   digestRegistryBytes,
-  enforceSerialClaudeToolExecution,
   parseClaudeJsonEvents,
   parseCodexJsonEvents,
   partitionVerificationRuntimeReadPaths,
@@ -221,23 +220,6 @@ test("Claude invocation exposes no Bash and wires the self-bound MCP server", ()
   const readOnlyAllowedIndex = invocation.arguments.indexOf("--allowedTools");
   assert.equal(invocation.arguments[readOnlyAllowedIndex + 1].includes("Edit("), false);
   assert.equal(invocation.arguments[readOnlyAllowedIndex + 1].includes("Write("), false);
-});
-
-test("Claude tool execution concurrency is fixed once and rejects inherited policy", () => {
-  const environment = { HOME: "/synthetic-home" };
-  assert.equal(enforceSerialClaudeToolExecution(environment), environment);
-  assert.equal(environment.CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY, "1");
-  assert.throws(
-    () => enforceSerialClaudeToolExecution(environment),
-    /must not be inherited or preconfigured/,
-  );
-  assert.throws(
-    () =>
-      enforceSerialClaudeToolExecution({
-        CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY: "2",
-      }),
-    /must not be inherited or preconfigured/,
-  );
 });
 
 test("Codex verification is broker-only and fixes the copied wrapper and registry contract", () => {

@@ -25,6 +25,7 @@ import {
   parseVerificationInvocationStream,
   readVerificationInvocationStream,
   sealVerificationReceiptStream,
+  waitForVerificationBrokersSettled,
 } from "../verification-receipt-protocol.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -500,6 +501,203 @@ test("verification invocation stream enforces explicit direct or nested broker o
       parseVerificationInvocationStream(`${JSON.stringify(direct)}\n${JSON.stringify(broker)}\n`),
     /cannot share a direct stream/,
   );
+});
+
+test("broker settlement waits for one exact terminal before another session may start", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "carrylog-broker-settlement-"));
+  const receiptPath = path.join(directory, "receipts.jsonl");
+  const broker = createVerificationBrokerRecord({
+    recordType: "broker-start",
+    brokerId: "b".repeat(32),
+    registrySha256: "c".repeat(64),
+    executionMode: "seatbelt-workspace-isolated",
+  });
+  try {
+    await writeFile(receiptPath, "");
+    appendVerificationRecord(receiptPath, broker);
+    const terminalWrite = new Promise((resolve) => {
+      setTimeout(() => {
+        appendVerificationRecord(receiptPath, {
+          ...broker,
+          recordType: "broker-terminal",
+        });
+        resolve();
+      }, 20);
+    });
+    const settled = await waitForVerificationBrokersSettled(receiptPath, {
+      expectedBrokerCount: 1,
+      timeoutMs: 1_000,
+      pollIntervalMs: 5,
+    });
+    await terminalWrite;
+    assert.equal(settled.unsettledBrokers.length, 0);
+    assert.equal(
+      settled.records.filter((record) => record.recordType === "broker-terminal").length,
+      1,
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("broker settlement times out without weakening an active broker", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "carrylog-broker-timeout-"));
+  const receiptPath = path.join(directory, "receipts.jsonl");
+  try {
+    await writeFile(receiptPath, "");
+    appendVerificationRecord(
+      receiptPath,
+      createVerificationBrokerRecord({
+        recordType: "broker-start",
+        brokerId: "d".repeat(32),
+        registrySha256: "e".repeat(64),
+        executionMode: "seatbelt-workspace-isolated",
+      }),
+    );
+    await assert.rejects(
+      waitForVerificationBrokersSettled(receiptPath, {
+        expectedBrokerCount: 1,
+        timeoutMs: 20,
+        pollIntervalMs: 5,
+      }),
+      /verification broker settlement timed out/,
+    );
+    assert.equal(readVerificationInvocationStream(receiptPath).unsettledBrokers.length, 1);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("broker settlement rejects an extra settled broker immediately", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "carrylog-broker-extra-"));
+  const receiptPath = path.join(directory, "receipts.jsonl");
+  try {
+    await writeFile(receiptPath, "");
+    for (const brokerId of ["1".repeat(32), "2".repeat(32)]) {
+      const broker = createVerificationBrokerRecord({
+        recordType: "broker-start",
+        brokerId,
+        registrySha256: "3".repeat(64),
+        executionMode: "seatbelt-workspace-isolated",
+      });
+      appendVerificationRecord(receiptPath, broker);
+      appendVerificationRecord(receiptPath, { ...broker, recordType: "broker-terminal" });
+    }
+    await assert.rejects(
+      waitForVerificationBrokersSettled(receiptPath, {
+        expectedBrokerCount: 1,
+        timeoutMs: 1_000,
+        pollIntervalMs: 5,
+      }),
+      /exceeded the expected count/,
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("broker settlement retries a transient partial stream but times out persistent corruption", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "carrylog-broker-partial-"));
+  const receiptPath = path.join(directory, "receipts.jsonl");
+  const broker = createVerificationBrokerRecord({
+    recordType: "broker-start",
+    brokerId: "4".repeat(32),
+    registrySha256: "5".repeat(64),
+    executionMode: "seatbelt-workspace-isolated",
+  });
+  const settledBytes = `${JSON.stringify(broker)}\n${JSON.stringify({ ...broker, recordType: "broker-terminal" })}\n`;
+  try {
+    await writeFile(receiptPath, "{");
+    const completion = new Promise((resolve, reject) => {
+      setTimeout(() => writeFile(receiptPath, settledBytes).then(resolve, reject), 20);
+    });
+    const settled = await waitForVerificationBrokersSettled(receiptPath, {
+      expectedBrokerCount: 1,
+      timeoutMs: 1_000,
+      pollIntervalMs: 5,
+    });
+    await completion;
+    assert.equal(settled.unsettledBrokers.length, 0);
+
+    await writeFile(receiptPath, "{");
+    await assert.rejects(
+      waitForVerificationBrokersSettled(receiptPath, {
+        expectedBrokerCount: 1,
+        timeoutMs: 20,
+        pollIntervalMs: 5,
+      }),
+      /"parseValid":false/,
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("broker settlement rejects a sealed stream before another process starts", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "carrylog-broker-sealed-"));
+  const receiptPath = path.join(directory, "receipts.jsonl");
+  const registrySha256 = "6".repeat(64);
+  const executionMode = "seatbelt-workspace-isolated";
+  try {
+    await writeFile(receiptPath, "");
+    const broker = createVerificationBrokerRecord({
+      recordType: "broker-start",
+      brokerId: "7".repeat(32),
+      registrySha256,
+      executionMode,
+    });
+    appendVerificationRecord(receiptPath, broker);
+    appendVerificationRecord(receiptPath, { ...broker, recordType: "broker-terminal" });
+    sealVerificationReceiptStream(receiptPath, { registrySha256, executionMode });
+    await assert.rejects(
+      waitForVerificationBrokersSettled(receiptPath, {
+        expectedBrokerCount: 1,
+        timeoutMs: 1_000,
+        pollIntervalMs: 5,
+      }),
+      /found a sealed stream/,
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("broker settlement never accepts a terminal broker with an unsettled invocation", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "carrylog-broker-unsettled-"));
+  const receiptPath = path.join(directory, "receipts.jsonl");
+  const registrySha256 = "8".repeat(64);
+  const executionMode = "seatbelt-workspace-isolated";
+  const broker = createVerificationBrokerRecord({
+    recordType: "broker-start",
+    brokerId: "9".repeat(32),
+    registrySha256,
+    executionMode,
+  });
+  const invocation = createVerificationStartRecord({
+    invocationId: "a".repeat(32),
+    commandId: "quality",
+    registrySha256,
+    commandSha256: "b".repeat(64),
+    executionMode,
+    origin: "mcp-broker",
+    brokerId: broker.brokerId,
+  });
+  try {
+    await writeFile(
+      receiptPath,
+      `${JSON.stringify(broker)}\n${JSON.stringify(invocation)}\n${JSON.stringify({ ...broker, recordType: "broker-terminal" })}\n`,
+    );
+    await assert.rejects(
+      waitForVerificationBrokersSettled(receiptPath, {
+        expectedBrokerCount: 1,
+        timeoutMs: 20,
+        pollIntervalMs: 5,
+      }),
+      /"parseValid":false/,
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 test("verification stream seals only settled broker and invocation history", async () => {

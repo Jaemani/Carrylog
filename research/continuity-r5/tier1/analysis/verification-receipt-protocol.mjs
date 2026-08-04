@@ -258,6 +258,65 @@ export function readVerificationInvocationStream(receiptPath) {
   return parseVerificationInvocationStream(readFileSync(receiptPath, "utf8"));
 }
 
+export async function waitForVerificationBrokersSettled(
+  receiptPath,
+  { expectedBrokerCount, timeoutMs, pollIntervalMs },
+) {
+  assert.equal(typeof receiptPath, "string");
+  assert.ok(receiptPath.length > 0);
+  assert.ok(Number.isInteger(expectedBrokerCount) && expectedBrokerCount > 0);
+  assert.ok(Number.isInteger(timeoutMs) && timeoutMs > 0);
+  assert.ok(Number.isInteger(pollIntervalMs) && pollIntervalMs > 0);
+  assert.ok(pollIntervalMs <= timeoutMs);
+  const deadline = Date.now() + timeoutMs;
+  let observation = {
+    starts: 0,
+    terminals: 0,
+    unsettledStarts: 0,
+    unsettledBrokers: 0,
+    parseValid: true,
+  };
+  while (true) {
+    let stream;
+    try {
+      stream = readVerificationInvocationStream(receiptPath);
+    } catch {
+      observation.parseValid = false;
+    }
+    if (stream !== undefined) {
+      const starts = stream.records.filter((record) => record.recordType === "broker-start").length;
+      const terminals = stream.records.filter(
+        (record) => record.recordType === "broker-terminal",
+      ).length;
+      observation = {
+        starts,
+        terminals,
+        unsettledStarts: stream.unsettledStarts.length,
+        unsettledBrokers: stream.unsettledBrokers.length,
+        parseValid: true,
+      };
+      assert.equal(stream.seal, null, "verification broker settlement found a sealed stream");
+      assert.ok(
+        starts <= expectedBrokerCount && terminals <= expectedBrokerCount,
+        "verification broker settlement exceeded the expected count",
+      );
+      if (
+        starts === expectedBrokerCount &&
+        terminals === expectedBrokerCount &&
+        stream.unsettledStarts.length === 0 &&
+        stream.unsettledBrokers.length === 0
+      ) {
+        return stream;
+      }
+    }
+    const remainingMs = deadline - Date.now();
+    if (remainingMs <= 0) {
+      throw new Error(`verification broker settlement timed out: ${JSON.stringify(observation)}`);
+    }
+    await new Promise((resolve) => setTimeout(resolve, Math.min(pollIntervalMs, remainingMs)));
+  }
+}
+
 function assertVerificationRecord(record) {
   assert.ok(record && typeof record === "object" && !Array.isArray(record));
   assert.equal(record.formatVersion, VERIFICATION_RECEIPT_FORMAT_VERSION);

@@ -16,11 +16,11 @@
     },
     {
       "path": "analysis/harness-contract.mjs",
-      "sha256": "e80b08b88a35765d3e6141b0510baa1b062168379a12203e79ba8fddeafabffa"
+      "sha256": "20db6c407bbe883d04b4711fddeaa270e006853d75129cbfe73d9584e1ee4c66"
     },
     {
       "path": "analysis/harness-isolation-canary.mjs",
-      "sha256": "793dc4a66931e6c9e5ebde0b2a9f6b4be3c1637780e4fc1fa3b1d404ac523b21"
+      "sha256": "68791fad23ed92fa4d2ec185bc27eafd21dcfc7ef0d7992e675e41952a9eb452"
     },
     {
       "path": "analysis/harness-prerequisites.mjs",
@@ -44,7 +44,7 @@
     },
     {
       "path": "analysis/run.mjs",
-      "sha256": "6679f7d4e87590c05c6cd733ae353f985f5f493fde7e54dea43feaec22dd31d3"
+      "sha256": "af623e494391aefd0429daf4f7da1e6fc38151d331ac8bd4b4a5773a0c86ac4a"
     },
     {
       "path": "analysis/verification-mcp-server.mjs",
@@ -52,7 +52,7 @@
     },
     {
       "path": "analysis/verification-receipt-protocol.mjs",
-      "sha256": "0a2fbeab241635a3b02a0c8fefb78333b95159a25cc2dec54c7994534b2126f4"
+      "sha256": "59254a44525f74c63f1467aa82a2a0db36659d7db434ebb496b865203f9d0cb2"
     },
     {
       "path": "analysis/verification-support.mjs",

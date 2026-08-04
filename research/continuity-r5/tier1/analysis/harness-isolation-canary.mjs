@@ -35,7 +35,6 @@ import {
   buildVerificationScratch,
   classifyClaudeAuthenticationFailure,
   digestRegistryBytes,
-  enforceSerialClaudeToolExecution,
   parseClaudeJsonEvents,
   parseCodexJsonEvents,
   partitionVerificationRuntimeReadPaths,
@@ -45,7 +44,10 @@ import {
   renderCodexVerificationPermissions,
   resolveMacosPythonTimezoneDirectory,
 } from "./harness-contract.mjs";
-import { parseVerificationInvocationStream } from "./verification-receipt-protocol.mjs";
+import {
+  parseVerificationInvocationStream,
+  waitForVerificationBrokersSettled,
+} from "./verification-receipt-protocol.mjs";
 import { loadVerificationSupport, writeVerificationSupportFiles } from "./verification-support.mjs";
 
 const temporaryRoot = await realpath(
@@ -649,12 +651,9 @@ async function runClaudeCanary() {
   const executable = await resolveNativeClaudeExecutable({
     expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
   });
-  const claudeEnvironment = enforceSerialClaudeToolExecution(
-    isolatedEnvironment(syntheticHome, {
-      CLAUDE_CONFIG_DIR: claudeConfig,
-    }),
-  );
-  assert.equal(claudeEnvironment.CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY, "1");
+  const claudeEnvironment = isolatedEnvironment(syntheticHome, {
+    CLAUDE_CONFIG_DIR: claudeConfig,
+  });
   if (routerMode) {
     await stageClaudeRouterAuthentication({
       hostEnvironment: process.env,
@@ -751,6 +750,11 @@ async function runClaudeCanary() {
           `Claude ${session.id} tool evidence failed: ${error instanceof Error ? error.message : String(error)}; diagnostic=${rendered.slice(0, 4000)}`,
         );
       }
+      await waitForVerificationBrokersSettled(receiptPath, {
+        expectedBrokerCount: diagnostics.length + 1,
+        timeoutMs: 5_000,
+        pollIntervalMs: 25,
+      });
       diagnostics.push(diagnostic);
     }
   } finally {
