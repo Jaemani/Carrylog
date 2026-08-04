@@ -4,39 +4,27 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "16476f3 at 2026-08-05T04:58:35+09:00"
-- Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: 14 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 14 file(s), +254/-194, 0 binary
+- HEAD: "369c302 at 2026-08-05T05:15:16+09:00"
+- Upstream: "origin/main; ahead 1, behind 0"
+- Working tree: 2 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 2 file(s), +7/-0, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (14)
+### Changed paths (2)
 
     {"status":"M ","path":".agent-context/current-state.md"}
-    {"status":"M ","path":".agent-context/decisions.md"}
-    {"status":"M ","path":".github/workflows/ci.yml"}
-    {"status":"M ","path":".github/workflows/release.yml"}
-    {"status":"M ","path":"CHANGELOG.md"}
-    {"status":"A ","path":"docs/decisions/0016-product-and-research-quality-gates.md"}
-    {"status":"M ","path":"docs/decisions/README.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"M ","path":"docs/releasing.md"}
-    {"status":"M ","path":"docs/testing-strategy.md"}
-    {"status":"M ","path":"package.json"}
-    {"status":"D ","path":"scripts/run-active-research.mjs"}
-    {"status":"M ","path":"tests/product-identity.test.mjs"}
-    {"status":"D ","path":"tests/research-runner.test.mjs"}
 
 ### Recent commits (5)
 
+    {"commit":"369c302","committedAt":"2026-08-05T05:15:16+09:00","subject":"ci: separate product and research quality gates"}
     {"commit":"16476f3","committedAt":"2026-08-05T04:58:35+09:00","subject":"fix: restore cross-platform research gates"}
     {"commit":"f18780d","committedAt":"2026-08-05T04:42:49+09:00","subject":"feat: warn on uninitialized resume context"}
     {"commit":"b913ae9","committedAt":"2026-08-05T04:16:33+09:00","subject":"docs: advance checkpoint to adoption evidence"}
     {"commit":"d2d3a39","committedAt":"2026-08-05T04:15:43+09:00","subject":"docs: ship STOP analysis and adoption intake"}
-    {"commit":"5adb811","committedAt":"2026-08-05T03:54:06+09:00","subject":"research: stop Attempt 5 at forty-run boundary"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"16476f339fe6fc3f4f1124d5c1c465d21e55dc62","detached":false,"branch":"main","indexCommitment":"85266b33cb87d485ec9e4eb7f105b067cffbe9bf075a65784ccd6e058e3ca242"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"369c302b59bb084c767ca4e7ad50ecca85068e9d","detached":false,"branch":"main","indexCommitment":"40083fe1a5627cf1f1a0b252c1e65cdda2ee31e9323f4066c5b8050710bc5fa4"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
@@ -67,7 +55,7 @@ frozen Attempt-5 evidence, weakening release blocking, or expanding Carrylog's c
 - `npm run format:check`, `npm run quality`, and the composed `npm run quality:research` pass on the
   current macOS worktree. Product quality includes all configured coverage floors; complete active
   research runs without a platform-selection wrapper.
-- Package inspection reports one `carrylog-0.1.0-beta.7.tgz` with 156 files and 214,292 bytes. Local,
+- Package inspection reports one `carrylog-0.1.0-beta.7.tgz` with 156 files and 214,415 bytes. Local,
   ephemeral, global, ESM, strict-types, migration, init, validate, checkpoint, and resume smoke paths
   pass.
 - Adapter sync check, Carrylog JSON validation, Git diff checks, and an explicit frozen
@@ -98,5 +86,5 @@ frozen Attempt-5 evidence, weakening release blocking, or expanding Carrylog's c
 
 ## Next action
 
-Obtain final independent GO, settle and push the checkpoint, then require a green exact-commit matrix
-before returning to sanitized non-maintainer adoption evidence.
+Push the reviewed checkpoint and require a green exact-commit matrix before returning to sanitized
+non-maintainer adoption evidence or considering beta.8.

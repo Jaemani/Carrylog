@@ -67,6 +67,8 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   active research suite runs in separate macOS CI jobs on both Node majors; tagged publication depends
   on an equivalent two-major research matrix. Discovery metrics use an explicit TAP reporter across Node
   versions.
+- The gate split passes local product, package, and complete macOS research checks and independent final
+  review. A fresh exact-commit GitHub matrix remains required before delivery or beta.8 consideration.
 
 ## Blockers and risks
 

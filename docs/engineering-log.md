@@ -2592,3 +2592,8 @@ Node majors. A tag could therefore publish despite a Node 22-only research regre
 workflow now has a separate macOS Node 22/24 research matrix, and the publish job depends on both that
 matrix and the three-operating-system product/package preflight. The workflow regression asserts those
 exact dependencies rather than inferring release coverage from branch CI.
+
+The first pre-push checkpoint incorrectly retained a next action that still requested final review even
+though both re-reviews had already returned GO. `resume --check` proved structural settlement but could
+not make that narrative semantically current. The stale instruction was caught before push and corrected
+through a separate reviewed checkpoint commit rather than amending away the audit trail.
