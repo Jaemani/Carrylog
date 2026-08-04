@@ -2620,3 +2620,9 @@ not inferred from that local result.
 A final read-only regression review returned GO: both OIDC assertions match the two publish dependencies,
 the tagged research matrix still covers macOS Node 22/24, the always-loaded context remains below budget,
 and frozen Attempt-5 bytes remain unchanged.
+
+Correction commit `4d2223e` passed exact-commit CI run 30947568974 with all 13 jobs green. Product quality
+and dogfood context checks passed on Linux, macOS, and Windows under Node 22 and 24. Complete active
+research passed in its dedicated macOS Node 22 and 24 jobs. All four packed-artifact jobs and the pinned
+release/npm-12 toolchain job also passed. This closes the platform gate split; it does not authorize
+beta.8, another provider experiment, or broader continuity claims.

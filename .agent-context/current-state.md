@@ -67,9 +67,8 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   active research suite runs in separate macOS CI jobs on both Node majors; tagged publication depends
   on an equivalent two-major research matrix. Discovery metrics use an explicit TAP reporter across Node
   versions.
-- The gate split passes local product, package, and complete macOS research checks and independent final
-  review after correcting the local gate invocation audit described below. A fresh exact-commit GitHub
-  matrix remains required before delivery or beta.8 consideration.
+- Exact-commit run 30947568974 passes all 13 jobs: product quality on three operating systems and both
+  Node majors, complete macOS research on both majors, four package jobs, and the release toolchain.
 
 ## Blockers and risks
 
@@ -88,8 +87,8 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
 - Failed exact-commit runs 30944540371 and 30945728644 show that the frozen macOS/POSIX research harness
   is not a Windows product contract. A future portable research protocol must define those contracts
   before freeze rather than accumulating post-hoc skip lists.
-- Run 30947111270 passed research, package, release-toolchain, and Windows product jobs but failed Linux
-  and macOS product jobs on a stale OIDC dependency assertion. The correction awaits a new matrix.
+- Run 30947111270 remains failed evidence for a stale OIDC assertion; its correction passes in exact-commit
+  run 30947568974 without changing the workflow or frozen research bytes.
 - No external adoption report yet establishes how often users retype or lose protected checkpoint
   details. The mechanism follow-up cannot be justified or frozen until that user-facing need exists.
 - TOCTOU, Windows depth, process escape, and abnormal-termination locks remain explicit residual risks.

@@ -4,29 +4,27 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "f1f3218 at 2026-08-05T05:16:26+09:00"
+- HEAD: "4d2223e at 2026-08-05T05:22:29+09:00"
 - Upstream: "origin/main; ahead 0, behind 0"
-- Working tree: 4 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 4 file(s), +30/-2, 0 binary
+- Working tree: 2 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 2 file(s), +10/-5, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (4)
+### Changed paths (2)
 
     {"status":"M ","path":".agent-context/current-state.md"}
-    {"status":"M ","path":"CHANGELOG.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"M ","path":"tests/product-identity.test.mjs"}
 
 ### Recent commits (5)
 
+    {"commit":"4d2223e","committedAt":"2026-08-05T05:22:29+09:00","subject":"test: align OIDC release dependency contract"}
     {"commit":"f1f3218","committedAt":"2026-08-05T05:16:26+09:00","subject":"docs: settle quality gate handoff"}
     {"commit":"369c302","committedAt":"2026-08-05T05:15:16+09:00","subject":"ci: separate product and research quality gates"}
     {"commit":"16476f3","committedAt":"2026-08-05T04:58:35+09:00","subject":"fix: restore cross-platform research gates"}
     {"commit":"f18780d","committedAt":"2026-08-05T04:42:49+09:00","subject":"feat: warn on uninitialized resume context"}
-    {"commit":"b913ae9","committedAt":"2026-08-05T04:16:33+09:00","subject":"docs: advance checkpoint to adoption evidence"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"f1f3218e3ce5c7f1991c088f64f02ea1d301c130","detached":false,"branch":"main","indexCommitment":"51e66923450db727b2d8475bcbd8c25f214b9f199041508cf17fc15e2c70fe42"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"4d2223e9f4e8b16151f09472369bd8f31e0e5d97","detached":false,"branch":"main","indexCommitment":"15f1a7be7f08be9cb4a5ae9aeaf59ee37b26df88adedb36683059696062ad008"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
@@ -53,13 +51,15 @@ frozen Attempt-5 evidence, weakening release blocking, or expanding Carrylog's c
   matrix and dependency regression now cover both supported Node majors.
 - CI run 30947111270 exposed an older OIDC test that still expected only the product preflight dependency.
   Its exact assertion now requires both product/package and active-research preflight families.
+- Correction commit `4d2223e` passed exact-commit CI run 30947568974 with all 13 product, research,
+  package, and release-toolchain jobs green.
 
 ## Verification
 
 - `npm run format:check`, `npm run quality`, and the composed `npm run quality:research` pass on the
   current macOS worktree. Product quality includes all configured coverage floors; complete active
   research runs without a platform-selection wrapper.
-- Package inspection reports one `carrylog-0.1.0-beta.7.tgz` with 156 files and 214,995 bytes. Local,
+- Package inspection reports one `carrylog-0.1.0-beta.7.tgz` with 156 files and 215,130 bytes. Local,
   ephemeral, global, ESM, strict-types, migration, init, validate, checkpoint, and resume smoke paths
   pass.
 - Adapter sync check, Carrylog JSON validation, Git diff checks, and an explicit frozen
@@ -85,12 +85,12 @@ frozen Attempt-5 evidence, weakening release blocking, or expanding Carrylog's c
   contracts before freeze if that evidence is needed.
 - Repository workflows prove job execution and publication dependencies, not external branch-protection
   configuration. No merge-blocking “required check” claim is made.
-- Runs 30944540371, 30945728644, and 30947111270 remain failed evidence. A fresh exact-commit branch
-  matrix is required before this gate split can be considered delivered or used for a beta.8 decision.
+- Runs 30944540371, 30945728644, and 30947111270 remain failed evidence; run 30947568974 closes their
+  gate defects. This delivery alone is not a beta.8 authorization.
 - External adoption, perceived continuity, Cursor behavior, conversation reconstruction, repeated
   switching, journaling, and compaction value remain unproven.
 
 ## Next action
 
-Push the reviewed checkpoint and require a green exact-commit matrix before returning to sanitized
-non-maintainer adoption evidence or considering beta.8.
+Collect a sanitized non-maintainer adoption outcome before adding continuity features, provider
+experiments, or considering beta.8.
