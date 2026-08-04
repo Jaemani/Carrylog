@@ -28,13 +28,13 @@ exact attempt-5 freeze review surface before any manifest or scored provider exe
 - Attempts 1 and 2 remain immutable aborted bootstrap evidence. Attempt 3 is frozen at `b72127e`; it
   stopped after 11 scored runs and one reviewed delivery failure. Attempt 4 is frozen at `88f6427`;
   it stopped after six scored repair-screen runs exposed a condition-independent Git-discovery ceiling.
-- Attempt 5 is an unfrozen and unscored draft in `research/continuity-r5`. It has fresh identities,
+- Attempt 5 is a frozen, unscored review candidate in `research/continuity-r5`. It has fresh identities,
   two passed current-byte prerequisites, and empty result surfaces; no predecessor evidence was copied.
 - Its three Git policies are integrated across the registry, wrapper, MCP broker, Seatbelt profiles,
   canaries, and screens. Verification has bounded process/output handling, read-only checkouts,
   writable scratch, digest-bound support programs and host Git state, and a sealed broker/invocation
   receipt ledger. Detailed invariants and review history live in the attempt README and engineering log.
-- The current draft passes the attempt-5 suite at 122/122, active research at 131/131, the isolation
+- The current candidate passes the attempt-5 suite at 122/122, active research at 131/131, the isolation
   canary, Carrylog continuity at 16/16, BusyCafe pytest at 22/22, BusyCafe compileall, product quality,
   package inspection, and package smoke.
 - The reviewed offline draft was checkpointed and committed at `844a456`. The first authenticated
@@ -70,9 +70,12 @@ exact attempt-5 freeze review surface before any manifest or scored provider exe
 - The Claude surface is the native Claude Code executable
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
-- The candidate remains `status: draft`. A commit, two passed authenticated canaries, frozen status,
-  two exact-digest GO attestations, and a permanent first-ADD manifest commit are all still required
-  before a scored provider run.
+- The first frozen review digest received two independent NO-GO reviews because governing documents
+  still described draft state and prohibited already completed prerequisites and review steps. That
+  digest is rejected. Corrected digest `2e6c778d…b181573` received two independent GO reviews after a
+  stale statement in digest-excluded `report.md` was corrected. The write-once manifest now exists with
+  suite digest `cfb7d9c1…b4bd`; its permanent first-ADD commit and post-commit check remain. Scoring is
+  still prohibited.
 - An escaped process may survive its original process group. Seatbelt denies network and checkout
   writes while permitting only bound scratch writes; unsettled or forced receipt state prevents the
   process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
@@ -86,5 +89,5 @@ exact attempt-5 freeze review surface before any manifest or scored provider exe
 
 ## Next best task
 
-Commit the passed prerequisite evidence, rerun final offline gates, then set the still-empty candidate
-to frozen and produce its exact review digest. Do not write a manifest or score until two GO reviews.
+Commit the reviewed frozen inputs, attestations, and newly created manifest as its permanent first ADD,
+then run the post-commit freeze check. Do not score before that exact check passes.

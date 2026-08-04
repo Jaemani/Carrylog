@@ -1,5 +1,22 @@
 {
   "formatVersion": 1,
-  "reviewDigest": null,
-  "reviews": []
+  "reviewDigest": "2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573",
+  "reviews": [
+    {
+      "reviewerId": "r5-safety-reviewer",
+      "verdict": "GO",
+      "reviewDigest": "2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573",
+      "reviewedAt": "2026-08-04T10:47:10Z",
+      "independenceStatement": "I did not implement or edit this review surface and reviewed the frozen candidate independently.",
+      "findings": []
+    },
+    {
+      "reviewerId": "r5-method-reviewer",
+      "verdict": "GO",
+      "reviewDigest": "2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573",
+      "reviewedAt": "2026-08-04T10:49:16Z",
+      "independenceStatement": "I had no implementation or edit role, made no repository changes, and independently reviewed the corrected candidate and closure of R5-METHOD-002.",
+      "findings": []
+    }
+  ]
 }

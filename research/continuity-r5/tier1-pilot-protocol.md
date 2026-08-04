@@ -1,8 +1,9 @@
 # Tier 1 continuity pilot protocol
 
-- Status: Unscored attempt-5 draft. Provider calls, authenticated canaries, review attestations, and
-  freeze-manifest writes are prohibited. It may become a review candidate only after its successor
-  execution boundary, offline checks, and independent review are complete.
+- Status: Frozen, unscored attempt-5 review candidate. Exact authenticated canaries and offline gates
+  have passed. Review attestations are permitted only for the current digest; freeze-manifest creation
+  requires two matching GO reviews. Scored provider calls remain prohibited until the permanent
+  first-ADD manifest commit passes its post-commit check.
 - Governing decision: `docs/decisions/0012-evidence-gates-before-continuity-expansion.md`
 - Purpose: Determine whether the current Carrylog checkpoint shows enough behavioral signal to
   justify larger cross-harness, journaling, or compaction research
@@ -43,8 +44,9 @@ and the two continuity suites receive no repository-selection variables but may 
 repository through the checkout's canonical read-only gitfile and external metadata. The command
 digest, child environment, gitfile identity, metadata boundary, and Seatbelt profile bind that
 declaration. A new deterministic seed and blind IDs prevent reuse of the exposed attempt-3 order.
-All candidate bytes require new authenticated canaries, a new exact digest, two new reviews, and a
-new permanent first-ADD freeze.
+The current candidate bytes have fresh authenticated canaries. Any later byte change requires a new
+exact digest and two new reviews; an amendment after manifest creation requires a new permanent
+first-ADD freeze rather than mutation of this experiment.
 Results from this experiment must be identified by the `research/continuity-r5/tier1` suite path and
 must never be pooled with any predecessor as if they were one execution.
 

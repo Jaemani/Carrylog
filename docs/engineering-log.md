@@ -2198,3 +2198,33 @@ matches this Claude Code shutdown path. `--require-passed` accepts both attestat
 critical configuration digest. No freeze, manifest, scored execution, raw provider output, key value,
 or key path was persisted. These canaries establish harness readiness only; they do not establish
 cross-harness behavioral continuity or conversation reconstruction.
+
+The first frozen-candidate review digest,
+`df0a0cce1b36da596a90b6e3e0a5017a18f1cf15210c8349ca148489eacdac4c`, received two independent
+NO-GO reviews and is permanently rejected. Both reviewers found that `preregistration.json` declared
+the candidate frozen with passed prerequisites while the frozen README and governing protocol still
+called it a draft and prohibited the authenticated canaries, review attestations, and manifest step
+that had become current. The method review also found the mutable report and repository context still
+reported pending prerequisites or draft state. No attestation or manifest was written for that digest.
+The correction aligns every operative status surface: the candidate is frozen and unscored; current
+canaries have passed; exact-digest reviews are authorized; manifest creation requires two GO reviews;
+and scored provider calls remain prohibited until the permanent first-ADD manifest commit passes its
+post-commit check. A fresh digest and two fresh reviews are required.
+
+The corrected 148-file digest,
+`2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573`, received a safety GO but a
+methodology NO-GO because the mutable, digest-excluded `report.md` still said formal review was blocked
+until the already-passed prerequisites completed. No attestation or manifest was written. The report
+now states the passed prerequisite fact and the actual remaining gates: two GO reviews, manifest
+creation, permanent first-ADD commit, and post-commit verification. Because `report.md` is deliberately
+excluded from both review digest and freeze manifest, this correction does not alter the 148-file
+digest; the methodology reviewer must nevertheless recheck the repository state before attestation.
+
+The methodology recheck returned GO at `2026-08-04T10:49:16Z`; the independent safety review had
+already returned GO at `2026-08-04T10:47:10Z`. Both attest exactly
+`2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573` with empty findings. After
+validating those records, passed prerequisites, empty result surfaces, and an unchanged 148-file
+review surface, the write-once freeze command created manifest suite digest
+`cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`. No scored execution followed.
+The manifest is not yet a permanent freeze boundary until the first commit that adds it is created and
+the post-commit freeze check derives and verifies that exact first-ADD commit.

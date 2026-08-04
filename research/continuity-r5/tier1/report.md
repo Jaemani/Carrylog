@@ -1,9 +1,11 @@
-# Tier 1 continuity pilot attempt-5 draft report
+# Tier 1 continuity pilot attempt-5 frozen-candidate report
 
 - Status: Not executed
-- Preregistration commit: Pending
-- Reviewable digest and independent GO attestations: Pending
-- Authenticated harness prerequisites: Codex pending; Claude pending
+- Permanent freeze commit: Pending
+- Review digest: `2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573`
+- Independent GO attestations: 2 / 2
+- Freeze manifest suite digest: `cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`
+- Authenticated harness prerequisites: Codex passed; Claude passed through JM Router on `gpt-5.6-sol`
 - Scored runs: 0 / 60
 - Exclusions: 0
 
@@ -18,9 +20,10 @@ diagnostic. Runs will not be replaced silently.
 Pending execution. Delivery receipts, acknowledgement, reconstruction, behavior, verification
 receipts, latency, tokens, cost, evaluator confidence, and unavailable-evidence reasons will be
 reported separately. Missing evidence will remain null rather than being scored as zero.
-Formal review remains blocked until both authenticated canaries pass for the exact frozen
-harness-critical bytes. Retained prerequisite evidence contains only safe summaries, versions,
-timestamps, and result digests—not raw canary output or credentials.
+Both authenticated canaries pass for the exact frozen harness-critical bytes. Remaining gates are
+two matching GO reviews, manifest creation, the permanent first-ADD freeze commit, and its post-commit
+check. Retained prerequisite evidence contains only safe summaries, versions, timestamps, and result
+digests—not raw canary output or credentials.
 
 ## Descriptive results by harness
 

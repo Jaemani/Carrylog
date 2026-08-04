@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "status": "draft",
+  "status": "frozen",
   "governingDecision": "docs/decisions/0012-evidence-gates-before-continuity-expansion.md",
   "protocol": "research/continuity-r5/tier1-pilot-protocol.md",
   "researchQuestion": "In this fixed exploratory matrix, does the released Carrylog product bundle (canonical context, generated router surfaces, and a runner-verified resume envelope) show a beneficial continuation direction over repository-only discovery without item-level regressions against the same prior-session packet delivered as a concise manual handoff?",

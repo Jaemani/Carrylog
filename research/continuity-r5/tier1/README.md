@@ -1,8 +1,10 @@
 # Tier 1 continuity pilot
 
-This is an unscored execution-attempt-5 draft. It is not a frozen experiment: do not call a
-provider, run an authenticated canary, write a freeze manifest, or reuse results, attestations,
-blinded bundles, or artifacts from an earlier attempt. Attempt 1 is preserved immutably at
+This is the frozen, unscored execution-attempt-5 review candidate. Its exact authenticated canaries
+have passed. Review attestations are permitted only for the current digest; manifest creation requires
+two matching GO reviews. Scored provider calls remain prohibited until the permanent first-ADD
+manifest commit passes its post-commit check. Do not reuse results, attestations, blinded bundles, or
+artifacts from an earlier attempt. Attempt 1 is preserved immutably at
 `research/continuity/tier1` and freeze commit `382cda0e2a5efb3eca5e487e482c7316d6394617`; it aborted before
 claim or provider access. Attempt 2 is preserved immutably at `research/continuity-r2/tier1` and
 freeze commit `3ff47a617c59f35ed7c41ac411b80517c8fa6907`; it created the first run claim but could not persist a
@@ -13,7 +15,7 @@ failure with a mechanical REDESIGN result. Its outcomes are reported separately 
 with this suite.
 
 Attempt 4 is preserved immutably at `research/continuity-r4/tier1`; its freeze identity, attempted
-runs, reviews, and results are historical evidence only and are not copied into this draft.
+runs, reviews, and results are historical evidence only and are not copied into this candidate.
 
 This directory is the executable, maintainer-run pilot successor required by ADR-0012. It measures the current
 checkpoint/resume product; it does not test or authorize transcript replay, automatic journaling, or
@@ -38,13 +40,13 @@ semantic compaction.
   Python bytecode and pytest cache output are redirected or disabled, and the canonical physical
   macOS timezone directory is registry-bound for deterministic `zoneinfo` access under Seatbelt.
 
-The current candidate is a draft. The initially reviewed offline surface was committed at `844a456`;
-the first authenticated prerequisite attempts then exposed a Codex MCP-discovery failure and a
-host-PATH Claude-wrapper collision. Repairs remain subject to fresh offline review and clean-commit
-canaries. No freeze or scored execution is authorized. The unique first commit that adds
-`freeze-manifest.json` with the complete reviewed inputs is the
-permanent freeze boundary. No scored run may start before that commit. Amendments require a new
-experiment identifier and never overwrite earlier raw results.
+The initially reviewed offline surface was committed at `844a456`; subsequent failed prerequisites
+exposed and preserved the Codex, native-Claude, budget, and broker-lifecycle repairs described in the
+engineering log. Both exact authenticated prerequisites now pass from reviewed clean commit
+`65bb802`. The unique first commit that adds `freeze-manifest.json` with the complete twice-reviewed
+inputs remains the permanent freeze boundary. No scored run may start before that commit and its
+post-commit check. Amendments require a new experiment identifier and never overwrite earlier raw
+results.
 
 The executable research harness is macOS-only. Product support remains cross-platform; the research
 runner depends on macOS Seatbelt and the exact preregistered host toolchain and fails before setup on
