@@ -1,7 +1,7 @@
 # Tier 1 continuity pilot attempt-5 frozen-candidate report
 
-- Status: Not executed
-- Permanent freeze commit: Pending
+- Status: Frozen; not executed
+- Permanent freeze commit: `ec27f44924749a84bb53a84d71f8408f9cb6de68`
 - Review digest: `2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573`
 - Independent GO attestations: 2 / 2
 - Freeze manifest suite digest: `cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`

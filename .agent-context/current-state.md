@@ -2,8 +2,8 @@
 
 ## Active objective
 
-Record the two passed authenticated prerequisites from reviewed commit `65bb802`, then prepare the
-exact attempt-5 freeze review surface before any manifest or scored provider execution.
+Prepare deterministic Carrylog and BusyCafe fixtures for frozen Attempt 5 without provider execution,
+then quantify and authorize the scored 60-run batch before starting it.
 
 ## Implemented and verified
 
@@ -74,8 +74,8 @@ exact attempt-5 freeze review surface before any manifest or scored provider exe
   still described draft state and prohibited already completed prerequisites and review steps. That
   digest is rejected. Corrected digest `2e6c778d…b181573` received two independent GO reviews after a
   stale statement in digest-excluded `report.md` was corrected. The write-once manifest now exists with
-  suite digest `cfb7d9c1…b4bd`; its permanent first-ADD commit and post-commit check remain. Scoring is
-  still prohibited.
+  suite digest `cfb7d9c1…b4bd`. Permanent first-ADD commit `ec27f44` passed its post-commit freeze
+  check. No scored provider run has begun.
 - An escaped process may survive its original process group. Seatbelt denies network and checkout
   writes while permitting only bound scratch writes; unsettled or forced receipt state prevents the
   process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
@@ -89,5 +89,5 @@ exact attempt-5 freeze review surface before any manifest or scored provider exe
 
 ## Next best task
 
-Commit the reviewed frozen inputs, attestations, and newly created manifest as its permanent first ADD,
-then run the post-commit freeze check. Do not score before that exact check passes.
+Configure owned temporary caches and a bare BusyCafe source, then run both online population and
+offline reuse preparation for all comparison cells without `--execute`. Recheck the freeze afterward.

@@ -4,53 +4,41 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "0ee9bec at 2026-08-04T19:36:42+09:00"
-- Upstream: "origin/main; ahead 18, behind 0"
-- Working tree: 8 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 8 file(s), +842/-33, 0 binary
+- HEAD: "ec27f44 at 2026-08-04T19:51:11+09:00"
+- Upstream: "origin/main; ahead 19, behind 0"
+- Working tree: 3 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 3 file(s), +17/-8, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (8)
+### Changed paths (3)
 
     {"status":"M ","path":".agent-context/current-state.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"M ","path":"research/continuity-r5/tier1-pilot-protocol.md"}
-    {"status":"M ","path":"research/continuity-r5/tier1/README.md"}
-    {"status":"A ","path":"research/continuity-r5/tier1/freeze-manifest.json"}
-    {"status":"M ","path":"research/continuity-r5/tier1/preregistration.json"}
     {"status":"M ","path":"research/continuity-r5/tier1/report.md"}
-    {"status":"M ","path":"research/continuity-r5/tier1/review-attestations.json"}
 
 ### Recent commits (5)
 
+    {"commit":"ec27f44","committedAt":"2026-08-04T19:51:11+09:00","subject":"research: freeze Tier 1 execution attempt 5"}
     {"commit":"0ee9bec","committedAt":"2026-08-04T19:36:42+09:00","subject":"research: record attempt 5 harness prerequisites"}
     {"commit":"65bb802","committedAt":"2026-08-04T19:33:56+09:00","subject":"fix: settle signalled Claude verification brokers"}
     {"commit":"611a043","committedAt":"2026-08-04T19:20:28+09:00","subject":"fix: settle Claude verification brokers between profiles"}
     {"commit":"7f3f068","committedAt":"2026-08-04T19:06:29+09:00","subject":"fix: serialize Claude verification tools"}
-    {"commit":"f5f7ff4","committedAt":"2026-08-04T18:56:23+09:00","subject":"research: bound Claude prerequisite across profiles"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"0ee9bec540d26bbca54ba37d8ffa9b597d8d0abf","detached":false,"branch":"main","indexCommitment":"e4ed9aabb076239525cd91a7c70abc201e82854602943a00e8857f625947f761"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"ec27f44924749a84bb53a84d71f8408f9cb6de68","detached":false,"branch":"main","indexCommitment":"f2d8ef777b3470e589468ff11840a5fe9f991de14d04287a99d4bc5958be1e61"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Commit the reviewed attempt-5 manifest as its permanent first ADD and pass the post-commit freeze check
-before any scored execution.
+Prepare all frozen Attempt-5 comparison cells without provider execution, then confirm the USD/time
+envelope before starting the scored batch.
 
 ## Completed
 
 - Attempt 5 remains isolated, frozen, unscored, and without observed results. Prior attempts and
   external repositories were not modified.
-- Commit `611a043` integrated the reviewed barrier. Codex passed at
-  `2026-08-04T10:20:58.609Z`. Routed Claude exposed only `gpt-5.6-sol` and completed the read-only exact
-  tool sequence, then timed out with one broker start, no broker terminal, and no unsettled invocation.
-- A first Claude command omitted the key-file bridge and stopped before provider access. The corrected
-  command derived and validated the launcher-declared file without printing or persisting its path or
-  value.
-- The repair writes one broker terminal after stdin EOF or graceful `SIGTERM`, `SIGHUP`, or `SIGINT`,
-  and only after the serialized request queue settles. `SIGKILL` remains unsettled. Critical digest
-  refresh reset both prerequisites before the reviewed rerun.
+- The broker, key-bridge, budget, and failed-hypothesis chronology is preserved in the engineering log.
+  Graceful broker signals settle only after queued invocations; forced termination remains unsettled.
 - From clean commit `65bb802`, Codex CLI 0.146.0 passed at `2026-08-04T10:34:24.241Z`; native Claude
   Code 2.1.220 through JM Router passed at `2026-08-04T10:35:26.600Z`. Both used only `gpt-5.6-sol`.
   Claude completed both permission profiles and inter-profile settlement. No freeze, manifest, scored
@@ -64,7 +52,10 @@ before any scored execution.
   names the true remaining gates; the digest remained unchanged.
 - Methodology recheck returned GO. Both independent reviews attest exact digest `2e6c778d…b181573`
   with empty findings. The write-once manifest exists with suite digest `cfb7d9c1…b4bd`; it has not yet
-  been committed or used for a scored run.
+  been used for a scored run.
+- Manifest first-ADD commit `ec27f44` passed post-commit verification. The frozen order has 30 Claude
+  runs at a USD 0.75 per-run cap (USD 22.50 maximum) plus 30 Codex subscription runs and a 15-hour
+  serial timeout ceiling. Required setup cache and temporary bare BusyCafe source remain unconfigured.
 
 ## Verification
 
@@ -94,5 +85,5 @@ before any scored execution.
 
 ## Next action
 
-Stage the reviewed inputs, attestations, report, and manifest; refresh the checkpoint; commit once; then
-run the post-commit freeze check. Do not score before it passes.
+Create owned temporary setup/cache roots and the exact bare BusyCafe source, prepare every comparison
+cell online then offline without `--execute`, and rerun `freeze --check` before scored authorization.

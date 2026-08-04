@@ -2228,3 +2228,12 @@ review surface, the write-once freeze command created manifest suite digest
 `cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`. No scored execution followed.
 The manifest is not yet a permanent freeze boundary until the first commit that adds it is created and
 the post-commit freeze check derives and verifies that exact first-ADD commit.
+
+Commit `ec27f44924749a84bb53a84d71f8408f9cb6de68` became the permanent first ADD of the Attempt-5
+manifest. The immediate post-commit check independently derived that commit and accepted exact suite
+digest `cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`. Attempt 5 is now frozen and
+eligible for scored preparation, but no scored provider execution has begun. The 60-run order contains
+30 Claude Code runs capped at USD 0.75 each, for a protocol ceiling of USD 22.50 on that surface; Codex
+subscription usage and wall time remain separate. With a 900-second per-run timeout, the serial
+worst-case execution bound is 15 hours before review/evaluation overhead. Local setup cache and the
+required temporary bare BusyCafe source are not yet configured.
