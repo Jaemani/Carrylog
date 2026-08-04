@@ -42,7 +42,7 @@
     "format:check": "biome check .",
     "test": "npm run build && node --test --test-concurrency=1 'tests/*.test.mjs'",
     "test:coverage": "npm run build && node --test --test-concurrency=1 --experimental-test-coverage --test-coverage-include=dist/**/*.js --test-coverage-exclude=dist/cli.js --test-coverage-lines=90 --test-coverage-functions=90 --test-coverage-branches=85 'tests/*.test.mjs'",
-    "test:research:active": "node --test --test-concurrency=1 'research/continuity-r5/tier1/analysis/tests/*.test.mjs' 'research/continuity-discovery-boundary/tests/*.test.mjs'",
+    "test:research:active": "node scripts/run-active-research.mjs",
     "test:research:r5": "node --test --test-concurrency=1 'research/continuity-r5/tier1/analysis/tests/*.test.mjs'",
     "test:research:discovery": "npm run build && node --test --test-concurrency=1 'research/continuity-discovery-boundary/tests/*.test.mjs'",
     "test:research:discovery:live": "npm run build && node research/continuity-discovery-boundary/live-canary.mjs",

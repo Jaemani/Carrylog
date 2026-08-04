@@ -2534,3 +2534,31 @@ product-test, configured coverage-floor, and active-research 131/131 checks. Pac
 local, ephemeral, global, ESM, strict-types, migration, init, validation, checkpoint, and resume consumer
 smokes pass. Sync check, JSON validation, and Git diff checks also pass. The independent methodology
 review found no scope or evidence-claim violation, and the final code review found no remaining blocker.
+
+## 2026-08-05 — Exact-commit CI exposed two active-research portability defects
+
+The first pushed placeholder-diagnostic commit, `f18780d`, triggered CI run 30944540371. Eight of eleven
+jobs passed, including every packed-artifact job and the release/npm-12 contract job. Both Ubuntu quality
+jobs failed because a frozen Attempt-5 test executed `/usr/bin/sandbox-exec` without a platform boundary.
+The macOS Node 24 quality job failed because the repository-discovery canary parsed `# pass` and `# fail`
+from a child test process without selecting the TAP reporter; Node 24 emitted its default reporter instead.
+The remaining quality jobs passed. These failures predated the placeholder behavior but had not yet been
+exercised by a clean exact-commit matrix, so the failed run remains evidence rather than being relabelled
+as green.
+
+Editing the frozen test to add a platform skip was rejected because its bytes belong to the Attempt-5
+manifest. The new shell-free active-research runner executes the complete suite on macOS. On Linux and
+Windows it removes exactly one `pilot-boundaries.test.mjs` from the general invocation, fails closed if
+that identity is missing or duplicated, and invokes the frozen file separately through an eight-item
+positive allowlist covering every portable test and excluding only the Seatbelt execution. The child is
+pinned to TAP, and the wrapper requires exactly eight tests passed with zero failures or skips so an
+allowlist typo cannot silently reduce coverage. A product regression verifies the darwin/linux/win32
+partition, allowlist, single exclusion, TAP guard, and missing-file failure. The frozen file, manifest,
+results, evaluations, and STOP outcome remain unchanged.
+
+The discovery canary now passes `--test-reporter=tap` to the focused child whose metrics it parses. A
+static regression makes that parser precondition explicit, and the live macOS canary exercises it. Local
+verification passes the runner contract, the exact portable frozen subset 8/8, active research 132/132,
+and the complete quality gate. Independent code and methodology reviews confirmed the platform partition
+and frozen-file immutability with GO verdicts. Cross-platform delivery still requires a fresh exact-commit
+CI run.

@@ -22,6 +22,11 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 
 - Added full, partial, CRLF, human-output, and reviewed-content cases so conservative placeholder
   detection remains visible without classifying edited context as stock.
+- Added a platform-aware active-research runner that preserves the frozen Attempt-5 files, executes all
+  tests on macOS, and on other systems runs the frozen pilot boundary through an explicit eight-test
+  portable allowlist instead of invoking unavailable Seatbelt.
+- Pinned the discovery canary's focused child process to the TAP reporter before parsing aggregate
+  metrics, avoiding Node-version-dependent default reporter output.
 
 ## [0.1.0-beta.7] - 2026-08-02
 

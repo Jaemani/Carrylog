@@ -29,7 +29,7 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   research directories and engineering log; none contributes outcomes to Attempt 5.
 - Attempt 5 is frozen at manifest commit `ec27f44` and suite digest `cfb7d9c1…b4bd`. Its current-byte
   Codex and routed-Claude prerequisites, offline preparation, isolation canary, and freeze check pass.
-- The candidate passes Attempt-5 tests 122/122, active research 131/131, product quality and coverage,
+- The candidate passes Attempt-5 tests 122/122, active research 132/132, product quality and coverage,
   package inspection and smoke, Carrylog continuity, and the bounded BusyCafe checks.
 - Runs `t1-001` through `t1-040` are terminal and privacy-reviewed: 33 are scored; six are retained
   harness failures; and `t1-018` is protocol-invalid because Codex used one direct shell command
@@ -62,6 +62,8 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   initialization wording after EOL and formatting-whitespace normalization. Detection follows mutable
   document IDs and paths, ignores on-demand template references, does not infer semantic freshness, and
   does not change the Git-staleness-only `--check` exit contract.
+- Active research preserves frozen Attempt-5 bytes while gating macOS Seatbelt separately from portable
+  Linux and Windows tests; discovery metrics use an explicit TAP reporter across Node versions.
 
 ## Blockers and risks
 

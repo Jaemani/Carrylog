@@ -208,6 +208,7 @@ const focused = spawnSync(
   [
     "--test",
     "--test-concurrency=1",
+    "--test-reporter=tap",
     "--test-name-pattern=" + [
       "resume JSON is byte-deterministic, portable, and reports stale checkpoints",
       "resume JSON escapes Git-controlled Unicode controls while preserving their values",

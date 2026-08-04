@@ -79,10 +79,13 @@ matching terminals, require a final count/byte/digest seal,
 and reject partial, duplicate, mismatched, missing, rewritten, truncated, late, or unsettled streams.
 A repeated process-level regression kills the MCP parent after an invocation start and accepts either
 a late wrapper terminal or a permanently unsettled invocation only as fail-closed evidence; its broker
-must remain unsettled. The two tests that execute
-`sandbox-exec` run only on macOS, where the required runtime exists; Linux and Windows report those
-capability-specific integrations as skipped rather than attempting to emulate a different security
-boundary. Project-local executable selection remains a product-level cross-platform process test,
+must remain unsettled. The two tests that execute `sandbox-exec` run only on macOS, where the required
+runtime exists. The separate discovery canary uses the test runner's platform skip. The Attempt-5
+network-denial test belongs to the immutable frozen suite, so the active-research launcher leaves that
+file unchanged: on Linux and Windows it runs the other active files, then invokes the frozen file through
+an exact positive allowlist of its eight portable tests. The launcher pins TAP output and requires all
+eight to pass with no failures or skips; it also fails closed if the frozen file is absent or ambiguous.
+No other security boundary is emulated. Project-local executable selection remains a product-level cross-platform process test,
 including Windows directory junctions, dereferenced target type, and dangling-target rejection.
 The live MCP contract also proves that a detached descendant can write only to verification scratch,
 not to the read-only checkout after its supervised parent exits. Offline BusyCafe screens cover both
@@ -161,9 +164,11 @@ Every feature review should consider combinations from these dimensions:
 4. the complete Node test suite;
 5. coverage thresholds of 90% lines, 90% functions, and 85% branches.
 
-The active research portion runs the unfrozen attempt-5 contract suite plus the separately committed
-non-scored repository-discovery contract. Its live Seatbelt case runs on macOS and is explicitly skipped on
-other operating systems.
+The active research portion runs the Attempt-5 contract suite plus the separately committed non-scored
+repository-discovery contract. macOS runs all 132 tests. Linux and Windows omit only the single frozen
+Seatbelt execution through the launcher partition described above; the frozen file itself is not edited.
+The discovery live canary is skipped outside macOS and pins its focused child to the TAP reporter before
+parsing aggregate metrics.
 
 `npm run pack:check` separately inspects the npm artifact. `npm run release:verify` adds dogfood
 sync/validation, one clean release tarball, smoke testing of that exact SHA-256 artifact, runtime

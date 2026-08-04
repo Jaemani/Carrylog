@@ -1,8 +1,15 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+
+test("live boundary pins TAP output before parsing test metrics", async () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const source = await readFile(path.join(root, "live-canary.mjs"), "utf8");
+  assert.match(source, /"--test-reporter=tap"/);
+});
 
 test("macOS live boundary discovers outer Git while preserving nested and isolation guarantees", {
   skip: process.platform !== "darwin" ? "macOS Seatbelt is required" : false,
