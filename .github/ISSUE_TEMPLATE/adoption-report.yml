@@ -1,0 +1,132 @@
+name: Adoption report
+description: Share a sanitized real-repository Carrylog switch or handoff outcome.
+title: "[Adoption]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adoption reports decide whether Carrylog should expand beyond repository-memory governance.
+        This submission creates a public GitHub issue. Do not identify a private repository by name or URL.
+        Report measured outcomes when possible, including failures. Do not paste project context, raw conversations, secrets, private paths, or path-bearing Git output.
+  - type: input
+    id: version
+    attributes:
+      label: Carrylog version
+      placeholder: 0.1.0-beta.7
+    validations:
+      required: true
+  - type: dropdown
+    id: repository_profile
+    attributes:
+      label: Repository profile
+      options:
+        - Public single-package repository
+        - Public monorepo
+        - Private single-package repository
+        - Private monorepo
+        - Non-code or mixed-content repository
+    validations:
+      required: true
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation path
+      options:
+        - Exact project dependency with npx --no-install
+        - Global npm installation
+        - One-off npx execution
+        - Source checkout
+    validations:
+      required: true
+  - type: checkboxes
+    id: harnesses
+    attributes:
+      label: Harnesses used
+      options:
+        - label: Codex
+        - label: Claude Code
+        - label: Cursor
+        - label: Gemini CLI
+        - label: Other
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Switch or handoff workflow
+      description: Describe start harness, destination harness, fresh-session status, and Carrylog commands without repository names, URLs, or paths.
+      placeholder: Codex fresh session -> checkpoint committed -> Claude Code fresh session -> resume --check
+    validations:
+      required: true
+  - type: dropdown
+    id: task_outcome
+    attributes:
+      label: Task outcome
+      options:
+        - Completed
+        - Partially completed
+        - Failed
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence_basis
+    attributes:
+      label: Evidence basis
+      description: Classify the before-and-after quantities reported below.
+      options:
+        - Both measured
+        - Mixed measured and estimated
+        - Both estimated
+        - Unknown or not measured
+    validations:
+      required: true
+  - type: input
+    id: explanation_quantity
+    attributes:
+      label: Re-explanation quantity
+      description: Give privacy-safe numeric time, character, word, or message counts before and after Carrylog. Enter "Unknown" when not measured or estimable.
+      placeholder: Before 8 min / 1500 chars; after 2 min / 200 chars
+    validations:
+      required: true
+  - type: textarea
+    id: baseline
+    attributes:
+      label: Manual baseline
+      description: Estimate or measure the explanation text or time normally needed without Carrylog. Label estimates as estimates.
+      placeholder: About 1,500 characters and 8 minutes, estimated from two prior switches.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Observed outcome
+      description: Report whether objective, next action, protected decisions, verification limits, and risks were recovered or missed. Include task outcome and avoid confidential details.
+    validations:
+      required: true
+  - type: textarea
+    id: repeated_work
+    attributes:
+      label: Re-explanation, repeated work, or clarification
+      description: State what still had to be retold, rediscovered, or repeated. Zero is valid and useful evidence.
+    validations:
+      required: true
+  - type: textarea
+    id: friction
+    attributes:
+      label: Installation and workflow friction
+      description: Report confusing commands, stale checkpoints, adapter discovery problems, or harness-specific behavior.
+    validations:
+      required: true
+  - type: checkboxes
+    id: evidence_quality
+    attributes:
+      label: Evidence quality
+      options:
+        - label: I distinguished measured values from estimates and did not convert missing evidence to success.
+          required: true
+        - label: I understand this report creates a public GitHub issue and removed identifying repository names, URLs, and paths.
+          required: true
+        - label: I removed secrets, project context, raw conversations, private paths, and ignored-file contents.
+          required: true
+        - label: Maintainers may aggregate this sanitized report in public adoption summaries.
+          required: false

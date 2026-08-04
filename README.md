@@ -138,6 +138,11 @@ Beta.7 provides the reviewed universal Codex/Claude/Cursor/Gemini surfaces, port
 `checkpoint`/`resume` workflow, and committed-checkpoint settlement across normal LF and Git-managed
 CRLF checkouts. Pin the exact version when reproducible team installations matter.
 
+Used Carrylog on a real repository? Submit a
+[sanitized adoption report](https://github.com/Jaemani/Carrylog/issues/new?template=adoption-report.yml).
+Measured failures and re-explanation are as useful as successes. Do not include project context, raw
+conversations, secrets, private paths, or ignored-file contents.
+
 ## Build from source
 
 Node.js 22 or newer and a Git worktree are required.

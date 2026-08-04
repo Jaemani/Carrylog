@@ -32,11 +32,13 @@ Completed publication and channel-hardening operations:
 - published and verified beta.5 through protected OIDC with no registry token;
 - published beta.6 after the project-local Skill discovery and cross-platform junction corrections,
   with independent registry, signature, provenance, and fresh-repository lifecycle verification.
+- published beta.7 with portable staged-commit settlement and verified it across the protected release,
+  registry, provenance, package-consumer, and fresh checkpoint lifecycle paths.
 
 Delivery and outcome work now takes priority over additional defensive breadth:
 
 - exercise the published five-minute registry path on external repositories;
-- run the committed Tier 1 checkpoint-continuity pilot before building session journaling;
+- preserve the stopped Tier 1 result and do not build session journaling from it;
 - dogfood on two additional materially different repositories and publish sanitized adoption notes;
 - measure whether users reduce project re-explanation and repeated work;
 - revisit positioning and adapter assumptions from evidence rather than registry or standards trends
@@ -46,6 +48,15 @@ One sanitized Personal Context observation now covers a public beta.6
 Codex-to-Claude/GPT-router-to-Codex sequence. It is bounded behavior evidence, not the comparative
 Tier 1 result. The next adoption step must add a second repository and repository-only/manual-handoff
 comparators while measuring wrapper permissions, task outcome, latency, and usable token accounting.
+
+The frozen Attempt-5 Tier 1 pilot stopped after 40 terminal runs: 33 scored, six harness failures, one
+protocol-invalid, and 20 intentionally unstarted. Carrylog resume showed useful fixture-level contrasts
+against repository-only discovery, but the same protected-detail miss relative to manual handoff
+appeared on both tested harness surfaces. Under the preregistered STOP-first rule, no remaining run or
+Tier 2 promotion is allowed. This does not reverse the repository-governance product boundary or imply
+general behavioral inferiority. The next evidence priority is external adoption and perceived utility.
+A prompt-projection follow-up remains draft-only until adoption shows a user-facing need and a new
+held-out design passes independent review.
 
 The post-smoke checkpoint review exposed a deterministic lifecycle defect: committing a freshly
 written checkpoint changed `HEAD` and immediately made the committed checkpoint stale. The next beta
@@ -69,7 +80,8 @@ Implemented in the `0.1.0-beta.5` prerelease line:
 - CI policy mode and a compact, deterministic project-card export for session-journal consumers;
 - measure the implemented tool-neutral checkpoint/resume contract without claiming transcript or
   hidden-state reproduction;
-- promote the Tier 1 protocol to independent Tier 2 only if the pilot shows useful signal;
+- do not promote the stopped Tier 1 protocol to Tier 2; revisit only through a new held-out protocol
+  after external adoption supplies a concrete user job;
 - opt-in measurement of reconstruction time, repeated work, handoff usefulness, and user perception;
 - external adoption reports from at least three materially different repositories, beginning before
   0.2 feature expansion;

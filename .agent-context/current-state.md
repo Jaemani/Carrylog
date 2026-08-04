@@ -2,8 +2,8 @@
 
 ## Active objective
 
-Close Attempt 5 at its preregistered STOP boundary, preserve the 40 terminal outcomes, and investigate
-the replicated manual-regression item before proposing any new continuity experiment.
+Prioritize external adoption and measurable user outcomes after closing Attempt 5 at its
+preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
 
 ## Implemented and verified
 
@@ -41,6 +41,13 @@ the replicated manual-regression item before proposing any new continuity experi
   unstarted and may not be executed under this protocol.
 - Detailed fixture contrasts, Claude failures, cache identities, and review chronology remain in the
   report and engineering log rather than always-loaded context.
+- A reviewed STOP analysis separates delivered-state recall from safe task behavior. Two independent
+  reviewers rejected immediate follow-up execution because the first draft confounded delivery factors,
+  reused outcome-selected fixtures, and lacked an actionable adoption signal and statistical contract.
+- The follow-up is now explicitly gated on external adoption need and held-out design. Independently
+  reviewed GitHub adoption and bug forms collect public, sanitized, structured outcomes without
+  requesting raw conversations or private context; their repository contracts and full product and
+  package gates pass.
 
 ## Blockers and risks
 
@@ -54,9 +61,11 @@ the replicated manual-regression item before proposing any new continuity experi
   process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
 - Cross-harness behavioral continuity, repeated-switch retention, conversation reconstruction,
   journaling, compaction value, Cursor CLI behavior, and wider external adoption remain unproven.
+- No external adoption report yet establishes how often users retype or lose protected checkpoint
+  details. The mechanism follow-up cannot be justified or frozen until that user-facing need exists.
 - TOCTOU, Windows depth, process escape, and abnormal-termination locks remain explicit residual risks.
 
 ## Next best task
 
-Verify, independently review, and commit the 40-run STOP boundary. Then diagnose the replicated `f5`
-miss without changing Attempt-5 evidence and decide whether a new experiment is justified.
+Ship the STOP analysis, roadmap correction, and sanitized adoption intake. Then obtain the next
+real-repository adoption outcome before adding continuity features or provider experiments.

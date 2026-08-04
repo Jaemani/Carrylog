@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/Jaemani/Carrylog/security/advisories/new
+    about: Report repository escape, content loss, credential exposure, or package compromise privately.
+  - name: Questions and design discussion
+    url: https://github.com/Jaemani/Carrylog/discussions
+    about: Ask usage questions or discuss ideas that are not yet actionable bug reports.

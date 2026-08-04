@@ -2432,3 +2432,40 @@ risk prose were removed from `current-state.md` and left in the report and this 
 context fell to 13,506 characters and validation passed with no diagnostics. This is the second
 research checkpoint where dogfooding enforced the intended context hierarchy rather than permitting
 operational history to accumulate in the resume-critical layer.
+
+## 2026-08-05 — Follow-up research deferred in favor of adoption evidence
+
+The frozen evidence was inspected without changing Attempt-5 inputs or outcomes. The prior-session
+packet contains the exact missed `f5` statement in the checkpoint `Decisions` section, so the finding
+is reconstruction rather than delivery failure. The manual and Carrylog prompts contained the same
+708-character packet meaning, but total prompt characters were 1,531 and 6,814 respectively. Both
+Carrylog responses rejected the unsafe production reversal and earned 10/10 completion while omitting
+the explicit SQLAlchemy 2 and Alembic detail. These observations do not identify prompt size, JSON
+representation, duplicated context, repository search, or stochastic response variance as a cause.
+
+A first draft proposed a four-condition mechanism probe. Independent product and methodology reviews
+both returned NO-GO before implementation or provider access. The conditions changed multiple factors
+at once, six repetitions could not satisfy the stated four-position balance, both stages reused known
+outcome-selected fixtures, and no external adoption result established that this rubric-level omission
+was an urgent user problem. The draft also lacked a complete estimand, non-inferiority margin, attrition
+rule, operating-characteristic simulation, and held-out confirmation set.
+
+The corrected research note is now a gated design record rather than an execution plan. Stable
+`resume --json` remains unchanged, no projection was implemented, and no additional provider call was
+made. The roadmap now prioritizes external adoption and perceived utility. GitHub adoption and bug
+forms were added to collect sanitized installation, harness-switch, re-explanation, protected-detail,
+task-outcome, and friction evidence while explicitly excluding secrets, raw conversations, private
+paths, and ignored-file contents. A repository test parses the forms, rejects duplicate machine IDs,
+bounds their structure, and verifies the private security-report route.
+
+Independent re-review rejected the first intake draft because it did not tell reporters that GitHub
+issues are public and its tests fixed field order while leaving broader required-field contracts
+implicit. Before commit, both forms gained an explicit public-submission warning and required privacy
+acknowledgement. The adoption form now distinguishes completed, partial, and failed outcomes; measured,
+mixed, estimated, and unknown evidence; and privacy-safe numeric re-explanation quantities. Contract
+tests now verify field sets without coupling to display order, required inputs, option types, HTTPS
+contact links, the README adoption route, and the private security path.
+
+The corrected delivery passed the full product quality and coverage gate, active research 131/131,
+package inspection at 155 files and 207,061 bytes, all package-consumer smoke paths, adapter sync,
+Carrylog validation, and two independent final reviews. No R6 renderer or provider execution occurred.
