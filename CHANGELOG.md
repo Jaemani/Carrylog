@@ -25,6 +25,8 @@ Semantic Versioning; configuration versions follow the separate contract in ADR-
 - Separated the supported cross-platform product gate from the complete macOS-owned research gate.
   Branch CI runs both Node majors for the research suite on macOS, and tagged publication depends on a
   matching two-major research matrix as well as every cross-platform product and package preflight.
+- Updated the pre-existing OIDC publication contract to require both tagged preflight job families,
+  preventing its older single-dependency assertion from contradicting the new release-blocking test.
 - Pinned the discovery canary's focused child process to the TAP reporter before parsing aggregate
   metrics, avoiding Node-version-dependent default reporter output.
 

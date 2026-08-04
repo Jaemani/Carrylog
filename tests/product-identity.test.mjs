@@ -76,7 +76,7 @@ test("release publication is OIDC-only after the first-package bootstrap", async
   const steps = publish.steps;
 
   assert.equal(publish.environment, "npm");
-  assert.equal(publish.needs, "preflight");
+  assert.deepEqual(publish.needs, ["preflight", "active-research"]);
   assert.deepEqual(publish.permissions, {
     contents: "read",
     "id-token": "write",

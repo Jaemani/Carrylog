@@ -2597,3 +2597,26 @@ The first pre-push checkpoint incorrectly retained a next action that still requ
 though both re-reviews had already returned GO. `resume --check` proved structural settlement but could
 not make that narrative semantically current. The stale instruction was caught before push and corrected
 through a separate reviewed checkpoint commit rather than amending away the audit trail.
+
+Exact-commit CI run 30947111270 then exposed a contradictory pre-existing test contract. Both dedicated
+macOS research jobs passed, as did every package job, the release-toolchain job, and Windows product
+quality. Ubuntu Node 22/24 and macOS Node 22/24 product jobs failed because the older OIDC publication
+test still required `publish.needs` to equal the scalar `preflight`, while the new gate regression
+correctly required `preflight` plus `active-research`. The OIDC test now asserts the same exact dependency
+array; no workflow weakening or frozen research change was needed.
+
+The same failure revealed an orchestration error in local verification reporting. Nested command results
+were invoked through a wrapper that did not propagate their `exit_code`; RTK's concise output was empty,
+and the outer script completion was incorrectly treated as a passing gate. The focused test reproduced
+the failure locally after CI. Subsequent gate invocations explicitly inspect and reject every nested
+nonzero exit code before their result can be claimed. Run 30947111270 remains failed evidence rather than
+being described as a successful local-to-CI delivery.
+
+After the assertion correction, the focused product-identity file passed 6/6. A complete
+`npm run quality:research` rerun returned an explicitly inspected exit code 0; its complete macOS research
+portion passed 132/132. Package, continuity, and exact-commit CI evidence remain separate gates and are
+not inferred from that local result.
+
+A final read-only regression review returned GO: both OIDC assertions match the two publish dependencies,
+the tagged research matrix still covers macOS Node 22/24, the always-loaded context remains below budget,
+and frozen Attempt-5 bytes remain unchanged.
