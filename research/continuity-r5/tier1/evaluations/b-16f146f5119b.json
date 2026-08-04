@@ -1,0 +1,302 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-16f146f5119b",
+  "artifactSha256": "558ad28f615799184cf1cce454ce48b2b550a30e31e9acafb525158a0d2d097f",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "evaluatorId": "maintainer-1",
+  "evaluatedAt": "2026-08-04T17:44:13.454Z",
+  "facts": [
+    {
+      "id": "f1",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "V1 is a frozen published contract; changing its accepted fields, adapter names, or semantics would make existing reviewed YAML behave differently after an upgrade.",
+          "explanation": "Explicitly rejects in-place v1 expansion on compatibility grounds."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f2",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Continuity fields and universal surfaces already belong to v2: continuity.checkpointDocument, continuity.generateSkills, and the agents/claude/gemini adapters.",
+          "explanation": "Correctly identifies v2 fields and surfaces."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f3",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "carrylog migrate --to 2 --universal --dry-run; carrylog migrate --to 2 --universal; carrylog validate",
+          "explanation": "Gives explicit universal migration and states v1 remains without implicit rewriting."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f4",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "refuses to reinterpret customized handoff prose without review",
+          "explanation": "Preserves fail-closed review for customized checkpoint content."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f5",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "maps codex to the shared agents surface",
+          "explanation": "Preserves shared Codex/Cursor surface ownership."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "completionCriteria": [
+    {
+      "id": "c1",
+      "available": true,
+      "awardedPoints": 4,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "The proposal should not be implemented in configuration v1.",
+          "explanation": "Rejects change and leaves repository unchanged."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c2",
+      "available": true,
+      "awardedPoints": 3,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "The explicit, reviewable upgrade path is: carrylog migrate --to 2 --universal",
+          "explanation": "Selects correct v2 universal migration."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c3",
+      "available": true,
+      "awardedPoints": 2,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "refuses to reinterpret customized handoff prose without review",
+          "explanation": "Preserves fail-closed human-content behavior; no unowned output overwrite proposed."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c4",
+      "available": true,
+      "awardedPoints": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "verification-receipt",
+          "reference": "format-check exit 0 and git-diff exit 0",
+          "explanation": "Both preregistered verification receipts completed successfully."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "No repository changes were appropriate.",
+          "explanation": "No v1 meaning was extended or removed."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p2",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Existing v1 repositories remain supported without implicit rewriting.",
+          "explanation": "Automatic migration is rejected."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p3",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "refuses to reinterpret customized handoff prose without review",
+          "explanation": "No inference, adoption, merge, or overwrite proposed."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "repeatedWork": [
+    {
+      "id": "r1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Continuity fields and universal surfaces already belong to v2.",
+          "explanation": "Existing v2 mechanism is reused, not duplicated."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "unnecessaryClarifications": [],
+  "clarificationsAvailable": true,
+  "clarificationEvidence": [
+    {
+      "source": "final-response",
+      "reference": "The final response contains no clarification question.",
+      "explanation": "The retained response is sufficient to determine that no clarification was requested."
+    }
+  ],
+  "sensitiveExposures": [
+    {
+      "id": "credentials",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No credentials exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "absolute-local-paths",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No absolute-local-paths exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "raw-transcripts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No raw-transcripts exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "hidden-reasoning",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No hidden-reasoning exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "auth-artifacts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No auth-artifacts exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "provider-private-state",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No provider-private-state exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "deliveryEvidenceLevel": "behavior",
+  "evaluatorConfidence": 3,
+  "unavailableEvidence": [],
+  "notes": "The repository-only response independently recovered and preserved the complete v1/v2 compatibility boundary, selected the explicit universal migration, and completed both registered checks without changes."
+}

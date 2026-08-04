@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-ad0a05a004de",
+  "finalResponse": "Preserved the existing safer resolution order; no changes were made.\n\nUsing the first `carrylog` on `PATH` is unsafe because a stale global beta.4 previously shadowed the compatible beta.5 source build and lacked `resume`, producing a false startup failure. The current workflow instead selects:\n\n1. Compatible source build\n2. Project-pinned executable\n3. Compatible global executable\n\nEach selected candidate must pass `resume --help`, and no tool is downloaded or upgraded automatically (`src/continuity/skills.ts:25`).\n\nVerification:\n- Focused continuity tests: **16/16 passed**\n- Git diff: **clean**",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "7ca6bed6569c95d78625c70ba0d48a9b3cab27bdf767ca7037388da23e15423a",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 3518,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 3518,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "efe1db369bc9c0cb16ccef37fadd7bf1c96b6cc0c4bec95676dfbb51fadc0ba9",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "efe1db369bc9c0cb16ccef37fadd7bf1c96b6cc0c4bec95676dfbb51fadc0ba9",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "7ca6bed6569c95d78625c70ba0d48a9b3cab27bdf767ca7037388da23e15423a",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

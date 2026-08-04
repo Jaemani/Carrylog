@@ -2288,3 +2288,40 @@ so no scored artifact was published. The identical controlled path completed `t1
 the registered `gpt-5.6-sol` model, and cleaned authentication successfully. The missing terminal event
 is therefore retained as an intermittent harness/adapter failure rather than converted into behavioral
 evidence or silently retried.
+
+## 2026-08-05 — Attempt 5 reached its reviewed 20-run boundary
+
+Runs `t1-011` through `t1-020` were executed in the frozen order, individually privacy-reviewed, and
+evaluated before the next run began. At this boundary, 17 of 60 planned runs are scored, two are
+retained harness failures, one is protocol-invalid, and 40 are unstarted. Derived analysis reconciles
+all planned identities without a protocol diagnostic. The earlier failures remain unchanged and no
+terminal run was retried or replaced.
+
+The second block produced several useful item-level observations without establishing a product
+effect. The BusyCafe manual-handoff response at `t1-011` preserved every protected decision, while the
+Carrylog response at `t1-012` preserved the design but omitted the explicit SQLAlchemy 2 and Alembic
+constraint. For the historical resolver fixture, the repository-only response at `t1-013` rejected
+PATH-first resolution but missed parts of the beta.4 shadowing history, full resolver order, and stop
+semantics. The Carrylog response at `t1-014` recovered the beta.4 failure and full order but still did
+not explicitly state stop-on-incompatible behavior. The manual response at `t1-015` received full
+credit. On the obsolete-publication-gap fixture, repository-only `t1-016` failed to remove the stale
+claim, while manual `t1-017` made the exact bounded deletion.
+
+Codex run `t1-018` produced the requested bounded documentation edit and two settled registered
+verification receipts, but it also completed one direct shell command. The frozen protocol gives that
+event precedence over the otherwise successful task result. The sanitized failure was privacy-
+approved and retained as `protocol-deviation`; no blinded artifact or score was published. This is an
+agent-compliance failure observed under the controlled Codex profile, not evidence that the requested
+edit was behaviorally incorrect.
+
+Claude runs `t1-019` and `t1-020` both completed the configuration-v1 protected-decision fixture. The
+manual-handoff and repository-only responses independently rejected in-place v1 expansion, selected
+the explicit v2 universal migration, preserved fail-closed review and shared adapter ownership, and
+completed both registered checks with a clean diff. Each received full fact and completion credit.
+This one-fixture equality is retained as an observation; it is not evidence of condition equivalence.
+
+After the twentieth review, structural validation accepted 17 blinded evaluations, all 60 frozen
+evaluation bundles validated, the Attempt-5 suite passed, and active research passed 131/131. The
+freeze check still derived permanent first-ADD commit `ec27f44` and suite digest
+`cfb7d9c1…b4bd`. The analyzer's interim `REDESIGN` result is mechanical: execution is incomplete and
+the protocol-invalid run makes the GO predicate false. It is not treated as the final Tier 2 decision.

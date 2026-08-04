@@ -1,0 +1,302 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-cee88c73591e",
+  "artifactSha256": "7facb9036395ceae68972ddefbb6bcbdf08a5c9516fb2692a0779f69a98f963f",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "evaluatorId": "maintainer-1",
+  "evaluatedAt": "2026-08-04T17:42:40.176Z",
+  "facts": [
+    {
+      "id": "f1",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Configuration v1 is a frozen published contract, including schema bytes, $id, markers, paths, adapter names, and semantics.",
+          "explanation": "Explicitly rejects in-place expansion and preserves the published v1 meaning."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f2",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Configuration v2 already provides continuity, universal agent surfaces, and shared agents/AGENTS.md ownership for Codex and Cursor.",
+          "explanation": "Correctly directs continuity and universal surfaces to v2."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f3",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "carrylog migrate --to 2 --universal --dry-run; carrylog migrate --to 2 --universal; carrylog validate. No implicit migration is performed by synchronization, validation, installation, or upgrade.",
+          "explanation": "Gives explicit migration path and rejects implicit migration."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f4",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Customized checkpoint prose and unowned generated surfaces continue to fail closed for review.",
+          "explanation": "Preserves review-required handling for human-owned and unowned state."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f5",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "shared agents/AGENTS.md ownership for Codex and Cursor",
+          "explanation": "States correct shared surface ownership."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "completionCriteria": [
+    {
+      "id": "c1",
+      "available": true,
+      "awardedPoints": 4,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "The proposed in-place v1 expansion is not appropriate.",
+          "explanation": "Rejects requested reinterpretation and makes no repository change."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c2",
+      "available": true,
+      "awardedPoints": 3,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "The supported path is explicit and reviewable: carrylog migrate --to 2 --universal",
+          "explanation": "Uses existing v2 universal migration."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c3",
+      "available": true,
+      "awardedPoints": 2,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Customized checkpoint prose and unowned generated surfaces continue to fail closed for review.",
+          "explanation": "Preserves both fail-closed boundaries."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c4",
+      "available": true,
+      "awardedPoints": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "verification-receipt",
+          "reference": "format-check exit 0 and git-diff exit 0",
+          "explanation": "Both preregistered verification receipts completed successfully."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "No repository changes were needed.",
+          "explanation": "No v1 schema, decoder, migration, or documentation expansion occurred."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p2",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "No implicit migration is performed by synchronization, validation, installation, or upgrade.",
+          "explanation": "Automatic mutation is explicitly rejected."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p3",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "continue to fail closed for review",
+          "explanation": "No inference, adoption, merge, or overwrite proposed."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "repeatedWork": [
+    {
+      "id": "r1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Configuration v2 already provides continuity and universal agent surfaces.",
+          "explanation": "Existing v2 mechanism is reused; no duplicate mechanism proposed."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "unnecessaryClarifications": [],
+  "clarificationsAvailable": true,
+  "clarificationEvidence": [
+    {
+      "source": "final-response",
+      "reference": "The final response contains no clarification question.",
+      "explanation": "The retained response is sufficient to determine that no clarification was requested."
+    }
+  ],
+  "sensitiveExposures": [
+    {
+      "id": "credentials",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No credentials exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "absolute-local-paths",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No absolute-local-paths exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "raw-transcripts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No raw-transcripts exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "hidden-reasoning",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No hidden-reasoning exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "auth-artifacts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No auth-artifacts exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "provider-private-state",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No provider-private-state exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "deliveryEvidenceLevel": "behavior",
+  "evaluatorConfidence": 3,
+  "unavailableEvidence": [],
+  "notes": "The response explicitly preserves every protected configuration boundary, uses the accepted v2 migration path, and completes both registered checks without changing the repository."
+}

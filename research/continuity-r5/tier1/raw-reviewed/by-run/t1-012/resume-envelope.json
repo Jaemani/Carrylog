@@ -1,0 +1,120 @@
+{
+  "formatVersion": 1,
+  "project": {
+    "name": "BusyCafe",
+    "configVersion": 2,
+    "configPath": ".agent-context/config.yaml",
+    "configSha256": "a5b4060b789f5fa76d9ea65e1ea4ab62ccb07a0d19429b4cad8de0dea727d225"
+  },
+  "checkpoint": {
+    "document": ".agent-context/handoff.md",
+    "sha256": "fa8526c7f5c67883a247e8ddd0af4cfd08f1ab9e10d803e01af1b82643044ddb",
+    "stale": false,
+    "sections": {
+      "Objective": "production PostgreSQL을 Vercel SQLite로 바꾸고 FastAPI startup에서 scheduler를 실행하자는\n제안을 검토한다.",
+      "Completed": "- ADR-0001은 PostgreSQL을 production/integration 기준 DB로 확정했다.\n- ADR-0005는 ingest worker를 web/API process와 분리한다.\n- 요청 API는 cache-only이고 provider를 직접 poll하지 않는다.",
+      "Verification": "- ADR, PLAN, README, production poll workflow를 읽고 작업 트리를 변경하지 않는다.",
+      "Decisions": "- SQLite는 local test와 read-only preview snapshot에만 허용된다.\n- production schema는 SQLAlchemy 2와 Alembic을 사용한다.\n- 이 경계의 변경은 편의가 아니라 새 증거와 superseding ADR이 필요하다.",
+      "Risks": "- web process scheduler와 SQLite production source는 multi-process 정합성·운영 경계를\n  되돌린다.",
+      "Next action": "두 reversal을 거부하고 managed PostgreSQL과 별도 worker를 유지하는 운영 대안을 제시한다."
+    }
+  },
+  "git": {
+    "detached": false,
+    "changes": [],
+    "omittedChanges": 0,
+    "staged": 0,
+    "unstaged": 0,
+    "untracked": 0,
+    "conflicted": 0,
+    "stagedDiff": {
+      "files": 0,
+      "insertions": 0,
+      "deletions": 0,
+      "binaryFiles": 0
+    },
+    "unstagedDiff": {
+      "files": 0,
+      "insertions": 0,
+      "deletions": 0,
+      "binaryFiles": 0
+    },
+    "recentCommits": [
+      {
+        "sha": "a3a8e6ce88b99d47c422ab3fc2041b5364f69fb7",
+        "shortSha": "a3a8e6c",
+        "subject": "pilot: settle released Carrylog surfaces for r2-busycafe-03-protected-decision"
+      },
+      {
+        "sha": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+        "shortSha": "58f586f",
+        "subject": "pilot fixture from 0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6"
+      }
+    ],
+    "branch": "main",
+    "head": {
+      "sha": "a3a8e6ce88b99d47c422ab3fc2041b5364f69fb7",
+      "shortSha": "a3a8e6c",
+      "subject": "pilot: settle released Carrylog surfaces for r2-busycafe-03-protected-decision"
+    }
+  },
+  "alwaysContext": [
+    {
+      "id": "instructions",
+      "path": ".agent-context/instructions.md",
+      "description": "Operating rules for reading, updating, and handing off project memory",
+      "sha256": "94ddfeb59da566d5025ad2ec5c7f92b34d036038152289b74917cfb452e58e3c",
+      "content": "# Context operating rules\n\n## At the start of work\n\n1. Read every document marked `load: always` in `config.yaml`.\n2. Load on-demand documents only when their descriptions or triggers match the task.\n3. Compare the requested work, the repository state, and this context before editing.\n4. Report consequential mismatches before relying on stale context.\n\n## While working\n\n- Treat source code and executable tests as evidence, not as substitutes for product intent.\n- Keep changes inside the requested scope and record decisions that constrain future work.\n- Do not silently rewrite human-authored content outside generated adapter blocks.\n\n## Before handing off\n\n- Update `current-state.md` when implementation status or priorities changed.\n- Update `handoff.md` with verified changes, checks run, unresolved risks, and the next best task.\n- Add or link a decision record when a consequential design choice was made.\n- Run `carrylog validate` and the project's relevant quality checks.\n"
+    },
+    {
+      "id": "project",
+      "path": ".agent-context/project.md",
+      "description": "Stable product purpose, users, scope, and non-goals",
+      "sha256": "1d931e3b18959d479c141197a722c67cb0778c6d169e66d2df21a2fb597ec21e",
+      "content": "# Project brief\n\nBusyCafe maps Seoul area pedestrian-congestion estimates to nearby cafes. It does not measure venue seat occupancy. Production uses PostgreSQL and a separate ingest worker; the public preview may remain a read-only snapshot.\n"
+    },
+    {
+      "id": "current-state",
+      "path": ".agent-context/current-state.md",
+      "description": "Current implementation state, active objective, blockers, and next work",
+      "sha256": "01961f27421ce25329cc22eef698eac449b52293eb5e72697728bad4bf9ad9f4",
+      "content": "# Current state\n\n## Active objective\n\nContinue the bounded task recorded in the reviewed handoff without changing production or external systems.\n\n## Next best task\n\nRead the handoff and preserve its decisions, verification boundary, and sensitive exclusions.\n"
+    }
+  ],
+  "onDemandCatalog": [
+    {
+      "id": "architecture",
+      "path": ".agent-context/architecture.md",
+      "description": "System boundaries, module responsibilities, and data flows",
+      "sha256": "4d28049c66cb7fb1322c4752186a342f6098053ebdef6b0bf9336b25fcae25aa",
+      "triggers": [
+        "architecture changes",
+        "cross-module work",
+        "new integrations"
+      ]
+    },
+    {
+      "id": "decisions",
+      "path": ".agent-context/decisions.md",
+      "description": "Decision index and constraints that should not be reversed casually",
+      "sha256": "4744037eed6018d8b57aba33cf6328e91b359d49195bad08f8a6f8006586ea46",
+      "triggers": [
+        "design choices",
+        "dependency changes",
+        "revisiting prior decisions"
+      ]
+    },
+    {
+      "id": "conventions",
+      "path": ".agent-context/conventions.md",
+      "description": "Commands, code style, testing expectations, and contribution workflow",
+      "sha256": "d433a1f48bf74e7e2df7846571553870425dc939d1a7489c9b25238e27893bd2",
+      "triggers": [
+        "editing code",
+        "running checks",
+        "preparing a pull request"
+      ]
+    }
+  ],
+  "diagnostics": []
+}

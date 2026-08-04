@@ -1,0 +1,205 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "tool_use",
+      "tool": "Glob",
+      "input": {
+        "pattern": "**/{CLAUDE.md,AGENTS.md}"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Grep",
+      "input": {
+        "pattern": "carrylog|resume --help|continuity",
+        "path": ".",
+        "glob": "**/*",
+        "output_mode": "files_with_matches",
+        "head_limit": 100
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "No files found"
+    },
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_continuity_tests",
+      "input": {}
+    },
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_git_diff",
+      "input": {}
+    },
+    {
+      "type": "tool_result",
+      "content": "Found 80 files\n.git\ndist/commands/resume.d.ts\ndist/commands/resume.js\ndist/commands/migrate.js\ndist/templates/defaults.js\ndist/commands/handoff.js\ndist/commands/sync.js\ndist/validation/validate.js\ndist/validation/path-ownership.js\ndist/migrations/context-v1.js\ndist/continuity/skills.d.ts\ndist/continuity/skills.d.ts.map\ndist/continuity/skills.js\ndist/continuity/skills.js.map\ndist/continuity/checkpoint.d.ts.map\ndist/continuity/checkpoint.js\ndist/continuity/checkpoint.js.map\ndist/config/decode.js\ndist/product.d.ts\ndist/product.js\ndist/domain/types.d.ts\nnode_modules/.package-lock.json\nCHANGELOG.md\nCONTRIBUTING.md\ndocs/adapter-compatibility.md\ndocs/architecture.md\ndocs/configuration.md\ndocs/decisions/0001-local-first-context-compiler.md\ndocs/decisions/0006-deterministic-git-handoff-evidence.md\ndocs/decisions/0008-carrylog-identity-and-v1-compatibility.md\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md\ndocs/decisions/0010-portable-checkpoint-and-resume-boundary.md\ndocs/decisions/0012-evidence-gates-before-continuity-expansion.md\ndocs/decisions/README.md\ndocs/engineering-log.md\ndocs/product-scope.md\ndocs/releasing.md\ndocs/testing-strategy.md\ndocs/threat-model.md\npackage-lock.json\npackage.json\nREADME.md\nresearch/continuity/external-audit-brief-2026-07-12.md\nresearch/continuity/external-review-2026-07-12.md\nresearch/continuity/tier1-pilot-protocol.md\nROADMAP.md\nschemas/config-v2.schema.json\nscripts/package-dry-run.mjs\nscripts/package-smoke.mjs\nscripts/verify-published.mjs\nsrc/commands/handoff.ts\nsrc/commands/migrate.ts\nsrc/commands/resume.ts\nsrc/commands/sync.ts\nsrc/config/decode.ts\nsrc/continuity/checkpoint.ts\nsrc/continuity/skills.ts\nsrc/domain/types.ts\nsrc/migrations/context-v1.ts\nsrc/product.ts\nsrc/templates/defaults.ts\nsrc/validation/path-ownership.ts\nsrc/validation/validate.ts\ntests/cli.test.mjs\ntests/config-v2-migration.test.mjs\ntests/context-migration.test.mjs\ntests/continuity.test.mjs\ntests/fixtures/adapters/agents.md\ntests/fixtures/adapters/claude.md\ntests/fixtures/adapters/codex.md\ntests/fixtures/adapters/gemini.md\ntests/handoff.test.mjs\ntests/helpers.mjs\ntests/lifecycle.test.mjs\ntests/npm-pack-json.test.mjs\ntests/product-identity.test.mjs\ntests/property.test.mjs\ntests/release-artifact.test.mjs\ntests/rename-compatibility.test.mjs\ntests/schema.test.mjs"
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "TAP version 13\n# Subtest: continuity skill resolves source and pinned executables before a compatible global\nok 1 - continuity skill resolves source and pinned executables before a compatible global\n  ---\n  duration_ms: 0.903209\n  type: 'test'\n  ...\n# Subtest: checkpoint parser requires every canonical section exactly once\nok 2 - checkpoint parser requires every canonical section exactly once\n  ---\n  duration_ms: 2.378417\n  type: 'test'\n  ...\n# Subtest: checkpoint parser rejects out-of-order and unknown H2 sections\nok 3 - checkpoint parser rejects out-of-order and unknown H2 sections\n  ---\n  duration_ms: 0.136167\n  type: 'test'\n  ...\n# Subtest: checkpoint parser ignores fenced and blockquoted fake headings\nok 4 - checkpoint parser ignores fenced and blockquoted fake headings\n  ---\n  duration_ms: 0.249875\n  type: 'test'\n  ...\n# Subtest: checkpoint parser honors CommonMark fence lengths and indented blockquotes\nok 5 - checkpoint parser honors CommonMark fence lengths and indented blockquotes\n  ---\n  duration_ms: 0.085167\n  type: 'test'\n  ...\n# Subtest: checkpoint parser does not treat backticks in a backtick info string as a fence\nok 6 - checkpoint parser does not treat backticks in a backtick info string as a fence\n  ---\n  duration_ms: 0.097708\n  type: 'test'\n  ...\n# Subtest: checkpoint parser ignores headings hidden inside CommonMark HTML blocks\nok 7 - checkpoint parser ignores headings hidden inside CommonMark HTML blocks\n  ---\n  duration_ms: 0.204\n  type: 'test'\n  ...\n# Subtest: resume JSON is byte-deterministic, portable, and reports stale checkpoints\nok 8 - resume JSON is byte-deterministic, portable, and reports stale checkpoints\n  ---\n  duration_ms: 626.346875\n  type: 'test'\n  ...\n# Subtest: portable resume rejects configuration v1 with migration guidance\nok 9 - portable resume rejects configuration v1 with migration guidance\n  ---\n  duration_ms: 111.309167\n  type: 'test'\n  ...\n# Subtest: resume enforces an aggregate canonical-context read budget\nok 10 - resume enforces an aggregate canonical-context read budget\n  ---\n  duration_ms: 170.873166\n  type: 'test'\n  ...\n# Subtest: resume JSON escapes Git-controlled Unicode controls while preserving their values\nok 11 - resume JSON escapes Git-controlled Unicode controls while preserving their values\n  ---\n  duration_ms: 415.833333\n  type: 'test'\n  ...\n# Subtest: human resume escapes terminal controls and multiline field spoofing\nok 12 - human resume escapes terminal controls and multiline field spoofing\n  ---\n  duration_ms: 250.638833\n  type: 'test'\n  ...\n# Subtest: generated handoff evidence cannot create a legacy CLI instruction\nok 13 - generated handoff evidence cannot create a legacy CLI instruction\n  ---\n  duration_ms: 533.872458\n  type: 'test'\n  ...\n# Subtest: resume refuses hard-linked managed context where hard links are supported\nok 14 - resume refuses hard-linked managed context where hard links are supported\n  ---\n  duration_ms: 102.445625\n  type: 'test'\n  ...\n# Subtest: resume rejects damaged generated skills before Git inspection\nok 15 - resume rejects damaged generated skills before Git inspection\n  ---\n  duration_ms: 38.747125\n  type: 'test'\n  ...\n# Subtest: resume deduplicates warnings and projects detached Git without machine-local metadata\nok 16 - resume deduplicates warnings and projects detached Git without machine-local metadata\n  ---\n  duration_ms: 203.780041\n  type: 'test'\n  ...\n1..16\n# tests 16\n# suites 0\n# pass 16\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 2571.019166\n"
+        }
+      ]
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "(exit 0)"
+        }
+      ]
+    },
+    {
+      "type": "tool_use",
+      "tool": "Grep",
+      "input": {
+        "path": "src/continuity/skills.ts",
+        "pattern": "CARRYLOG|carrylog|resume --help|node_modules|dist",
+        "output_mode": "content",
+        "-n": true,
+        "context": 5
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Grep",
+      "input": {
+        "path": "tests/continuity.test.mjs",
+        "pattern": "resolves source|beta|PATH|resume --help|compatible global",
+        "output_mode": "content",
+        "-n": true,
+        "context": 10
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1-export const CONTINUITY_SKILL_MARKER = \"<!-- agent-context-kit:continuity-skill:managed -->\";\n2:export const AGENT_SKILL_PATH = \".agents/skills/carrylog-continuity/SKILL.md\";\n3:export const CLAUDE_SKILL_PATH = \".claude/skills/carrylog-continuity/SKILL.md\";\n4-\n5-export function hasContinuitySkillMarker(content: string): boolean {\n6-  const normalized = content.replace(/\\r\\n?/g, \"\\n\");\n7-  return normalized.split(\"\\n\").filter((line) => line === CONTINUITY_SKILL_MARKER).length === 1;\n8-}\n9-\n10-export function renderAgentContinuitySkill(): string {\n11-  return `---\n12:name: carrylog-continuity\n13-description: Resume work from Carrylog or leave a verified checkpoint when continuing across Codex, Claude Code, Cursor, or Gemini CLI.\n14----\n15-\n16-${CONTINUITY_SKILL_MARKER}\n17-\n--\n21-substantial project session.\n22-\n23-## Resume\n24-\n25-1. Resolve one offline executable before running resume, in this order:\n26:   a. In the Carrylog source repository itself, when its built \\`dist/cli.js\\` exists, first require\n27:      \\`node dist/cli.js resume --help\\` to succeed, then use \\`node dist/cli.js resume --json\\` from\n28-      that repository root. If it fails, report a stale or incompatible build and stop.\n29:   b. Otherwise, when the nearest project has \\`node_modules/.bin/carrylog\\`, first require\n30:      \\`npx --no-install carrylog resume --help\\` to succeed, then run\n31:      \\`npx --no-install carrylog resume --json\\` from that project root. If it fails, report the\n32-      incompatible pinned version and stop; do not fall through to a different global version.\n33:   c. Otherwise, use a global \\`carrylog\\` only after \\`carrylog resume --help\\` succeeds; then run\n34:      \\`carrylog resume --json\\`.\n35-   Never select a global executable before checking the source and project-pinned candidates. If a\n36-   selected version lacks \\`resume\\`, report the incompatible version and require an explicit build,\n37-   project install, or upgrade. Never download, build, or upgrade Carrylog automatically.\n38-2. Read the always-context and checkpoint in the envelope.\n39-3. Load only on-demand documents whose triggers match the task.\n--\n44-\n45-1. Update the configured current-state and checkpoint documents using verified facts only.\n46-2. Record consequential architecture or dependency decisions in the project's decision records.\n47-3. Keep these checkpoint sections exactly once and in order: Objective, Completed, Verification,\n48-   Decisions, Risks, Next action.\n49:4. Run \\`carrylog checkpoint\\`, then \\`carrylog validate\\` and the relevant project checks, using the\n50-   same offline executable resolution as resume.\n51-5. Never persist raw transcripts, hidden reasoning, credentials, or unreviewed tool output.\n52-`;\n53-}\n54-\n55-export function renderClaudeContinuitySkill(): string {\n56-  return `---\n57:name: carrylog-continuity\n58-description: Resume work from Carrylog or leave a verified checkpoint when continuing across coding agents.\n59----\n60-\n61-${CONTINUITY_SKILL_MARKER}\n62-"
+    },
+    {
+      "type": "tool_result",
+      "content": "21-import {\n22-  createTemporaryDirectory,\n23-  removeTemporaryDirectory,\n24-  writeProjectConfig,\n25-} from \"./helpers.mjs\";\n26-\n27-const cli = path.resolve(\"dist/cli.js\");\n28-const execFileAsync = promisify(execFile);\n29-const checkpointPath = \".agent-context/handoff.md\";\n30-\n31:test(\"continuity skill resolves source and pinned executables before a compatible global\", () => {\n32-  const skill = renderAgentContinuitySkill();\n33-  assert.match(skill, /npx --no-install carrylog resume --json/);\n34-  assert.match(skill, /node_modules\\/\\.bin\\/carrylog/);\n35-  assert.match(skill, /node dist\\/cli\\.js resume --json/);\n36:  assert.match(skill, /node dist\\/cli\\.js resume --help/);\n37:  assert.match(skill, /npx --no-install carrylog resume --help/);\n38:  assert.match(skill, /carrylog resume --help/);\n39-  const source = skill.indexOf(\"node dist/cli.js resume --json\");\n40-  const pinned = skill.indexOf(\"npx --no-install carrylog resume --json\");\n41:  const compatibleGlobal = skill.lastIndexOf(\"carrylog resume --help\");\n42-  assert.equal(source >= 0 && source < pinned && pinned < compatibleGlobal, true);\n43-  assert.match(skill, /selected version lacks `resume`/);\n44-  assert.match(skill, /do not fall through to a different global version/);\n45-  assert.doesNotMatch(skill, /npx --yes|npm install/);\n46-});\n47-\n48-test(\"checkpoint parser requires every canonical section exactly once\", () => {\n49-  const missing = checkpointDocument(\n50-    CHECKPOINT_SECTION_NAMES.filter((name) => name !== \"Decisions\"),\n51-  );\n--\n390-        context.skip(`Hard links are unavailable in this environment: ${error.code}`);\n391-        return;\n392-      }\n393-      throw error;\n394-    }\n395-\n396-    const project = await loadProject(root);\n397-    await assert.rejects(\n398-      () => createResumeEnvelope(project),\n399-      (error) => {\n400:        return error?.code === \"E_HARD_LINK_PATH\";\n401-      },\n402-    );\n403-  } finally {\n404-    await removeTemporaryDirectory(root);\n405-  }\n406-});\n407-\n408-test(\"resume rejects damaged generated skills before Git inspection\", async () => {\n409-  const root = await createTemporaryDirectory(\"carrylog-continuity-invalid-\");\n410-  try {"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/package.json"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t{\n2\t  \"name\": \"carrylog\",\n3\t  \"version\": \"0.1.0-beta.5\",\n4\t  \"description\": \"Repository-owned, reviewable project context for AI coding agents.\",\n5\t  \"license\": \"MIT\",\n6\t  \"type\": \"module\",\n7\t  \"main\": \"dist/index.js\",\n8\t  \"types\": \"dist/index.d.ts\",\n9\t  \"exports\": {\n10\t    \".\": {\n11\t      \"types\": \"./dist/index.d.ts\",\n12\t      \"import\": \"./dist/index.js\"\n13\t    }\n14\t  },\n15\t  \"sideEffects\": false,\n16\t  \"bin\": {\n17\t    \"carrylog\": \"dist/cli.js\"\n18\t  },\n19\t  \"files\": [\n20\t    \"dist\",\n21\t    \"schemas\",\n22\t    \"docs\",\n23\t    \"CHANGELOG.md\",\n24\t    \"CONTRIBUTING.md\",\n25\t    \"README.md\",\n26\t    \"ROADMAP.md\",\n27\t    \"SECURITY.md\"\n28\t  ],\n29\t  \"engines\": {\n30\t    \"node\": \">=22.0.0\"\n31\t  },\n32\t  \"publishConfig\": {\n33\t    \"access\": \"public\",\n34\t    \"tag\": \"beta\",\n35\t    \"provenance\": true\n36\t  },\n37\t  \"scripts\": {\n38\t    \"clean\": \"node scripts/clean.mjs\",\n39\t    \"build\": \"npm run clean && tsc -p tsconfig.json\",\n40\t    \"check\": \"tsc -p tsconfig.json --noEmit\",\n41\t    \"format\": \"biome check --write .\",\n42\t    \"format:check\": \"biome check .\",\n43\t    \"test\": \"npm run build && node --test --test-concurrency=1\",\n44\t    \"test:coverage\": \"npm run build && node --test --test-concurrency=1 --experimental-test-coverage --test-coverage-include=dist/**/*.js --test-coverage-exclude=dist/cli.js --test-coverage-lines=90 --test-coverage-functions=90 --test-coverage-branches=85\",\n45\t    \"test:package\": \"npm run build && node scripts/package-smoke.mjs\",\n46\t    \"test:package:publish\": \"npm run build && node scripts/package-smoke.mjs --publish-dry-run\",\n47\t    \"quality\": \"npm run format:check && npm run check && npm run test:coverage\",\n48\t    \"pack:check\": \"npm run build && node scripts/package-dry-run.mjs\",\n49\t    \"release:client:check\": \"node scripts/check-release-client.mjs 11.18.0\",\n50\t    \"release:publish\": \"node scripts/publish-release-artifact.mjs\",\n51\t    \"release:verify\": \"npm run quality && node dist/cli.js sync --check && node dist/cli.js validate --json && npm run pack:check && node scripts/build-release-artifact.mjs && node scripts/package-smoke.mjs --release --publish-dry-run && npm audit --omit=dev\",\n52\t    \"prepack\": \"npm run build\"\n53\t  },\n54\t  \"dependencies\": {\n55\t    \"yaml\": \"^2.8.1\"\n56\t  },\n57\t  \"devDependencies\": {\n58\t    \"@biomejs/biome\": \"^2.2.4\",\n59\t    \"@types/node\": \"^22.18.0\",\n60\t    \"ajv\": \"^8.20.0\",\n61\t    \"typescript\": \"^5.9.2\"\n62\t  },\n63\t  \"keywords\": [\n64\t    \"ai-agents\",\n65\t    \"codex\",\n66\t    \"claude-code\",\n67\t    \"context-governance\",\n68\t    \"developer-tools\",\n69\t    \"handoff\",\n70\t    \"project-context\",\n71\t    \"project-memory\"\n72\t  ],\n73\t  \"repository\": {\n74\t    \"type\": \"git\",\n75\t    \"url\": \"git+https://github.com/Jaemani/Carrylog.git\"\n76\t  },\n77\t  \"bugs\": {\n78\t    \"url\": \"https://github.com/Jaemani/Carrylog/issues\"\n79\t  },\n80\t  \"homepage\": \"https://github.com/Jaemani/Carrylog#readme\"\n81\t}\n82\t"
+    },
+    {
+      "type": "agent_message",
+      "text": "Preserved the existing safer executable resolution order:\n\n1. Compatible built source (`dist/cli.js`)\n2. Compatible project-pinned executable\n3. Compatible global `carrylog`\n\nUsing the first `carrylog` on ambient `PATH` is unsafe: a stale global beta.4 previously shadowed the compatible beta.5 source and produced a false continuation result. Each selected candidate must pass `resume --help`; incompatible source or pinned versions stop with guidance rather than silently falling through. No downloads, builds, installs, or upgrades occur automatically.\n\nVerification:\n- Focused continuity tests: **16 passed**\n- Git diff: **clean**\n- No changes made."
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "45f42b8a2bcf80057b797daf3bcac0a2",
+      "commandId": "continuity-tests",
+      "registrySha256": "c087fff40939b0b2ba5d164448b99d255b299706ac7d130494a47dbaa450d54f",
+      "commandSha256": "4fe684ea77be62c158f29df3f6ab64f47e605644e3022cf7ea95e5b58f2d0085",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "958d2b06e18dd7b0f7094d81f4848791",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "de677fba1e72b1eacc68e75b32014a9251d74ed5235b0a512c85d627d7974602"
+        }
+      },
+      "preCommandStateSha256": "2456c5e5c0e86abdd9a6ea3895a91c73970f15c88b1385c3021fb7d0e6968e5f",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 3522,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 3522,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "2c700ee30bf66c69f91febefac0ccf6f6683da8cc8bb856180a0623d726b4c38",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "2c700ee30bf66c69f91febefac0ccf6f6683da8cc8bb856180a0623d726b4c38",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "132fb7c44835dac2048be1d21d3a7edd",
+      "commandId": "git-diff",
+      "registrySha256": "c087fff40939b0b2ba5d164448b99d255b299706ac7d130494a47dbaa450d54f",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "958d2b06e18dd7b0f7094d81f4848791",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "de677fba1e72b1eacc68e75b32014a9251d74ed5235b0a512c85d627d7974602"
+        }
+      },
+      "preCommandStateSha256": "2456c5e5c0e86abdd9a6ea3895a91c73970f15c88b1385c3021fb7d0e6968e5f",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

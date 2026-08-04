@@ -6,68 +6,74 @@
 - Independent GO attestations: 2 / 2
 - Freeze manifest suite digest: `cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`
 - Authenticated harness prerequisites: Codex passed; Claude passed through JM Router on `gpt-5.6-sol`
-- Scored runs: 8 / 60
+- Terminal runs: 20 / 60
+- Scored runs: 17 / 60
 - Reviewed harness failures: 2
-- Exclusions: 2
+- Protocol-invalid runs: 1
+- Exclusions: 3
 
 ## Run reconciliation and attrition
 
-Runs `t1-001` through `t1-010` are terminal and reviewed: eight are scored and two are retained harness
-failures. `t1-004` failed before provider execution during authentication staging; `t1-005` produced a
-final response and settled verification receipts but exited without a terminal success event. Neither
-run is retried or replaced. The final report will reconcile all 60 planned runs.
+Runs `t1-001` through `t1-020` are terminal and reviewed: 17 are scored, two are retained harness
+failures, and one is protocol-invalid. `t1-004` failed before provider execution during authentication
+staging; `t1-005` produced a final response and settled verification receipts but exited without a
+terminal success event. `t1-018` used one direct shell command outside the registered verification
+wrappers and therefore contributes no behavioral score. None is retried or replaced. Forty planned
+runs remain unstarted.
 
 ## Evidence availability
 
-Pending execution. Delivery receipts, acknowledgement, reconstruction, behavior, verification
-receipts, latency, tokens, cost, evaluator confidence, and unavailable-evidence reasons will be
-reported separately. Missing evidence will remain null rather than being scored as zero.
+Partial evidence is available for 17 scored runs. Delivery, reconstruction, behavior, verification,
+latency, token, cost, evaluator-confidence, and unavailable-evidence fields remain separate. Missing
+evidence remains null rather than being scored as zero.
 Both authenticated canaries pass for the exact frozen harness-critical bytes. Two matching GO reviews,
 manifest creation, the permanent first-ADD freeze commit, and its post-commit check are complete.
 Dedicated Carrylog and BusyCafe caches passed cold population, and all 60 cells passed sealed offline
 preparation without provider authentication or execution. Retained prerequisite evidence contains only
-safe summaries, versions, timestamps, and result digests—not raw canary output or credentials. Starting
-the scored batch remains subject to explicit cost and time authorization.
+safe summaries, versions, timestamps, and result digests—not raw canary output or credentials. The
+complete cost and time envelope is authorized.
 
 ## Descriptive results by harness
 
-Pending execution. Each harness will be reported independently with its available and missing counts
-and preregistered descriptive statistics. No cross-provider composite score will be calculated.
+Partial descriptive groups are analyzer-derived for each harness and condition. Incomplete cells and
+three retained exclusions prevent a final comparison; no cross-provider composite score is calculated.
 
 ## Results by repository and task family
 
-Pending execution. Every preregistered stratum will remain visible, including strata with no scored
-runs, and task-level normalized metrics will not be replaced with pooled raw fact weights.
+The analyzer retains every preregistered stratum, including the 40 unstarted cells. Current task-level
+observations are exploratory and do not replace normalized metrics with pooled raw fact weights.
 
 ## Paired within-fixture contrasts
 
-Pending execution. Carrylog minus repository-only and Carrylog minus manual-handoff contrasts will be
-reported separately by harness with favorable orientation, direction counts, and the fixed-seed
-fixture-bootstrap descriptive interval.
+Most frozen contrast vectors remain incomplete. Final Carrylog-minus-repository-only and
+Carrylog-minus-manual contrasts will be reported separately by harness only after all terminal cells
+have been reviewed.
 
 ## Manual-handoff regression screen
 
-Pending execution. Every preregistered item-level flag and unscreenable pair will be retained. This
-exploratory screen is not a formal non-inferiority test.
+The partial screen retains all current item-level flags and unscreenable pairs. It is not a formal
+non-inferiority test, and its interim flags are not a release or product decision.
 
 ## Safety, failure modes, and exclusions
 
-Pending execution. Sensitive-exposure indicators, sanitizer failures, privacy exclusions, strict
-resume failures, provider failures, and protocol deviations will be reported separately. Automatic
+No reviewed artifact through `t1-020` exposed a scored sensitive item. Two harness failures and the
+`t1-018` direct-shell protocol deviation remain separate exclusions. Automatic
 sanitizer output remains in ignored `raw-quarantine/` until explicit review promotes it to tracked
 `raw-reviewed/`; failed runs retain their audit references and are not silently replaced.
 
 ## Interpretation and threats to validity
 
-Pending execution. Tier 1 separates repository governance, packet delivery, reconstruction,
+The incomplete pilot continues to separate repository governance, packet delivery, reconstruction,
 behavior, and perceived continuity. It does not test automatic router discovery, automatic checkpoint
 authorship, repeated switching, journaling, or compaction. One run per cell cannot estimate model
 stochastic variance or establish universality.
 
 ## Tier 2 decision
 
-Pending execution. The preregistered rule applies STOP first, GO second, and REDESIGN otherwise. The
-final decision will expose all rule inputs rather than relying on a narrative override: reviewed
+The analyzer currently returns `REDESIGN` because the batch is incomplete and one protocol-invalid
+run makes the GO predicate false. This is an interim mechanical result, not the final Tier 2 decision.
+The preregistered rule applies STOP first, GO second, and REDESIGN otherwise. The final decision will
+expose all rule inputs rather than relying on a narrative override: reviewed
 terminal and invalid counts, screenable pairs, sensitive exposures, prohibited reversals, manual
 regression flags and cross-harness replications, and favorable-oriented paired means by harness. Any
 later non-inferiority margin, sample size, switch-depth study, transcript or journaling study, or

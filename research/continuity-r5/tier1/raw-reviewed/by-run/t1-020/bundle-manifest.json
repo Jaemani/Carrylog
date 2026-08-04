@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "files": [
+    {
+      "path": "blind/b-16f146f5119b/artifact.json",
+      "bytes": 3212,
+      "sha256": "558ad28f615799184cf1cce454ce48b2b550a30e31e9acafb525158a0d2d097f"
+    },
+    {
+      "path": "by-run/t1-020/delivery-audit.json",
+      "bytes": 109312,
+      "sha256": "61491951fac9a673eabd1eeb87185c2b812bbd9bcc1a728332dfd576cb193413"
+    },
+    {
+      "path": "by-run/t1-020/metadata.json",
+      "bytes": 6382,
+      "sha256": "cb186d0b2c03fae9fd92298a237044f37f2a88461eb9e5d47fefa01fc39d28e5"
+    }
+  ],
+  "bundleSha256": "c123ee2f249930c4fe59c599aa525d12c71da92c4ec0e57ff537756d9fe097f4"
+}

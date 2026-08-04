@@ -1,0 +1,232 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "tool_use",
+      "tool": "Glob",
+      "input": {
+        "pattern": "*"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Glob",
+      "input": {
+        "pattern": "**/CLAUDE.md"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Glob",
+      "input": {
+        "pattern": "**/*config*"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Grep",
+      "input": {
+        "pattern": "migrate --to 2|configuration v1|config v1|universal",
+        "path": ".",
+        "output_mode": "content",
+        "head_limit": 80
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "tests/config.test.mjs\ntests/config-v2-migration.test.mjs\ntests/fixtures/beta3/context/config.yaml\ndocs/decisions/0005-configuration-v1-compatibility.md\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md\ndocs/configuration.md\nschemas/config-v2.schema.json\nschemas/config-v1.schema.json\ntsconfig.json\nnode_modules/fast-uri/eslint.config.js\nnode_modules/@biomejs/biome/configuration_schema.json\nnode_modules/fast-uri/tsconfig.json"
+    },
+    {
+      "type": "tool_result",
+      "content": "research/continuity/external-audit-brief-2026-07-12.md\nresearch/continuity/tier1-pilot-protocol.md\nresearch/continuity/README.md\nresearch/continuity/external-review-2026-07-12.md\nresearch/README.md\nLICENSE\nCHANGELOG.md\ntests/rename-compatibility.test.mjs\ntests/performance.test.mjs\ntests/npm-pack-json.test.mjs\ntests/continuity.test.mjs\ntests/managed-block.test.mjs\ntests/adapters.test.mjs\ntests/helpers.mjs\ntests/cli.test.mjs\ntests/context-migration.test.mjs\ntests/schema.test.mjs\ntests/handoff.test.mjs\ntests/property.test.mjs\ntests/product-identity.test.mjs\ntests/config.test.mjs\ntests/lifecycle.test.mjs\ntests/config-v2-migration.test.mjs\ntests/fixtures/adapters/codex.md\ntests/fixtures/adapters/gemini.md\ntests/fixtures/adapters/agents.md\ntests/fixtures/adapters/claude.md\ntests/fixtures/beta3/context/architecture.md\ntests/fixtures/beta3/context/conventions.md\ntests/fixtures/beta3/context/project.md\ntests/fixtures/beta3/context/config.yaml\ntests/fixtures/beta3/context/current-state.md\ntests/fixtures/beta3/context/instructions.md\ntests/fixtures/beta3/context/handoff.md\ntests/fixtures/beta3/context/decisions.md\ntests/fixtures/beta3/adapters/codex.md\ntests/fixtures/beta3/adapters/claude.md\ntests/registry-policy.test.mjs\ntests/release-artifact.test.mjs\ntests/adoption.test.mjs\ndocs/product-scope.md\ndocs/documentation-policy.md\ndocs/architecture.md\ndocs/releasing.md\ndocs/threat-model.md\ndocs/adapter-compatibility.md\ndocs/decisions/0005-configuration-v1-compatibility.md\ndocs/decisions/0004-cli-and-context-names.md\ndocs/decisions/0006-deterministic-git-handoff-evidence.md\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md\ndocs/decisions/0002-node-typescript-cli.md\ndocs/decisions/0011-git-stability-consumed-channels.md\ndocs/decisions/0008-carrylog-identity-and-v1-compatibility.md\ndocs/decisions/0003-managed-block-adoption.md\ndocs/decisions/README.md\ndocs/decisions/0007-guarded-filesystem-replacement.md\ndocs/decisions/0001-local-first-context-compiler.md\ndocs/decisions/0012-evidence-gates-before-continuity-expansion.md\ndocs/decisions/0010-portable-checkpoint-and-resume-boundary.md\ndocs/engineering-log.md\ndocs/configuration.md\ndocs/license-policy.json\ndocs/testing-strategy.md\nschemas/config-v2.schema.json\nschemas/config-v1.schema.json\nREADME.md\nROADMAP.md\n.gitignore\npackage-lock.json\npackage.json\nCONTRIBUTING.md\nscripts/clean.mjs\nscripts/build-release-artifact.mjs\nscripts/publish-release-artifact.mjs\nscripts/package-smoke.mjs\nscripts/lib/npm-pack-json.mjs\nscripts/lib/registry-policy.mjs\nscripts/lib/npm-cli.mjs\nscripts/package-dry-run.mjs\nscripts/verify-published.mjs\nscripts/check-release-client.mjs\n.github/workflows/release.yml\n.github/workflows/ci.yml\n.github/dependabot.yml\n.gitattributes\ntsconfig.json\nbiome.json\nSECURITY.md\nsrc/continuity/skills.ts\nsrc/continuity/checkpoint.ts\nsrc/migrations/context-v1.ts\nsrc/core/errors.ts\nsrc/core/marker-lines.ts\nsrc/core/text.ts\nsrc/core/paths.ts\nsrc/core/files.ts\nsrc/config/decode.ts\nsrc/config/load.ts\nsrc/product.ts\nsrc/handoff/snapshot-block.ts\n(Showing 100 of 1263 matching files; 1163 more are not listed. Narrow the pattern or path to see the rest.)"
+    },
+    {
+      "type": "tool_result",
+      "content": "No files found"
+    },
+    {
+      "type": "tool_result",
+      "content": "CHANGELOG.md:14:- `carrylog migrate --to 2` with check, dry-run, universal-surface, and reviewed-adoption modes.\nCHANGELOG.md:82:- Preserved `.agent-context/`, configuration v1 schema bytes and identity, managed-block markers,\nsrc/commands/resume.ts:72:      \"Review and run 'carrylog migrate --to 2' before resuming.\",\ndocs/testing-strategy.md:37:- explicit v1/v2 universal migration, comments and LF/CRLF preservation, partial surfaces,\ndocs/testing-strategy.md:59:clean checks for an installed-package v1-to-v2 universal migration; then initializes, validates,\ndocs/configuration.md:11:Version 1 is the frozen published compatibility contract. Version 2 adds universal agent surfaces and\ndocs/configuration.md:14:[ADR-0009](decisions/0009-configuration-v2-and-universal-surfaces.md).\ndocs/configuration.md:120:carrylog migrate --to 2 --universal --dry-run\ndocs/configuration.md:121:carrylog migrate --to 2 --universal\ndocs/configuration.md:125:Without `--universal`, migration preserves the selected v1 surfaces and leaves Skill generation\nresearch/continuity/external-review-2026-07-12.md:82:| Position as repository memory governance | Accepted | Current claims remain checkpoint/project-memory governance, not universal conversation resume. |\ndocs/engineering-log.md:493:The `.agent-context/` root, configuration v1 schema identity and bytes, adapter markers, handoff\ndocs/engineering-log.md:596:Claude and Gemini retain separate root outputs. `carrylog migrate --to 2` is explicit, preserves YAML\ndocs/engineering-log.md:598:checkpoint, and writes canonical config after planned outputs. `--universal` fills every supported\ndocs/engineering-log.md:609:export block and broke TypeScript parsing. The first `--universal` migration only added Gemini, so a\ndocs/engineering-log.md:610:single-adapter v1 repository could remain non-universal; it now ensures all three surfaces and can\ndocs/engineering-log.md:619:the repository successfully dogfooded `migrate --to 2 --universal`. Repeated migration, sync, and\ndocs/engineering-log.md:666:v1-to-v2 universal lifecycle through drift check, dry-run, real write, validation, and two clean\nsrc/commands/migrate.ts:17:  universal: boolean;\nsrc/commands/migrate.ts:41:    universal: options.universal,\nsrc/commands/migrate.ts:58:    if (!options.universal) {\nsrc/commands/migrate.ts:79:  const configSource = renderV2ConfigSource(project.configSource, options.universal);\nsrc/commands/migrate.ts:188:function renderV2ConfigSource(source: string, universal: boolean): string {\nsrc/commands/migrate.ts:209:  if (universal) {\nsrc/commands/migrate.ts:214:    generateSkills: universal,\nsrc/cli.ts:73:    universal: { type: \"boolean\", default: false },\nsrc/cli.ts:92:    universal: values[\"universal\"] === true,\nsrc/cli.ts:409:  return `Usage: ${CLI_NAME} migrate --to 2 [options]\nsrc/cli.ts:414:      --universal     Ensure agents (Codex/Cursor), Claude, and Gemini surfaces and Skills\nresearch/continuity/external-audit-brief-2026-07-12.md:34:| `docs/decisions/0009-configuration-v2-and-universal-surfaces.md` | Codex and Cursor share `AGENTS.md`; Claude and Gemini use distinct surfaces; v2 migration is explicit. |\nresearch/continuity/external-audit-brief-2026-07-12.md:74:- that a universal session journal can be captured completely and safely across supported harnesses;\nresearch/continuity/external-audit-brief-2026-07-12.md:174:Mathematical notation can make claims falsifiable, but it cannot prove universal product value from a\nresearch/continuity/tier1-pilot-protocol.md:11:This is a minimum viable maintainer-run pilot, not proof of universal continuity. It uses the current\nresearch/continuity/tier1-pilot-protocol.md:102:Tier 1 estimates variance and exposes failure modes. It does not authorize a claim of universal\ndocs/decisions/0010-portable-checkpoint-and-resume-boundary.md:56:- **One universal raw transcript file:** rejected because providers do not share a stable transcript\nscripts/package-smoke.mjs:197:      \"  universal: true,\",\nscripts/package-smoke.mjs:316:    [installedCli, \"migrate\", \"--to\", \"2\", \"--universal\", \"--check\", \"--root\", migrationDirectory],\nscripts/package-smoke.mjs:334:      \"--universal\",\nscripts/package-smoke.mjs:351:    [installedCli, \"migrate\", \"--to\", \"2\", \"--universal\", \"--root\", migrationDirectory],\nscripts/package-smoke.mjs:394:        \"--universal\",\ndocs/decisions/0012-evidence-gates-before-continuity-expansion.md:95:### Market Carrylog as universal conversation resume\ntests/product-identity.test.mjs:52:test(\"configuration v1 keeps its published repository wire identities\", () => {\ntests/product-identity.test.mjs:69:  assert.equal(schema.title, \"Agent Context Kit configuration v1\");\ndocs/decisions/README.md:15:| [0008](0008-carrylog-identity-and-v1-compatibility.md) | Carrylog identity with configuration v1 wire compatibility | Accepted | 2026-07-10 |\ndocs/decisions/README.md:16:| [0009](0009-configuration-v2-and-universal-surfaces.md) | Configuration v2 and universal agent surfaces | Accepted | 2026-07-11 |\ntests/continuity.test.mjs:184:test(\"portable resume rejects configuration v1 with migration guidance\", async () => {\ntests/continuity.test.mjs:192:    assert.match(error.diagnostics[0].hint, /migrate --to 2/);\ntests/config-v2-migration.test.mjs:53:test(\"configuration v2 schema accepts universal defaults and runtime rejects cross-version adapters\", () => {\ntests/config-v2-migration.test.mjs:86:          universal: false,\ntests/config-v2-migration.test.mjs:97:          universal: \"true\",\ntests/config-v2-migration.test.mjs:110:test(\"v1 to v2 universal migration is explicit, comment-preserving, atomic, and idempotent\", async () => {\ntests/config-v2-migration.test.mjs:124:      universal: true,\ntests/config-v2-migration.test.mjs:134:      universal: true,\ntests/config-v2-migration.test.mjs:154:      universal: true,\ntests/config-v2-migration.test.mjs:186:            universal: true,\ntests/config-v2-migration.test.mjs:211:      universal: false,\ntests/config-v2-migration.test.mjs:245:        universal: true,\ntests/config-v2-migration.test.mjs:263:test(\"universal migration fills every harness surface from partial v1 and v2 configurations\", async () => {\ntests/config-v2-migration.test.mjs:282:        universal: true,\ntests/config-v2-migration.test.mjs:300:        universal: true,\ntests/config-v2-migration.test.mjs:334:            universal: true,\ntests/config-v2-migration.test.mjs:349:test(\"non-universal migration preserves the selected surface and leaves skills disabled\", async () => {\ntests/config-v2-migration.test.mjs:355:      universal: false,\ntests/config-v2-migration.test.mjs:369:      universal: false,\ntests/config-v2-migration.test.mjs:386:test(\"universal migration rejects generated-output collisions without any write\", async () => {\ntests/config-v2-migration.test.mjs:398:          universal: true,\ndocs/decisions/0008-carrylog-identity-and-v1-compatibility.md:1:# ADR-0008: Adopt Carrylog while preserving configuration v1 wire identities\ndocs/decisions/0008-carrylog-identity-and-v1-compatibility.md:45:The following configuration v1 wire identities remain unchanged:\ndocs/decisions/0004-cli-and-context-names.md:55:`.agent-context/` decision remains part of the published configuration v1 compatibility contract.\ndocs/decisions/0005-configuration-v1-compatibility.md:1:# ADR-0005: Freeze configuration v1 and separate structural from semantic validation\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md:1:# ADR-0009: Add explicit configuration v2 for universal agent surfaces\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md:34:`carrylog migrate --to 2` is the only v1-to-v2 transition. It preserves YAML comments and LF/CRLF\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md:35:style, maps `codex` to `agents`, and adds continuity policy. `--universal` ensures all three surfaces\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md:58:- A user who wants all supported harnesses runs `migrate --to 2 --universal`; a narrower migration\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md:68:- Partial v1 and v2 universal migrations, non-universal migration, idempotence, comment and CRLF\ndocs/decisions/0009-configuration-v2-and-universal-surfaces.md:71:- Carrylog's own repository migration from v1 to universal v2 followed by clean sync and validation.\nREADME.md:137:Beta.5 provides the reviewed universal Codex/Claude/Cursor/Gemini surfaces and portable\nREADME.md:178:Carrylog preserves the configuration v1 root, schema, and managed markers published by\nREADME.md:250:carrylog migrate --to 2 --universal --dry-run\nREADME.md:251:carrylog migrate --to 2 --universal\n\n[Showing results with pagination = limit: 80]"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/decisions/0005-configuration-v1-compatibility.md"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# ADR-0005: Freeze configuration v1 and separate structural from semantic validation\n2\t\n3\t- Status: Accepted\n4\t- Date: 2026-07-10\n5\t- Owners: Repository maintainer\n6\t\n7\t## Context\n8\t\n9\tThe alpha decoder already called its configuration `version: 1`, but no public schema or compatibility\n10\tpromise defined what that version meant. Editor validation, runtime validation, and future package\n11\tupgrades could therefore disagree or silently reinterpret an existing repository.\n12\t\n13\tJSON Schema can describe object shape, bounds, enumerations, and many string constraints. It cannot\n14\treliably express every cross-entry invariant used here, including Unicode/case-normalized path\n15\tcollisions, adapter-to-source ownership, symbolic links, and actual filesystem budgets.\n16\t\n17\t## Decision\n18\t\n19\tPackage SemVer and configuration versions are independent:\n20\t\n21\t- npm package versions describe CLI/API releases;\n22\t- the integer `version` in `config.yaml` describes the canonical data contract.\n23\t\n24\tConfiguration v1 is the first beta contract. Every raw configuration accepted by the v1 runtime\n25\tdecoder must also pass `schemas/config-v1.schema.json`. The reverse is intentionally not guaranteed:\n26\truntime validation adds documented semantic and filesystem rules that JSON Schema cannot express.\n27\tStrings are not silently trimmed; surrounding whitespace is invalid.\n28\t\n29\tThe v1 schema has a stable `$id`, is shipped in the npm package, and is copied into each initialized\n30\trepository. `sync` repairs a missing or drifted copied schema but does not rewrite canonical YAML.\n31\tA pre-schema v1 project remains runnable; `validate` warns when the editor directive is missing and\n32\tdocuments the exact manual addition.\n33\t\n34\tUnknown configuration versions fail before mutation. There is no migration command while v1 is the\n35\tonly version. A future v2 must ship an explicit, reviewable migration workflow with check/dry-run\n36\tbehavior before any command rewrites v1 data. Support for v1 will not be removed within package 0.x\n37\tor 1.x. Removing it later requires a package major release and a documented migration path.\n38\t\n39\tAfter the first beta tag, changes that make a previously accepted safe v1 configuration invalid are\n40\tbreaking changes. A demonstrated security defect may require a narrower rejection, but it must be\n41\tdocumented in the changelog and covered by a regression test.\n42\t\n43\t## Rejected alternatives\n44\t\n45\t- **Treat the schema as the complete validator:** rejected because filesystem and normalized\n46\t  ownership rules cannot be represented accurately.\n47\t- **Silently normalize whitespace or paths:** rejected because the rendered value would differ from\n48\t  reviewed YAML.\n49\t- **Let the installed CLI reinterpret v1 over time:** rejected because repositories could change\n50\t  behavior without changing their canonical version.\n51\t- **Add a no-op migration command now:** rejected because it would create an interface without a\n52\t  real source/target transformation to validate.\n53\t\n54\t## Consequences\n55\t\n56\t- Schema/runtime parity needs a permanent generated and boundary corpus.\n57\t- New configuration concepts that cannot be added compatibly require v2.\n58\t- The copied schema is generated ownership and must participate in the same collision graph as every\n59\t  document and adapter.\n60\t- Older alpha repositories may receive a non-blocking editor-directive warning after upgrading.\n61\t\n62\t## Validation\n63\t\n64\t- Strict Ajv compilation and boundary tests for the public schema.\n65\t- A deterministic 500-case corpus proving runtime-accepted generated v1 configs pass the schema.\n66\t- Upgrade coverage for missing schema artifacts and missing YAML directives.\n67\t- Exact package and initialized-project schema byte comparisons.\n68\t"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/decisions/0009-configuration-v2-and-universal-surfaces.md"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# ADR-0009: Add explicit configuration v2 for universal agent surfaces\n2\t\n3\t- Status: Accepted\n4\t- Date: 2026-07-11\n5\t- Owners: Repository maintainer\n6\t\n7\t## Context\n8\t\n9\tConfiguration v1 is a published compatibility contract. It names Codex and Claude Code adapters\n10\tdirectly and has no continuity policy. Adding Cursor, Gemini CLI, generated Skills, or checkpoint\n11\tselection by silently changing v1 would make the same reviewed YAML mean something different after a\n12\tpackage upgrade.\n13\t\n14\tCodex and Cursor use the same repository instruction surface, while Claude Code and Gemini CLI use\n15\tdistinct root files. Treating every harness as a separate adapter would duplicate `AGENTS.md`\n16\townership and create invalid output collisions.\n17\t\n18\t## Decision\n19\t\n20\tCarrylog supports configuration versions 1 and 2 concurrently. New `init` operations create v2;\n21\texisting v1 repositories remain valid and are never migrated by `sync`.\n22\t\n23\tVersion 2 adds:\n24\t\n25\t- adapter surfaces `agents`, `claude`, and `gemini` rather than one entry per harness;\n26\t- `agents` as the shared `AGENTS.md` surface for Codex and Cursor;\n27\t- `continuity.checkpointDocument`, which must identify an always-loaded document;\n28\t- `continuity.generateSkills`, which controls deterministic repository Skill generation.\n29\t\n30\tEach version has a separate packaged JSON Schema and copied `.agent-context/config.schema.json`.\n31\tRuntime decoding rejects cross-version adapter names. Configuration v1 schema bytes, `$id`, marker\n32\tnamespaces, and semantics remain frozen under ADR-0005 and ADR-0008.\n33\t\n34\t`carrylog migrate --to 2` is the only v1-to-v2 transition. It preserves YAML comments and LF/CRLF\n35\tstyle, maps `codex` to `agents`, and adds continuity policy. `--universal` ensures all three surfaces\n36\tand enables Skills; it can also complete a partial v2 configuration. A stock published v1 handoff is\n37\tconverted automatically, and an already compliant checkpoint is preserved. Customized handoff prose\n38\twithout the required checkpoint sections fails with `E_CHECKPOINT_REVIEW_REQUIRED` rather than being\n39\tsemantically reclassified.\n40\t\n41\tMigration plans schema, adapter, Skill, checkpoint, and config changes before mutation. Unowned\n42\tadapter files still require `--adopt`; Skills are never adopted or merged. The config rename is last\n43\tin the guarded batch so a process failure cannot leave v2 claiming outputs that were not attempted.\n44\tThis ordering narrows failure impact but does not claim an OS-level cross-file transaction.\n45\t\n46\t## Rejected alternatives\n47\t\n48\t- **Extend v1 in place:** rejected because it violates the published meaning of v1.\n49\t- **One adapter per harness:** rejected because Codex and Cursor would compete for `AGENTS.md`.\n50\t- **Implicit migration during `sync`:** rejected because customized handoff semantics require review.\n51\t- **Infer customized checkpoint sections with a model:** rejected because migration must remain\n52\t  deterministic, offline, and auditable.\n53\t- **Drop v1 after introducing v2:** rejected by the compatibility period in ADR-0005.\n54\t\n55\t## Consequences\n56\t\n57\t- Code paths and tests must keep version-specific adapter and schema contracts distinct.\n58\t- A user who wants all supported harnesses runs `migrate --to 2 --universal`; a narrower migration\n59\t  preserves the surfaces they selected.\n60\t- New harnesses should map to an existing discovery surface when ownership is truly shared, otherwise\n61\t  a future configuration version may be required.\n62\t- Generated Skill paths participate in normalized managed-path ownership only while Skills are\n63\t  enabled; disabling generation leaves existing managed Skills for explicit human removal and warns.\n64\t\n65\t## Validation\n66\t\n67\t- Strict schema/runtime tests for both versions and 500 generated valid v2 configurations.\n68\t- Partial v1 and v2 universal migrations, non-universal migration, idempotence, comment and CRLF\n69\t  preservation, output collisions, customized checkpoints, and unowned Skill conflicts.\n70\t- No-partial-write assertions for every planning conflict and config-last ordering review.\n71\t- Carrylog's own repository migration from v1 to universal v2 followed by clean sync and validation.\n72\t"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/configuration.md",
+        "limit": 155
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# Configuration reference\n2\t\n3\t`.agent-context/config.yaml` is canonical, reviewed project data. The copied\n4\t`.agent-context/config.schema.json` is generated editor support and is repaired by `carrylog sync`.\n5\t\n6\t## Version contract\n7\t\n8\tConfiguration versions `1` and `2` are supported. Configuration version and npm package version are\n9\tseparate; unknown versions and cross-version adapter names fail before any write.\n10\t\n11\tVersion 1 is the frozen published compatibility contract. Version 2 adds universal agent surfaces and\n12\tcontinuity policy. New initialization creates v2, while existing v1 repositories remain valid and are\n13\tnever rewritten implicitly. See [ADR-0005](decisions/0005-configuration-v1-compatibility.md) and\n14\t[ADR-0009](decisions/0009-configuration-v2-and-universal-surfaces.md).\n15\t\n16\tEvery runtime-decoder-accepted configuration also passes its versioned public JSON Schema. JSON\n17\tSchema validation alone is insufficient: runtime checks additionally enforce normalized ownership,\n18\tcheckpoint references, portable paths, symlink rejection, actual content budgets, and filesystem\n19\tstate.\n20\t\n21\tThe recommended first line enables YAML editor validation:\n22\t\n23\t```yaml\n24\t# yaml-language-server: $schema=./config.schema.json\n25\t```\n26\t\n27\tAn older v1 file without this comment remains valid at runtime. `validate` emits\n28\t`W_CONFIG_SCHEMA_HEADER`; add the comment manually after review. `sync` does not rewrite canonical\n29\tYAML.\n30\t\n31\t## Fields\n32\t\n33\t### `version`\n34\t\n35\tRequired integer. Must be `1` or `2`.\n36\t\n37\t### `project.name`\n38\t\n39\tRequired single-line string, 1–120 Unicode characters. Leading/trailing whitespace and reserved\n40\tmanaged-marker text are rejected.\n41\t\n42\t### `documents`\n43\t\n44\tRequired array with 1–256 entries and at least one `load: always` entry.\n45\t\n46\t| Field | Contract |\n47\t| --- | --- |\n48\t| `id` | Unique lowercase identifier matching `[a-z][a-z0-9-]*`, at most 64 characters |\n49\t| `path` | Unique path relative to `.agent-context/`, at most 1024 Unicode characters |\n50\t| `load` | `always` or `on-demand` |\n51\t| `description` | Single-line router description, at most 240 characters |\n52\t| `triggers` | Optional non-empty list of at most 32 single-line strings, each at most 120 characters |\n53\t\n54\tDocument path uniqueness uses conservative Unicode compatibility and multi-step case normalization\n55\tfor cross-platform safety. This can intentionally reject names that coexist on one filesystem when\n56\tanother supported filesystem may alias them.\n57\t\n58\tVersion 1 uses document ID `handoff` for `carrylog handoff`. Version 2 uses\n59\t`continuity.checkpointDocument`, whose target must exist and use `load: always`.\n60\t\n61\tThe complete instructions template published in `@jaemani/agent-context-kit@0.1.0-beta.3` defines\n62\tthe old-package-to-Carrylog migration boundary independently of a mutable document ID or path.\n63\tCarrylog can replace that exact template while\n64\tpreserving LF or CRLF line endings. Customized always-loaded context with a command-shaped invocation\n65\tof the removed `ackit` executable is invalid until a maintainer reviews and changes the command;\n66\thistorical prose and other human content are not inferred from a template.\n67\t\n68\t### `adapters`\n69\t\n70\tRequired array with 1–32 entries.\n71\t\n72\t| Field | Contract |\n73\t| --- | --- |\n74\t| `type` | v1: `codex` or `claude`; v2: `agents`, `claude`, or `gemini` |\n75\t| `output` | Unique project-relative instruction-file path |\n76\t\n77\tThe v2 `agents` surface is shared by Codex and Cursor and defaults to `AGENTS.md`; this avoids two\n78\tlogical harnesses competing for one output. `claude` defaults to `CLAUDE.md`, and `gemini` defaults to\n79\t`GEMINI.md`.\n80\t\n81\t### `continuity` (v2 only)\n82\t\n83\t| Field | Contract |\n84\t| --- | --- |\n85\t| `checkpointDocument` | ID of one configured `load: always` document |\n86\t| `generateSkills` | Generate and validate the shared `.agents` Skill and Claude adapter Skill |\n87\t\n88\tWhen Skill generation is disabled, existing Carrylog-marked Skills are not deleted automatically;\n89\t`validate` warns so their removal remains an explicit reviewed action.\n90\t\n91\tThe generated continuity Skill resolves executables offline in a fixed order: a compatible Carrylog\n92\tsource build, the nearest compatible project-pinned package, then a compatible global installation.\n93\tEach selected candidate must support `resume`; an incompatible pinned candidate stops with explicit\n94\tguidance instead of falling through or downloading another version.\n95\t\n96\tEvery config, document, copied schema, and adapter output has exclusive path ownership. Exact,\n97\tcase-folded, or Unicode-normalized collisions fail before planning writes.\n98\t\n99\t### `policies`\n100\t\n101\t- `maxAlwaysCharacters`: total JavaScript character units allowed across `always` documents;\n102\t- `maxAdapterCharacters`: maximum generated managed block per adapter.\n103\t\n104\tBoth are required integers from 1,000 through 100,000. These deterministic budgets are not claims\n105\tabout a particular model tokenizer. Independently of those configurable rendering budgets, portable\n106\tresume observes at most 8 MiB across the configuration and all canonical documents in one pass. This\n107\tfixed aggregate read limit prevents a large on-demand catalog from multiplying per-file limits into\n108\tunbounded retained memory.\n109\t\n110\t## Portable path rules\n111\t\n112\tPaths use `/`, remain relative and normalized, and cannot contain `.`/`..` segments, empty segments,\n113\tNUL/control characters, Windows-reserved names/characters, trailing dots/spaces, or reserved marker\n114\ttext. Existing symlink components are rejected. A valid-looking schema path can still fail runtime\n115\townership or filesystem checks.\n116\t\n117\t## Explicit v1 migration\n118\t\n119\t```bash\n120\tcarrylog migrate --to 2 --universal --dry-run\n121\tcarrylog migrate --to 2 --universal\n122\tcarrylog validate\n123\t```\n124\t\n125\tWithout `--universal`, migration preserves the selected v1 surfaces and leaves Skill generation\n126\tdisabled. With it, Carrylog ensures `agents`, `claude`, and `gemini` surfaces and enables Skills. A\n127\tstock v1 handoff can be converted automatically; customized prose must already satisfy the checkpoint\n128\tsection contract or migration stops with `E_CHECKPOINT_REVIEW_REQUIRED`.\n129\t\n130\tMigration preserves YAML comments and LF/CRLF style, preflights all outputs, and writes config last.\n131\t`--check` exits 1 when migration work remains; `--dry-run` prints the plan without writing.\n132\t\n133\t`sync`, `validate`, `handoff`, `checkpoint`, `migrate`, and `resume` discover the nearest\n134\t`.agent-context/config.yaml` while walking upward from the explicit or current root. They can\n135\ttherefore run from a nested project directory. `init` treats its explicit or current root as the new\n136\tproject root and does not perform upward discovery.\n137\t\n138\t## Version 2 example\n139\t\n140\t```yaml\n141\t# yaml-language-server: $schema=./config.schema.json\n142\tversion: 2\n143\tproject:\n144\t  name: Example service\n145\tdocuments:\n146\t  - id: handoff\n147\t    path: handoff.md\n148\t    load: always\n149\t    description: Verified portable checkpoint and next action\n150\t  - id: architecture\n151\t    path: architecture.md\n152\t    load: on-demand\n153\t    description: System boundaries and module responsibilities\n154\t    triggers:\n155\t      - architecture changes"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/tests/product-identity.test.mjs",
+        "offset": 40,
+        "limit": 50
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "40\t});\n41\t\n42\ttest(\"canonical debug configuration takes precedence over the legacy alias\", () => {\n43\t  assert.equal(DEBUG_ENV_NAME, \"CARRYLOG_DEBUG\");\n44\t  assert.equal(LEGACY_DEBUG_ENV_NAME, \"ACKIT_DEBUG\");\n45\t  assert.equal(isDebugEnabled({}), false);\n46\t  assert.equal(isDebugEnabled({ ACKIT_DEBUG: \"1\" }), true);\n47\t  assert.equal(isDebugEnabled({ CARRYLOG_DEBUG: \"1\" }), true);\n48\t  assert.equal(isDebugEnabled({ CARRYLOG_DEBUG: \"0\", ACKIT_DEBUG: \"1\" }), false);\n49\t  assert.equal(isDebugEnabled({ CARRYLOG_DEBUG: \"\", ACKIT_DEBUG: \"1\" }), false);\n50\t});\n51\t\n52\ttest(\"configuration v1 keeps its published repository wire identities\", () => {\n53\t  assert.equal(CONFIG_PATH, \".agent-context/config.yaml\");\n54\t  assert.equal(MANAGED_START, \"<!-- agent-context-kit:managed:start -->\");\n55\t  assert.equal(MANAGED_END, \"<!-- agent-context-kit:managed:end -->\");\n56\t  assert.equal(HANDOFF_SNAPSHOT_START, \"<!-- agent-context-kit:handoff-snapshot:start -->\");\n57\t  assert.equal(HANDOFF_SNAPSHOT_END, \"<!-- agent-context-kit:handoff-snapshot:end -->\");\n58\t\n59\t  const schemaSource = readPublicSchema();\n60\t  assert.equal(\n61\t    createHash(\"sha256\").update(schemaSource).digest(\"hex\"),\n62\t    \"f30d6c906dba10059032ce13c74257b6ab41ebdd30308ca56b65408f039369ab\",\n63\t  );\n64\t  const schema = JSON.parse(schemaSource);\n65\t  assert.equal(\n66\t    schema.$id,\n67\t    \"https://raw.githubusercontent.com/Jaemani/Agent-Context-Kit/main/schemas/config-v1.schema.json\",\n68\t  );\n69\t  assert.equal(schema.title, \"Agent Context Kit configuration v1\");\n70\t});\n71\t\n72\ttest(\"release publication is OIDC-only after the first-package bootstrap\", async () => {\n73\t  const source = await readFile(path.resolve(\".github/workflows/release.yml\"), \"utf8\");\n74\t  const workflow = parse(source);\n75\t  const publish = workflow.jobs.publish;\n76\t  const steps = publish.steps;\n77\t\n78\t  assert.equal(publish.environment, \"npm\");\n79\t  assert.equal(publish.needs, \"preflight\");\n80\t  assert.deepEqual(publish.permissions, {\n81\t    contents: \"read\",\n82\t    \"id-token\": \"write\",\n83\t  });\n84\t  assert.doesNotMatch(source, /\\$\\{\\{\\s*secrets\\./u);\n85\t  assert.doesNotMatch(source, /NODE_AUTH_TOKEN|NPM_TOKEN|_authToken/u);\n86\t\n87\t  const releaseClient = steps.findIndex(\n88\t    (step) => step.name === \"Pin trusted-publishing npm client\",\n89\t  );"
+    },
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_format_check",
+      "input": {}
+    },
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_git_diff",
+      "input": {}
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "\n> carrylog@0.1.0-beta.5 format:check\n> biome check .\n\nChecked 64 files in 185ms. No fixes applied.\n"
+        }
+      ]
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "(exit 0)"
+        }
+      ]
+    },
+    {
+      "type": "agent_message",
+      "text": "The proposed in-place v1 expansion is not appropriate.\n\n- Configuration v1 is a frozen published contract, including schema bytes, `$id`, markers, paths, adapter names, and semantics.\n- Adding continuity fields or universal adapters to v1 would silently reinterpret existing reviewed configuration.\n- Configuration v2 already provides `continuity`, universal agent surfaces, and shared `agents`/`AGENTS.md` ownership for Codex and Cursor.\n- The supported path is explicit and reviewable:\n\n```bash\ncarrylog migrate --to 2 --universal --dry-run\ncarrylog migrate --to 2 --universal\ncarrylog validate\n```\n\nCustomized checkpoint prose and unowned generated surfaces continue to fail closed for review. No implicit migration is performed by synchronization, validation, installation, or upgrade.\n\nNo repository changes were needed. `format:check` passed across 64 files, and `git diff` was empty."
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "b7fb3a7a5a92319a409924c1b54be975",
+      "commandId": "format-check",
+      "registrySha256": "678a451d6a5c2156743783723cdf4843f1000159f657978fa6270f5ee2b391cf",
+      "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "cf80ad12c6940a68c1eeaca5550cd439",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "48b16f55822111951ac4fa05c97e046d7c5a451213d676a55749646919f37a33"
+        }
+      },
+      "preCommandStateSha256": "de3b2298d48311901f3f9ac575d287e0aabf88ec2d2401cc0486f92bff58df9c",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 100,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "9d0098c44da0299b16f15e225058780d16bfce4d999cabb60d024e3015135e9c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "9d0098c44da0299b16f15e225058780d16bfce4d999cabb60d024e3015135e9c",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "1cebb334bda7e1949b6dc2ef3988d41e",
+      "commandId": "git-diff",
+      "registrySha256": "678a451d6a5c2156743783723cdf4843f1000159f657978fa6270f5ee2b391cf",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "cf80ad12c6940a68c1eeaca5550cd439",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "48b16f55822111951ac4fa05c97e046d7c5a451213d676a55749646919f37a33"
+        }
+      },
+      "preCommandStateSha256": "de3b2298d48311901f3f9ac575d287e0aabf88ec2d2401cc0486f92bff58df9c",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

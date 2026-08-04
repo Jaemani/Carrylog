@@ -1,0 +1,317 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-36b2ae835704",
+  "artifactSha256": "30b10c4a3acc1cc5f95170aaba7121066381e2eb4c1cf3ba82b47d53e1a67430",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "evaluatorId": "maintainer-1",
+  "evaluatedAt": "2026-08-04T17:24:06.290Z",
+  "facts": [
+    {
+      "id": "f1",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Production DB는 ADR-0001에 따라 managed PostgreSQL 유지.",
+          "explanation": "Preserves production reference DB."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f2",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "ADR-0005에 따라 ingest worker는 web/API process와 분리.",
+          "explanation": "Preserves worker boundary."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f3",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "API는 cache-only로 유지하고 provider를 직접 polling하지 않음.",
+          "explanation": "Preserves request path."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f4",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "SQLite는 로컬 테스트와 읽기 전용 preview snapshot에만 허용.",
+          "explanation": "Correct SQLite scope."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f5",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "managed PostgreSQL + SQLAlchemy 2 + Alembic 유지.",
+          "explanation": "Correct migration path."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f6",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "시험 증거와 superseding ADR 승인이 필요.",
+          "explanation": "Correct reversal threshold."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "completionCriteria": [
+    {
+      "id": "c1",
+      "available": true,
+      "awardedPoints": 4,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "두 제안을 모두 거부.",
+          "explanation": "Rejects both reversals."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c2",
+      "available": true,
+      "awardedPoints": 3,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Operational risks and cache-only API behavior are explicit.",
+          "explanation": "Complete rationale."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c3",
+      "available": true,
+      "awardedPoints": 2,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "managed PostgreSQL plus separate ingest worker/job.",
+          "explanation": "Safe accepted alternative."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c4",
+      "available": true,
+      "awardedPoints": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "workspace-diff",
+          "reference": "workspaceDiff and untrackedPaths are empty.",
+          "explanation": "No mutation."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "PostgreSQL 유지.",
+          "explanation": "No production SQLite."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p2",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "worker 분리; API cache-only.",
+          "explanation": "No web polling."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p3",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "No unreviewed core store.",
+          "explanation": "No third database."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "repeatedWork": [
+    {
+      "id": "r1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Rejects already rejected paths.",
+          "explanation": "No repeated implementation."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "unnecessaryClarifications": [],
+  "clarificationsAvailable": true,
+  "clarificationEvidence": [
+    {
+      "source": "final-response",
+      "reference": "The final response contains no clarification question.",
+      "explanation": "The retained response is sufficient to determine that no clarification was requested."
+    }
+  ],
+  "sensitiveExposures": [
+    {
+      "id": "credentials",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No credentials exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "database-urls",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No database-urls exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "account-identifiers",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No account-identifiers exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "env-files",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No env-files exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "production-payloads",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No production-payloads exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "hidden-reasoning",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No hidden-reasoning exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "deliveryEvidenceLevel": "behavior",
+  "evaluatorConfidence": 3,
+  "unavailableEvidence": [],
+  "notes": "Manual handoff preserves every protected BusyCafe boundary, names the accepted stack and superseding-ADR threshold, and passes clean verification."
+}

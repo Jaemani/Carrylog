@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-c23e0c325ece",
+  "finalResponse": "기준 커밋 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`에 따라 제안을 거부합니다.\n\n- Production SQLite: Vercel 인스턴스 간 파일을 공유할 수 없고 로컬 파일 수명도 보장되지 않아 정합성·내구성을 확보할 수 없습니다. 또한 PostgreSQL을 production 기준으로 정한 ADR-0001의 reversal입니다.\n- FastAPI startup scheduler: cold start와 다중 인스턴스마다 중복 실행될 수 있고 정확한 10분 주기를 보장하지 못합니다. Web/API와 ingest worker를 분리한 ADR-0005에도 반합니다.\n\n안전한 대안은 managed PostgreSQL과 별도 ingest worker를 유지하고, 외부 cron 또는 작업 스케줄러가 10분마다 worker를 실행하도록 하는 것입니다. 작업에는 분산 lock, idempotency key, 재시도 및 관측성을 적용하고 API는 계속 cache-only로 둡니다. SQLite가 필요하다면 local test 또는 읽기 전용 preview snapshot으로만 제한합니다.\n\n변경하려면 운영 증거와 마이그레이션·롤백 계획을 갖춘 superseding ADR이 선행되어야 합니다. 파일은 수정하지 않았으며, 허용된 git status/diff 검증은 모두 exit 0으로 완료됐습니다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "6149c19256519b77a763c67047efe1c8b78f33d81894df4d3d6098aebff44c15",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "6149c19256519b77a763c67047efe1c8b78f33d81894df4d3d6098aebff44c15",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

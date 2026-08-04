@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-36b2ae835704",
+  "finalResponse": "## 결정\n\n커밋 `0f2b9c3` 기준으로 두 제안을 모두 거부합니다.\n\n- Production DB는 ADR-0001에 따라 managed PostgreSQL을 유지합니다. SQLite는 로컬 테스트와 읽기 전용 preview snapshot에만 허용됩니다.\n- 10분 scheduler는 FastAPI startup에 넣지 않습니다. ADR-0005에 따라 ingest worker는 web/API process와 분리합니다.\n\nFastAPI 내 scheduler는 인스턴스·프로세스·cold start마다 중복 실행될 수 있고, scale-to-zero나 재배포 중에는 실행을 놓칠 수 있습니다. Vercel 실행 파일시스템의 SQLite는 다중 인스턴스 정합성, 영속성, 백업 및 마이그레이션 경계를 production 요구사항으로 보장하기 어렵습니다.\n\n## 안전한 대안\n\n- Production은 managed PostgreSQL + SQLAlchemy 2 + Alembic 유지\n- Vercel Cron 등 외부 스케줄러가 10분마다 별도 ingest worker/job 호출\n- job에 PostgreSQL advisory lock 또는 고유 실행 키를 적용해 중복 실행 방지\n- API는 기존처럼 cache-only로 유지하고 provider를 직접 polling하지 않음\n- 배포 단순화는 DB 교체 대신 연결 풀링, 환경변수 템플릿, migration 단계 자동화로 해결\n\n변경이 반드시 필요하다면 내구성·동시성·백업·복구·부하 및 장애 테스트 증거를 먼저 확보하고 ADR-0001과 ADR-0005를 대체하는 superseding ADR 승인이 필요합니다.\n\n파일은 수정하지 않았으며, 등록된 `git status`와 `git diff` 검증은 모두 exit 0이고 출력이 없었습니다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "27adbf03793610d4a5246c12f04c58d082286ad0784f57f31541a2e5d550be9c",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "27adbf03793610d4a5246c12f04c58d082286ad0784f57f31541a2e5d550be9c",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

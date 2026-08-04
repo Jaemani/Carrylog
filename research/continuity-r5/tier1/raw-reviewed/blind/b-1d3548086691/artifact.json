@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-1d3548086691",
+  "finalResponse": "Preserved the existing executable-resolution behavior because PATH-first selection is less safe.\n\nConcrete risk: an ambient or repository-shadowed `carrylog` earlier on `PATH` could override the intended built-source or project-pinned executable. That could execute an untrusted or incompatible binary and produce incorrect continuity state. Existing startup explicitly selects source/project-pinned candidates, checks `resume --help`, and never downloads or upgrades tools.\n\nVerification:\n- Continuity tests: **16 passed**\n- Git diff: **clean**\n- No files changed.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "9d17c466284b33efc1d352dd4181f208782755e0c3a7d307515f8420315d736b",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 3519,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 3519,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "27c16f6400823ec476252c4945ed377a4085fde01ba631b1536ef0166b9302fa",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "27c16f6400823ec476252c4945ed377a4085fde01ba631b1536ef0166b9302fa",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "9d17c466284b33efc1d352dd4181f208782755e0c3a7d307515f8420315d736b",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

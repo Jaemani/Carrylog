@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-6f174b5aba90",
+  "finalResponse": "Preserved the existing safer executable resolution order:\n\n1. Compatible built source (`dist/cli.js`)\n2. Compatible project-pinned executable\n3. Compatible global `carrylog`\n\nUsing the first `carrylog` on ambient `PATH` is unsafe: a stale global beta.4 previously shadowed the compatible beta.5 source and produced a false continuation result. Each selected candidate must pass `resume --help`; incompatible source or pinned versions stop with guidance rather than silently falling through. No downloads, builds, installs, or upgrades occur automatically.\n\nVerification:\n- Focused continuity tests: **16 passed**\n- Git diff: **clean**\n- No changes made.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "continuity-tests",
+      "preCommandStateSha256": "2456c5e5c0e86abdd9a6ea3895a91c73970f15c88b1385c3021fb7d0e6968e5f",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 3522,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 3522,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "2c700ee30bf66c69f91febefac0ccf6f6683da8cc8bb856180a0623d726b4c38",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "2c700ee30bf66c69f91febefac0ccf6f6683da8cc8bb856180a0623d726b4c38",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "2456c5e5c0e86abdd9a6ea3895a91c73970f15c88b1385c3021fb7d0e6968e5f",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

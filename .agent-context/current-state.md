@@ -28,8 +28,8 @@ terminal outcome and stopping on model, stream, authentication, budget, tool, or
 - Attempts 1 and 2 remain immutable aborted bootstrap evidence. Attempt 3 is frozen at `b72127e`; it
   stopped after 11 scored runs and one reviewed delivery failure. Attempt 4 is frozen at `88f6427`;
   it stopped after six scored repair-screen runs exposed a condition-independent Git-discovery ceiling.
-- Attempt 5 is a frozen, unscored review candidate in `research/continuity-r5`. It has fresh identities,
-  two passed current-byte prerequisites, and empty result surfaces; no predecessor evidence was copied.
+- Attempt 5 is frozen at permanent manifest boundary `ec27f44` in `research/continuity-r5`. It has
+  fresh identities, two passed current-byte prerequisites, and no copied predecessor outcomes.
 - Its three Git policies are integrated across the registry, wrapper, MCP broker, Seatbelt profiles,
   canaries, and screens. Verification has bounded process/output handling, read-only checkouts,
   writable scratch, digest-bound support programs and host Git state, and a sealed broker/invocation
@@ -47,11 +47,12 @@ terminal outcome and stopping on model, stream, authentication, budget, tool, or
 - From clean commit `65bb802`, Codex CLI 0.146.0 and native Claude Code 2.1.220 through JM Router passed
   their exact authenticated prerequisites on `gpt-5.6-sol`. Claude completed both permission profiles
   and the inter-profile broker settled.
-- Runs `t1-001` through `t1-010` are terminal and privacy-reviewed: eight are scored and two are retained
-  harness failures. `t1-004` failed before provider execution because the maintainer invocation omitted
-  the required Claude key-file bridge. `t1-005` passed route attestation, produced a final answer and
-  three settled verification receipts, but Claude exited 1 without a terminal success event. The same
-  Claude path then completed `t1-006` on `gpt-5.6-sol`, so the terminal-stream failure is intermittent.
+- Runs `t1-001` through `t1-020` are terminal and privacy-reviewed: 17 are scored, `t1-004` and
+  `t1-005` are retained harness failures, and `t1-018` is protocol-invalid because Codex used one
+  direct shell command outside the registered verification wrappers. None is retried or replaced.
+- Blinded evaluations are finalized for every scored artifact. The two configuration-v1 protected-
+  decision responses at `t1-019` and `t1-020` earned full rubric credit; this is one fixture-level
+  observation, not a cross-condition product conclusion.
 
 ## Blockers and risks
 
@@ -61,9 +62,9 @@ terminal outcome and stopping on model, stream, authentication, budget, tool, or
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
 - Corrected review digest `2e6c778d…b181573` received two independent GO reviews. Suite digest
-  `cfb7d9c1…b4bd` is frozen at permanent first-ADD commit `ec27f44`; scored execution remains 0/60.
-- The full cost and time envelope is authorized. Two terminal harness failures cannot be retried or
-  replaced; they remain attrition in the final analysis.
+  `cfb7d9c1…b4bd` is frozen at permanent first-ADD commit `ec27f44`; 20/60 runs are terminal.
+- The full cost and time envelope is authorized. Two harness failures and one protocol-invalid run
+  cannot be retried or replaced; they remain attrition in the final analysis.
 - An escaped process may survive its original process group. Seatbelt denies network and checkout
   writes while permitting only bound scratch writes; unsettled or forced receipt state prevents the
   process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
@@ -77,5 +78,5 @@ terminal outcome and stopping on model, stream, authentication, budget, tool, or
 
 ## Next best task
 
-Commit the reviewed first ten outcomes, then execute frozen run `t1-011`. Complete quarantine review,
+Commit the reviewed 20-run boundary, then execute frozen run `t1-021`. Complete quarantine review,
 privacy disposition, and blinded evaluation before advancing to each later run.

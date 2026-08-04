@@ -1,0 +1,180 @@
+{
+  "runId": "t1-013",
+  "blindId": "b-1d3548086691",
+  "repository": "carrylog",
+  "baseCommit": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+  "sourceTree": "69b978b3e5f3fe02c927a25b390afec693f8d4d4",
+  "fixtureHead": "69396245473fb61d839b8a621ef9dc73ada10647",
+  "sourceRef": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+  "sourceHistory": {
+    "reachableCommitCount": 1,
+    "shallowBoundary": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+    "parentInaccessible": true
+  },
+  "conditionBaseline": "69396245473fb61d839b8a621ef9dc73ada10647",
+  "gitMetadata": {
+    "external": true,
+    "detachedAfterContextPreparation": true,
+    "detachedBeforeProviderAuthentication": true,
+    "directorySha256BeforeModel": "39a1d708988dc985e77480357845bc6db70bbae279220993bd5a6a3e1062b4ea",
+    "checkoutGitfilePresent": true,
+    "checkoutGitfileSha256": "9979d8ddcdac29e7d9788243751187a08ee548cf7188270c13f14656b72f75e4",
+    "optionalLocks": "0",
+    "directorySha256AfterModel": "39a1d708988dc985e77480357845bc6db70bbae279220993bd5a6a3e1062b4ea",
+    "unchangedDuringModel": true
+  },
+  "harnessVersions": {
+    "codex": "codex-cli 0.146.0",
+    "claude": "2.1.220 (Claude Code)",
+    "node": "v22.23.0",
+    "npm": "10.9.8",
+    "git": "git version 2.50.1 (Apple Git-155)",
+    "uv": "uv 0.11.23 (Homebrew 2026-06-19 aarch64-apple-darwin)",
+    "os": "macOS 26.5.2 (25F84)",
+    "architecture": "arm64",
+    "claudeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
+    "codexExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02"
+  },
+  "toolTreeSha256": "bc6a4263eb80f4d87c91b4548ed21b9bc3b48d301eaa507dcfa42653199a3808",
+  "cacheLifecycle": {
+    "mode": "sealed-offline-reuse",
+    "cacheId": "ff60d6a8398d1a179e1a7054de3ddeda",
+    "repositoryId": "carrylog",
+    "claimSha256": "53781f855980c63be15894663ef58abc6812cec571c3a7699f50d7f7cc594faa",
+    "readySha256": "5a6f43fcc624e53a29a3089e97803e7dcd3f2d62eae90777dc2e8636d9a9eff6",
+    "populatedByRunId": "t1-001",
+    "toolTreeSha256": "bc6a4263eb80f4d87c91b4548ed21b9bc3b48d301eaa507dcfa42653199a3808",
+    "carrylogTarballSha256": "47e3ae98efb3984124ec31d5090db5e1e7b592692942905d996d73a00e657e4e"
+  },
+  "harnessIsolation": {
+    "syntheticHome": true,
+    "copiedAuthenticationFiles": [],
+    "authenticationFields": [
+      "router-api-key-environment"
+    ],
+    "routerAuthentication": {
+      "mode": "router-key-environment",
+      "providerEndpoint": "https://llm.jaemani.com",
+      "keyPersistedByRunner": false,
+      "keyPathPersistedByRunner": false,
+      "keyDigestPersistedByRunner": false,
+      "routeCatalog": {
+        "requestedModel": "gpt-5.6-sol",
+        "catalogRecordSha256": "229d0d794270e15f3da521962cc7d2521bd61e07a1e1c3b7e0af70f7b444cc9d",
+        "routeTarget": null,
+        "protocol": "responses",
+        "providerIdentityObservable": false
+      },
+      "stagedEnvironmentFields": [
+        "ANTHROPIC_API_KEY",
+        "ANTHROPIC_BASE_URL",
+        "ANTHROPIC_TARGET_API_URL",
+        "ANTHROPIC_MODEL",
+        "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY"
+      ]
+    },
+    "copiedGlobalInstructions": false,
+    "copiedProviderSessions": false,
+    "copiedProviderSettings": false,
+    "repositorySelectionEnvironmentForwarded": false,
+    "authentication": {
+      "ephemeralAuthenticationStaged": true,
+      "stagedAuthenticationFiles": [],
+      "stagedAuthenticationEnvironmentFields": [
+        "ANTHROPIC_API_KEY",
+        "ANTHROPIC_BASE_URL",
+        "ANTHROPIC_TARGET_API_URL",
+        "ANTHROPIC_MODEL",
+        "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY"
+      ],
+      "cleanupAttempted": true,
+      "cleanupSucceeded": true,
+      "cleanupDiagnostic": null,
+      "residualAuthenticationPossible": false,
+      "cleanupNotGuaranteedAfter": [
+        "SIGKILL",
+        "host-crash",
+        "power-loss"
+      ]
+    }
+  },
+  "verificationExecutionMode": "seatbelt-workspace-isolated",
+  "deliveryManifest": {
+    "estimand": "released-product-bundle",
+    "condition": "repository-only",
+    "taskPromptSha256": "02eaf5d8e2f77e0faced6139ada918858f40fb39f83e31b30bb97afeae71ac52",
+    "priorSessionPacket": {
+      "sha256": "122162e4049721250f023b090d79d325c17050fd075bc6ab4c7f9b87df9cc752",
+      "delivered": false,
+      "channel": null
+    },
+    "resumeEnvelope": {
+      "delivered": false,
+      "sha256": null
+    },
+    "repositoryDiscoverySurfaces": [],
+    "continuityEligibleFactIds": [
+      "f1",
+      "f2",
+      "f3",
+      "f5"
+    ],
+    "promptExplicitFactIds": [
+      "f4"
+    ],
+    "semanticParityWithManualClaimed": false,
+    "automaticCheckpointAuthorshipClaimed": false,
+    "automaticRouterDiscoveryClaimed": false
+  },
+  "condition": "repository-only",
+  "harness": "claude",
+  "setupNetworkPolicy": "seatbelt-network-denied",
+  "baselineCommit": "3a049058d10203db9332f8e1509214188567383a",
+  "promptSha256": "f0a4f10c6c20ad7896362880e1b403da3c14fa2040afd318dfbd8fb585a5922f",
+  "promptBytes": 883,
+  "promptCharacters": 883,
+  "deliveryPacketSha256": "122162e4049721250f023b090d79d325c17050fd075bc6ab4c7f9b87df9cc752",
+  "deliveryPacketBytes": 890,
+  "deliveryPacketCharacters": 890,
+  "resumeEnvelopeSha256": null,
+  "preparationLatencyMs": 5139,
+  "freezeCommit": "ec27f44924749a84bb53a84d71f8408f9cb6de68",
+  "frozenSuiteSha256": "cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd",
+  "startedAt": "2026-08-04T17:25:58.707Z",
+  "latencyMs": 47171,
+  "process": {
+    "exitCode": 0,
+    "signal": null,
+    "timedOut": false,
+    "spawnError": null
+  },
+  "usage": {
+    "input_tokens": 87121,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1499,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "estimatedCostUsd": 0.47308,
+  "resolvedModels": [
+    "gpt-5.6-sol"
+  ],
+  "artifactSha256": "47509f7a57b5fda4946426f84157d3cb527b5e5ac5baec20dd64422dc6cc10c5",
+  "evidence": {
+    "resumeEnvelopeDeliveredInPrompt": false,
+    "toolReceiptsObserved": true,
+    "verifiedWrapperReceipts": 2,
+    "behaviorNotInferredFromReceipt": true
+  }
+}

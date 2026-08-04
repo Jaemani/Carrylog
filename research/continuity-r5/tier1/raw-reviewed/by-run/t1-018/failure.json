@@ -1,0 +1,357 @@
+{
+  "formatVersion": 1,
+  "runId": "t1-018",
+  "blindId": "b-e62cf7b5d4f0",
+  "failedAt": "2026-08-04T17:39:21.826Z",
+  "stage": "protocol",
+  "error": "HarnessExecutionError: protocol deviation: observed 1 direct shell execution event(s); only registered verification wrapper receipts are permitted\n    at assertSuccessfulHarnessResult (file://<ABSOLUTE_PATH>\n    at executeCodex (file://<ABSOLUTE_PATH>\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async file://<ABSOLUTE_PATH>",
+  "freeze": {
+    "required": true,
+    "verified": true,
+    "freezeCommit": "ec27f44924749a84bb53a84d71f8408f9cb6de68",
+    "frozenSuiteSha256": "cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd"
+  },
+  "preparation": {
+    "status": "completed",
+    "startedAt": "2026-08-04T17:37:26.737Z",
+    "completedAt": "2026-08-04T17:37:32.985Z",
+    "latencyMs": 6247,
+    "lastCompletedStep": "preparation-complete",
+    "details": {
+      "runId": "t1-018",
+      "blindId": "b-e62cf7b5d4f0",
+      "repository": "carrylog",
+      "baseCommit": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+      "sourceTree": "69b978b3e5f3fe02c927a25b390afec693f8d4d4",
+      "fixtureHead": "d027117cdfcb6926bcb20cb8d87d4f4452014f60",
+      "sourceRef": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+      "sourceHistory": {
+        "reachableCommitCount": 1,
+        "shallowBoundary": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+        "parentInaccessible": true
+      },
+      "conditionBaseline": "e1324300dbd193204f3321707f9df5e58b059551",
+      "gitMetadata": {
+        "external": true,
+        "detachedAfterContextPreparation": true,
+        "detachedBeforeProviderAuthentication": true,
+        "directorySha256BeforeModel": "719f18cbf1f8a97c3ac3f97e41f5d068cc73b9e4aee455aa08b2b959bebaa223",
+        "checkoutGitfilePresent": true,
+        "checkoutGitfileSha256": "9b56ad27cc4e4a31078261906145d795ae6532564e2ed7f08f93173ebbfbc315",
+        "optionalLocks": "0"
+      },
+      "harnessVersions": {
+        "codex": "codex-cli 0.146.0",
+        "claude": "2.1.220 (Claude Code)",
+        "node": "v22.23.0",
+        "npm": "10.9.8",
+        "git": "git version 2.50.1 (Apple Git-155)",
+        "uv": "uv 0.11.23 (Homebrew 2026-06-19 aarch64-apple-darwin)",
+        "os": "macOS 26.5.2 (25F84)",
+        "architecture": "arm64",
+        "claudeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
+        "codexExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02"
+      },
+      "toolTreeSha256": "bc6a4263eb80f4d87c91b4548ed21b9bc3b48d301eaa507dcfa42653199a3808",
+      "cacheLifecycle": {
+        "mode": "sealed-offline-reuse",
+        "cacheId": "ff60d6a8398d1a179e1a7054de3ddeda",
+        "repositoryId": "carrylog",
+        "claimSha256": "53781f855980c63be15894663ef58abc6812cec571c3a7699f50d7f7cc594faa",
+        "readySha256": "5a6f43fcc624e53a29a3089e97803e7dcd3f2d62eae90777dc2e8636d9a9eff6",
+        "populatedByRunId": "t1-001",
+        "toolTreeSha256": "bc6a4263eb80f4d87c91b4548ed21b9bc3b48d301eaa507dcfa42653199a3808",
+        "carrylogTarballSha256": "47e3ae98efb3984124ec31d5090db5e1e7b592692942905d996d73a00e657e4e"
+      },
+      "harnessIsolation": {
+        "syntheticHome": true,
+        "copiedAuthenticationFiles": [
+          "codex/auth.json"
+        ],
+        "authenticationFields": [
+          "provider-required-file"
+        ],
+        "routerAuthentication": null,
+        "copiedGlobalInstructions": false,
+        "copiedProviderSessions": false,
+        "copiedProviderSettings": false,
+        "repositorySelectionEnvironmentForwarded": false,
+        "authentication": {
+          "ephemeralAuthenticationStaged": true,
+          "stagedAuthenticationFiles": [
+            "codex/auth.json"
+          ],
+          "stagedAuthenticationEnvironmentFields": [],
+          "cleanupAttempted": true,
+          "cleanupSucceeded": true,
+          "cleanupDiagnostic": null,
+          "residualAuthenticationPossible": false,
+          "cleanupNotGuaranteedAfter": [
+            "SIGKILL",
+            "host-crash",
+            "power-loss"
+          ]
+        }
+      },
+      "verificationExecutionMode": "seatbelt-broker-isolated",
+      "deliveryManifest": {
+        "estimand": "released-product-bundle",
+        "condition": "carrylog-resume",
+        "taskPromptSha256": "248d1658fdf4ee3dabc8b91e00159b45e328fc3418ff7c8432a14355cbaf00de",
+        "priorSessionPacket": {
+          "sha256": "886beb81ec5d866d87a2c453c93b52d5798382967f387fa46478254734d210b4",
+          "delivered": true,
+          "channel": "canonical-checkpoint-and-resume-envelope"
+        },
+        "resumeEnvelope": {
+          "delivered": true,
+          "sha256": "2f10fab728c5b720e551791b2a6d8ea59503b6d0e38155a7425e5ffb9d53d5f9"
+        },
+        "repositoryDiscoverySurfaces": [
+          ".agent-context",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "GEMINI.md",
+          ".agents/skills/carrylog-continuity",
+          ".claude/skills/carrylog-continuity"
+        ],
+        "continuityEligibleFactIds": [
+          "f2",
+          "f3",
+          "f5"
+        ],
+        "promptExplicitFactIds": [
+          "f1",
+          "f4"
+        ],
+        "semanticParityWithManualClaimed": false,
+        "automaticCheckpointAuthorshipClaimed": false,
+        "automaticRouterDiscoveryClaimed": false
+      },
+      "condition": "carrylog-resume",
+      "harness": "codex",
+      "setupNetworkPolicy": "seatbelt-network-denied",
+      "baselineCommit": "b7d3de5f47061b6f3a5adcb60b875f8baab45f76",
+      "promptSha256": "c81d05a76af8ec6f2ac0d3e59be61f5cf9495ea2ad0d04a7cbc23548854cd1a9",
+      "promptBytes": 10799,
+      "promptCharacters": 10795,
+      "deliveryPacketSha256": "886beb81ec5d866d87a2c453c93b52d5798382967f387fa46478254734d210b4",
+      "deliveryPacketBytes": 932,
+      "deliveryPacketCharacters": 928,
+      "resumeEnvelopeSha256": "2f10fab728c5b720e551791b2a6d8ea59503b6d0e38155a7425e5ffb9d53d5f9",
+      "preparationLatencyMs": 6247
+    }
+  },
+  "delivery": {
+    "status": "prepared",
+    "manifest": {
+      "estimand": "released-product-bundle",
+      "condition": "carrylog-resume",
+      "taskPromptSha256": "248d1658fdf4ee3dabc8b91e00159b45e328fc3418ff7c8432a14355cbaf00de",
+      "priorSessionPacket": {
+        "sha256": "886beb81ec5d866d87a2c453c93b52d5798382967f387fa46478254734d210b4",
+        "delivered": true,
+        "channel": "canonical-checkpoint-and-resume-envelope"
+      },
+      "resumeEnvelope": {
+        "delivered": true,
+        "sha256": "2f10fab728c5b720e551791b2a6d8ea59503b6d0e38155a7425e5ffb9d53d5f9"
+      },
+      "repositoryDiscoverySurfaces": [
+        ".agent-context",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".agents/skills/carrylog-continuity",
+        ".claude/skills/carrylog-continuity"
+      ],
+      "continuityEligibleFactIds": [
+        "f2",
+        "f3",
+        "f5"
+      ],
+      "promptExplicitFactIds": [
+        "f1",
+        "f4"
+      ],
+      "semanticParityWithManualClaimed": false,
+      "automaticCheckpointAuthorshipClaimed": false,
+      "automaticRouterDiscoveryClaimed": false
+    }
+  },
+  "authentication": {
+    "ephemeralAuthenticationStaged": true,
+    "stagedAuthenticationFiles": [
+      "codex/auth.json"
+    ],
+    "stagedAuthenticationEnvironmentFields": [],
+    "cleanupAttempted": true,
+    "cleanupSucceeded": true,
+    "cleanupDiagnostic": null,
+    "residualAuthenticationPossible": false,
+    "cleanupNotGuaranteedAfter": [
+      "SIGKILL",
+      "host-crash",
+      "power-loss"
+    ]
+  },
+  "gitIntegrity": {
+    "checkoutGitfilePresent": true,
+    "checkoutGitfileSha256BeforeModel": "9b56ad27cc4e4a31078261906145d795ae6532564e2ed7f08f93173ebbfbc315",
+    "checkoutGitfileSha256Observed": "9b56ad27cc4e4a31078261906145d795ae6532564e2ed7f08f93173ebbfbc315",
+    "checkoutGitfileUnchanged": true,
+    "directorySha256BeforeModel": "719f18cbf1f8a97c3ac3f97e41f5d068cc73b9e4aee455aa08b2b959bebaa223",
+    "directorySha256Observed": "719f18cbf1f8a97c3ac3f97e41f5d068cc73b9e4aee455aa08b2b959bebaa223",
+    "unchanged": true
+  },
+  "execution": {
+    "status": "failed",
+    "startedAt": "2026-08-04T17:37:32.985Z",
+    "completedAt": "2026-08-04T17:39:21.783Z",
+    "latencyMs": 108798,
+    "process": {
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null
+    },
+    "visibleEvents": [
+      {
+        "type": "agent_message",
+        "text": "I’m using the Carrylog continuity skill because this task resumes from a verified checkpoint. I’ll reconcile the checkpoint with the repository guidance, make only the targeted documentation edit, then run the two registered local checks."
+      },
+      {
+        "type": "agent_message",
+        "text": "The continuity skill’s instruction file is not available through a compliant repository read surface in this fixture, so I’m falling back to the reviewed portable checkpoint supplied in the task. Its scope is unambiguous: remove only the obsolete publication-gap bullet and retain all other gaps."
+      },
+      {
+        "type": "agent_message",
+        "text": "The edit removes exactly the obsolete four-line publication bullet. The remaining Windows, syscall-injection, authenticated-harness, and external-outcome gaps are untouched, and no release evidence was duplicated into the strategy document."
+      },
+      {
+        "type": "agent_message",
+        "text": "Removed the obsolete first-publication bullet from [docs/testing-strategy.md](<RUN_ROOT>/repository/docs/testing-strategy.md). Other gaps and evidence ownership remain unchanged.\n\nChecks completed:\n\n- Diff check: passed\n- `npm run format:check`: passed (65 files)"
+      },
+      {
+        "type": "stderr",
+        "contentBytes": 9621,
+        "contentSha256": "ab14b961f750d559f8bc55b77bfc303f833ddd952652e00334b6358051c72382"
+      }
+    ],
+    "commandRecords": [
+      {
+        "formatVersion": 1,
+        "source": "codex-command-execution",
+        "commandBytes": 83,
+        "commandSha256": "cb4d3323735af9be9bafc3a274a2526487dce21a8e5c5605fbecd85b27bf3ae9",
+        "outputBytes": 5147,
+        "outputSha256": "b7867953185290c5d415dbc57ac7de9bc46305864ef5b94e04fd1874db69b5e5",
+        "exitCode": 0,
+        "status": "completed",
+        "lifecycle": "completed",
+        "lifecycleEvents": 2,
+        "payloadDrift": false
+      }
+    ],
+    "verificationReceipts": [
+      {
+        "formatVersion": 5,
+        "recordType": "terminal",
+        "invocationId": "a28461b88a2272a0858f5dc9a9d291b6",
+        "commandId": "diff-check",
+        "registrySha256": "876e110216c4cdbf467c18a0c5f06ccb0056c152321431f294495352fb2ebfbd",
+        "commandSha256": "df7b354df34ae45041fcb2cf126e67ca14defd37d52ecab17b263c5e3fdce191",
+        "executionMode": "seatbelt-broker-isolated",
+        "origin": "mcp-broker",
+        "brokerId": "7eec4a8eb87d29654daa06531a29c21b",
+        "preCommandState": {
+          "head": {
+            "bytes": 41,
+            "sha256": "d324b53c6361cd56ba2305d10f8e822381775e9ef572b22c356a4ebd6db13a63"
+          },
+          "trackedDiff": {
+            "bytes": 1008,
+            "sha256": "dc0c274acb32bc26e9affff4a9c394ece7d0d2aeb9cef61a2293e9add2d60aa3"
+          },
+          "stagedDiff": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "status": {
+            "bytes": 28,
+            "sha256": "81e9ac9270e10e0f3e2d7ba19378dc9bbdae6a15f99dffc1a59b1046e9edf9f2"
+          },
+          "config": {
+            "bytes": 820,
+            "sha256": "9cd0f6a23fd517a8c2896a4e3bd9e9b6ac1161cb6c0b6a375f0f027f428f5804"
+          }
+        },
+        "preCommandStateSha256": "c4b5fbdc6190842a0bb2853aa93b854ff981046ccff8acc478650d171ab14903",
+        "processState": "completed",
+        "exitStatus": 0,
+        "signal": null,
+        "timedOut": false,
+        "outputLimited": false,
+        "spawnError": null,
+        "termination": null,
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutRetainedBytes": 0,
+        "stderrRetainedBytes": 0,
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "formatVersion": 5,
+        "recordType": "terminal",
+        "invocationId": "def2a48b001dc8a81874c893527bce26",
+        "commandId": "format-check",
+        "registrySha256": "876e110216c4cdbf467c18a0c5f06ccb0056c152321431f294495352fb2ebfbd",
+        "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+        "executionMode": "seatbelt-broker-isolated",
+        "origin": "mcp-broker",
+        "brokerId": "7eec4a8eb87d29654daa06531a29c21b",
+        "preCommandState": {
+          "head": {
+            "bytes": 41,
+            "sha256": "d324b53c6361cd56ba2305d10f8e822381775e9ef572b22c356a4ebd6db13a63"
+          },
+          "trackedDiff": {
+            "bytes": 1008,
+            "sha256": "dc0c274acb32bc26e9affff4a9c394ece7d0d2aeb9cef61a2293e9add2d60aa3"
+          },
+          "stagedDiff": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "status": {
+            "bytes": 28,
+            "sha256": "81e9ac9270e10e0f3e2d7ba19378dc9bbdae6a15f99dffc1a59b1046e9edf9f2"
+          },
+          "config": {
+            "bytes": 820,
+            "sha256": "9cd0f6a23fd517a8c2896a4e3bd9e9b6ac1161cb6c0b6a375f0f027f428f5804"
+          }
+        },
+        "preCommandStateSha256": "c4b5fbdc6190842a0bb2853aa93b854ff981046ccff8acc478650d171ab14903",
+        "processState": "completed",
+        "exitStatus": 0,
+        "signal": null,
+        "timedOut": false,
+        "outputLimited": false,
+        "spawnError": null,
+        "termination": null,
+        "stdoutBytes": 100,
+        "stderrBytes": 0,
+        "stdoutRetainedBytes": 100,
+        "stderrRetainedBytes": 0,
+        "stdoutSha256": "0a8a2d8d7a461f168193e89669b5516a49e49ed54c3c3ef3ecec1e93fecac695",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutRetainedSha256": "0a8a2d8d7a461f168193e89669b5516a49e49ed54c3c3ef3ecec1e93fecac695",
+        "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  }
+}

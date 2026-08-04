@@ -1,0 +1,176 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "I’ll inspect the repository guidance and the specific documentation section, then make only the narrow documentation correction and run the two registered checks."
+    },
+    {
+      "type": "agent_message",
+      "text": "The fixture exposes the two verification commands but not a separate repository file reader. I’m keeping inspection narrowly scoped to the repository guidance and target document so the edit remains evidence-policy compliant."
+    },
+    {
+      "type": "agent_message",
+      "text": "The stale four-line publication bullet is removed; the four genuinely open gaps remain intact, and no release evidence details were moved into this strategy document. I’m running the registered diff and formatting checks now."
+    },
+    {
+      "type": "agent_message",
+      "text": "Removed the obsolete first-publication gap from [docs/testing-strategy.md](<RUN_ROOT>/repository/docs/testing-strategy.md:162). Other open gaps remain unchanged; no runtime or release work was touched.\n\nChecks completed:\n\n- Diff check — passed\n- `npm run format:check` — passed (64 files)"
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 20354,
+      "contentSha256": "37523590f696259a016d9de10d4807c279bc5c34fc4c2a7858ea083465f65964"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "a55162d8bdfa6c5f3ab48566eafe6aae",
+      "commandId": "diff-check",
+      "registrySha256": "e8363431144be840e584a66a509717345da5fd9d3b711f6e7bee5bb07126456e",
+      "commandSha256": "df7b354df34ae45041fcb2cf126e67ca14defd37d52ecab17b263c5e3fdce191",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "e2f4e5d471246b3ddd403e554d55d1ec",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "21d20514179691bf59a493dec3da9decbe6b56e32507335a6efe3554d11bb17d"
+        }
+      },
+      "preCommandStateSha256": "6d9f531f5ad1e96e6e88190cb8466592ad5f30e303a00d424452f460a358c7fb",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "731340b0d62242ad566444401ab89919",
+      "commandId": "diff-check",
+      "registrySha256": "e8363431144be840e584a66a509717345da5fd9d3b711f6e7bee5bb07126456e",
+      "commandSha256": "df7b354df34ae45041fcb2cf126e67ca14defd37d52ecab17b263c5e3fdce191",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "e2f4e5d471246b3ddd403e554d55d1ec",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 1008,
+          "sha256": "dc0c274acb32bc26e9affff4a9c394ece7d0d2aeb9cef61a2293e9add2d60aa3"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 28,
+          "sha256": "81e9ac9270e10e0f3e2d7ba19378dc9bbdae6a15f99dffc1a59b1046e9edf9f2"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "21d20514179691bf59a493dec3da9decbe6b56e32507335a6efe3554d11bb17d"
+        }
+      },
+      "preCommandStateSha256": "1ddda4dde482b3b0ab81e29b70490f90fd4270340223999d780366a34822fc1e",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "e361d0c541fb1fece922e4a28e6874e0",
+      "commandId": "format-check",
+      "registrySha256": "e8363431144be840e584a66a509717345da5fd9d3b711f6e7bee5bb07126456e",
+      "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "e2f4e5d471246b3ddd403e554d55d1ec",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 1008,
+          "sha256": "dc0c274acb32bc26e9affff4a9c394ece7d0d2aeb9cef61a2293e9add2d60aa3"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 28,
+          "sha256": "81e9ac9270e10e0f3e2d7ba19378dc9bbdae6a15f99dffc1a59b1046e9edf9f2"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "21d20514179691bf59a493dec3da9decbe6b56e32507335a6efe3554d11bb17d"
+        }
+      },
+      "preCommandStateSha256": "1ddda4dde482b3b0ab81e29b70490f90fd4270340223999d780366a34822fc1e",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 100,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "3601c4ba4ffb654e16f60ffa161a8170628c27f2acb93c4dafbe006e591abbe6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "3601c4ba4ffb654e16f60ffa161a8170628c27f2acb93c4dafbe006e591abbe6",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
