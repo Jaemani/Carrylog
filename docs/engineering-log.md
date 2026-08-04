@@ -2148,3 +2148,42 @@ with an unsettled invocation, and recovery when a transient partial read becomes
 stream. The attempt-5 suite passes 122/122 and active research passes 131/131 after these additions.
 Independent re-review returned GO with no blocking findings and confirmed the staged scope remained
 limited to Attempt-5 and repository-context files. No authenticated call or freeze occurred in review.
+
+Commit `611a043` integrated the reviewed settlement barrier. Its authenticated Codex prerequisite
+passed at `2026-08-04T10:20:58.609Z`. The first Claude invocation omitted the local bridge variable
+that names the JM Router key file and stopped before provider access. The corrected invocation derived
+that path from the installed JM Router launcher, validated a regular non-symlink file with mode `0400`
+or `0600` and `jmr_*` contents, and passed only the path to the isolated child without printing or
+persisting the path or value.
+
+The routed Claude process then exposed only `gpt-5.6-sol`, completed the read-only profile's exact tool
+sequence, and left every verification invocation settled. The inter-profile barrier still timed out
+with one broker start, zero broker terminals, zero unsettled invocations, and one unsettled broker.
+This disproved the assumption that Claude Code always closes MCP stdin cleanly before its print-mode
+process completes. It did not show a route-model mismatch or GPT response defect. No writable-profile,
+freeze, manifest, or scored execution followed.
+
+The repair gives the MCP broker one idempotent settlement path for stdin EOF and graceful `SIGTERM`,
+`SIGHUP`, or `SIGINT`. A signal closes input, waits for the existing serialized request queue, writes
+one broker terminal, and exits successfully; a queue that cannot settle remains exposed to the
+caller's forced-kill policy and cannot produce a terminal. The macOS integration test performs a real
+tool call, signals the broker, and proves zero unsettled invocations and brokers. Its separate
+`SIGKILL` case still leaves an unsettled broker. Attempt 5 passes 122/122 after the repair. Refreshing
+the harness-critical binding correctly reset the earlier Codex pass and Claude failure to pending.
+Full quality passes with active research at 131/131; structural validation, deterministic order, the
+offline isolation canary, and prerequisite digest validation also pass.
+
+Independent review returned NO-GO because the first signal regression sent `SIGTERM` only after an
+idle queue. It therefore did not directly prove the repair's central claim for a signal arriving
+during an active invocation. The expanded integration starts the delayed command, waits for its start
+receipt, signals the broker, and proves the intermediate stream has no broker terminal while the
+invocation remains active. It then requires exactly one invocation terminal followed by exactly one
+broker terminal and a clean broker exit. The separate `SIGKILL` control remains unsettled. The focused
+integration passes 7/7 after this correction; authenticated reruns remain prohibited pending full
+gates and independent re-review.
+
+Full quality and every offline gate passed again after the added active-signal case. Independent
+re-review returned GO with no blocking findings and confirmed the staged scope remained limited to
+Attempt 5 and repository context. The review retains two explicit residuals: `SIGHUP` and `SIGINT`
+share the tested idempotent path but are not individually exercised, and only a new authenticated
+Claude canary can prove the client's actual shutdown behavior and writable-profile completion.

@@ -48,7 +48,7 @@
     },
     {
       "path": "analysis/verification-mcp-server.mjs",
-      "sha256": "b25e51935718439aedd9faa9007e6fb50bb09bf3a5d4766f096a89e03461228f"
+      "sha256": "f2a8d71cfc587c5fa10862c68d52b8053c5651c8dc23c10a9049516b0401bd74"
     },
     {
       "path": "analysis/verification-receipt-protocol.mjs",

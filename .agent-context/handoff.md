@@ -4,99 +4,82 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "7f3f068 at 2026-08-04T19:06:29+09:00"
-- Upstream: "origin/main; ahead 15, behind 0"
-- Working tree: 12 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 12 file(s), +311/-74, 0 binary
+- HEAD: "611a043 at 2026-08-04T19:20:28+09:00"
+- Upstream: "origin/main; ahead 16, behind 0"
+- Working tree: 6 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 6 file(s), +224/-26, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (12)
+### Changed paths (6)
 
     {"status":"M ","path":".agent-context/current-state.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
     {"status":"M ","path":"research/continuity-r5/tier1/README.md"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/harness-contract.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/harness-isolation-canary.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/run.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/tests/harness-contract.test.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/tests/harness-isolation-canary-boundary.test.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/tests/run-bootstrap-boundary.test.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/tests/run-contract.test.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/verification-receipt-protocol.mjs"}
-    {"omitted":1}
+    {"status":"M ","path":"research/continuity-r5/tier1/analysis/tests/contracts.test.mjs"}
+    {"status":"M ","path":"research/continuity-r5/tier1/analysis/verification-mcp-server.mjs"}
+    {"status":"M ","path":"research/continuity-r5/tier1/harness-prerequisites.json"}
 
 ### Recent commits (5)
 
+    {"commit":"611a043","committedAt":"2026-08-04T19:20:28+09:00","subject":"fix: settle Claude verification brokers between profiles"}
     {"commit":"7f3f068","committedAt":"2026-08-04T19:06:29+09:00","subject":"fix: serialize Claude verification tools"}
     {"commit":"f5f7ff4","committedAt":"2026-08-04T18:56:23+09:00","subject":"research: bound Claude prerequisite across profiles"}
     {"commit":"095ffbd","committedAt":"2026-08-04T18:33:22+09:00","subject":"fix: fail closed on harness prerequisite drift"}
     {"commit":"844a456","committedAt":"2026-08-04T18:18:05+09:00","subject":"research: prepare Tier 1 execution attempt 5"}
-    {"commit":"fd5bb67","committedAt":"2026-08-02T16:48:01+09:00","subject":"research: prove repository discovery boundary"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"7f3f068f8066d8e812255efe94cf14c43b956f88","detached":false,"branch":"main","indexCommitment":"b3234705530db44cf3801c22b1ac0d9e5e727faac4703c33660702a9c490d284"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"611a043be8fb3561ef9dca268e5a350cd8fd7db0","detached":false,"branch":"main","indexCommitment":"ce9a20e491ff542bbb3f233529134be1840a2d369cf1ff6113be1f6ea9032226"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Commit the reviewed Claude broker-settlement barrier, then rerun both authenticated prerequisites
+Commit the reviewed graceful broker-signal repair, then rerun both authenticated prerequisites
 before any freeze work.
 
 ## Completed
 
-- Attempt 5 remains isolated from prior attempts and external repositories. Native Claude resolution
-  bypasses the JM Router wrapper and verifies the registered target; Codex requires its exact MCP.
-- Codex passed from `095ffbd`; later critical-byte changes reset it to pending.
-- Routed Claude used only `gpt-5.6-sol` but stopped at `error_max_budget_usd`. Review rejected both a
-  USD 6.75 process-per-probe correction and a single-session design that lost read-only coverage. The
-  final design divides nine probes between USD 0.55 read-only and USD 0.20 writable processes, asserts
-  the USD 0.75 total in integer cents, and rejects model-less or unregistered assistant responses.
-  Both prerequisites remain pending; no freeze, scored run, or raw output persistence occurred.
-- Commit `f5f7ff4` passed the Codex prerequisite. Routed Claude then failed closed because concurrent
-  MCP broker lifetimes overlapped in the receipt stream. A reviewed native tool-concurrency
-  control produced the same failure from commit `7f3f068`, disproving that hypothesis. The replacement
-  barrier requires one process's exact broker terminal and zero unsettled state before the next process
-  starts; both prerequisites are reset pending another reviewed clean commit.
+- Attempt 5 remains isolated, draft, unfrozen, and unscored. Prior attempts and external repositories
+  were not modified.
+- Commit `611a043` integrated the reviewed barrier. Codex passed at
+  `2026-08-04T10:20:58.609Z`. Routed Claude exposed only `gpt-5.6-sol` and completed the read-only exact
+  tool sequence, then timed out with one broker start, no broker terminal, and no unsettled invocation.
+- A first Claude command omitted the key-file bridge and stopped before provider access. The corrected
+  command derived and validated the launcher-declared file without printing or persisting its path or
+  value.
+- The repair writes one broker terminal after stdin EOF or graceful `SIGTERM`, `SIGHUP`, or `SIGINT`,
+  and only after the serialized request queue settles. `SIGKILL` remains unsettled. Critical digest
+  refresh reset both prerequisites to pending; no freeze, manifest, scored run, or raw output retention
+  occurred.
 
 ## Verification
 
-- `npm run quality` passes, including product coverage and active research at 131/131. Attempt 5 passes
-  122/122; structural validation, deterministic order, the offline isolation canary, prerequisite
-  validation, formatting, `resume --check`, and diff checks pass.
-- Offline resolution selects signed native Claude Code 2.1.220 independently of the host `PATH` wrapper.
-- The prior Codex canary passed. Routed Claude exposed only `gpt-5.6-sol`; its stale cap failed closed.
-- Independent review returned GO for the settlement barrier after attempt 5 at 122/122, active research
-  at 131/131, focused boundary, structural, order, CLI, checkpoint, and staged diff checks passed.
+- The focused macOS MCP integration passes 7/7, attempt 5 passes 122/122, and full quality passes with
+  active research at 131/131. Structural, order, offline isolation, and critical-digest gates pass;
+  independent review returned NO-GO because active-signal settlement lacked direct coverage. The new
+  focused case proves no premature terminal, exact terminal ordering and count, and clean exit. Full
+  gates passed again and independent re-review returned GO with no blocking findings.
+- The authenticated failure proved exact read-only tool/model evidence before the settlement timeout;
+  it did not prove the writable profile or repaired shutdown behavior.
 
 ## Decisions
 
-- Resolve controlled Claude from host `~/.local/bin/claude`, not `PATH` wrappers.
-- Require the exact Codex verification MCP. Broker initialization failure must terminate the client,
-  while failure diagnostics remain bounded and redacted.
-- Cover both scored Claude permission profiles with two no-persistence processes: USD 0.55 read-only
-  and USD 0.20 writable. Assert their integer-cent sum is USD 0.75 before provider access; exact ordered
-  tool evidence, expected denials, and per-assistant model identity remain fail-closed.
-- Retry neither provider from an uncommitted or unreviewed repair. Keep attestations pending until exact
-  canaries pass from a clean commit.
-- Keep attempt 5 draft, unscored, and unfrozen. Canary success alone still does not authorize freeze or
-  continuity, transcript, or compaction claims.
+- Treat a graceful signal as broker settlement only after all queued invocations settle; forced or
+  incomplete termination cannot produce clean evidence.
+- Preserve two no-persistence Claude profiles under one asserted USD 0.75 aggregate ceiling and require
+  `gpt-5.6-sol` on every assistant event.
+- Retry neither provider from an uncommitted or unreviewed repair. Keep attempt 5 draft and make no
+  transcript, compaction, or behavioral-continuity claim from canary evidence.
 
 ## Risks
 
-- Both prerequisites must be rerun because the budget change altered a shared critical canary file.
-- The routed Claude path has not completed the full tool sequence after the budget correction. Any
-  catalog, resolved-model, authentication, stream, or tool-use anomaly must stop the freeze sequence.
-- The USD 0.20 writable sub-cap may be insufficient under current Router accounting. That produces a
-  pending prerequisite and requires another reviewed allocation; it must not be bypassed or increased
-  without preserving the USD 0.75 aggregate ceiling.
-- The five-second settlement bound has not completed the routed canary. Timeout or further overlap is
-  an unresolved harness lifecycle anomaly, not evidence to relax the ledger.
-- Routed Claude is GPT-backed, not an independent model-family replication; token accounting remains
-  unavailable evidence.
-- Process escape, TOCTOU, Windows filesystem depth, large-index settlement, conversation reconstruction,
-  repeated switching, journaling, compaction value, Cursor behavior, and adoption remain explicit gaps.
+- The repaired signal path has passed only offline integration; actual Claude Code shutdown and the
+  writable USD 0.20 profile remain unverified. Any model, stream, auth, budget, tool, or receipt anomaly
+  stops the sequence.
+- Routed Claude is GPT-backed, not independent model-family replication; token accounting is unavailable.
+- Process escape, TOCTOU, Windows depth, conversation reconstruction, repeated switching, journaling,
+  compaction value, Cursor behavior, and adoption remain explicit gaps.
 
 ## Next action
 
-Commit the reviewed settlement barrier, then run Codex first and native Claude through JM Router
-second. Stop on any anomaly; do not freeze until both prerequisites pass.
+Commit once, then run Codex first and native Claude through JM Router second. Stop on any anomaly; do
+not freeze until both prerequisites pass.

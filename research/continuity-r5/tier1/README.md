@@ -135,6 +135,10 @@ The two-profile canary does not start its second Claude process until the first 
 written a valid terminal record and every invocation is settled. This bounded barrier uses the same
 strict receipt parser as final evidence; timeout, malformed history, an unexpected broker count, or a
 sealed stream fails before the next process can start. The ledger contract itself is not relaxed.
+The broker writes that terminal after stdin EOF or a graceful `SIGTERM`, `SIGHUP`, or `SIGINT`, but
+only after its serialized request queue settles. A forced kill cannot write a terminal and remains an
+unsettled failure. This distinction accommodates client-managed MCP shutdown without converting an
+active or forcibly terminated command into clean evidence.
 
 Prepare-only runner calls never touch provider authentication or make model calls:
 

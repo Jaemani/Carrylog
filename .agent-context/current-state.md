@@ -54,15 +54,17 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
   review returned GO for the offline repair and commit gate. From commit `f5f7ff4`, Codex passed again,
   while routed Claude failed closed because two MCP broker lifetimes overlapped in the sealed receipt
   stream. A reviewed tool-concurrency repair did not change that failure and was disproved.
-  The canary now requires each process's MCP broker and invocations to settle under the strict receipt
-  parser before starting the next permission profile. Independent review returned GO after all critical
-  settlement branches received regression coverage. Another clean commit remains required before rerun.
+  Commit `611a043` added the reviewed inter-profile settlement barrier. Codex passed; routed Claude
+  exposed only `gpt-5.6-sol` and completed the read-only exact tool sequence, but its MCP broker did not
+  write a terminal before the barrier timed out. The repair now settles a graceful broker signal only
+  after its request queue completes; forced termination remains unsettled. Critical digests were
+  refreshed, so both prerequisites remain pending. Active-signal coverage closed the first review's
+  NO-GO finding; independent re-review returned GO. Another clean commit is required before rerun.
 
 ## Blockers and risks
 
-- Both harness prerequisites are pending after the Claude broker-lifecycle repair. The last Codex
-  execution passed; the last Claude execution reached the registered route but the next process began
-  before the preceding MCP broker terminal was observable.
+- Both prerequisites are pending after the signal-settlement repair. The last Codex run passed; Claude
+  completed its read-only profile but timed out with one settled invocation set and one active broker.
 - The Claude surface is the native Claude Code executable
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
@@ -82,6 +84,5 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
 
 ## Next best task
 
-Commit the reviewed broker-settlement barrier, then run Codex first and native Claude through JM Router
-second from the new clean commit. Report any routed-model, stream, authentication, budget, tool, or
-receipt anomaly and prohibit freeze work until both exact prerequisites pass.
+Commit the reviewed signal-settlement repair, then rerun Codex and native Claude through JM Router
+from the new clean commit. Stop on any anomaly and prohibit freeze until both prerequisites pass.

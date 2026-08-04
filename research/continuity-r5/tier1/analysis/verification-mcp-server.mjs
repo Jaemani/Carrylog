@@ -91,6 +91,7 @@ const input = readline.createInterface({
   crlfDelay: Infinity,
 });
 let requestQueue = Promise.resolve();
+let brokerSettlement;
 input.on("line", (line) => {
   if (line.trim() === "") return;
   const message = JSON.parse(line);
@@ -102,22 +103,34 @@ input.on("line", (line) => {
     });
 });
 input.once("close", () => {
-  requestQueue
-    .then(() => {
-      appendVerificationRecord(
-        registry.receiptPath,
-        createVerificationBrokerRecord({
-          recordType: "broker-terminal",
-          brokerId,
-          registrySha256: expectedRegistrySha256,
-          executionMode: registry.execution.mode,
-        }),
-      );
-    })
-    .catch(() => {
-      process.exitCode = 1;
-    });
+  settleBroker().catch(() => {
+    process.exitCode = 1;
+  });
 });
+for (const signal of ["SIGTERM", "SIGHUP", "SIGINT"]) {
+  process.once(signal, () => {
+    input.close();
+    settleBroker().then(
+      () => process.exit(0),
+      () => process.exit(1),
+    );
+  });
+}
+
+function settleBroker() {
+  brokerSettlement ??= requestQueue.then(() => {
+    appendVerificationRecord(
+      registry.receiptPath,
+      createVerificationBrokerRecord({
+        recordType: "broker-terminal",
+        brokerId,
+        registrySha256: expectedRegistrySha256,
+        executionMode: registry.execution.mode,
+      }),
+    );
+  });
+  return brokerSettlement;
+}
 
 async function handle(message) {
   if (message.method === "notifications/initialized") return;

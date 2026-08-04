@@ -503,6 +503,26 @@ test("verification MCP exposes only frozen no-argument commands", async (context
     });
     assert.equal(receipts[2].commandId, "detached-write");
     assert.equal(receipts[2].exitStatus, 0);
+    const signalledSettlement = await observeMcpSignalSettlement(server, registryPath, receiptPath);
+    assert.equal(signalledSettlement.exitCode, 0);
+    assert.equal(signalledSettlement.signal, null);
+    assert.equal(signalledSettlement.stream.unsettledStarts.length, 0);
+    assert.equal(signalledSettlement.stream.unsettledBrokers.length, 0);
+    const activeSignalSettlement = await observeMcpActiveSignalSettlement(
+      server,
+      registryPath,
+      receiptPath,
+    );
+    assert.equal(activeSignalSettlement.exitCode, 0);
+    assert.equal(activeSignalSettlement.signal, null);
+    assert.equal(activeSignalSettlement.activeBrokerTerminals, 0);
+    assert.equal(activeSignalSettlement.activeInvocationUnsettled, true);
+    assert.equal(activeSignalSettlement.finalBrokerTerminals, 1);
+    assert.equal(activeSignalSettlement.finalInvocationTerminals, 1);
+    assert.equal(activeSignalSettlement.stream.unsettledStarts.length, 0);
+    assert.equal(activeSignalSettlement.stream.unsettledBrokers.length, 0);
+    assert.equal(activeSignalSettlement.invocationTerminal.processState, "timeout");
+    assert.equal(activeSignalSettlement.invocationTerminal.termination.escalationSent, true);
     const parentFailure = await observeMcpParentFailure(server, registryPath, receiptPath);
     assert.equal(parentFailure.unsettledInvocationsAfterParentExit, 1);
     assert.equal(parentFailure.unsettledBrokersAfterParentExit, 1);
@@ -1642,6 +1662,127 @@ async function invokeMcp(server, registry) {
   });
 }
 
+async function observeMcpActiveSignalSettlement(server, registry, receiptPath) {
+  const registryValue = JSON.parse(await readFile(registry, "utf8"));
+  const before = parseVerificationInvocationStream(await readFile(receiptPath, "utf8"));
+  const expectedBrokerCount =
+    before.records.filter((record) => record.recordType === "broker-start").length + 1;
+  const environment = { ...process.env };
+  environment.NODE_V8_COVERAGE = path.join(
+    registryValue.scratch.root,
+    "coverage-active-signal-settlement",
+  );
+  const child = spawn(process.execPath, [server], {
+    env: environment,
+    stdio: ["pipe", "pipe", "pipe"],
+  });
+  let stderr = "";
+  child.stdout.resume();
+  child.stderr.on("data", (chunk) => {
+    stderr += chunk.toString("utf8");
+  });
+  child.stdin.write(
+    `${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "verify_delayed", arguments: {} } })}\n`,
+  );
+  const started = await waitForReceiptState(receiptPath, (stream) => {
+    const brokerCount = stream.records.filter(
+      (record) => record.recordType === "broker-start",
+    ).length;
+    return (
+      brokerCount === expectedBrokerCount &&
+      stream.unsettledStarts.some((record) => record.commandId === "delayed")
+    );
+  });
+  const invocationStart = started.unsettledStarts.find((record) => record.commandId === "delayed");
+  assert.ok(invocationStart);
+  const brokerId = invocationStart.brokerId;
+  assert.equal(child.kill("SIGTERM"), true);
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  const active = parseVerificationInvocationStream(await readFile(receiptPath, "utf8"));
+  const activeBrokerTerminals = active.records.filter(
+    (record) => record.recordType === "broker-terminal" && record.brokerId === brokerId,
+  ).length;
+  const activeInvocationUnsettled = active.unsettledStarts.some(
+    (record) => record.invocationId === invocationStart.invocationId,
+  );
+  const exit = await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      child.kill("SIGKILL");
+      reject(new Error("signalled MCP broker did not settle its active request"));
+    }, 5_000);
+    child.once("exit", (code, signal) => {
+      clearTimeout(timer);
+      resolve({ code, signal });
+    });
+    child.once("error", (error) => {
+      clearTimeout(timer);
+      reject(error);
+    });
+  });
+  assert.equal(stderr, "");
+  const stream = parseVerificationInvocationStream(await readFile(receiptPath, "utf8"));
+  const invocationTerminals = stream.terminalReceipts.filter(
+    (record) => record.invocationId === invocationStart.invocationId,
+  );
+  return {
+    exitCode: exit.code,
+    signal: exit.signal,
+    activeBrokerTerminals,
+    activeInvocationUnsettled,
+    finalBrokerTerminals: stream.records.filter(
+      (record) => record.recordType === "broker-terminal" && record.brokerId === brokerId,
+    ).length,
+    finalInvocationTerminals: invocationTerminals.length,
+    invocationTerminal: invocationTerminals[0],
+    stream,
+  };
+}
+
+async function observeMcpSignalSettlement(server, registry, receiptPath) {
+  const registryValue = JSON.parse(await readFile(registry, "utf8"));
+  const before = parseVerificationInvocationStream(await readFile(receiptPath, "utf8"));
+  const expectedBrokerCount =
+    before.records.filter((record) => record.recordType === "broker-start").length + 1;
+  const expectedTerminalCount = before.terminalReceipts.length + 1;
+  const environment = { ...process.env };
+  environment.NODE_V8_COVERAGE = path.join(
+    registryValue.scratch.root,
+    "coverage-signal-settlement",
+  );
+  const child = spawn(process.execPath, [server], {
+    env: environment,
+    stdio: ["pipe", "pipe", "pipe"],
+  });
+  let stderr = "";
+  child.stdout.resume();
+  child.stderr.on("data", (chunk) => {
+    stderr += chunk.toString("utf8");
+  });
+  child.stdin.write(
+    `${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "verify_silent", arguments: {} } })}\n`,
+  );
+  await waitForReceiptState(receiptPath, (stream) => {
+    const brokerCount = stream.records.filter(
+      (record) => record.recordType === "broker-start",
+    ).length;
+    return (
+      brokerCount === expectedBrokerCount &&
+      stream.terminalReceipts.length === expectedTerminalCount
+    );
+  });
+  child.kill("SIGTERM");
+  const exit = await new Promise((resolve, reject) => {
+    child.once("exit", (code, signal) => resolve({ code, signal }));
+    child.once("error", reject);
+  });
+  assert.equal(stderr, "");
+  return {
+    exitCode: exit.code,
+    signal: exit.signal,
+    stream: parseVerificationInvocationStream(await readFile(receiptPath, "utf8")),
+  };
+}
+
 async function observeMcpParentFailure(server, registry, receiptPath) {
   const registryValue = JSON.parse(await readFile(registry, "utf8"));
   const environment = { ...process.env };
@@ -1663,7 +1804,7 @@ async function observeMcpParentFailure(server, registry, receiptPath) {
   const invocationId = started.unsettledStarts.find(
     (record) => record.commandId === "delayed",
   ).invocationId;
-  child.kill("SIGTERM");
+  child.kill("SIGKILL");
   await new Promise((resolve, reject) => {
     child.once("exit", resolve);
     child.once("error", reject);
