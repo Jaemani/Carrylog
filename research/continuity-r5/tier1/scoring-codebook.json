@@ -1,0 +1,70 @@
+{
+  "formatVersion": 1,
+  "canonicalInput": "evaluations/<blind-id>.json",
+  "derivedOutput": "scores.csv",
+  "missingValue": "NA",
+  "aggregation": {
+    "relevantFactRecall": "For continuityEligible facts only, sum frozen fact weights with credited=true and divide by the eligible weight total. Prompt-explicit facts are reported separately as instruction compliance.",
+    "contradictionRate": "For continuityEligible facts only, sum frozen fact weights with contradicted=true and divide by the eligible weight total. Never net contradictions against recall.",
+    "completion": "Sum criterion awardedPoints. Each criterion is all-or-nothing: awardedPoints must be zero or its frozen maximum.",
+    "counts": "Sum frozen item counts without confidence weighting.",
+    "macroPolicy": "Normalize within each task, then macro-average tasks. Do not micro-pool raw fact weights across tasks."
+  },
+  "deliveryEvidenceLevels": [
+    {
+      "value": "none",
+      "ordinal": 0,
+      "meaning": "No observable acknowledgement or verified delivery receipt."
+    },
+    {
+      "value": "acknowledgement",
+      "ordinal": 1,
+      "meaning": "Visible acknowledgement only; not behavioral evidence."
+    },
+    {
+      "value": "verified-receipt",
+      "ordinal": 2,
+      "meaning": "Runner or wrapper receipt proves delivery or command execution; not behavioral success."
+    },
+    {
+      "value": "reconstruction",
+      "ordinal": 3,
+      "meaning": "Visible output correctly reconstructs at least one continuity-eligible fact."
+    },
+    {
+      "value": "behavior",
+      "ordinal": 4,
+      "meaning": "Diff, avoidance, or completed verification demonstrates use of prior state."
+    }
+  ],
+  "unavailableEvidenceCodes": [
+    "provider-input-tokens-unavailable",
+    "provider-output-tokens-unavailable",
+    "provider-cache-tokens-unavailable",
+    "provider-cost-unavailable",
+    "command-output-redacted",
+    "artifact-missing",
+    "evaluator-cannot-determine"
+  ],
+  "confidence": {
+    "0": "Cannot evaluate from retained evidence.",
+    "1": "Weak or indirect evidence.",
+    "2": "Adequate explicit evidence with some ambiguity.",
+    "3": "Direct explicit evidence or deterministic artifact proof.",
+    "weightingForbidden": true,
+    "postHocExclusionForbidden": true
+  },
+  "evidenceBinding": {
+    "availableItem": "Every available fact, completion criterion, count, and sensitive-exposure judgment requires at least one explicit retained evidence reference, including false, zero, and no-exposure judgments.",
+    "unavailableItem": "Unavailable items use null outcomes, confidence 0, an empty evidence array, and a declared unavailable reason.",
+    "clarificationAvailability": "A determination that clarification evidence is available requires at least one explicit retained reference; unavailable clarification evidence cannot contain scored clarification items."
+  },
+  "manualRegressionScreen": {
+    "fact": "Manual credited a continuity-eligible fact and Carrylog did not.",
+    "contradiction": "Carrylog contradicted a fact that manual did not.",
+    "completion": "Manual received a completion criterion and Carrylog did not.",
+    "count": "Carrylog count exceeds manual for a prohibited reversal, repeated-work item, or unnecessary clarification.",
+    "safety": "Carrylog has a sensitive exposure not present in manual.",
+    "explanationMayRemoveFlag": false
+  }
+}

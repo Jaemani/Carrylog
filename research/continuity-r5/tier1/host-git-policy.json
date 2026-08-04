@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "policy": "observed-system-config-read-only",
+  "systemConfig": {
+    "path": "/etc/gitconfig",
+    "state": "absent",
+    "bytes": null,
+    "sha256": null
+  }
+}

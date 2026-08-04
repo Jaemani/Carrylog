@@ -2,9 +2,9 @@
 
 ## Active objective
 
-Turn the reviewed repository-discovery prototype into an attempt-5 draft without changing frozen
-attempts 1 through 4. Require a new experiment identity, complete registry/wrapper integration, and
-fresh review gates before any provider execution.
+Stabilize and independently review the unfrozen attempt-5 continuity pilot, commit its offline draft,
+then run the exact authenticated Codex and native-Claude-through-JM-Router prerequisites before any
+freeze digest, manifest, or scored provider execution.
 
 ## Implemented and verified
 
@@ -18,64 +18,65 @@ fresh review gates before any provider execution.
   gates, checkpoint settlement, generated-artifact EOL equivalence, and bounded handoff path evidence.
 - Immutable beta.7 passed the full Node 22/24 and three-OS matrices, protected OIDC publication,
   registry digest and provenance verification, isolated consumers, signature audit, and a fresh
-  checkpoint lifecycle. Exact measurements remain in the engineering log.
-- Handoff path examples now obey both a 200-entry cap and a 1,024-character rendered-evidence cap
-  while preserving complete aggregate counts and explicit omission.
-- A separate non-scored repository-discovery prototype defines `none`, direct `repository`, and
-  `repository-discovery` execution policies without changing the shipped runtime or frozen studies.
-- Its macOS live canary simultaneously proves outer gitfile discovery, nested Git independence,
-  read-only external metadata, immutable outer gitfile identity, external-symlink write denial, and
-  localhost denial. The exact five Git-backed continuity cases that failed in attempt 4 pass.
+  checkpoint lifecycle. Exact release measurements remain in the engineering log.
+- The separately committed repository-discovery prototype defines `none`, direct `repository`, and
+  `repository-discovery`. Its macOS canary proves outer gitfile discovery, nested Git independence,
+  read-only external metadata, immutable gitfile identity, external-symlink write denial, localhost
+  denial, and all five Git-backed cases that failed in attempt 4.
 
 ## In progress
 
 - Attempts 1 and 2 remain immutable aborted bootstrap evidence. Attempt 3 is frozen at `b72127e`; it
-  stopped after 11 scored runs and one reviewed delivery failure because Carrylog surfaces were not
-  synchronized and non-Git verification inherited detached Git selection.
-- Attempt 4 is frozen at `88f6427` with suite digest
-  `02e226886d1a7d99833f243ed686f809d20a23e6b3d2efdb78a7a57a5cb58ef5`. Both authenticated
-  prerequisites and two exact-digest reviews passed before the permanent first-ADD manifest boundary.
-- Its preregistered first six verification-readiness runs completed across Codex and routed Claude,
-  all three conditions, privacy review, and blind evaluation. Analysis reconciles six scored and 54
-  not-started runs with no protocol diagnostic, exclusion, sensitive exposure, prohibited reversal,
-  repeated work, or unnecessary clarification.
-- Codex Carrylog and manual handoff each reconstructed all facts and scored 10/10; repository-only
-  contradicted all three resource limits and scored 4/10. Routed Claude repository-only scored 10/10;
-  Carrylog and manual each omitted two explicit evidence-limit qualifications and scored 8/10.
-- Every one of the six runs reported the same focused-test result: 11 of 16 passed and five Git-backed
-  cases failed with `E_NOT_GIT_REPOSITORY` or consequent mismatches. The binary `gitContext` repair
-  removed inherited `GIT_DIR`/`GIT_WORK_TREE`, but it also made the outer detached fixture
-  undiscoverable to Node tests. Remaining runs are stopped rather than measuring this harness ceiling.
-- The Personal Context dogfood remains one external reconstruction example, not a controlled proof of
-  universal continuity, transcript replay, repeated switching, or compaction value.
-- The successor boundary's pure and live tests pass 9/9 and independent review returned GO with no
-  blocking finding. Repository-wide quality and active research gates pass after the final guards.
+  stopped after 11 scored runs and one reviewed delivery failure. Attempt 4 is frozen at `88f6427`;
+  it stopped after six scored repair-screen runs exposed a condition-independent Git-discovery ceiling.
+- Attempt 5 is an uncommitted, unscored draft in `research/continuity-r5`. It has a new namespace,
+  run order, blind identities, pending prerequisites, and empty result surfaces. No manifest,
+  attestation, earlier result, or frozen identity was copied.
+- The draft integrates all three Git policies across registry, wrapper, MCP broker, Seatbelt profiles,
+  authenticated canaries, and prepare-only screen commands. Host `/etc/gitconfig` state and every
+  copied verification-support program are digest-bound.
+- Verification uses bounded combined output, POSIX process-group SIGTERM/SIGKILL escalation, a final
+  completion bound, and protocol-fatal handling for forced completion or signal-delivery failure.
+- Receipt format 5 records explicit direct-screen or broker-owned invocation lifecycles. An MCP
+  invocation can start and terminate only inside the same live broker; direct and broker records
+  cannot mix. The stream then seals its prior record count, byte count, and SHA-256. The monitor
+  retains the complete observed prefix;
+  truncation, rewriting, missing streams, late records, and unsettled lifecycles fail before evidence
+  capture.
+- Verification checkouts are read-only while scratch remains writable. Python bytecode and pytest
+  cache state go to scratch or are disabled, and the registry binds the canonical macOS timezone root
+  used through `PYTHONTZPATH` rather than relying on a denied system symlink.
+- Review findings to date produced fixes for authenticated discovery coverage, correct silent MCP
+  success, forced-containment abort, broker and invocation settlement, sealed append-only history,
+  failure-path protocol promotion, late detached-child workspace writes, and broker/invocation
+  nesting. Independent re-review returned GO over the corrected 150-file Attempt-5 surface.
+- The attempt-5 suite passes 116/116 and the active suite passes 125/125. The non-authenticated
+  isolation canary passes. Offline screens pass Carrylog continuity 16/16, BusyCafe focused pytest
+  22/22, and BusyCafe compileall with no output. Final `npm run quality`, `npm run pack:check`, and
+  `npm run test:package` all exit successfully on the reviewed draft.
 
 ## Blockers and risks
 
-- The boundary is not yet integrated into a successor registry, validator, wrapper, fixture setup,
-  authenticated canary, or frozen verification-command surface. The prototype alone does not
-  authorize attempt-5 provider calls.
-- A scored successor must bind `/etc/gitconfig` state or release an explicit product-level Git
-  configuration policy. Its process helper must add timeout state, grace-period `SIGKILL`, and output
-  bounds rather than copying the prototype helper unchanged.
-- Attempt 4's favorable Codex contrast and unfavorable routed-Claude contrast are one item each and
-  are not product claims. Claude used a GPT-backed Anthropic-compatible route, not an independent
-  model-family replication, and its reported zero input/cache tokens are unavailable evidence.
+- The reviewed draft must be checkpointed and committed before authenticated prerequisites run.
+- Both harness prerequisites are pending. The Claude surface is the native Claude Code executable
+  with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
+  it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
+- The candidate remains `status: draft`. A commit, two passed authenticated canaries, frozen status,
+  two exact-digest GO attestations, and a permanent first-ADD manifest commit are all still required
+  before a scored provider run.
+- An escaped process may survive its original process group. Seatbelt denies network and checkout
+  writes while permitting only bound scratch writes; unsettled or forced receipt state prevents the
+  process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
+- Attempt 4's observed contrasts are one item per harness and are not product claims. Routed Claude is
+  GPT-backed, not independent model-family replication, and its token accounting remains unavailable.
 - Cross-harness behavioral continuity, repeated-switch retention, conversation reconstruction,
-  journaling, and compaction value remain unproven and outside the supported runtime.
-- Cursor CLI and wider external adoption evidence remain unavailable. Automated resume still requires
-  a compatible source build, project-pinned install, or global install; Skills never download or
-  upgrade Carrylog implicitly.
+  journaling, compaction value, Cursor CLI behavior, and wider external adoption remain unproven.
 - Sequential cross-file rename, final executable-check-to-spawn TOCTOU, Windows reparse/hard-link
   depth, sparse/large-index settlement limits, and stale abnormal-termination locks remain explicit
-  residual risks.
-- npmjs.org does not allow removing `latest`; beta.4 remains the bare-install bootstrap until stable,
-  while explicit `@beta` resolves to beta.7.
+  product or research residual risks.
 
 ## Next best task
 
-Commit the reviewed non-scored boundary independently. Then create an unfrozen attempt-5 draft with a
-new namespace and identities, integrate `repository-discovery` across every digest-bound execution
-surface, and rerun only offline structural, isolation, and preparation gates before seeking two new
-exact-digest reviews.
+Update the checkpoint and commit the reviewed attempt-5 draft. Only from that clean commit run the
+authenticated Codex and native-Claude-through-JM-Router canaries, reporting any routed-Claude model,
+catalog, stream, authentication, or tool-use anomaly before considering a freeze.

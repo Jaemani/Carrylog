@@ -73,11 +73,20 @@ even when provenance is disabled. Release-artifact tests reject ambiguous select
 mismatch, unsafe filenames, non-regular artifacts, and digest drift before npm can run.
 
 The Tier 1 verification broker targets macOS Seatbelt. Its pure registry, permission, POSIX PATH,
-receipt, and parser contracts run on every supported CI operating system. The two tests that execute
+receipt-ledger, and parser contracts run on every supported CI operating system. Receipt format 5
+tests bind each MCP invocation's explicit origin and broker ID to one live broker, bind starts to
+matching terminals, require a final count/byte/digest seal,
+and reject partial, duplicate, mismatched, missing, rewritten, truncated, late, or unsettled streams.
+A repeated process-level regression kills the MCP parent after an invocation start and accepts either
+a late wrapper terminal or a permanently unsettled invocation only as fail-closed evidence; its broker
+must remain unsettled. The two tests that execute
 `sandbox-exec` run only on macOS, where the required runtime exists; Linux and Windows report those
 capability-specific integrations as skipped rather than attempting to emulate a different security
 boundary. Project-local executable selection remains a product-level cross-platform process test,
 including Windows directory junctions, dereferenced target type, and dangling-target rejection.
+The live MCP contract also proves that a detached descendant can write only to verification scratch,
+not to the read-only checkout after its supervised parent exits. Offline BusyCafe screens cover both
+pytest and compileall with bytecode/cache redirection and the registry-bound physical timezone root.
 The separate non-scored repository-discovery prototype adds pure three-policy contracts on every
 platform and one macOS live canary. That canary uses a fresh external-git-dir clone and replays the
 five Git-backed continuity cases that failed in Tier 1 attempt 4 while also checking nested Git,
@@ -152,8 +161,8 @@ Every feature review should consider combinations from these dimensions:
 4. the complete Node test suite;
 5. coverage thresholds of 90% lines, 90% functions, and 85% branches.
 
-The active research portion also runs the immutable attempt-4 contract suite plus the non-scored
-repository-discovery contract. Its live Seatbelt case runs on macOS and is explicitly skipped on
+The active research portion runs the unfrozen attempt-5 contract suite plus the separately committed
+non-scored repository-discovery contract. Its live Seatbelt case runs on macOS and is explicitly skipped on
 other operating systems.
 
 `npm run pack:check` separately inspects the npm artifact. `npm run release:verify` adds dogfood

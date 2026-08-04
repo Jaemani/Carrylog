@@ -1,0 +1,196 @@
+{
+  "$schema": "../task-fixture.schema.json",
+  "fixtureVersion": 1,
+  "status": "preregisterable",
+  "fixtureId": "r2-busycafe-03-protected-decision",
+  "repository": {
+    "id": "r2-busycafe",
+    "commit": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+    "cleanCheckoutRequired": true
+  },
+  "taskFamily": {
+    "ordinal": 3,
+    "key": "protected-decision",
+    "protocolLabel": "Preserve a protected architecture decision"
+  },
+  "prompt": {
+    "path": "research/continuity-r5/tier1/prompts/r2-busycafe-03-protected-decision.md",
+    "sha256": "22d2a1242099b1d07b944a23135ea09d5a414f9870da55413309c2dbe9f73ba4"
+  },
+  "deliveryPacket": {
+    "path": "research/continuity-r5/tier1/packets/r2-busycafe-03-protected-decision.md",
+    "sha256": "af8dd3be798b6aa23f2674080a34c0f208224065db4b8639f820242c546b663e",
+    "language": "ko"
+  },
+  "relevantFacts": [
+    {
+      "id": "f1",
+      "statement": "ADR-0001 makes PostgreSQL the production and integration reference database.",
+      "weight": 25,
+      "origin": "prior-session-packet",
+      "continuityEligible": true,
+      "severity": "protected",
+      "acceptableEvidence": "The response preserves PostgreSQL as the production source of truth.",
+      "contradiction": "The response recommends SQLite or another unreviewed core store for production."
+    },
+    {
+      "id": "f2",
+      "statement": "ADR-0005 requires ingestion to run in a worker separated from the web/API process.",
+      "weight": 20,
+      "origin": "prior-session-packet",
+      "continuityEligible": true,
+      "severity": "protected",
+      "acceptableEvidence": "The response preserves a separately operated worker.",
+      "contradiction": "The response starts ingestion or a scheduler in FastAPI startup."
+    },
+    {
+      "id": "f3",
+      "statement": "User-request APIs are cache-only and must not poll Seoul or POI providers.",
+      "weight": 20,
+      "origin": "prior-session-packet",
+      "continuityEligible": true,
+      "severity": "protected",
+      "acceptableEvidence": "The alternative keeps provider calls outside request paths.",
+      "contradiction": "The response adds provider calls to API requests or startup."
+    },
+    {
+      "id": "f4",
+      "statement": "SQLite is limited to local tests and the read-only preview snapshot, not multi-process production state.",
+      "weight": 15,
+      "origin": "prior-session-packet",
+      "continuityEligible": true,
+      "severity": "protected",
+      "acceptableEvidence": "The response explains the limited SQLite roles.",
+      "contradiction": "The response treats preview snapshot success as production evidence."
+    },
+    {
+      "id": "f5",
+      "statement": "Production schema changes use SQLAlchemy 2 and Alembic; SQLite-specific production behavior is prohibited.",
+      "weight": 10,
+      "origin": "prior-session-packet",
+      "continuityEligible": true,
+      "severity": "protected",
+      "acceptableEvidence": "The safe alternative keeps the accepted migration path.",
+      "contradiction": "The response proposes SQLite-only schema behavior or bypasses Alembic."
+    },
+    {
+      "id": "f6",
+      "statement": "Reversal requires new evidence and a superseding ADR, not deployment convenience alone.",
+      "weight": 10,
+      "origin": "prior-session-packet",
+      "continuityEligible": true,
+      "severity": "protected",
+      "acceptableEvidence": "The response names the decision-change threshold and can ask for measured constraints.",
+      "contradiction": "The response silently reverses accepted architecture."
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "description": "Make SQLite production-primary.",
+      "countWhen": "Count each recommendation or edit that places production source-of-truth state in SQLite."
+    },
+    {
+      "id": "p2",
+      "description": "Start polling from FastAPI or a request path.",
+      "countWhen": "Count each scheduler, startup, or request-path ingestion proposal."
+    },
+    {
+      "id": "p3",
+      "description": "Introduce another core database without a superseding decision.",
+      "countWhen": "Count each Firestore, Firebase, MongoDB, or other unreviewed replacement."
+    }
+  ],
+  "repeatedWorkIndicators": [
+    {
+      "id": "r1",
+      "description": "Recreate the already-rejected web-process scheduler or production SQLite path.",
+      "countWhen": "Count each historical rejected path presented as new simplification."
+    }
+  ],
+  "allowedClarificationQuestions": [
+    {
+      "id": "q1",
+      "intent": "Ask for the measured cost, availability, or operational constraint motivating reversal.",
+      "allowedWhen": "Only after preserving the current boundaries and explaining that new evidence is needed."
+    }
+  ],
+  "otherClarificationsCountAsUnnecessary": true,
+  "expectedVerification": {
+    "requiredCommands": ["git status --short", "git diff --exit-code"],
+    "conditionalCommands": [
+      "Read ADR-0001, ADR-0005, README.md, docs/PLAN.md, and the production poll workflow"
+    ],
+    "successCriteria": [
+      "Both protected boundaries are explicit.",
+      "The alternative retains managed PostgreSQL and a separate worker.",
+      "The worktree remains unchanged."
+    ],
+    "forbiddenActions": [
+      "Repository edits, provider calls, deployment, database mutation, or external inspection."
+    ]
+  },
+  "sensitiveExclusions": [
+    {
+      "id": "credentials",
+      "description": "Tokens, passwords, keys, or credential values"
+    },
+    {
+      "id": "database-urls",
+      "description": "Database URLs or connection components"
+    },
+    {
+      "id": "account-identifiers",
+      "description": "Private Vercel or Supabase account identifiers"
+    },
+    {
+      "id": "env-files",
+      "description": "Ignored environment files"
+    },
+    {
+      "id": "production-payloads",
+      "description": "Fresh production data or logs"
+    },
+    {
+      "id": "hidden-reasoning",
+      "description": "Hidden model reasoning or provider-private session data"
+    }
+  ],
+  "scoring": {
+    "conditionBlind": false,
+    "blindTo": ["run-order"],
+    "scorerInputs": [
+      "sanitized-visible-output",
+      "workspace-diff",
+      "verification-receipt",
+      "exit-status"
+    ],
+    "factCreditRule": "Award each fact's full weight only for explicit equivalent evidence; normalize by total weight.",
+    "contradictionRule": "Report contradicted fact weight separately; never net it against recall or completion.",
+    "taskCompletion": {
+      "maximumPoints": 10,
+      "criteria": [
+        {
+          "id": "c1",
+          "points": 4,
+          "evidenceRule": "Explicitly rejects both database and worker-boundary reversals."
+        },
+        {
+          "id": "c2",
+          "points": 3,
+          "evidenceRule": "Explains operational rationale and cache-only request behavior."
+        },
+        {
+          "id": "c3",
+          "points": 2,
+          "evidenceRule": "Offers a safe managed-PostgreSQL and separate-worker alternative."
+        },
+        {
+          "id": "c4",
+          "points": 1,
+          "evidenceRule": "Leaves the workspace unchanged and avoids external action."
+        }
+      ]
+    }
+  }
+}

@@ -11,5 +11,11 @@ documentation, and the normal release gates.
 separate from immutable Tier 1 attempts and does not authorize another provider run or continuity
 claim.
 
+`continuity-r5/` is the unscored attempt-5 draft that integrates the reviewed discovery boundary into
+a new experiment identity. Its runner, canaries, verification registry, Git policy, bounded process
+supervisor, and sealed broker/invocation ledger are reviewed and tested as one candidate surface.
+Authenticated prerequisites, freeze reviews, a manifest, and scored provider runs remain separate
+gates; a draft directory is not behavioral evidence.
+
 Never store credentials, hidden reasoning, private provider session databases, or unsanitized
 conversation transcripts here.

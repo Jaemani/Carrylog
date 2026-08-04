@@ -1975,3 +1975,78 @@ tests. Final package dry-run reports 155 files and 193,579 bytes, and the full l
 global, ESM, strict-types, migration, init, validation, checkpoint, and resume smoke passes. No
 provider call was made, attempts 1 through 4 were not modified, and this evidence does not authorize
 a continuity claim or a scored attempt by itself.
+
+## 2026-08-02 — Attempt 5 integrated discovery and closed verifier settlement races
+
+Attempt 5 was created under `research/continuity-r5` with new run order, blind identities, pending
+prerequisites, empty result surfaces, and no copied manifest or review attestation. Attempts 1 through
+4 remain unchanged. The draft integrates `none`, direct `repository`, and
+`repository-discovery` across the registry, wrapper, MCP broker, Seatbelt profiles, canaries, and
+screen command. It also binds observed `/etc/gitconfig` state, removes inherited repository-selection
+variables from discovery children, preserves nested Git independence, and retains read-only access to
+the canonical outer gitfile and metadata only where the command contract requires it.
+
+The first independent review returned NO-GO for three process-boundary defects: termination reached
+only the direct child group, authenticated canaries did not traverse repository discovery, and the
+MCP rendered a successful silent command as exit 1. The supervisor now owns a POSIX process group,
+escalates from SIGTERM to SIGKILL, applies a final completion bound when descendants retain inherited
+pipes, and records received versus retained output digests. Both authenticated canaries include the
+discovery command, and silent success renders exit 0. Regression coverage includes ordinary
+descendants, escaped inherited pipes, discovery invariants, and the actual MCP silent-command path.
+
+A second review found that a verifier escaping into a new session could outlive forced supervisor
+completion. `completionForced` and signal-delivery failure therefore became protocol-fatal: the live
+monitor aborts the provider harness, forbids workspace-diff and blinded-artifact publication, forces
+fixture removal even under `--keep`, and retains only bounded failure evidence. This does not claim
+that Seatbelt kills an arbitrary new session; it prevents uncertain process activity from entering a
+score.
+
+A third review found that terminal-only receipts could not distinguish no command from a detached
+wrapper still in flight after an MCP or provider parent failure. Later review reproduced three more
+settlement races: the monitor did not remember an earlier prefix, a normally exiting verifier could
+leave a detached descendant that wrote to the checkout after evidence capture, and an MCP process
+could begin after monitor shutdown. Receipt format 5 now records broker and invocation lifecycles and
+appends a final seal over the prior record count, byte count, and SHA-256. The monitor retains the
+complete observed prefix, and successful evidence requires a readable sealed stream with every
+lifecycle settled. Missing, truncated, rewritten, partial, duplicate, mismatched, late, or unsettled
+history is protocol-fatal. Verification checkouts are read-only while a separate scratch remains
+writable; a live macOS regression proves that this restriction is inherited by a detached descendant.
+
+The first BusyCafe offline screen exposed another real boundary defect. Pytest passed outside
+Seatbelt but failed inside it because Python followed `/usr/share/zoneinfo` through a macOS system
+symlink that the sandbox denied. Granting the logical path did not help, while the canonical physical
+versioned directory was readable. The registry now binds that physical directory and supplies it as
+`PYTHONTZPATH`. Python bytecode is redirected to scratch and pytest's cache provider is disabled.
+After the fix, the same sealed offline cache passes 22 focused tests and compileall exits zero without
+output; the Carrylog continuity screen remains 16/16 with receipt format 5.
+
+The first quiescent review returned one further NO-GO: the parser counted broker and invocation
+lifecycle settlement independently, so a syntactically sealed
+`broker-start → start → broker-terminal → terminal → seal` stream could pass. Invocation records now
+carry an explicit `origin` and `brokerId`. MCP invocation starts and terminals require the same live
+broker, a broker cannot terminate while one of its invocations is unsettled, brokers cannot overlap,
+and direct screens use a null broker ID in a broker-free stream. Malformed-order, missing-broker,
+mixed-origin, and invalid-ownership regressions cover the rejected paths without pretending that a
+prepare-only direct screen is an MCP broker.
+
+The attempt-5 suite now passes 116/116 and the active suite passes 125/125. Five repeated MCP
+parent-failure regressions complete without a flaky authorization path, the non-authenticated
+isolation canary passes, and harness-critical digests are current. Both authenticated prerequisites
+remain pending. No provider call, freeze operation, manifest creation, or scored run occurred during
+this work. Product quality, package dry-run, and package smoke are intentionally rerun only after the
+final code and documentation review surface stops changing.
+
+## 2026-08-04 — Attempt 5 offline draft received independent GO
+
+The corrected receipt ownership contract received independent GO over 150 Attempt-5 files. The
+reviewer recomputed aggregate SHA-256
+`1aebc353cd626f28e232e1182bd9dfee97a76e284dbcda82fe059a727ba0f922`, reran the focused receipt
+contracts, the complete 116-test Attempt-5 suite, the 125-test active research suite, structural
+validation, deterministic order, the non-authenticated isolation canary, and `git diff --check`.
+No provider or authenticated canary ran during review.
+
+After the review surface stopped changing, `npm run quality`, `npm run pack:check`, and
+`npm run test:package` all exited successfully. Harness-critical bindings remain current and both
+authenticated prerequisites remain pending. The next boundary is an ordinary draft commit followed
+by canaries from that clean commit; this GO is not a freeze attestation, behavioral result, or scored
+provider evidence.

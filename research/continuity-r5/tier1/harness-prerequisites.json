@@ -1,0 +1,88 @@
+{
+  "formatVersion": 1,
+  "harnessConfigurationSha256": "88e5cb0a3e7a62d88459e2207c88677a99cce123c05863358e085264e2d1e7ce",
+  "criticalFiles": [
+    {
+      "path": "analysis/claude-router-auth.mjs",
+      "sha256": "47353aadaeaed82422b36fe40daa63057a39b1a9825fd235ec370e5331c779ce"
+    },
+    {
+      "path": "analysis/codex-executable.mjs",
+      "sha256": "87b59e2ed8eb9a209750daff933f3828853becbd7161196857ad143973d5d743"
+    },
+    {
+      "path": "analysis/fixture-command-wrapper.mjs",
+      "sha256": "655d196ae5cb4aa0d64bebe08d0b36ed79bd5211568f02cbd4eb65f6e3e61c92"
+    },
+    {
+      "path": "analysis/harness-contract.mjs",
+      "sha256": "1e672475743a65019b338cb1ff7d6e771c38f057e79160d5d36951bd10e9ad4d"
+    },
+    {
+      "path": "analysis/harness-isolation-canary.mjs",
+      "sha256": "df57619272c423e832100fd2f098b2e4d61d6d58b84b53d4b3c31bb1a744a36c"
+    },
+    {
+      "path": "analysis/harness-prerequisites.mjs",
+      "sha256": "3085fce19233bc0c616f7c161cac6ffa42805105b729c8e46aee8477125697d6"
+    },
+    {
+      "path": "analysis/host-git-policy.mjs",
+      "sha256": "816a75d07be748f43a0c59df338e119146637f0c9b117f602504f4488e653be2"
+    },
+    {
+      "path": "analysis/pilot-boundaries.mjs",
+      "sha256": "6c0eb8b64abedbcc4604e0a7d504bb2f195d47e3ac8df6be687d168ef8b61866"
+    },
+    {
+      "path": "analysis/process-supervisor.mjs",
+      "sha256": "0c464ee28bc24d2b39ede24b714906d268ac0f6a9af090aa99d75626ca96f298"
+    },
+    {
+      "path": "analysis/run-contract.mjs",
+      "sha256": "8a79ba87c0d26bcb1afe053634433ad2991b3bd277486ede51ee00d792738373"
+    },
+    {
+      "path": "analysis/run.mjs",
+      "sha256": "28246154cb17ffaf404e75081b2e66eea725045744b32fe0b346b1870cd98438"
+    },
+    {
+      "path": "analysis/verification-mcp-server.mjs",
+      "sha256": "b25e51935718439aedd9faa9007e6fb50bb09bf3a5d4766f096a89e03461228f"
+    },
+    {
+      "path": "analysis/verification-receipt-protocol.mjs",
+      "sha256": "0a2fbeab241635a3b02a0c8fefb78333b95159a25cc2dec54c7994534b2126f4"
+    },
+    {
+      "path": "analysis/verification-support.mjs",
+      "sha256": "3470b36f2e6df9628d8f309337750f328ca087bd2389a82fc162baf9e7425a0e"
+    },
+    {
+      "path": "host-git-policy.json",
+      "sha256": "8b8d7860c88baed5015204f0f711dba6326e491368504b2a94845289969c41a1"
+    },
+    {
+      "path": "verification-commands.json",
+      "sha256": "61e5e7fe209d853559843a31e60c9eede3bccae6115c35019b84d037245937e5"
+    }
+  ],
+  "harnesses": {
+    "codex": {
+      "status": "pending",
+      "testedAt": null,
+      "cliVersion": null,
+      "model": null,
+      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
+      "resultSha256": null
+    },
+    "claude": {
+      "status": "pending",
+      "testedAt": null,
+      "cliVersion": null,
+      "model": null,
+      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
+      "resultSha256": null
+    }
+  }
+}
