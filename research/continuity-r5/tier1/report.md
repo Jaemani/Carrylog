@@ -1,6 +1,6 @@
 # Tier 1 continuity pilot attempt-5 frozen-candidate report
 
-- Status: Frozen; not executed
+- Status: Frozen; preparation complete; not executed
 - Permanent freeze commit: `ec27f44924749a84bb53a84d71f8408f9cb6de68`
 - Review digest: `2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573`
 - Independent GO attestations: 2 / 2
@@ -20,10 +20,12 @@ diagnostic. Runs will not be replaced silently.
 Pending execution. Delivery receipts, acknowledgement, reconstruction, behavior, verification
 receipts, latency, tokens, cost, evaluator confidence, and unavailable-evidence reasons will be
 reported separately. Missing evidence will remain null rather than being scored as zero.
-Both authenticated canaries pass for the exact frozen harness-critical bytes. Remaining gates are
-two matching GO reviews, manifest creation, the permanent first-ADD freeze commit, and its post-commit
-check. Retained prerequisite evidence contains only safe summaries, versions, timestamps, and result
-digests—not raw canary output or credentials.
+Both authenticated canaries pass for the exact frozen harness-critical bytes. Two matching GO reviews,
+manifest creation, the permanent first-ADD freeze commit, and its post-commit check are complete.
+Dedicated Carrylog and BusyCafe caches passed cold population, and all 60 cells passed sealed offline
+preparation without provider authentication or execution. Retained prerequisite evidence contains only
+safe summaries, versions, timestamps, and result digests—not raw canary output or credentials. Starting
+the scored batch remains subject to explicit cost and time authorization.
 
 ## Descriptive results by harness
 

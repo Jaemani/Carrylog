@@ -2237,3 +2237,25 @@ eligible for scored preparation, but no scored provider execution has begun. The
 subscription usage and wall time remain separate. With a 900-second per-run timeout, the serial
 worst-case execution bound is 15 hours before review/evaluation overhead. Local setup cache and the
 required temporary bare BusyCafe source are not yet configured.
+
+## 2026-08-04 — Attempt 5 completed deterministic provider-free preparation
+
+Two dedicated owner-only cache roots under `/tmp` were populated once: Carrylog from frozen run
+`t1-001` and BusyCafe from frozen run `t1-010`. BusyCafe used a separately created bare source under
+the same system-temporary boundary; the existing BusyCafe worktree was neither accessed nor modified.
+The ready receipts bind tool-tree SHA-256 values
+`bc6a4263eb80f4d87c91b4548ed21b9bc3b48d301eaa507dcfa42653199a3808` for Carrylog and
+`648fe9f84b100ae805b9e4e692ccc09d3254d53f0291cad3523617f94aa48f38` for BusyCafe.
+
+A fresh ordered pass then prepared all 60 frozen cells from sealed offline reuse without `--execute`.
+Every result reported authentication staging as false. Carrylog and BusyCafe source trees were
+`69b978b3e5f3fe02c927a25b390afec693f8d4d4` and
+`826f6da85498720f3c6d37963f1765e4c7243613`; the tool trees matched their ready receipts. Observed
+preparation latency ranged from 2,243 to 5,180 milliseconds on this macOS host. The freeze check still
+accepted suite digest `cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`
+at permanent first-ADD commit `ec27f44924749a84bb53a84d71f8408f9cb6de68`.
+
+This establishes deterministic fixture readiness only. Scored execution remains 0/60; no model call,
+provider authentication, continuity result, conversation reconstruction result, or compaction result
+is inferred. Starting the batch still requires explicit authorization for the USD 22.50 Claude cap,
+30 Codex subscription runs, and the 15-hour serial timeout ceiling before review overhead.

@@ -2,8 +2,8 @@
 
 ## Active objective
 
-Prepare deterministic Carrylog and BusyCafe fixtures for frozen Attempt 5 without provider execution,
-then quantify and authorize the scored 60-run batch before starting it.
+Preserve the verified Attempt-5 preparation boundary, then obtain explicit authorization for the
+costed and time-bounded scored 60-run batch before starting provider execution.
 
 ## Implemented and verified
 
@@ -37,31 +37,16 @@ then quantify and authorize the scored 60-run batch before starting it.
 - The current candidate passes the attempt-5 suite at 122/122, active research at 131/131, the isolation
   canary, Carrylog continuity at 16/16, BusyCafe pytest at 22/22, BusyCafe compileall, product quality,
   package inspection, and package smoke.
-- The reviewed offline draft was checkpointed and committed at `844a456`. The first authenticated
-  Codex canary reached the model but exposed zero verification tools and remained pending. Claude
-  stopped before provider access because host `PATH` selected the JM Router launcher instead of the
-  preregistered native binary.
-- The current repair resolves native Claude from host `~/.local/bin/claude` independently of `PATH`,
-  verifies its target digest, and retains bounded redacted Codex stderr. Independent review found the
-  Codex broker was enabled but not required; the shared invocation now sets `required=true` so startup
-  failure terminates both canary and scored clients. Re-review returned GO and the repaired Codex
-  canary passed. Routed Claude then resolved only `gpt-5.6-sol` and completed one Read before its stale
-  USD 0.05 cap triggered. A rejected first correction would have applied USD 0.75 independently to nine
-  processes. A second single-session design bounded spend but failed to cover the scored read-only
-  permission profile. The revised canary uses a USD 0.55 read-only process and a USD 0.20 writable
-  process, fixes the aggregate ceiling at USD 0.75, and rejects every model-less or unregistered
-  assistant response. This critical-byte change reset both prerequisites to pending. Independent
-  review returned GO for the offline repair and commit gate. From commit `f5f7ff4`, Codex passed again,
-  while routed Claude failed closed because two MCP broker lifetimes overlapped in the sealed receipt
-  stream. A reviewed tool-concurrency repair did not change that failure and was disproved.
-  Commit `611a043` added the reviewed inter-profile settlement barrier. Codex passed; routed Claude
-  exposed only `gpt-5.6-sol` and completed the read-only exact tool sequence, but its MCP broker did not
-  write a terminal before the barrier timed out. The repair now settles a graceful broker signal only
-  after its request queue completes; forced termination remains unsettled. Critical digests were
-  refreshed. Active-signal coverage closed the first review's NO-GO finding; independent re-review
-  returned GO. From clean commit `65bb802`, Codex CLI 0.146.0 and native Claude Code 2.1.220 through
-  JM Router both passed their exact authenticated prerequisites on `gpt-5.6-sol`. Claude completed
-  both permission profiles and the inter-profile broker settled. Freeze work is now eligible.
+- Dedicated owner-only temporary caches were populated once for Carrylog and BusyCafe. All 60 frozen
+  cells then passed sealed offline preparation without provider authentication or execution. Carrylog
+  and BusyCafe source trees resolved to `69b978b3…93f8d4d4` and `826f6da8…7243613`;
+  installed-tool trees resolved to `bc6a4263…aa48f38` and `648fe9f8…aa48f38`. The existing BusyCafe
+  worktree was not accessed or modified.
+- Canary failures, rejected budget/concurrency hypotheses, and broker-settlement repairs are preserved
+  chronologically in the engineering log rather than duplicated in always-loaded context.
+- From clean commit `65bb802`, Codex CLI 0.146.0 and native Claude Code 2.1.220 through JM Router passed
+  their exact authenticated prerequisites on `gpt-5.6-sol`. Claude completed both permission profiles
+  and the inter-profile broker settled.
 
 ## Blockers and risks
 
@@ -70,12 +55,11 @@ then quantify and authorize the scored 60-run batch before starting it.
 - The Claude surface is the native Claude Code executable
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
-- The first frozen review digest received two independent NO-GO reviews because governing documents
-  still described draft state and prohibited already completed prerequisites and review steps. That
-  digest is rejected. Corrected digest `2e6c778d…b181573` received two independent GO reviews after a
-  stale statement in digest-excluded `report.md` was corrected. The write-once manifest now exists with
-  suite digest `cfb7d9c1…b4bd`. Permanent first-ADD commit `ec27f44` passed its post-commit freeze
-  check. No scored provider run has begun.
+- Corrected review digest `2e6c778d…b181573` received two independent GO reviews. Suite digest
+  `cfb7d9c1…b4bd` is frozen at permanent first-ADD commit `ec27f44`; scored execution remains 0/60.
+- Preparation is complete, but starting the 60 scored runs still requires explicit authorization for
+  up to USD 22.50 across 30 Claude runs, 30 Codex subscription runs, and a 15-hour serial timeout
+  ceiling before privacy review and evaluation overhead.
 - An escaped process may survive its original process group. Seatbelt denies network and checkout
   writes while permitting only bound scratch writes; unsettled or forced receipt state prevents the
   process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
@@ -89,5 +73,5 @@ then quantify and authorize the scored 60-run batch before starting it.
 
 ## Next best task
 
-Configure owned temporary caches and a bare BusyCafe source, then run both online population and
-offline reuse preparation for all comparison cells without `--execute`. Recheck the freeze afterward.
+Obtain explicit authorization for the scored batch. If authorized, execute frozen run `t1-001` first,
+then complete its quarantine inspection, privacy decision, and evaluation before advancing in order.
