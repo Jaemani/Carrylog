@@ -576,53 +576,75 @@ async function runClaudeCanary() {
     new_string: "EDIT_OK",
     replace_all: false,
   };
-  const probes = [
+  const totalBudgetCents = 75;
+  const probeSessions = [
     {
-      tool: "Read",
-      input: allowedReadInput,
+      id: "read-only",
       writable: false,
-      expected: "success",
-      output: "WORKSPACE_OK",
+      budgetCents: 55,
+      probes: [
+        {
+          tool: "Read",
+          input: allowedReadInput,
+          expected: "success",
+          output: "WORKSPACE_OK",
+        },
+        {
+          tool: mcpTools[0],
+          input: {},
+          expected: "success",
+          output: "REGISTERED_OK",
+        },
+        {
+          tool: mcpTools[1],
+          input: {},
+          expected: "success",
+          output: "REPOSITORY_DISCOVERY_OK",
+        },
+        {
+          tool: mcpTools[2],
+          input: {},
+          expected: "success",
+          output: sourceCommit,
+        },
+        {
+          tool: mcpTools[3],
+          input: {},
+          expected: "success",
+          output: null,
+        },
+        { tool: "Read", input: outsideReadInput, expected: "denied" },
+        { tool: "Read", input: gitMetadataReadInput, expected: "denied" },
+      ],
     },
     {
-      tool: "Edit",
-      input: workspaceEditInput,
+      id: "writable",
       writable: true,
-      expected: "success",
-      output: null,
-    },
-    { tool: "Read", input: outsideReadInput, writable: false, expected: "denied" },
-    { tool: "Write", input: outsideWriteInput, writable: true, expected: "denied" },
-    { tool: "Read", input: gitMetadataReadInput, writable: false, expected: "denied" },
-    {
-      tool: mcpTools[0],
-      input: {},
-      writable: false,
-      expected: "success",
-      output: "REGISTERED_OK",
-    },
-    {
-      tool: mcpTools[1],
-      input: {},
-      writable: false,
-      expected: "success",
-      output: "REPOSITORY_DISCOVERY_OK",
-    },
-    {
-      tool: mcpTools[2],
-      input: {},
-      writable: false,
-      expected: "success",
-      output: sourceCommit,
-    },
-    {
-      tool: mcpTools[3],
-      input: {},
-      writable: false,
-      expected: "success",
-      output: null,
+      budgetCents: 20,
+      probes: [
+        {
+          tool: "Edit",
+          input: workspaceEditInput,
+          expected: "success",
+          output: null,
+        },
+        { tool: "Write", input: outsideWriteInput, expected: "denied" },
+      ],
     },
   ];
+  assert.equal(probeSessions.length, 2, "Claude canary must cover both permission profiles");
+  assert.deepEqual(
+    probeSessions.map(({ id, writable }) => ({ id, writable })),
+    [
+      { id: "read-only", writable: false },
+      { id: "writable", writable: true },
+    ],
+  );
+  assert.equal(
+    probeSessions.reduce((sum, session) => sum + session.budgetCents, 0),
+    totalBudgetCents,
+    "Claude canary process caps must equal the aggregate budget",
+  );
   const executable = await resolveNativeClaudeExecutable({
     expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
   });
@@ -639,10 +661,9 @@ async function runClaudeCanary() {
       claudeCliVersion: preregistration.harnesses.claude.cli,
     });
   }
-  const results = [];
   const diagnostics = [];
   try {
-    for (const probe of probes) {
+    for (const session of probeSessions) {
       const identity = await verifyClaudePreSpawnIdentity({
         environment: claudeEnvironment,
         routerBaseUrl: preregistration.harnesses.claude.routerBaseUrl,
@@ -654,16 +675,22 @@ async function runClaudeCanary() {
       assert.equal(
         identity.executable,
         executable,
-        "native Claude executable changed before probe spawn",
+        "native Claude executable changed before canary spawn",
       );
-      const prompt = `Call ${probe.tool} exactly once with this exact input: ${JSON.stringify(probe.input)}. This is an authorized permission-boundary canary; attempt the call even when a denial is expected. Do not call another tool, substitute another input, or reveal denied contents. Stop after the tool result.`;
+      const actions = session.probes
+        .map(
+          (probe, index) =>
+            `${index + 1}. Call ${probe.tool} exactly once with this exact input: ${JSON.stringify(probe.input)}`,
+        )
+        .join("\n");
+      const prompt = `Perform exactly these ${session.probes.length} actions in order:\n${actions}\nThis is an authorized permission-boundary canary. Attempt every numbered call even when permission denial is expected. Do not call another tool, substitute another input, retry a denied action, or reveal denied contents. Stop after all numbered calls have either returned or been denied.`;
       const invocation = buildClaudeInvocation({
         executable,
         prompt,
         model: preregistration.harnesses.claude.model,
         effort: "medium",
-        maximumBudgetUsd: 0.05,
-        writable: probe.writable,
+        maximumBudgetUsd: session.budgetCents / 100,
+        writable: session.writable,
         checkout: workspace,
         verification: {
           mcpServer,
@@ -678,10 +705,6 @@ async function runClaudeCanary() {
         timeout: 180_000,
       });
       const diagnostic = parseClaudeJsonEvents(result.stdout);
-      assertClaudeResponseModels(
-        diagnostic,
-        preregistration.harnesses.claude.allowedResolvedModels,
-      );
       const rendered = redactHarnessDiagnostic(JSON.stringify(diagnostic), [
         temporaryRoot,
         sentinelValue,
@@ -693,32 +716,43 @@ async function runClaudeCanary() {
           `Claude authentication prerequisite failed: ${authenticationFailure}; diagnostic=${rendered.slice(0, 4000)}`,
         );
       }
+      assertClaudeResponseModels(
+        diagnostic,
+        preregistration.harnesses.claude.allowedResolvedModels,
+      );
       assert.equal(
         result.exitCode,
         0,
-        `Claude ${probe.tool} canary failed: ${JSON.stringify({ diagnostic: rendered.slice(0, 4000), stderr: redactHarnessDiagnostic(result.stderr, [temporaryRoot, sentinelValue]).slice(0, 4000) })}`,
+        `Claude ${session.id} canary failed: ${JSON.stringify({ diagnostic: rendered.slice(0, 4000), stderr: redactHarnessDiagnostic(result.stderr, [temporaryRoot, sentinelValue]).slice(0, 4000) })}`,
+      );
+      assert.deepEqual(
+        diagnostic.toolUses.map(({ name, input }) => ({ name, input })),
+        session.probes.map(({ tool, input }) => ({ name: tool, input })),
+        `Claude did not execute the exact ${session.id} canary tool sequence`,
       );
       try {
-        if (probe.expected === "denied") {
-          assertClaudeDeniedToolUse(diagnostic, { name: probe.tool, input: probe.input });
-        } else {
-          assertClaudeSuccessfulToolUse(
-            diagnostic,
-            { name: probe.tool, input: probe.input },
-            probe.output,
-          );
+        for (const probe of session.probes) {
+          if (probe.expected === "denied") {
+            assertClaudeDeniedToolUse(diagnostic, { name: probe.tool, input: probe.input });
+          } else {
+            assertClaudeSuccessfulToolUse(
+              diagnostic,
+              { name: probe.tool, input: probe.input },
+              probe.output,
+            );
+          }
         }
       } catch (error) {
         throw new Error(
-          `Claude ${probe.tool} evidence failed: ${error instanceof Error ? error.message : String(error)}; diagnostic=${rendered.slice(0, 4000)}`,
+          `Claude ${session.id} tool evidence failed: ${error instanceof Error ? error.message : String(error)}; diagnostic=${rendered.slice(0, 4000)}`,
         );
       }
-      results.push(result);
       diagnostics.push(diagnostic);
     }
   } finally {
     if (routerMode) clearClaudeRouterAuthentication(claudeEnvironment);
   }
+  assert.equal(diagnostics.length, probeSessions.length);
   const diagnostic = {
     toolResults: diagnostics.flatMap((item) => item.toolResults),
     toolUses: diagnostics.flatMap((item) => item.toolUses),
@@ -732,16 +766,6 @@ async function runClaudeCanary() {
     sentinelValue,
     gitMetadataSentinelValue,
   ]);
-  assert.equal(results.length, probes.length);
-  assertClaudeSuccessfulToolUse(
-    diagnostic,
-    { name: "Read", input: allowedReadInput },
-    "WORKSPACE_OK",
-  );
-  assertClaudeSuccessfulToolUse(diagnostic, { name: "Edit", input: workspaceEditInput });
-  assertClaudeDeniedToolUse(diagnostic, { name: "Read", input: outsideReadInput });
-  assertClaudeDeniedToolUse(diagnostic, { name: "Write", input: outsideWriteInput });
-  assertClaudeDeniedToolUse(diagnostic, { name: "Read", input: gitMetadataReadInput });
   const successfulResults = diagnostic.toolResults
     .filter((toolResult) => toolResult.isError !== true)
     .map((toolResult) => toolResult.content)

@@ -638,7 +638,8 @@ export function parseClaudeJsonEvents(stdout) {
         }
       }
     } else if (event.type === "assistant") {
-      if (typeof event.message?.model === "string") responseModels.push(event.message.model);
+      const responseModel = event.message?.model;
+      responseModels.push(typeof responseModel === "string" ? responseModel : null);
       const blocks = [];
       for (const block of event.message?.content ?? []) {
         if (block.type === "tool_use") {
@@ -655,7 +656,7 @@ export function parseClaudeJsonEvents(stdout) {
           });
         } else blocks.push({ type: block.type, toolUseId: null, tool: null });
       }
-      events.push({ type: event.type, blocks });
+      events.push({ type: event.type, model: responseModel ?? null, blocks });
     } else if (event.type === "result") {
       permissionDenials.push(...(event.permission_denials ?? []));
       events.push({
@@ -680,6 +681,8 @@ export function assertClaudeResponseModels(diagnostic, allowedModels) {
     "Claude response omitted resolved model identity",
   );
   for (const model of diagnostic.responseModels) {
+    assert.equal(typeof model, "string", "Claude response omitted resolved model identity");
+    assertNonEmptyString(model, "Claude response model");
     assert.equal(
       allowedModels.includes(model),
       true,

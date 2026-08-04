@@ -181,6 +181,9 @@ test("Claude invocation exposes no Bash and wires the self-bound MCP server", ()
     verification,
   });
   assert.equal(invocation.executable, "claude");
+  const budgetIndex = invocation.arguments.indexOf("--max-budget-usd");
+  assert.ok(budgetIndex >= 0);
+  assert.equal(invocation.arguments[budgetIndex + 1], "0.75");
   assert.equal(invocation.arguments.includes("Bash,WebFetch,WebSearch"), true);
   assert.equal(invocation.arguments.includes("Read,Glob,Grep"), true);
   assert.equal(
@@ -885,6 +888,19 @@ test("Claude canary binds tool results and permission denials to exact tool-use 
   );
   assert.throws(
     () => assertClaudeResponseModels({ ...diagnostic, responseModels: [] }, ["gpt-5.6-sol"]),
+    /omitted resolved model/,
+  );
+  const missingModel = parseClaudeJsonEvents(
+    [
+      { type: "assistant", message: { model: "gpt-5.6-sol", content: [] } },
+      { type: "assistant", message: { content: [] } },
+    ]
+      .map((event) => JSON.stringify(event))
+      .join("\n"),
+  );
+  assert.deepEqual(missingModel.responseModels, ["gpt-5.6-sol", null]);
+  assert.throws(
+    () => assertClaudeResponseModels(missingModel, ["gpt-5.6-sol"]),
     /omitted resolved model/,
   );
 

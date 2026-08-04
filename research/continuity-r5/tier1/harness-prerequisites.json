@@ -16,11 +16,11 @@
     },
     {
       "path": "analysis/harness-contract.mjs",
-      "sha256": "5adf47ad82396b4d8d0fc0cc696548c43e34a73a3637f6f8a843764f928e8634"
+      "sha256": "20db6c407bbe883d04b4711fddeaa270e006853d75129cbfe73d9584e1ee4c66"
     },
     {
       "path": "analysis/harness-isolation-canary.mjs",
-      "sha256": "c5e98455fed780ce2a91cb7c0487470f523bd500d5ae90f01bd68f15307b8ca7"
+      "sha256": "51b196f3469f3c6de0fed31f674d5c3af13d168fc141d3ad8de114451ebd9781"
     },
     {
       "path": "analysis/harness-prerequisites.mjs",

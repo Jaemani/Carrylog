@@ -124,6 +124,13 @@ The authenticated canaries require provider access valid in the isolated synthet
 quota, disabled organization subscription, or a missing API credential leaves the prerequisite
 pending. Raw output, credentials, provider sessions, and private configuration are never written to
 the prerequisite file. Both `--review-digest` and `--write` reject a pending or stale attestation.
+The Claude canary divides its nine exact probes between two no-persistence processes matching the
+scored permission profiles: a USD 0.55 read-only process and a USD 0.20 writable process. Their
+integer-cent caps must sum to the USD 0.75 aggregate prerequisite ceiling before provider access. A
+process-per-probe design would multiply this ceiling and is not allowed. Each profile must preserve its
+registered call order and exact inputs, bind every expected denial and successful result, contain no
+additional tool use, and expose an allowed model ID on every assistant event. A lower USD 0.05 cap
+became invalid once the router began reporting nonzero estimated input usage.
 
 Prepare-only runner calls never touch provider authentication or make model calls:
 

@@ -2,9 +2,8 @@
 
 ## Active objective
 
-Stabilize and independently review the unfrozen attempt-5 continuity pilot, commit its offline draft,
-then run the exact authenticated Codex and native-Claude-through-JM-Router prerequisites before any
-freeze digest, manifest, or scored provider execution.
+Run the exact authenticated Codex and native-Claude-through-JM-Router prerequisites from the reviewed
+attempt-5 repair commit before any freeze digest, manifest, or scored provider execution.
 
 ## Implemented and verified
 
@@ -45,13 +44,20 @@ freeze digest, manifest, or scored provider execution.
 - The current repair resolves native Claude from host `~/.local/bin/claude` independently of `PATH`,
   verifies its target digest, and retains bounded redacted Codex stderr. Independent review found the
   Codex broker was enabled but not required; the shared invocation now sets `required=true` so startup
-  failure terminates both canary and scored clients. Fresh re-review remains pending.
+  failure terminates both canary and scored clients. Re-review returned GO and the repaired Codex
+  canary passed. Routed Claude then resolved only `gpt-5.6-sol` and completed one Read before its stale
+  USD 0.05 cap triggered. A rejected first correction would have applied USD 0.75 independently to nine
+  processes. A second single-session design bounded spend but failed to cover the scored read-only
+  permission profile. The revised canary uses a USD 0.55 read-only process and a USD 0.20 writable
+  process, fixes the aggregate ceiling at USD 0.75, and rejects every model-less or unregistered
+  assistant response. This critical-byte change reset both prerequisites to pending. Independent
+  review returned GO for the offline repair and commit gate.
 
 ## Blockers and risks
 
-- Both harness prerequisites remain pending after the first clean-commit attempts. Codex MCP tool
-  discovery needs a reviewed required-broker repair before another provider call. Claude has not reached
-  the router or model since the native-locator repair.
+- Both harness prerequisites are pending after the Claude canary budget correction. The last Codex
+  execution passed; the last Claude execution verified the intended catalog and response model but did
+  not complete the remaining tools because Claude Code enforced the old cap.
 - The Claude surface is the native Claude Code executable
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
@@ -71,7 +77,6 @@ freeze digest, manifest, or scored provider execution.
 
 ## Next best task
 
-Complete independent review of the native-Claude locator and bounded Codex diagnostic, diagnose the
-zero-tool Codex MCP failure without weakening verification isolation, and rerun the full offline gate.
-Checkpoint and commit the repair before another authenticated canary. Keep both prerequisites pending
-and prohibit freeze work until Codex and native-Claude-through-JM-Router each pass from a clean commit.
+From the new clean commit, run Codex first and native Claude through JM Router second. Report any
+routed-model, stream, authentication, budget, or tool anomaly and prohibit freeze work until both exact
+prerequisites pass.

@@ -2077,3 +2077,39 @@ verification tools. The shared canary and scored-run invocation now sets the bro
 startup failure must terminate the client instead of degrading to a tool-free session. Harness-critical
 bindings were refreshed and both prerequisites remain pending. No freeze, manifest, scored run, raw
 provider-output persistence, or credential persistence occurred.
+
+The repaired Codex prerequisite subsequently passed. The first routed-Claude attempt with an
+available key resolved every assistant response to `gpt-5.6-sol` and completed one allowed Read, then
+Claude Code terminated with `error_max_budget_usd` before the remaining MCP and denial checks. The
+prerequisite stayed pending and no freeze work began. This was not a model-routing mismatch: the
+registered catalog and response identity agreed. It exposed a stale canary assumption instead. The
+USD 0.05 cap had passed attempt 4 while the gateway adapter reported zero input usage; after the
+adapter began supplying a nonzero conservative estimate, Claude Code could enforce its budget after
+the first turn. The canary now uses the same bounded USD 0.75 cap as a scored Claude run. Changing the
+critical canary bytes invalidates the recorded Codex pass, so both prerequisites must be rerun from a
+new clean commit.
+
+Independent review rejected that direct cap replacement before commit. The canary launched nine
+separate Claude processes, so USD 0.75 was a per-probe cap and permitted up to USD 6.75 in aggregate,
+not the documented scored-run ceiling; it also exceeded the previous USD 0.45 aggregate bound. The
+repair replaces the process-per-probe loop with one no-persistence Claude session containing the same
+nine numbered calls. One `--max-budget-usd 0.75` now bounds the complete prerequisite. The result must
+contain exactly the registered tool names and inputs in order, every expected permission denial must
+remain bound to its tool-use ID, and execution must continue after those denials. The earlier wording is
+retained above as the failed intermediate decision rather than rewritten as if it had been correct.
+
+The first offline-gate pass refreshed the harness-critical digest before applying the repository
+formatter. Biome then changed one critical line, and structural validation correctly rejected the
+stale digest. The workflow was restarted in the safe order—format first, refresh second, validate
+third—and both prerequisites remained pending. No authenticated canary ran from the mismatched state.
+
+The next independent review also rejected the one-process design. Running every probe with
+`acceptEdits` no longer exercised the `dontAsk` read-only surface used by most scored Claude tasks.
+The parser also discarded assistant events that omitted `message.model`, so one valid model-bearing
+event could mask a later model-less response. Finally, the draft claimed temporal continuation after
+denials even though the stream parser proved only exact tool-use order and final denial bindings. The
+repair uses two no-persistence processes whose integer-cent caps are asserted to total USD 0.75: USD
+0.55 for the read-only profile and USD 0.20 for the writable profile. It validates each profile's exact
+tool sequence independently, retains every assistant event as a string model or explicit null, and
+rejects null or unregistered identities. The unsupported temporal claim was removed. Both
+prerequisites remain pending and no provider call occurred during this repair.

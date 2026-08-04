@@ -44,18 +44,28 @@ test("Codex canary stages only auth.json and probes credential-adjacent model de
   }
 });
 
-test("Claude canary binds exact allowed and denied tool inputs", async () => {
+test("Claude canary bounds two permission profiles and binds exact tool evidence", async () => {
   const source = await readFile(path.join(analysisRoot, "harness-isolation-canary.mjs"), "utf8");
+  assert.match(source, /const totalBudgetCents = 75/);
+  assert.match(source, /id: "read-only",\s*writable: false,\s*budgetCents: 55/);
+  assert.match(source, /id: "writable",\s*writable: true,\s*budgetCents: 20/);
+  assert.match(source, /sum \+ session\.budgetCents/);
+  assert.match(source, /maximumBudgetUsd: session\.budgetCents \/ 100/);
+  assert.doesNotMatch(source, /maximumBudgetUsd: 0\.05/);
+  assert.equal(source.match(/buildClaudeInvocation\(/g)?.length, 1);
+  assert.match(source, /for \(const session of probeSessions\)/);
+  assert.match(source, /Claude canary must cover both permission profiles/);
+  assert.match(source, /diagnostic\.toolUses\.map\(\(\{ name, input \}\)/);
+  assert.match(source, /session\.probes\.map\(\(\{ tool, input \}\)/);
   assert.equal(source.match(/id: "repository-discovery"/g)?.length, 2);
   assert.equal(source.match(/mcp__carrylog_verification__verify_repository_discovery/g)?.length, 2);
   assert.equal(source.match(/id: "git-head"/g)?.length, 2);
   assert.equal(source.match(/id: "git-status"/g)?.length, 2);
   assert.match(source, /assertClaudeSuccessfulToolUse\(\s*diagnostic/);
-  assert.equal(source.match(/assertClaudeDeniedToolUse\(diagnostic/g)?.length, 4);
-  assert.match(source, /name: "Read", input: outsideReadInput/);
-  assert.match(source, /name: "Write", input: outsideWriteInput/);
-  assert.match(source, /name: "Read", input: gitMetadataReadInput/);
+  assert.equal(source.match(/assertClaudeDeniedToolUse\(diagnostic/g)?.length, 1);
   assert.match(source, /probe\.expected === "denied"/);
+  assert.match(source, /name: probe\.tool, input: probe\.input/);
+  assert.equal(source.match(/expected: "denied"/g)?.length, 3);
   assert.doesNotMatch(source, /permissionDenials\.length\s*>=/);
 });
 
