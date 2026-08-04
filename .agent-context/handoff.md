@@ -4,28 +4,26 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "f553e9c at 2026-08-04T19:52:40+09:00"
-- Upstream: "origin/main; ahead 20, behind 0"
-- Working tree: 3 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 3 file(s), +48/-40, 0 binary
+- HEAD: "abdfc04 at 2026-08-04T20:08:03+09:00"
+- Upstream: "origin/main; ahead 21, behind 0"
+- Working tree: 1 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 1 file(s), +8/-0, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (3)
+### Changed paths (1)
 
-    {"status":"M ","path":".agent-context/current-state.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"M ","path":"research/continuity-r5/tier1/report.md"}
 
 ### Recent commits (5)
 
+    {"commit":"abdfc04","committedAt":"2026-08-04T20:08:03+09:00","subject":"docs: record attempt 5 preparation readiness"}
     {"commit":"f553e9c","committedAt":"2026-08-04T19:52:40+09:00","subject":"docs: record attempt 5 freeze boundary"}
     {"commit":"ec27f44","committedAt":"2026-08-04T19:51:11+09:00","subject":"research: freeze Tier 1 execution attempt 5"}
     {"commit":"0ee9bec","committedAt":"2026-08-04T19:36:42+09:00","subject":"research: record attempt 5 harness prerequisites"}
     {"commit":"65bb802","committedAt":"2026-08-04T19:33:56+09:00","subject":"fix: settle signalled Claude verification brokers"}
-    {"commit":"611a043","committedAt":"2026-08-04T19:20:28+09:00","subject":"fix: settle Claude verification brokers between profiles"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"f553e9ce548227ca28e67ff9ffc3524bd39a93dc","detached":false,"branch":"main","indexCommitment":"d3d1b9ca9de55853ee61adc01710bc24743ba573d04784d3a504e49348cab2a0"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"abdfc0472b7e03f5c1eb104e43c7039c708b8f7f","detached":false,"branch":"main","indexCommitment":"d40e8f80115108b5471eaf5fab64ef30a107d553f2383d43ab52364c245c983e"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective

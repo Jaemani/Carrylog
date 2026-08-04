@@ -2259,3 +2259,11 @@ This establishes deterministic fixture readiness only. Scored execution remains 
 provider authentication, continuity result, conversation reconstruction result, or compaction result
 is inferred. Starting the batch still requires explicit authorization for the USD 22.50 Claude cap,
 30 Codex subscription runs, and the 15-hour serial timeout ceiling before review overhead.
+
+The first documentation checkpoint was correctly rejected with `E_ALWAYS_BUDGET_EXCEEDED`: the
+always-loaded context had grown to 16,666 characters against the configured 16,000-character limit.
+The limit was not raised. Historical canary failures and rejected review chronology were removed from
+`current-state.md` and `handoff.md`, where they duplicated this engineering log, while the current
+constraints and verified boundary remained in always-loaded context. Validation then passed. This
+dogfood failure reinforces the intended hierarchy: durable history belongs in an on-demand log, while
+resume context carries only the current operational facts.
