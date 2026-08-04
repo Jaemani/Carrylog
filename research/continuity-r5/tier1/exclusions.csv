@@ -2,3 +2,4 @@ run_id,blind_id,stage,reason_code,retained_artifact_path,replacement_run_id
 t1-004,b-1bf91279d0d9,harness-authentication,authentication-failure,raw-reviewed/by-run/t1-004,
 t1-005,b-f241d032c48e,harness-execution,provider-nonzero-exit,raw-reviewed/by-run/t1-005,
 t1-018,b-e62cf7b5d4f0,protocol,protocol-deviation,raw-reviewed/by-run/t1-018,
+t1-025,b-3b7be2a29f39,harness-execution,provider-nonzero-exit,raw-reviewed/by-run/t1-025,

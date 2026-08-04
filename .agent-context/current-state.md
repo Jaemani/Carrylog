@@ -47,12 +47,14 @@ terminal outcome and stopping on model, stream, authentication, budget, tool, or
 - From clean commit `65bb802`, Codex CLI 0.146.0 and native Claude Code 2.1.220 through JM Router passed
   their exact authenticated prerequisites on `gpt-5.6-sol`. Claude completed both permission profiles
   and the inter-profile broker settled.
-- Runs `t1-001` through `t1-020` are terminal and privacy-reviewed: 17 are scored, `t1-004` and
-  `t1-005` are retained harness failures, and `t1-018` is protocol-invalid because Codex used one
+- Runs `t1-001` through `t1-030` are terminal and privacy-reviewed: 26 are scored; `t1-004`, `t1-005`,
+  and `t1-025` are retained harness failures; and `t1-018` is protocol-invalid because Codex used one
   direct shell command outside the registered verification wrappers. None is retried or replaced.
-- Blinded evaluations are finalized for every scored artifact. The two configuration-v1 protected-
-  decision responses at `t1-019` and `t1-020` earned full rubric credit; this is one fixture-level
-  observation, not a cross-condition product conclusion.
+- Blinded evaluations are finalized for every scored artifact. On the completed BusyCafe failed-
+  approach fixture for Codex, manual handoff and Carrylog resume each recovered all frozen facts and
+  earned 10/10 completion; repository-only recovered 10% of fact weight and earned 4/10. The earlier
+  BusyCafe objective comparison likewise separated full manual and Carrylog results from a 15%, 4/10
+  repository-only result. These are single-fixture observations, not product-effect claims.
 
 ## Blockers and risks
 
@@ -62,8 +64,8 @@ terminal outcome and stopping on model, stream, authentication, budget, tool, or
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
 - Corrected review digest `2e6c778d…b181573` received two independent GO reviews. Suite digest
-  `cfb7d9c1…b4bd` is frozen at permanent first-ADD commit `ec27f44`; 20/60 runs are terminal.
-- The full cost and time envelope is authorized. Two harness failures and one protocol-invalid run
+  `cfb7d9c1…b4bd` is frozen at permanent first-ADD commit `ec27f44`; 30/60 runs are terminal.
+- The full cost and time envelope is authorized. Three harness failures and one protocol-invalid run
   cannot be retried or replaced; they remain attrition in the final analysis.
 - An escaped process may survive its original process group. Seatbelt denies network and checkout
   writes while permitting only bound scratch writes; unsettled or forced receipt state prevents the
@@ -78,5 +80,5 @@ terminal outcome and stopping on model, stream, authentication, budget, tool, or
 
 ## Next best task
 
-Commit the reviewed 20-run boundary, then execute frozen run `t1-021`. Complete quarantine review,
+Commit the reviewed 30-run boundary, then execute frozen run `t1-031`. Complete quarantine review,
 privacy disposition, and blinded evaluation before advancing to each later run.

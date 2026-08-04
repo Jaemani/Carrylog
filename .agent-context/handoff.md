@@ -4,38 +4,38 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "c68d38a at 2026-08-05T02:22:58+09:00"
-- Upstream: "origin/main; ahead 23, behind 0"
-- Working tree: 82 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 82 file(s), +7775/-36, 0 binary
+- HEAD: "69688d2 at 2026-08-05T02:49:36+09:00"
+- Upstream: "origin/main; ahead 24, behind 0"
+- Working tree: 84 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 84 file(s), +7918/-22, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (82)
+### Changed paths (84)
 
     {"status":"M ","path":".agent-context/current-state.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-16f146f5119b.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-1d3548086691.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-338627338a2b.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-36b2ae835704.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-6f174b5aba90.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-ad0a05a004de.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-c23e0c325ece.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-cee88c73591e.json"}
-    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-ea63c6d7f99e.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-0927f782862f.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-5b1d5348e02f.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-8b46aca2e771.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-aafcfc2627d3.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-ab1b19021e01.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-be5624d7f50c.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-d9a416c9870d.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-d9f9ff01bee1.json"}
+    {"status":"A ","path":"research/continuity-r5/tier1/evaluations/b-dcb3765d20b2.json"}
     {"status":"M ","path":"research/continuity-r5/tier1/exclusions.csv"}
-    {"omitted":70}
+    {"omitted":72}
 
 ### Recent commits (5)
 
+    {"commit":"69688d2","committedAt":"2026-08-05T02:49:36+09:00","subject":"research: checkpoint first twenty Attempt 5 runs"}
     {"commit":"c68d38a","committedAt":"2026-08-05T02:22:58+09:00","subject":"research: checkpoint first ten Attempt 5 runs"}
     {"commit":"ec8ab1e","committedAt":"2026-08-04T20:08:33+09:00","subject":"docs: record context budget dogfood finding"}
     {"commit":"abdfc04","committedAt":"2026-08-04T20:08:03+09:00","subject":"docs: record attempt 5 preparation readiness"}
     {"commit":"f553e9c","committedAt":"2026-08-04T19:52:40+09:00","subject":"docs: record attempt 5 freeze boundary"}
-    {"commit":"ec27f44","committedAt":"2026-08-04T19:51:11+09:00","subject":"research: freeze Tier 1 execution attempt 5"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"c68d38ac9f9fedbd375773ebc7f3e329a7c592ea","detached":false,"branch":"main","indexCommitment":"910817cf514d17fe26caf2b48ec6a06a22c6c6bac7770b167afc238c2e845051"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"69688d2d86d7013040d26b9f412fdc342cb145b8","detached":false,"branch":"main","indexCommitment":"ee8dec4b209d8426002bd25b82354f51d3d0f639f7b590e944dbddc123371d02"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
@@ -49,20 +49,26 @@ terminal outcome and stopping on harness-identity or evidence anomalies.
   `cfb7d9c1…b4bd`. Prior attempts and external repositories were not modified.
 - Dedicated owner-only temporary caches and the temporary bare BusyCafe source remain valid. All 60
   frozen cells previously passed sealed offline preparation without provider authentication.
-- Runs `t1-001` through `t1-020` are terminal and privacy-reviewed: 17 scored, two retained harness
+- Runs `t1-001` through `t1-030` are terminal and privacy-reviewed: 26 scored, three retained harness
   failures, and one protocol-invalid run. Every scored artifact has a finalized blinded evaluation.
-- `t1-018` completed one direct shell command outside the registered verification wrappers. It was
-  retained as `protocol-deviation` without a score, retry, or replacement.
-- The two configuration-v1 protected-decision runs at `t1-019` and `t1-020` each received full fact
-  and completion credit. This is one fixture-level observation, not a condition-equivalence claim.
+- `t1-025` reproduced the intermittent nonzero-exit/missing-success-event shape first retained at
+  `t1-005`. Later Claude runs completed without changing the frozen path. No failure was retried or
+  replaced.
+- On the completed Codex BusyCafe failed-approach fixture, manual handoff and Carrylog resume each
+  earned full recall and 10/10 completion; repository-only earned 10% recall and 4/10. The analogous
+  objective fixture showed full manual and Carrylog results versus 15% and 4/10 repository-only. These
+  are bounded fixture observations, not product-effect claims.
 
 ## Verification
 
-- Attempt-5 tests pass, active research passes 131/131, structural validation accepts all 17 finalized
-  evaluations, and all 60 blind bundles validate.
-- Derived analysis reconciles 17 scored, two harness-failure, one protocol-invalid, and 40 unstarted
+- Attempt-5 tests pass 122/122, active research passes 131/131, structural validation accepts all 26
+  finalized evaluations, and all 60 blind bundles validate.
+- Derived analysis reconciles 26 scored, three harness-failure, one protocol-invalid, and 30 unstarted
   runs with no protocol diagnostic. The freeze check accepts `cfb7d9c1…b4bd` at `ec27f44`.
-- Privacy promotion and evaluation validation passed for every terminal result through `t1-020`.
+- Product quality, coverage floors, package inspection and smoke, isolation canary, current-byte
+  harness prerequisites, adapter drift checks, and Carrylog validation pass at this boundary.
+- Privacy promotion passed for every terminal result through `t1-030`; evaluation validation passed
+  for every scored artifact.
 
 ## Decisions
 
@@ -74,8 +80,8 @@ terminal outcome and stopping on harness-identity or evidence anomalies.
 
 ## Risks
 
-- The first 20 runs provide partial evidence only; 40 runs remain unstarted.
-- Two harness failures and one protocol-invalid run reduce complete-case contrasts. The interim
+- The first 30 runs provide partial evidence only; 30 runs remain unstarted.
+- Three harness failures and one protocol-invalid run reduce complete-case contrasts. The interim
   analyzer decision is mechanically `REDESIGN`, not a completed Tier 2 conclusion.
 - Routed Claude is GPT-backed, not independent model-family replication.
 - Process escape, TOCTOU, Windows depth, conversation reconstruction, repeated switching, journaling,
@@ -83,5 +89,5 @@ terminal outcome and stopping on harness-identity or evidence anomalies.
 
 ## Next action
 
-Commit the reviewed 20-run boundary, then execute `t1-021`. Complete quarantine inspection, privacy
-disposition, and blinded evaluation before starting `t1-022`.
+Commit the reviewed 30-run boundary, then execute `t1-031`. Complete quarantine inspection, privacy
+disposition, and blinded evaluation before starting `t1-032`.

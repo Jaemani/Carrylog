@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-0927f782862f",
+  "finalResponse": "## Fixture report — `c9e8c2d`\n\n- **Verified state:** `HEAD` is exactly `c9e8c2d9df0e5654885204fd3c7f35909771011d`; `git status` reports a clean `main` worktree. No files were edited.\n- **Objective:** Prepare the minimum controlled Tier 1 continuity pilot using the existing checkpoint/resume product—60 planned runs across two repositories, five tasks, three conditions, and two authenticated harnesses—without session journaling or semantic compaction (`research/continuity/tier1-pilot-protocol.md:15`).\n- **Supported product behavior:** Carrylog provides repository-owned, Git-reviewable checkpoint/resume governance. It reconstructs reviewed project state, not private chat, hidden state, or universal conversation continuity (`README.md:15`, `docs/decisions/0012-evidence-gates-before-continuity-expansion.md:21`).\n- **Research-only hypotheses:** Behavioral continuity across harnesses, arbitrary-switch invariance, benefits from journaling, and compaction superiority remain unproven. Artifact or delivery evidence does not establish behavioral success (`docs/decisions/0012-evidence-gates-before-continuity-expansion.md:26`).\n- **Safest next action:** Commit and freeze the two immutable repository fixtures, task facts/rubrics/prompts, prohibited reversals, randomized-order seed, analysis rules, and exact harness access/version details. Then run fresh randomized sessions without changing the product during scored runs (`research/continuity/tier1-pilot-protocol.md:87`).\n- **Blockers/material risks:** The draft protocol is not yet an executable committed preregistration; the fixture revisions, task rubrics, randomized order, and two authenticated harnesses are not frozen. Results would otherwise permit post-hoc changes. Additional risks include unavailable delivery evidence, privacy exposure in raw outputs, harness/model updates invalidating evidence, and overclaiming an exploratory Tier 1 result as product proof.\n- **Historical release evidence:** Beta.5 publication and independent OIDC verification are treated as completed evidence; no registry action should be repeated.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-head",
+      "preCommandStateSha256": "9666717155de5f0927bc84719df982c4bd8bbaf42a178d7a17748d52996cca8a",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "9666717155de5f0927bc84719df982c4bd8bbaf42a178d7a17748d52996cca8a",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 8,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 8,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

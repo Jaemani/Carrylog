@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-aafcfc2627d3",
+  "finalResponse": "# Vercel Preview DB 접근 제거 Runbook\n\n상태: **비실행 문서**. 승인된 maintenance window 전까지 모든 외부 조회와 변경을 보류한다.\n\n## 목표와 불변 조건\n\n- Preview의 `DATABASE_URL` binding만 제거한다.\n- Production의 `DATABASE_URL`과 DB 연결은 계속 유지한다.\n- Vercel serverless의 **Transaction pooler** 설정을 보존한다.\n- GitHub worker의 **Session pooler** 설정은 변경하지 않는다.\n- hosted runner에 부적합한 direct IPv6 URL로 대체하지 않는다.\n- secret 값은 채팅, 티켓, 화면 캡처, 명령 인자 또는 로그에 노출하지 않는다.\n\n## 변경 전 필수 조건\n\nOwner가 maintenance window에서 다음을 모두 확인해야 한다.\n\n- 현재 Vercel CLI 공식 도움말/문서 또는 Owner UI에서 “특정 environment binding만 해제”하는 동작의 정확한 scope를 확인한다.\n- 해당 동작이 변수 전체나 Production binding을 삭제할 가능성이 있으면 **즉시 중단**한다.\n- Production과 Preview binding의 존재 여부를 **값을 표시하지 않는 metadata 수준**에서 각각 확인한다.\n- Production 복구에 사용할 올바른 Transaction-pooler 값이 승인된 secret store에 recoverable한 형태로 존재하며, 권한 있는 owner가 사용할 수 있음을 확인한다.\n- 현재 Production deployment와 rollback 대상이 식별되어 있다.\n- Production 및 Preview를 각각 검증할 URL과 `/api/health.data_mode`의 기대값이 사전에 정의되어 있다.\n\n과거의 snapshot이나 기억만으로는 현재 상태 또는 복구 준비가 입증되지 않는다.\n\n## 금지된 절차\n\n`vercel env rm DATABASE_URL preview --yes`는 사용하지 않는다. 과거에 Preview binding만이 아니라 변수 전체를 삭제한 인시던트가 있다.\n\n또한 다음 경우에는 변경하지 않는다.\n\n- scope semantics가 불명확하다.\n- UI가 Production과 Preview를 함께 선택하거나 변수 자체의 삭제만 제공한다.\n- Production 복구 값의 정확성 또는 접근 가능성을 확인할 수 없다.\n- secret 값을 읽어 비교하거나 사람에게 전달해야만 검증할 수 있다.\n- 검증 담당자, rollback owner 또는 maintenance window가 준비되지 않았다.\n\n## 승인된 변경 절차\n\n1. Owner UI 또는 당일 확인된 공식 절차에서 `DATABASE_URL`의 **Preview binding만 해제**하도록 변경 대상을 다시 확인한다.\n2. 최종 확인 화면에서 Production이 대상에 포함되지 않았음을 두 번째 담당자가 검토한다.\n3. Preview binding만 해제한다.\n4. 애플리케이션이 환경 변수를 deployment 시점에 고정하므로 Production과 Preview를 의도적으로 각각 redeploy한다. 기존 deployment 상태만 보고 성공으로 판단하지 않는다.\n5. 아래 검증이 모두 끝날 때까지 maintenance window를 닫지 않는다.\n\n## 변경 후 검증\n\n- Metadata 확인:\n  - Production `DATABASE_URL` binding은 존재한다.\n  - Preview `DATABASE_URL` binding은 존재하지 않는다.\n  - GitHub worker의 Session-pooler binding은 변경되지 않았다.\n- Production:\n  - 새 Production deployment가 정상 완료된다.\n  - `/api/health.data_mode`가 사전에 정의된 Production DB 모드를 반환한다.\n  - 대표적인 실제 DB 읽기 경로가 정상 동작한다.\n- Preview:\n  - 새 Preview deployment가 정상 완료된다.\n  - `/api/health.data_mode`가 사전에 정의된 **비DB/DB 비활성 모드**를 반환한다.\n  - DB 의존 경로가 접근 불가 또는 의도된 fallback으로 동작하며 Production DB에 연결되지 않는다.\n- 양쪽 deployment 로그에 secret 값이나 connection URL이 출력되지 않았는지 확인한다.\n\nBinding metadata만 맞거나 health endpoint 하나만 통과한 상태는 완료로 간주하지 않는다.\n\n## 즉시 rollback 조건\n\n다음 중 하나라도 발생하면 rollback한다.\n\n- Production binding이 사라지거나 scope가 불명확하다.\n- Production health 또는 대표 DB 읽기가 실패한다.\n- Preview가 계속 DB 모드로 동작한다.\n- 잘못된 pooler 유형이나 direct IPv6 URL이 관찰된다.\n- redeploy 결과가 이전 deployment와 일관되지 않다.\n- secret 노출 징후가 있다.\n\nRollback owner는 승인된 secret store의 **검증된 Transaction-pooler 값**으로 Production binding을 복원하고 Production을 다시 redeploy한 뒤, Production health와 실제 DB 읽기를 재검증한다. 값이 recoverable하지 않다면 추측하거나 로그에서 복구하지 말고 incident로 전환한다.\n\n로컬 검증에서는 등록된 `git status`와 `git diff`가 모두 exit 0이었으며, 저장소 변경은 수행하지 않았다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "3b287c9b98701273b5d6079b39b4e070c60ef661b9c938ddec539357a3ebeb88",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "3b287c9b98701273b5d6079b39b4e070c60ef661b9c938ddec539357a3ebeb88",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

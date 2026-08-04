@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-d9f9ff01bee1",
+  "finalResponse": "## Fixture report\n\n- **Verified checkpoint:** `HEAD` is exactly `c9e8c2d9df0e5654885204fd3c7f35909771011d`; `git status` reports clean on `main`. No files were edited.\n- **Objective:** Prepare the minimum controlled Tier 1 continuity pilot without adding session journaling or semantic compaction (`.agent-context/handoff.md:26-29`).\n- **Verified state that matters:** Carrylog’s supported product is repository-owned, Git-reviewable checkpoint/resume governance—not chat replay (`.agent-context/handoff.md:31-40`). The deterministic CLI already supports checkpoint and portable resume (`.agent-context/current-state.md:8-22`).\n- **Safest next action:** Freeze the two repository fixtures, task rubrics, randomized order, prompts/analysis rules, and authenticated two-harness prerequisites at immutable committed revisions; then run the randomized pilot without changing the product during scored runs (`.agent-context/handoff.md:47-55`, `docs/decisions/0012-evidence-gates-before-continuity-expansion.md:37-49`).\n- **Blockers/material risks:** Those experimental inputs and harness prerequisites are not yet frozen. Authenticated Codex/Gemini conformance requires restored credentials, and Cursor CLI is unavailable locally (`.agent-context/current-state.md:30-42`). Harness/model changes can also invalidate evidence (`docs/decisions/0012-evidence-gates-before-continuity-expansion.md:117-126`).\n- **Evidence boundary:** Cross-harness behavioral continuity, arbitrary/repeated switching, conversation reconstruction, and compaction value remain research-only hypotheses—not supported product behavior. Tier 1 itself is exploratory and cannot establish broad superiority claims (`docs/decisions/0012-evidence-gates-before-continuity-expansion.md:47-60`).\n\n**Context mismatch:** The generated repository-evidence block in `.agent-context/handoff.md:4-24` names later commit `e3eb690`. That is outer-experiment settlement state and was not used as the fixture checkpoint; the registered verification establishes `c9e8c2d` as the actual inspected HEAD.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-head",
+      "preCommandStateSha256": "878370dd0112932437dfa44c6806ed52dfde09944aa66975d9677c358ccf3ae4",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "878370dd0112932437dfa44c6806ed52dfde09944aa66975d9677c358ccf3ae4",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 8,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 8,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

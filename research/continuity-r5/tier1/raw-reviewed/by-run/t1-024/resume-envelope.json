@@ -1,0 +1,120 @@
+{
+  "formatVersion": 1,
+  "project": {
+    "name": "BusyCafe",
+    "configVersion": 2,
+    "configPath": ".agent-context/config.yaml",
+    "configSha256": "a5b4060b789f5fa76d9ea65e1ea4ab62ccb07a0d19429b4cad8de0dea727d225"
+  },
+  "checkpoint": {
+    "document": ".agent-context/handoff.md",
+    "sha256": "29c9d7c2177eada98037223f1e12b0d9162782433fbb272b84892dea1a11665f",
+    "stale": false,
+    "sections": {
+      "Objective": "커밋 `0f2b9c3` 기준의 제품 의미, 검증된 운영 상태, 미해결 위험, 안전한 다음 작업을\n재구성한다.",
+      "Completed": "- BusyCafe는 카페 좌석이 아니라 주변 지역 보행 혼잡을 추정한다.\n- 관리형 PostgreSQL bootstrap은 hotspot 121개, active cafe 4,933개와 첫 complete cycle\n  `121/121/0` 약 4분 6초를 역사적 증거로 남겼다.\n- HEAD에는 interrupt finalization, worker 8분·job 9분 경계, 30초 hard kill, 5회 연속 실패\n  circuit, DB 없는 고정 hotspot read-only canary가 이미 있다.",
+      "Verification": "- 공개 preview는 read-only SQLite snapshot이며 현재 live 상태로 단정하지 않는다.\n- 저장소와 HEAD diff만 읽고 외부 상태를 조회하지 않는다.",
+      "Decisions": "- Phase 6 현장 검증과 production gate 전에는 Track 2·3 확장을 동결한다.",
+      "Risks": "- 후속 poll timeout은 durable cycle을 잘못 `running`으로 남겼다.\n- Phase 6의 HUMAN POI 검수, 현장 관측, 보고서는 아직 남아 있다.",
+      "Next action": "기존 canary와 poll 수정의 bounded verification 및 owner-controlled cycle/freshness evidence를\n먼저 확보하고 즉시 live 승격하거나 확장 구현을 시작하지 않는다."
+    }
+  },
+  "git": {
+    "detached": false,
+    "changes": [],
+    "omittedChanges": 0,
+    "staged": 0,
+    "unstaged": 0,
+    "untracked": 0,
+    "conflicted": 0,
+    "stagedDiff": {
+      "files": 0,
+      "insertions": 0,
+      "deletions": 0,
+      "binaryFiles": 0
+    },
+    "unstagedDiff": {
+      "files": 0,
+      "insertions": 0,
+      "deletions": 0,
+      "binaryFiles": 0
+    },
+    "recentCommits": [
+      {
+        "sha": "d74a6a34ac9e6cadf4c0d710eddb1c2a97747a8b",
+        "shortSha": "d74a6a3",
+        "subject": "pilot: settle released Carrylog surfaces for r2-busycafe-01-objective"
+      },
+      {
+        "sha": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+        "shortSha": "58f586f",
+        "subject": "pilot fixture from 0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6"
+      }
+    ],
+    "branch": "main",
+    "head": {
+      "sha": "d74a6a34ac9e6cadf4c0d710eddb1c2a97747a8b",
+      "shortSha": "d74a6a3",
+      "subject": "pilot: settle released Carrylog surfaces for r2-busycafe-01-objective"
+    }
+  },
+  "alwaysContext": [
+    {
+      "id": "instructions",
+      "path": ".agent-context/instructions.md",
+      "description": "Operating rules for reading, updating, and handing off project memory",
+      "sha256": "94ddfeb59da566d5025ad2ec5c7f92b34d036038152289b74917cfb452e58e3c",
+      "content": "# Context operating rules\n\n## At the start of work\n\n1. Read every document marked `load: always` in `config.yaml`.\n2. Load on-demand documents only when their descriptions or triggers match the task.\n3. Compare the requested work, the repository state, and this context before editing.\n4. Report consequential mismatches before relying on stale context.\n\n## While working\n\n- Treat source code and executable tests as evidence, not as substitutes for product intent.\n- Keep changes inside the requested scope and record decisions that constrain future work.\n- Do not silently rewrite human-authored content outside generated adapter blocks.\n\n## Before handing off\n\n- Update `current-state.md` when implementation status or priorities changed.\n- Update `handoff.md` with verified changes, checks run, unresolved risks, and the next best task.\n- Add or link a decision record when a consequential design choice was made.\n- Run `carrylog validate` and the project's relevant quality checks.\n"
+    },
+    {
+      "id": "project",
+      "path": ".agent-context/project.md",
+      "description": "Stable product purpose, users, scope, and non-goals",
+      "sha256": "1d931e3b18959d479c141197a722c67cb0778c6d169e66d2df21a2fb597ec21e",
+      "content": "# Project brief\n\nBusyCafe maps Seoul area pedestrian-congestion estimates to nearby cafes. It does not measure venue seat occupancy. Production uses PostgreSQL and a separate ingest worker; the public preview may remain a read-only snapshot.\n"
+    },
+    {
+      "id": "current-state",
+      "path": ".agent-context/current-state.md",
+      "description": "Current implementation state, active objective, blockers, and next work",
+      "sha256": "01961f27421ce25329cc22eef698eac449b52293eb5e72697728bad4bf9ad9f4",
+      "content": "# Current state\n\n## Active objective\n\nContinue the bounded task recorded in the reviewed handoff without changing production or external systems.\n\n## Next best task\n\nRead the handoff and preserve its decisions, verification boundary, and sensitive exclusions.\n"
+    }
+  ],
+  "onDemandCatalog": [
+    {
+      "id": "architecture",
+      "path": ".agent-context/architecture.md",
+      "description": "System boundaries, module responsibilities, and data flows",
+      "sha256": "4d28049c66cb7fb1322c4752186a342f6098053ebdef6b0bf9336b25fcae25aa",
+      "triggers": [
+        "architecture changes",
+        "cross-module work",
+        "new integrations"
+      ]
+    },
+    {
+      "id": "decisions",
+      "path": ".agent-context/decisions.md",
+      "description": "Decision index and constraints that should not be reversed casually",
+      "sha256": "4744037eed6018d8b57aba33cf6328e91b359d49195bad08f8a6f8006586ea46",
+      "triggers": [
+        "design choices",
+        "dependency changes",
+        "revisiting prior decisions"
+      ]
+    },
+    {
+      "id": "conventions",
+      "path": ".agent-context/conventions.md",
+      "description": "Commands, code style, testing expectations, and contribution workflow",
+      "sha256": "d433a1f48bf74e7e2df7846571553870425dc939d1a7489c9b25238e27893bd2",
+      "triggers": [
+        "editing code",
+        "running checks",
+        "preparing a pull request"
+      ]
+    }
+  ],
+  "diagnostics": []
+}

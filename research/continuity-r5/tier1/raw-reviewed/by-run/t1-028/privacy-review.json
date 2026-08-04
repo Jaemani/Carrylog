@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "runId": "t1-028",
+  "blindId": "b-aafcfc2627d3",
+  "reviewerId": "maintainer-1",
+  "reviewedAt": "2026-08-04T18:04:49.566Z",
+  "sourceDigest": "218eb299d204a4b1e3e808fcedb911f2258e9601d3acee0137ea1eb97b54ed1c",
+  "decision": "approved",
+  "attestation": "I reviewed the sanitized visible artifacts for credentials, private provider state, ignored source data, absolute local paths, and task-specific sensitive exclusions, and approved the exact bytes bound by sourceDigest."
+}

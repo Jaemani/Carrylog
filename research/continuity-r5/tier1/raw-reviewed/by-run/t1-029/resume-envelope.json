@@ -1,0 +1,120 @@
+{
+  "formatVersion": 1,
+  "project": {
+    "name": "BusyCafe",
+    "configVersion": 2,
+    "configPath": ".agent-context/config.yaml",
+    "configSha256": "a5b4060b789f5fa76d9ea65e1ea4ab62ccb07a0d19429b4cad8de0dea727d225"
+  },
+  "checkpoint": {
+    "document": ".agent-context/handoff.md",
+    "sha256": "62ee544b34826b6b0509ce671b162846e82dd979eeac428217631351ca1a61ce",
+    "stale": false,
+    "sections": {
+      "Objective": "Production DB 접근을 보존하면서 Preview 접근만 제거하는 미래의 owner runbook을 작성한다.",
+      "Completed": "- `vercel env rm DATABASE_URL preview --yes`는 Preview binding만이 아니라 변수 전체를 삭제한\n  인시던트가 있다.\n- Vercel serverless는 Transaction pooler, GitHub worker는 Session pooler를 사용하며 direct\n  IPv6 URL은 hosted runner에 부적합했다.",
+      "Verification": "- 현재 CLI help/docs 또는 owner UI에서 scope semantics를 확인하기 전에는 mutation하지 않는다.\n- 변경 후 양쪽 binding, deliberate redeploy, `/api/health.data_mode`, rollback 가능성을 검증한다.",
+      "Decisions": "- 암호화된 값은 자동으로 다시 읽을 수 없으므로 destructive 작업 전에 recoverable한 올바른\n  값이 존재해야 한다.",
+      "Risks": "- historical snapshot fallback은 현재 외부 상태나 live readiness를 증명하지 않는다.\n- secret 값 자체를 채팅이나 로그로 요청·출력하지 않는다.",
+      "Next action": "실행 없는 stop-condition 중심 runbook만 작성하고 외부 검증은 승인된 maintenance window까지\ndeferred로 남긴다."
+    }
+  },
+  "git": {
+    "detached": false,
+    "changes": [],
+    "omittedChanges": 0,
+    "staged": 0,
+    "unstaged": 0,
+    "untracked": 0,
+    "conflicted": 0,
+    "stagedDiff": {
+      "files": 0,
+      "insertions": 0,
+      "deletions": 0,
+      "binaryFiles": 0
+    },
+    "unstagedDiff": {
+      "files": 0,
+      "insertions": 0,
+      "deletions": 0,
+      "binaryFiles": 0
+    },
+    "recentCommits": [
+      {
+        "sha": "3bd9341bc14e51725b245f365a0d60700b5efc8e",
+        "shortSha": "3bd9341",
+        "subject": "pilot: settle released Carrylog surfaces for r2-busycafe-04-failed-approach"
+      },
+      {
+        "sha": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+        "shortSha": "58f586f",
+        "subject": "pilot fixture from 0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6"
+      }
+    ],
+    "branch": "main",
+    "head": {
+      "sha": "3bd9341bc14e51725b245f365a0d60700b5efc8e",
+      "shortSha": "3bd9341",
+      "subject": "pilot: settle released Carrylog surfaces for r2-busycafe-04-failed-approach"
+    }
+  },
+  "alwaysContext": [
+    {
+      "id": "instructions",
+      "path": ".agent-context/instructions.md",
+      "description": "Operating rules for reading, updating, and handing off project memory",
+      "sha256": "94ddfeb59da566d5025ad2ec5c7f92b34d036038152289b74917cfb452e58e3c",
+      "content": "# Context operating rules\n\n## At the start of work\n\n1. Read every document marked `load: always` in `config.yaml`.\n2. Load on-demand documents only when their descriptions or triggers match the task.\n3. Compare the requested work, the repository state, and this context before editing.\n4. Report consequential mismatches before relying on stale context.\n\n## While working\n\n- Treat source code and executable tests as evidence, not as substitutes for product intent.\n- Keep changes inside the requested scope and record decisions that constrain future work.\n- Do not silently rewrite human-authored content outside generated adapter blocks.\n\n## Before handing off\n\n- Update `current-state.md` when implementation status or priorities changed.\n- Update `handoff.md` with verified changes, checks run, unresolved risks, and the next best task.\n- Add or link a decision record when a consequential design choice was made.\n- Run `carrylog validate` and the project's relevant quality checks.\n"
+    },
+    {
+      "id": "project",
+      "path": ".agent-context/project.md",
+      "description": "Stable product purpose, users, scope, and non-goals",
+      "sha256": "1d931e3b18959d479c141197a722c67cb0778c6d169e66d2df21a2fb597ec21e",
+      "content": "# Project brief\n\nBusyCafe maps Seoul area pedestrian-congestion estimates to nearby cafes. It does not measure venue seat occupancy. Production uses PostgreSQL and a separate ingest worker; the public preview may remain a read-only snapshot.\n"
+    },
+    {
+      "id": "current-state",
+      "path": ".agent-context/current-state.md",
+      "description": "Current implementation state, active objective, blockers, and next work",
+      "sha256": "01961f27421ce25329cc22eef698eac449b52293eb5e72697728bad4bf9ad9f4",
+      "content": "# Current state\n\n## Active objective\n\nContinue the bounded task recorded in the reviewed handoff without changing production or external systems.\n\n## Next best task\n\nRead the handoff and preserve its decisions, verification boundary, and sensitive exclusions.\n"
+    }
+  ],
+  "onDemandCatalog": [
+    {
+      "id": "architecture",
+      "path": ".agent-context/architecture.md",
+      "description": "System boundaries, module responsibilities, and data flows",
+      "sha256": "4d28049c66cb7fb1322c4752186a342f6098053ebdef6b0bf9336b25fcae25aa",
+      "triggers": [
+        "architecture changes",
+        "cross-module work",
+        "new integrations"
+      ]
+    },
+    {
+      "id": "decisions",
+      "path": ".agent-context/decisions.md",
+      "description": "Decision index and constraints that should not be reversed casually",
+      "sha256": "4744037eed6018d8b57aba33cf6328e91b359d49195bad08f8a6f8006586ea46",
+      "triggers": [
+        "design choices",
+        "dependency changes",
+        "revisiting prior decisions"
+      ]
+    },
+    {
+      "id": "conventions",
+      "path": ".agent-context/conventions.md",
+      "description": "Commands, code style, testing expectations, and contribution workflow",
+      "sha256": "d433a1f48bf74e7e2df7846571553870425dc939d1a7489c9b25238e27893bd2",
+      "triggers": [
+        "editing code",
+        "running checks",
+        "preparing a pull request"
+      ]
+    }
+  ],
+  "diagnostics": []
+}

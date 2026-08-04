@@ -1,0 +1,119 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "저장소의 기존 인시던트 기록과 운영 지침만 읽어 근거를 확인한 뒤, 실제 명령을 실행하지 않는 Vercel runbook을 작성하겠습니다. 외부 조회·시크릿 요청·파일 수정은 하지 않고, 허용된 상태 검증만 사용하겠습니다."
+    },
+    {
+      "type": "agent_message",
+      "text": "## 비실행 Runbook: Vercel Preview DB 접근 제거\n\n### 목표\n\nProduction DB 연결은 그대로 유지하면서 Preview 환경의 DB 접근만 제거한다. 이전 인시던트의 핵심 실패 모드인 **환경 범위 오인으로 Production 설정까지 변경·삭제하는 상황**을 방지한다.\n\n### 변경 금지선\n\n- Vercel CLI를 사용하지 않는다.\n- 환경변수 자체를 삭제하지 않는다.\n- Production 범위, 값, 배포를 변경하지 않는다.\n- 시크릿 값을 조회·복사·기록하지 않는다.\n- Production과 Preview가 같은 DB 자격증명을 공유한다면 즉시 진행하지 않는다.\n\n### 사전 확인\n\n변경자와 검토자가 Vercel Dashboard에서 다음 메타데이터만 확인한다.\n\n- 올바른 Team과 Project인지\n- DB 관련 환경변수 이름 전체\n- 각 변수의 현재 적용 범위가 `Production`, `Preview`, `Development` 중 무엇인지\n- Preview 브랜치별 예외 범위가 있는지\n- Production과 Preview가 별도 자격증명을 사용하는지\n- 기존 Preview 배포가 계속 접근 가능한지에 대한 처리 계획\n- 현재 Production 상태를 확인할 기존 헬스체크와 읽기 전용 사용자 경로\n\n변경 기록에는 변수명, 범위, 프로젝트, 시각만 남기고 값은 남기지 않는다.\n\n### 중단 조건\n\n다음 중 하나라도 해당하면 변경을 중단한다.\n\n- 대상 프로젝트나 변수 목록이 불명확하다.\n- Production 범위를 해제해야만 저장할 수 있다.\n- Production과 Preview가 동일한 DB 자격증명을 공유한다.\n- 기존 Preview 배포의 접근 철회 방법이 승인되지 않았다.\n- Production 기준 상태가 이미 비정상이다.\n\n### 변경 절차\n\n1. Vercel Dashboard의 대상 Project → Settings → Environment Variables로 이동한다.\n2. DB 연결에 필요한 각 변수를 하나씩 처리한다.\n3. 변수의 **값이나 레코드를 삭제하지 않고**, 적용 범위에서 `Preview`만 해제한다.\n4. 저장 직전 다음을 2인 확인한다.\n   - `Production`: 유지\n   - `Preview`: 해제\n   - 값: 변경 없음\n   - 다른 환경 및 브랜치 예외: 의도치 않은 변경 없음\n5. 한 변수씩 저장하고 범위 표시를 다시 확인한다.\n6. 모든 DB 관련 변수가 동일하게 처리되기 전에는 Preview 검증을 시작하지 않는다.\n\n환경변수 변경은 기존 배포에 소급되지 않을 수 있다. 따라서 **새 Preview 배포 차단만으로 완료 처리하지 않는다.** 기존 Preview 배포에는 승인된 방식으로 접근 종료 조치를 적용한다. 공유 Production 자격증명 회전은 금지하며, 필요하면 별도의 Preview 전용 자격증명을 폐기하는 방식이어야 한다.\n\n### 검증 및 완료 기준\n\n운영자가 이후 실제 변경 시 다음을 확인해야 한다.\n\n- Production의 기존 헬스체크와 대표 읽기 경로가 정상이다.\n- Production 환경의 모든 DB 변수 범위가 그대로 유지됐다.\n- 새 Preview 배포는 DB 변수를 받지 않으며 DB 기능이 명시적으로 실패한다.\n- 기존 Preview 배포에서도 DB 접근이 불가능하다.\n- 로그나 화면에 연결 문자열 등 시크릿이 노출되지 않았다.\n\n하나라도 충족하지 않으면 완료로 선언하지 않는다.\n\n### 복구\n\nProduction 이상이 감지되면 즉시 추가 변경을 멈춘다.\n\n1. 변경 전 메타데이터와 비교해 Production 범위가 변했는지 확인한다.\n2. Production 범위가 훼손됐다면 승인된 시크릿 관리 경로로 기존 Production 바인딩을 복구한다. 값은 티켓이나 채팅으로 전달하지 않는다.\n3. Production 복구 검증을 먼저 완료한다.\n4. Preview 접근 복구가 별도로 필요하면 **Preview 전용 자격증명**으로 Preview 범위만 복구한다. Production 자격증명을 재사용하지 않는다.\n5. Production 정상과 Preview 격리를 각각 독립적으로 확인한 뒤 인시던트를 종료한다.\n\n저장소는 수정하지 않았으며, 허용된 `git status`와 `git diff` 검증은 모두 exit 0으로 완료됐다."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 413,
+      "contentSha256": "4bbc139b39fe9239a801c5d01e5541c8b0ad8ebc2928c42df8fdfd5eff312be8"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "610c505e44db7f3c08911cdfc8d222b5",
+      "commandId": "git-status",
+      "registrySha256": "903ce7a024c79c1e4347e56a5f86fdd1419a5b9919e87c29b3406bcac313fded",
+      "commandSha256": "922b0ddc0b2ee4c28f1904f1e6a35e9bc64d9c9eff9559430b36f2350c696ed8",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "2dced8a72e8fb2cbcc83401e07f33cf7",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "94566b6ff550d50cf52ec0c526f7527548b37a35ebacc04cd966aa6a5b32bd00"
+        }
+      },
+      "preCommandStateSha256": "08e66cd8052fb1724bdd3e1669b7b3511e1ff154e3dc9dea058dfb5d61fdbfd7",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "85e91c3a73744e2d9d2c2290d5c69439",
+      "commandId": "git-diff",
+      "registrySha256": "903ce7a024c79c1e4347e56a5f86fdd1419a5b9919e87c29b3406bcac313fded",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "2dced8a72e8fb2cbcc83401e07f33cf7",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "94566b6ff550d50cf52ec0c526f7527548b37a35ebacc04cd966aa6a5b32bd00"
+        }
+      },
+      "preCommandStateSha256": "08e66cd8052fb1724bdd3e1669b7b3511e1ff154e3dc9dea058dfb5d61fdbfd7",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

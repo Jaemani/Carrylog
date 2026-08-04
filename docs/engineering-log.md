@@ -2325,3 +2325,46 @@ evaluation bundles validated, the Attempt-5 suite passed, and active research pa
 freeze check still derived permanent first-ADD commit `ec27f44` and suite digest
 `cfb7d9c1…b4bd`. The analyzer's interim `REDESIGN` result is mechanical: execution is incomplete and
 the protocol-invalid run makes the GO predicate false. It is not treated as the final Tier 2 decision.
+
+## 2026-08-05 — Attempt 5 reached its reviewed 30-run boundary
+
+Runs `t1-021` through `t1-030` were executed in frozen order. Each terminal quarantine bundle was
+inspected in full and privacy-approved before the next run started; every scored artifact was then
+blindly evaluated, validated, and finalized. Harness failures have no blind artifact or evaluation.
+The midpoint reconciliation is 26 scored runs, three retained harness failures, one protocol-invalid
+run, and 30 unstarted runs. No terminal run was retried or replaced.
+
+Claude run `t1-025` passed authentication and route-catalog checks but exited 1 without a terminal
+success event. It matches the intermittent missing-success-event shape retained at `t1-005`; the safe
+failure record was approved and classified as `provider-nonzero-exit`. The immediately later Claude
+runs `t1-026` and `t1-027` completed on the required model with settled wrapper receipts and clean
+authentication teardown. This supports an intermittent harness/adapter symptom, not a root-cause
+claim. The research path, model, and frozen inputs were not changed in response.
+
+The new results add two useful but non-generalizable within-fixture observations. For the BusyCafe
+objective fixture, Codex manual handoff and Carrylog resume each earned full recall and 10/10
+completion, while repository-only recovered 15% of fact weight, contradicted the frozen stuck-cycle
+fact, and earned 4/10. For the BusyCafe failed-approach fixture, Codex manual handoff and Carrylog
+resume each earned full recall and 10/10 completion, while repository-only recovered only the owner-UI
+scope fact, for 10% recall and 4/10 completion. No condition in that latter fixture produced a
+prohibited reversal, repeated work, unnecessary clarification, or sensitive exposure. The Carrylog
+objective fixture does not show condition equality: manual handoff earned full recall and 10/10,
+whereas the Carrylog-resume response omitted the completed beta.5 release fact and earned 19/22 fact
+weight and 7/10 completion.
+
+At the boundary, structural validation accepted all 26 evaluations and all 60 blind bundles. The
+Attempt-5 suite passed 122/122, active research passed 131/131, the isolation canary denied external
+files, localhost, DNS, unknown IDs, and argument injection while allowing bound scratch, and both
+current-byte authenticated prerequisites remained passed. Product quality, coverage floors, package
+inspection, and isolated local, ephemeral, global, ESM, strict-types, migration, init, validate,
+checkpoint, and resume smoke paths passed. The freeze check still accepted permanent boundary
+`ec27f44` and suite digest `cfb7d9c1…b4bd`. The interim analyzer decision remains mechanically
+`REDESIGN`; half the batch is unstarted and the protocol-invalid run permanently prevents the frozen
+GO predicate.
+
+The first 30-run checkpoint draft failed independent review before commit. It incorrectly said every
+terminal result was blindly evaluated even though retained failures have no blind artifact, and it
+misread the combined active-suite test ordinal as an Attempt-5-only count. The wording was split into
+terminal-wide privacy review versus scored-only evaluation, and the evidence was corrected to
+Attempt-5 122/122 and active research 131/131. Both reviewers were required to recheck the repaired
+bytes rather than treating the findings as editorial exceptions.

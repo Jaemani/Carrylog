@@ -1,0 +1,227 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_git_head",
+      "input": {}
+    },
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_git_status",
+      "input": {}
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "c9e8c2d9df0e5654885204fd3c7f35909771011d\n"
+        }
+      ]
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "## main\n"
+        }
+      ]
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/.agent-context/instructions.md"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/.agent-context/project.md"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/.agent-context/current-state.md"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/.agent-context/handoff.md"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# Project brief\n2\t\n3\t## Purpose\n4\t\n5\tCarrylog gives a repository one durable project-context and handoff layer shared by multiple AI coding\n6\tagents. Canonical Markdown stays human-reviewable; deterministic adapters route Codex, Claude Code,\n7\tand future tools to the right context without copied sources drifting. Durable truth belongs to the\n8\trepository rather than a model session or machine-local journal.\n9\t\n10\t## Users\n11\t\n12\t- Developers who switch among AI coding agents or machines on the same repository.\n13\t- Teams that need reviewable architecture, quality, decision, and handoff constraints in Git.\n14\t- Maintainers who want context changes reviewed and versioned with code.\n15\t\n16\t## In scope\n17\t\n18\t- Local-first context structure and versioned schema.\n19\t- Progressive always/on-demand loading.\n20\t- Non-destructive instruction-file adapters.\n21\t- Verifiable handoff evidence and drift/freshness checks.\n22\t- Cross-platform CLI, CI automation, and later opt-in skills/MCP access.\n23\t\n24\t## Non-goals\n25\t\n26\t- A complete software-development methodology or agent orchestrator.\n27\t- Replacing Git, issue trackers, ADRs, product documentation, or automatic session journals.\n28\t- Hidden LLM calls in deterministic validation.\n29\t- Uploading repository context or telemetry by default.\n30\t- Claiming semantic freshness when only file structure was validated.\n31\t\n32\tDetailed scope and success criteria live in `docs/product-scope.md`.\n33\t"
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# Current state\n2\t\n3\t## Active objective\n4\t\n5\tClose the verified beta.5 release evidence, then execute the preregistered minimum Tier 1 continuity\n6\tpilot without implementing journaling or compaction.\n7\t\n8\t## Implemented and verified\n9\t\n10\t- Strict TypeScript CLI implements deterministic context initialization, synchronization, validation,\n11\t  Git handoff, explicit v1-to-v2 migration, checkpoint, and portable resume.\n12\t- Configuration v1 remains frozen; v2 adds Codex/Cursor, Claude, and Gemini surfaces plus offline\n13\t  continuity Skills with fail-closed ownership and migration.\n14\t- Resume binds guarded context reads to stable Git evidence, enforces per-file and aggregate resource\n15\t  limits, and emits terminal-safe human and JSON projections without provider-session data.\n16\t- ADR-0009 through ADR-0012 define universal surfaces, continuity boundaries, Git stability, and\n17\t  evidence gates; research protocols remain outside the product package.\n18\t- Dogfood lifecycle, package consumers, complete dist-tag policy, and independent post-fix\n19\t  code/security and release reviews pass locally. Exact measurements belong to the engineering log.\n20\t- Immutable beta.5 is publicly installable through the explicit npm `beta` channel. Its tagged\n21\t  cross-platform preflight, token-free OIDC publication, registry artifact, executable, dist-tags,\n22\t  signature, and SLSA provenance were independently verified.\n23\t\n24\t## In progress\n25\t\n26\t- Post-release evidence is being checkpointed separately from the immutable beta.5 release commit.\n27\t- The Tier 1 protocol exists, but its two repository fixtures, task rubrics, randomized order, and\n28\t  authenticated two-harness access must be frozen in a committed preregistration before scored runs.\n29\t\n30\t## Blockers and risks\n31\t\n32\t- Cursor CLI is unavailable locally; final authenticated Codex/Gemini conformance still needs restored\n33\t  credentials.\n34\t- Automated resume needs a compatible source build, project-pinned install, or global install; Skills\n35\t  never download, build, or upgrade it implicitly.\n36\t- Sequential cross-file rename and the final path-to-syscall TOCTOU window remain under ADR-0007.\n37\t- External outcome evidence and additional Windows reparse/hard-link coverage remain stable-release\n38\t  work.\n39\t- npmjs.org does not allow removing `latest`; beta.4 remains the documented bare-install bootstrap\n40\t  until stable while `@beta` advances.\n41\t- Cross-harness behavioral continuity, repeated-switch retention, conversation reconstruction, and\n42\t  compaction value remain unproven and outside the supported runtime.\n43\t\n44\t## Next best task\n45\t\n46\tCommit the post-release evidence, freeze the Tier 1 fixtures and harness prerequisites, then execute\n47\tthe randomized pilot without changing the product during scored runs.\n48\t"
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# Context operating rules\n2\t\n3\t## At the start of work\n4\t\n5\t1. Read every document marked `load: always` in `config.yaml`.\n6\t2. Load on-demand documents only when their descriptions or triggers match the task.\n7\t3. Compare the requested work, the repository state, and this context before editing.\n8\t4. Report consequential mismatches before relying on stale context.\n9\t\n10\t## While working\n11\t\n12\t- Treat source code and executable tests as evidence, not as substitutes for product intent.\n13\t- Keep changes inside the requested scope and record decisions that constrain future work.\n14\t- Do not silently rewrite human-authored content outside generated adapter blocks.\n15\t\n16\t## Before handing off\n17\t\n18\t- Update `current-state.md` when implementation status or priorities changed.\n19\t- Update `handoff.md` with verified changes, checks run, unresolved risks, and the next best task.\n20\t- Add or link a decision record when a consequential design choice was made.\n21\t- Run `carrylog validate` and the project's relevant quality checks.\n22\t"
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# Handoff\n2\t\n3\t<!-- agent-context-kit:handoff-snapshot:start -->\n4\t## Repository evidence\n5\t\n6\t- Branch: \"main\"\n7\t- HEAD: \"e3eb690 at 2000-01-01T00:00:00Z\"\n8\t- Upstream: \"No upstream configured\"\n9\t- Working tree: Clean (snapshot file excluded)\n10\t- Staged diff: 0 file(s), +0/-0, 0 binary\n11\t- Unstaged diff: 0 file(s), +0/-0, 0 binary\n12\t- Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded\n13\t\n14\t### Changed paths (0)\n15\t\n16\tNone.\n17\t\n18\t### Recent commits (2)\n19\t\n20\t    {\"commit\":\"e3eb690\",\"committedAt\":\"2000-01-01T00:00:00Z\",\"subject\":\"pilot: settle released Carrylog surfaces for r1-carrylog-01-objective\"}\n21\t    {\"commit\":\"d027117\",\"committedAt\":\"2000-01-01T00:00:00Z\",\"subject\":\"pilot fixture from c9e8c2d9df0e5654885204fd3c7f35909771011d\"}\n22\t\n23\t<!-- carrylog:checkpoint-settlement:v1 {\"formatVersion\":1,\"objectFormat\":\"sha1\",\"baseHead\":\"e3eb6904bfadf3bb03c872834c32c6706bf23e08\",\"detached\":false,\"branch\":\"main\",\"indexCommitment\":\"2c52e4bf9e13e10dbc5c60815969d4cd2bb7ba892b9adad3978d5d4aaa5f6933\"} -->\n24\t<!-- agent-context-kit:handoff-snapshot:end -->\n25\t\n26\t## Objective\n27\t\n28\tAt fixture commit `c9e8c2d`, prepare the minimum controlled Tier 1 continuity pilot without adding\n29\tsession journaling or semantic compaction.\n30\t\n31\t## Completed\n32\t\n33\t- Carrylog beta.5 is already published on the explicit npm `beta` channel and its OIDC artifact was\n34\t  independently verified.\n35\t- The narrow supported product is repository-owned checkpoint/resume governance, not chat replay.\n36\t\n37\t## Verification\n38\t\n39\t- Treat release facts as completed historical evidence; do not repeat registry administration.\n40\t- Inspect the exact fixture commit and working-tree state before reporting.\n41\t\n42\t## Decisions\n43\t\n44\t- ADR-0012 gates journaling, arbitrary switch, behavioral-continuity, and compaction claims on staged\n45\t  evidence.\n46\t\n47\t## Risks\n48\t\n49\t- At this fixture revision, the two repository fixtures, task rubrics, randomized order, and two\n50\t  authenticated harnesses are not yet frozen in a committed preregistration.\n51\t\n52\t## Next action\n53\t\n54\tFreeze those experimental inputs at immutable revisions, then run the randomized pilot without\n55\tchanging the product during scored runs.\n56\t"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/.agent-context/decisions.md"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# Decision index\n2\t\n3\t| Decision | Status | Summary |\n4\t| --- | --- | --- |\n5\t| ADR-0001 | Accepted | Local-first layered context compiled into concise tool adapters |\n6\t| ADR-0002 | Accepted | Node.js 22+ and strict TypeScript with one runtime dependency |\n7\t| ADR-0003 | Accepted | Fail-closed managed blocks preserve human-authored adapters |\n8\t| ADR-0004 | Superseded | Original `ackit` executable and `.agent-context/` canonical root decision |\n9\t| ADR-0005 | Accepted | Frozen configuration v1 with layered schema/runtime validation |\n10\t| ADR-0006 | Accepted | Deterministic bounded Git evidence separated from handoff narrative |\n11\t| ADR-0007 | Accepted | Filesystem writes guarded by path, parent, temporary-file, and content identity |\n12\t| ADR-0008 | Accepted | Carrylog identity with configuration v1 wire compatibility |\n13\t| ADR-0009 | Accepted | Explicit configuration v2 with shared universal agent surfaces |\n14\t| ADR-0010 | Accepted | Portable checkpoint and verified resume boundary without transcript parsing |\n15\t| ADR-0011 | Accepted | Git stability compares allowed exit codes and stdout, not sandbox stderr noise |\n16\t| ADR-0012 | Accepted | Continuity claims expand only after staged behavioral evidence gates |\n17\t\n18\tFull records and the template are indexed in `docs/decisions/README.md`.\n19\t"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/decisions/0012-continuity-evidence-gates.md"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "File does not exist. Note: your current working directory is <RUN_ROOT>/repository.",
+      "isError": true
+    },
+    {
+      "type": "tool_use",
+      "tool": "Glob",
+      "input": {
+        "pattern": "docs/decisions/*0012*"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "docs/decisions/0012-evidence-gates-before-continuity-expansion.md"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/decisions/0012-evidence-gates-before-continuity-expansion.md"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# ADR-0012: Require evidence gates before expanding continuity claims\n2\t\n3\t- Status: Accepted\n4\t- Date: 2026-07-12\n5\t- Owners: Repository maintainer\n6\t\n7\t## Context\n8\t\n9\tADR-0010 deliberately limits Carrylog continuity to reviewed repository state plus fresh Git\n10\tevidence. Later discussion considered visible delivery receipts, observable session journals,\n11\tcross-harness launch wrappers, and reversible compaction. Those ideas could improve the experience,\n12\tbut the project has not demonstrated that arbitrary harness switching preserves effective context,\n13\tthat retaining all observable conversation improves outcomes, or that Carrylog compaction would\n14\toutperform harness-native resume or compaction.\n15\t\n16\tThe initial audit brief proposed a comprehensive factorial evaluation. External review agreed with\n17\tits evidence discipline but found the first execution plan too large for a solo beta. Waiting for a\n18\tfull research program would leave the project in a permanent pre-release state; implementing the\n19\tfeatures first would turn unproven assumptions into product contracts.\n20\t\n21\t## Decision\n22\t\n23\tCarrylog retains the accepted ADR-0010 boundary. It is a repository-owned project-memory governance\n24\tand checkpoint tool, not a conversation-replay product.\n25\t\n26\tContinuity evidence is classified in increasing strength:\n27\t\n28\t1. **artifact:** the expected repository state exists and is current;\n29\t2. **delivery:** the intended state is demonstrably included in model-visible input;\n30\t3. **reconstruction:** the model recovers preregistered relevant facts and constraints;\n31\t4. **behavior:** the next task preserves decisions, avoids repeated work, and uses prior state;\n32\t5. **perception:** the user correctly understands what continued and experiences useful continuity.\n33\t\n34\tEvidence at one level does not prove the next. A generated file, discovery trace, receipt, or model\n35\tacknowledgement is not behavioral continuity.\n36\t\n37\tBefore session journaling or semantic compaction becomes a supported runtime feature or enabled\n38\tdefault, the project must run a minimum viable Tier 1 pilot:\n39\t\n40\t- two materially different repositories;\n41\t- five continuation tasks per repository;\n42\t- no-context, manual-handoff, and current Carrylog checkpoint conditions;\n43\t- two authenticated harnesses;\n44\t- prompts, facts, prohibited reversals, rubrics, and analysis rules committed before execution;\n45\t- sanitized raw results and all exclusions retained for review.\n46\t\n47\tTier 1 is an exploratory maintainer-run pilot, not external proof. It estimates variance, exposes\n48\tharness problems, and decides whether larger work is justified. An independent Tier 2 evaluation is\n49\trequired before broad behavioral or compaction superiority claims.\n50\t\n51\tResearch may prototype the minimum capture or delivery mechanism required to measure a hypothesis,\n52\tbut prototypes stay outside the stable runtime contract. Carrylog must not default to automatic\n53\tsemantic compaction, indefinite conversation retention, or raw transcript export before the\n54\tapplicable evidence and privacy gates pass.\n55\t\n56\tNative resume and native compact are baselines, not obstacles to replace. If a harness exposes a\n57\tnative compact artifact, an experiment may reuse it with provenance. An inaccessible native compact\n58\tcannot be described as portable or reconstructed. Carrylog compact, selected raw history, retrieval,\n59\tand hybrid approaches must be compared on factual retention, contradictions, task outcome, working\n60\tcontext, cost, latency, and exposure—not token reduction alone.\n61\t\n62\tFuture session UX must distinguish at least `resume`, `branch`, `project-only`, and `fresh` intent.\n63\tRepository instruction discovery may still occur during a fresh conversation, so the product must\n64\tnot equate fresh conversation with absence of project policy.\n65\t\n66\tThe narrow checkpoint/resume beta is not blocked on proving every future continuity hypothesis. A\n67\tknown research gap is documented and the beta may ship when its current claims, package, security,\n68\treview, and release gates pass. High-severity integrity or data-loss findings remain release blockers;\n69\tevidence work is not a reason to ignore them.\n70\t\n71\tEvery new continuity feature must trace to a job in `docs/product-scope.md`. “More sophisticated” or\n72\t“more defensive” is not independently a product job.\n73\t\n74\t## Considered alternatives\n75\t\n76\t### Implement journaling and compaction before measurement\n77\t\n78\tRejected. It would create retention, privacy, and compatibility contracts before demonstrating user\n79\tvalue.\n80\t\n81\t### Require the complete factorial audit before beta publication\n82\t\n83\tRejected. The cost is disproportionate to the current narrow product claim and would prevent the\n84\tproject from obtaining the users needed for meaningful evidence.\n85\t\n86\t### Treat a continuity receipt as proof\n87\t\n88\tRejected. A receipt can attest attempted delivery and model acknowledgement but not correct use.\n89\t\n90\t### Reuse every harness-native compact automatically\n91\t\n92\tRejected. Availability, format, hidden dependencies, and cross-harness value differ and require\n93\tper-harness evidence.\n94\t\n95\t### Market Carrylog as universal conversation resume\n96\t\n97\tRejected until behavioral and perceived-continuity evidence supports that claim. The defensible\n98\tcurrent position is Git-reviewable, tool-neutral project memory and checkpoint governance.\n99\t\n100\t## Consequences\n101\t\n102\tPositive:\n103\t\n104\t- the current beta can ship without pretending a research roadmap is already proven;\n105\t- small public experiments replace indefinite audit planning;\n106\t- receipts, journals, and compaction receive claim-specific gates;\n107\t- native harness behavior remains a measured baseline;\n108\t- future session designs must preserve explicit fresh and branch choices.\n109\t\n110\tNegative:\n111\t\n112\t- Carrylog cannot yet promise conversation continuity or arbitrary switch invariance;\n113\t- authenticated harness access and experimental execution are required before expansion;\n114\t- research artifacts need privacy review and may reveal that proposed features are not worthwhile;\n115\t- model and harness updates can expire earlier results.\n116\t\n117\t## Validation and evidence expiration\n118\t\n119\t- Execute the committed Tier 1 protocol under `research/continuity/` before promoting research\n120\t  journaling or compaction into the supported runtime.\n121\t- Report unavailable delivery evidence as unknown, not successful.\n122\t- Preserve model, harness, context-limit, prompt, repository, and commit identities with results.\n123\t- Re-run affected evidence when an instruction-discovery surface, model generation, native compact\n124\t  policy, or wrapper delivery path materially changes.\n125\t- Revisit this ADR if Tier 1 shows no useful signal, external users identify a different primary job,\n126\t  or a broadly adopted standard provides stronger portable continuity primitives.\n127\t"
+    },
+    {
+      "type": "agent_message",
+      "text": "## Fixture report\n\n- **Verified checkpoint:** `HEAD` is exactly `c9e8c2d9df0e5654885204fd3c7f35909771011d`; `git status` reports clean on `main`. No files were edited.\n- **Objective:** Prepare the minimum controlled Tier 1 continuity pilot without adding session journaling or semantic compaction (`.agent-context/handoff.md:26-29`).\n- **Verified state that matters:** Carrylog’s supported product is repository-owned, Git-reviewable checkpoint/resume governance—not chat replay (`.agent-context/handoff.md:31-40`). The deterministic CLI already supports checkpoint and portable resume (`.agent-context/current-state.md:8-22`).\n- **Safest next action:** Freeze the two repository fixtures, task rubrics, randomized order, prompts/analysis rules, and authenticated two-harness prerequisites at immutable committed revisions; then run the randomized pilot without changing the product during scored runs (`.agent-context/handoff.md:47-55`, `docs/decisions/0012-evidence-gates-before-continuity-expansion.md:37-49`).\n- **Blockers/material risks:** Those experimental inputs and harness prerequisites are not yet frozen. Authenticated Codex/Gemini conformance requires restored credentials, and Cursor CLI is unavailable locally (`.agent-context/current-state.md:30-42`). Harness/model changes can also invalidate evidence (`docs/decisions/0012-evidence-gates-before-continuity-expansion.md:117-126`).\n- **Evidence boundary:** Cross-harness behavioral continuity, arbitrary/repeated switching, conversation reconstruction, and compaction value remain research-only hypotheses—not supported product behavior. Tier 1 itself is exploratory and cannot establish broad superiority claims (`docs/decisions/0012-evidence-gates-before-continuity-expansion.md:47-60`).\n\n**Context mismatch:** The generated repository-evidence block in `.agent-context/handoff.md:4-24` names later commit `e3eb690`. That is outer-experiment settlement state and was not used as the fixture checkpoint; the registered verification establishes `c9e8c2d` as the actual inspected HEAD."
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "7ea25c1eb9be5065a62755c2b0880a23",
+      "commandId": "git-head",
+      "registrySha256": "9b1627b5b13d099824ba4bf8235e3f98e37f643bfed78c582626c09d3c238eb8",
+      "commandSha256": "0982d0183160724bdf605aab4be2362545186f25c89895ca89bacbd346cd9ae0",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "71c0e5f1fb7c82e9cd6f59a62a6b5af7",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "8095f36ed731cfe61773ab3c67fc75cfa74a6a85c07adeb00e8970d0c53cdfd9"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "14b689462ebbabfd9ebb81db72bdf1fec77bb882419e5cc9f13e6a2a7ca7bb20"
+        }
+      },
+      "preCommandStateSha256": "878370dd0112932437dfa44c6806ed52dfde09944aa66975d9677c358ccf3ae4",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "e5d85f1e024933be42254bce56d70ec6",
+      "commandId": "git-status",
+      "registrySha256": "9b1627b5b13d099824ba4bf8235e3f98e37f643bfed78c582626c09d3c238eb8",
+      "commandSha256": "338946c586d3679a85dc176e38aacb4a99939095d94aa5570c2f8d35dc7c5ae5",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "71c0e5f1fb7c82e9cd6f59a62a6b5af7",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "8095f36ed731cfe61773ab3c67fc75cfa74a6a85c07adeb00e8970d0c53cdfd9"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "14b689462ebbabfd9ebb81db72bdf1fec77bb882419e5cc9f13e6a2a7ca7bb20"
+        }
+      },
+      "preCommandStateSha256": "878370dd0112932437dfa44c6806ed52dfde09944aa66975d9677c358ccf3ae4",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 8,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 8,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "기준 ref/커밋과 작업 트리 상태를 등록된 검증 도구로만 확인한 뒤, 저장소 문서에서 제품 의미·운영 증거·미해결 위험을 교차검증하겠습니다. 외부 상태 조회나 파일 변경은 하지 않겠습니다."
+    },
+    {
+      "type": "agent_message",
+      "text": "## 읽기 전용 인수인계 요약\n\n- **기준:** `refs/carrylog-pilot/source`의 지정 커밋 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`. 등록 검증에서 HEAD 일치와 깨끗한 작업 트리를 확인했다.\n- **제품 의미:** BusyCafe는 카페 좌석 가용성이 아니라 주변 지역의 보행 혼잡도를 추정하는 제품이다.\n- **검증된 운영 상태:** 저장소에는 관리형 PostgreSQL bootstrap 당시 hotspot 121개, active cafe 4,933개, 첫 complete cycle `121/121/0`(약 4분 6초)의 역사적 증거가 있다. 이 커밋에는 interrupt finalization, worker 8분/job 9분 제한, 30초 hard kill, 5회 연속 실패 circuit, DB 없는 고정-hotspot read-only canary가 구현돼 있다. 공개 preview는 SQLite snapshot이므로 현재 live 운영 상태나 freshness의 증거는 아니다.\n- **가장 중요한 미해결 위험:** 후속 poll timeout이 durable cycle을 `running`으로 남길 수 있어 cycle 완료 상태와 freshness 판단, production gate의 신뢰성을 훼손한다. Phase 6의 HUMAN POI 검수·현장 관측·보고서도 미완료다.\n- **가장 안전한 다음 작업 하나:** 기존 canary와 poll 수정에 대해 bounded verification을 수행하고, owner 통제하에 실제 cycle 완료·freshness 증거를 확보한다. 그 전에는 live 승격과 Track 2·3 확장을 동결한다.\n\n파일 수정, 외부 서비스 조회, stage/commit은 수행하지 않았다."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 413,
+      "contentSha256": "9118eed1da55d9381c70cfc2696f4d5fc2a2c697d077b4867856720b55a287aa"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "9e09505fd36205e3f10d3fc659eedbf3",
+      "commandId": "git-head",
+      "registrySha256": "78131d7d55c05cc591771501f9e2a4e8a832eafdc11979f2bd63e9257ba360b7",
+      "commandSha256": "0982d0183160724bdf605aab4be2362545186f25c89895ca89bacbd346cd9ae0",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "9a3954757067b816b5fd35ebd051cc53",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "0fcf1b6e29ab8ac74f23954f52dfd24dad3aa76d1bd4bf767b95fd0ceba12fc7"
+        }
+      },
+      "preCommandStateSha256": "858c1568150ac7a194ab0c279b64b7283298c62e5b32b394e0a17fa4e71d4208",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "0492fc9724ba0526a652af09e8fb9f90",
+      "commandId": "git-status",
+      "registrySha256": "78131d7d55c05cc591771501f9e2a4e8a832eafdc11979f2bd63e9257ba360b7",
+      "commandSha256": "922b0ddc0b2ee4c28f1904f1e6a35e9bc64d9c9eff9559430b36f2350c696ed8",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "9a3954757067b816b5fd35ebd051cc53",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "0fcf1b6e29ab8ac74f23954f52dfd24dad3aa76d1bd4bf767b95fd0ceba12fc7"
+        }
+      },
+      "preCommandStateSha256": "858c1568150ac7a194ab0c279b64b7283298c62e5b32b394e0a17fa4e71d4208",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "5847d5c88a295955ff14e5e50690db44",
+      "commandId": "git-head",
+      "registrySha256": "78131d7d55c05cc591771501f9e2a4e8a832eafdc11979f2bd63e9257ba360b7",
+      "commandSha256": "0982d0183160724bdf605aab4be2362545186f25c89895ca89bacbd346cd9ae0",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "9a3954757067b816b5fd35ebd051cc53",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "0fcf1b6e29ab8ac74f23954f52dfd24dad3aa76d1bd4bf767b95fd0ceba12fc7"
+        }
+      },
+      "preCommandStateSha256": "858c1568150ac7a194ab0c279b64b7283298c62e5b32b394e0a17fa4e71d4208",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "15177a062f0be5ba721d1b14912184c7283073f8edea7837a4abc1f402799150",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "89ee0ddc4e7d20be945eefa132d75aff",
+      "commandId": "git-status",
+      "registrySha256": "78131d7d55c05cc591771501f9e2a4e8a832eafdc11979f2bd63e9257ba360b7",
+      "commandSha256": "922b0ddc0b2ee4c28f1904f1e6a35e9bc64d9c9eff9559430b36f2350c696ed8",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "9a3954757067b816b5fd35ebd051cc53",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "0fcf1b6e29ab8ac74f23954f52dfd24dad3aa76d1bd4bf767b95fd0ceba12fc7"
+        }
+      },
+      "preCommandStateSha256": "858c1568150ac7a194ab0c279b64b7283298c62e5b32b394e0a17fa4e71d4208",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

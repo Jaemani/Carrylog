@@ -1,0 +1,288 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-0927f782862f",
+  "artifactSha256": "b0c0527f085b9470fa14d3f430b78b4553da872c319cc435b60f081c799d6327",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "evaluatorId": "maintainer-1",
+  "evaluatedAt": "2026-08-04T18:01:15.382Z",
+  "facts": [
+    {
+      "id": "f1",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Historical release evidence: Beta.5 publication and independent OIDC verification are treated as completed evidence; no registry action should be repeated.",
+          "explanation": "States publication and independent verification are complete."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f2",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Prepare the minimum controlled Tier 1 continuity pilot ... without session journaling or semantic compaction.",
+          "explanation": "Identifies the active pilot and excludes journaling and compaction."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f3",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "The draft protocol is not yet an executable committed preregistration; the fixture revisions, task rubrics, randomized order, and two authenticated harnesses are not frozen.",
+          "explanation": "Names every material preregistration blocker."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f4",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Commit and freeze the two immutable repository fixtures, task facts/rubrics/prompts, prohibited reversals, randomized-order seed, analysis rules, and exact harness access/version details. Then run fresh randomized sessions without changing the product during scored runs.",
+          "explanation": "Selects immutable freeze first and preserves no-product-change control."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f5",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Carrylog provides repository-owned, Git-reviewable checkpoint/resume governance. It reconstructs reviewed project state, not private chat, hidden state, or universal conversation continuity.",
+          "explanation": "Preserves the supported checkpoint boundary and marks broader claims unproven."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "completionCriteria": [
+    {
+      "id": "c1",
+      "available": true,
+      "awardedPoints": 3,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Objective and Historical release evidence sections",
+          "explanation": "Correct active objective and completed release state are explicit."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c2",
+      "available": true,
+      "awardedPoints": 3,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Safest next action: Commit and freeze the two immutable repository fixtures ... Then run fresh randomized sessions without changing the product during scored runs.",
+          "explanation": "Chooses fixture and harness preregistration as the next action."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c3",
+      "available": true,
+      "awardedPoints": 2,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Blockers/material risks section",
+          "explanation": "Names missing frozen fixtures, rubrics, order, and authenticated harnesses without inventing external state."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c4",
+      "available": true,
+      "awardedPoints": 2,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "verification-receipt",
+          "reference": "git-head and git-status exited 0; workspaceDiff is empty",
+          "explanation": "Registered verification confirms the fixture ref and unchanged workspace while the response preserves the product boundary."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Research-only hypotheses ... remain unproven.",
+          "explanation": "No unsupported runtime expansion is proposed."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p2",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "no registry action should be repeated",
+          "explanation": "No publication or credential recovery is proposed."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "repeatedWork": [
+    {
+      "id": "r1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Beta.5 publication and independent OIDC verification are treated as completed evidence",
+          "explanation": "Completed release work is not repeated."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "unnecessaryClarifications": [],
+  "clarificationsAvailable": true,
+  "clarificationEvidence": [
+    {
+      "source": "final-response",
+      "reference": "The final response contains no clarification question.",
+      "explanation": "The retained response is sufficient to determine that no clarification was requested."
+    }
+  ],
+  "sensitiveExposures": [
+    {
+      "id": "credentials",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No credentials exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "absolute-local-paths",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No absolute-local-paths exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "raw-transcripts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No raw-transcripts exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "hidden-reasoning",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No hidden-reasoning exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "auth-artifacts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No auth-artifacts exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "provider-private-state",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No provider-private-state exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "deliveryEvidenceLevel": "behavior",
+  "evaluatorConfidence": 3,
+  "unavailableEvidence": [],
+  "notes": "The response explicitly reconstructs all five continuity facts, preserves the checkpoint-only boundary, selects immutable preregistration as the next action, avoids completed release work, and leaves the verified tree unchanged."
+}
