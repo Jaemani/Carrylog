@@ -1,0 +1,123 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "I’m using the repository’s `carrylog-continuity` skill because this task explicitly resumes from a verified Carrylog checkpoint. I’ll validate the protected compatibility decision against the relevant repository records, then run only the two permitted verification checks."
+    },
+    {
+      "type": "agent_message",
+      "text": "The continuity skill’s source is outside the repository-scoped inspection surface permitted by this fixture, so I’m continuing from the supplied, reviewed state envelope. That envelope and the repository handoff agree: v1 is a published frozen boundary, while v2 already owns continuity and universal adapters through explicit migration. No repository edit is appropriate."
+    },
+    {
+      "type": "agent_message",
+      "text": "The proposal should be rejected. Configuration v1 is a published, frozen compatibility boundary; adding continuity fields or universal adapters would silently change existing repositories.\n\nNo changes were made. The supported path remains:\n\n- Existing v1 repositories continue unchanged.\n- Users opt in explicitly with `carrylog migrate --to 2 --universal`.\n- `sync`, `validate`, install, and upgrade do not migrate implicitly.\n\nVerification passed: formatting checked 65 files successfully, and `git diff` is empty."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 39,
+      "contentSha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "df394c41182d1efed5fae2e37e040187",
+      "commandId": "format-check",
+      "registrySha256": "4a84c58ebdb0266c6d48e402cc8f65fa81846a8632a6672ec6d05754abcef387",
+      "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "25679226aa66354f52387850d220b91c",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "7b81345dd1ae173ab899cce6caab518115db6c5b7ff4842b5caaf4ef437e6d53"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "a5d4968249f14aeb14764f2095f4accbd28d962cb3a9540db0948898a9cbeceb"
+        }
+      },
+      "preCommandStateSha256": "22585f73fd8af0f023990871e60685c8cba5df7286885d501d052d0cb7eeae31",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 100,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "7f39aa5d1a1c9a22f7e074e00ba077a1a12febdac1314678a45ecd15eed9bda4",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "7f39aa5d1a1c9a22f7e074e00ba077a1a12febdac1314678a45ecd15eed9bda4",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "541fe24233f392ef99af5063562dfd28",
+      "commandId": "git-diff",
+      "registrySha256": "4a84c58ebdb0266c6d48e402cc8f65fa81846a8632a6672ec6d05754abcef387",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "25679226aa66354f52387850d220b91c",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "7b81345dd1ae173ab899cce6caab518115db6c5b7ff4842b5caaf4ef437e6d53"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "a5d4968249f14aeb14764f2095f4accbd28d962cb3a9540db0948898a9cbeceb"
+        }
+      },
+      "preCommandStateSha256": "22585f73fd8af0f023990871e60685c8cba5df7286885d501d052d0cb7eeae31",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

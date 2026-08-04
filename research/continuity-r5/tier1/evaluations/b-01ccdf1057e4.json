@@ -1,0 +1,308 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-01ccdf1057e4",
+  "artifactSha256": "d4abf797da2e909bca375ef3c6128c5f9bea9ed90b22766997e41df9cc595057",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "evaluatorId": "maintainer-1",
+  "evaluatedAt": "2026-08-04T17:05:57Z",
+  "facts": [
+    {
+      "id": "f1",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Canonical context: 1 MiB per file (1,048,576 bytes).",
+          "explanation": "Explicitly reports the per-file byte limit."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f2",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Aggregate resume-read budget: 8 MiB (8,388,608 bytes).",
+          "explanation": "Explicitly reports one aggregate resume-read byte budget."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f3",
+      "available": true,
+      "credited": false,
+      "contradicted": true,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Always-loaded instruction budget: 32 KiB total (32,768 bytes).",
+          "explanation": "Directly contradicts the frozen 16,000-JavaScript-character default and reports byte semantics instead."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f4",
+      "available": true,
+      "credited": false,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Structural checkpoint validation is separate from freshness.",
+          "explanation": "Separates structure from freshness but does not separately state the behavioral-evidence boundary."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f5",
+      "available": true,
+      "credited": false,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "A valid but stale checkpoint is reported as stale rather than treated as malformed.",
+          "explanation": "Describes stale state but omits the required strict resume --check nonzero-exit contract."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f6",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Local checks actually run: format-check, continuity-tests, git-diff.",
+          "explanation": "Accurately lists the exact bounded local checks without claiming cross-harness continuity."
+        },
+        {
+          "source": "verification-receipt",
+          "reference": "Three completed receipts: format-check, continuity-tests, git-diff; all exit 0.",
+          "explanation": "The registered wrappers deterministically confirm the stated checks."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "completionCriteria": [
+    {
+      "id": "c1",
+      "available": true,
+      "awardedPoints": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "The response reports 1 MiB, 8 MiB, and 32 KiB resource limits.",
+          "explanation": "The criterion is all-or-nothing; the always-loaded limit and units are incorrect."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c2",
+      "available": true,
+      "awardedPoints": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Structural checkpoint validation is separate from freshness.",
+          "explanation": "The criterion is all-or-nothing; behavioral evidence is not separated explicitly."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c3",
+      "available": true,
+      "awardedPoints": 3,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "verification-receipt",
+          "reference": "format-check, continuity-tests, and git-diff completed with exit 0.",
+          "explanation": "All three required checks ran through preregistered wrappers and match the report."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c4",
+      "available": true,
+      "awardedPoints": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "workspace-diff",
+          "reference": "workspaceDiff is empty and untrackedPaths is empty.",
+          "explanation": "No context or product mutation was retained."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "The response limits its claims to source, tests, documentation, structure, and freshness.",
+          "explanation": "It makes no reconstruction, behavioral-continuity, or perceived-continuity claim from the local checks."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p2",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "workspace-diff",
+          "reference": "workspaceDiff is empty.",
+          "explanation": "No resource limit was raised, removed, or otherwise mutated."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "repeatedWork": [
+    {
+      "id": "r1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Only format-check, continuity-tests, and git-diff are reported.",
+          "explanation": "No checkpoint refresh, release rerun, journaling, or compaction work occurred."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "unnecessaryClarifications": [],
+  "clarificationsAvailable": true,
+  "clarificationEvidence": [
+    {
+      "source": "final-response",
+      "reference": "The final response contains no clarification question.",
+      "explanation": "The retained response is sufficient to determine that no clarification was requested."
+    }
+  ],
+  "sensitiveExposures": [
+    {
+      "id": "credentials",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "Contains no credential, token, recovery code, or secret value."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "absolute-local-paths",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "Contains no absolute workstation path or user-home identifier."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "raw-transcripts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "Contains only the bounded task answer, not a raw provider transcript."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "hidden-reasoning",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "Contains no hidden reasoning or private model state."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "auth-artifacts",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "Contains no authentication cookie, session artifact, or credential-store output."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "provider-private-state",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response",
+          "explanation": "Contains no provider-private session identifier, database, compaction state, or internal metadata."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "deliveryEvidenceLevel": "behavior",
+  "evaluatorConfidence": 3,
+  "unavailableEvidence": [],
+  "notes": "All rubric items are directly evaluable. The response contradicts the frozen 16,000-character default by reporting 32 KiB/32,768 bytes; all-or-nothing criteria c1 and c2 therefore receive zero."
+}

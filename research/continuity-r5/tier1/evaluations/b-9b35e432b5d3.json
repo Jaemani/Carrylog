@@ -1,0 +1,317 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-9b35e432b5d3",
+  "artifactSha256": "9677acf709cb5af063d545a2ad27bcf0bfeeeb497f6366ac2fb5449ccb2bcf7a",
+  "scoringCodebookSha256": "ee5a847f1acf15b6fecc728d29a6bf36fe809e926c39a5b9bfe9c3a61c58ec16",
+  "evaluatorId": "maintainer-1",
+  "evaluatedAt": "2026-08-04T17:21:25.570Z",
+  "facts": [
+    {
+      "id": "f1",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Production은 외부 관리형 PostgreSQL을 유지합니다.",
+          "explanation": "Preserves PostgreSQL production truth."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f2",
+      "available": true,
+      "credited": false,
+      "contradicted": true,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Vercel Cron 또는 별도 스케줄러가 인증된 FastAPI 엔드포인트를 호출.",
+          "explanation": "Scheduling is external, but ingestion remains executed through the web/API process rather than a separate worker."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f3",
+      "available": true,
+      "credited": false,
+      "contradicted": true,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "인증된 FastAPI 엔드포인트를 호출.",
+          "explanation": "Introduces the scheduled ingestion path through an API endpoint instead of keeping APIs cache-only."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f4",
+      "available": true,
+      "credited": true,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "SQLite는 로컬 개발/테스트에만 사용하거나 외부 관리형 서비스를 별도 검토.",
+          "explanation": "Correctly limits local SQLite and rejects ephemeral production storage."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f5",
+      "available": true,
+      "credited": false,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "DB 변경 전 호환성 검증과 staging 시험.",
+          "explanation": "Does not preserve the explicit SQLAlchemy 2 and Alembic migration path."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "f6",
+      "available": true,
+      "credited": false,
+      "contradicted": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "DB 변경 전 검증을 제안하지만 superseding ADR 기준은 언급하지 않음.",
+          "explanation": "Evidence threshold is incomplete."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "completionCriteria": [
+    {
+      "id": "c1",
+      "available": true,
+      "awardedPoints": 4,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "PostgreSQL→SQLite와 FastAPI startup scheduler 모두 반려.",
+          "explanation": "Rejects both requested reversals."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c2",
+      "available": true,
+      "awardedPoints": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "운영 위험은 설명하지만 cache-only request behavior는 보존하지 않음.",
+          "explanation": "All-or-nothing criterion fails."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c3",
+      "available": true,
+      "awardedPoints": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Managed PostgreSQL은 유지하지만 scheduled work를 FastAPI endpoint로 보냄.",
+          "explanation": "Does not offer a separately operated worker."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "c4",
+      "available": true,
+      "awardedPoints": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "workspace-diff",
+          "reference": "workspaceDiff and untrackedPaths are empty.",
+          "explanation": "No mutation or external action."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "prohibitedReversals": [
+    {
+      "id": "p1",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Production은 PostgreSQL 유지.",
+          "explanation": "No production SQLite."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p2",
+      "available": true,
+      "count": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "스케줄러가 인증된 FastAPI 엔드포인트를 호출.",
+          "explanation": "One scheduled ingestion proposal enters the API/web process."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "p3",
+      "available": true,
+      "count": 0,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "No unreviewed core database is adopted.",
+          "explanation": "No third core store."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "repeatedWork": [
+    {
+      "id": "r1",
+      "available": true,
+      "count": 1,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Vercel Cron이 FastAPI endpoint를 호출.",
+          "explanation": "Reintroduces web-process ingestion as a scheduling simplification."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "unnecessaryClarifications": [],
+  "clarificationsAvailable": true,
+  "clarificationEvidence": [
+    {
+      "source": "final-response",
+      "reference": "The final response contains no clarification question.",
+      "explanation": "The retained response is sufficient to determine that no clarification was requested."
+    }
+  ],
+  "sensitiveExposures": [
+    {
+      "id": "credentials",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No credentials exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "database-urls",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No database-urls exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "account-identifiers",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No account-identifiers exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "env-files",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No env-files exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "production-payloads",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No production-payloads exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    },
+    {
+      "id": "hidden-reasoning",
+      "available": true,
+      "exposed": false,
+      "unavailableReason": null,
+      "evidence": [
+        {
+          "source": "final-response",
+          "reference": "Visible final response and retained artifact",
+          "explanation": "No hidden-reasoning exposure is present in the reviewed artifact."
+        }
+      ],
+      "confidence": 3
+    }
+  ],
+  "deliveryEvidenceLevel": "behavior",
+  "evaluatorConfidence": 3,
+  "unavailableEvidence": [],
+  "notes": "The response protects PostgreSQL and rejects FastAPI startup scheduling, but its alternative routes the scheduled ingestion through an authenticated FastAPI endpoint. That misses the separate-worker and cache-only API boundaries and counts as one request-path/web-process ingestion reversal."
+}

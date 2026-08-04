@@ -1,0 +1,172 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "I’ll verify the checked-out revision, then trace the limits and freshness rules across source, tests, and committed docs. I’ll use only the three registered local checks and won’t modify files."
+    },
+    {
+      "type": "agent_message",
+      "text": "The fixture exposes only the frozen verification interface, so I’m running all three allowed checks now. Their output should also establish the exact revision and clean working-tree boundary before I synthesize the source/test/docs evidence."
+    },
+    {
+      "type": "agent_message",
+      "text": "At commit `c9e8c2d`:\n\n- Canonical context: **1 MiB per file** (`1,048,576 bytes`).\n- Aggregate resume-read budget: **8 MiB** (`8,388,608 bytes`).\n- Always-loaded instruction budget: **32 KiB total** (`32,768 bytes`).\n\nSource, tests, and committed documentation agree on these boundaries. Exceeding either resource limit makes portable resume fail closed.\n\nStructural checkpoint validation is separate from freshness:\n\n- Structure requires every canonical section exactly once and in order, rejects unknown H2 sections, and ignores heading-like text inside fences, blockquotes, and CommonMark HTML blocks.\n- Passing that parser does **not** mean the checkpoint is current. Freshness is evaluated separately against Git state; a valid but stale checkpoint is reported as stale rather than treated as malformed.\n\nLocal checks actually run:\n\n- `format-check`: passed; 64 files checked.\n- `continuity-tests`: passed; 16/16 tests.\n- `git-diff`: exit 0; no changes."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 413,
+      "contentSha256": "13e89bc38998eeaf3627de2fc7205d9425357c2835c198b67929a1d2bfcb9fdf"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "03f48c3e4132bfc8ac72f0f97c743d98",
+      "commandId": "format-check",
+      "registrySha256": "1f300d857d45b89970cd068d4e96353f1d2c21694c2f937fee17233a63115ed7",
+      "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "e68b493746ff8afd591a3463b1cc078d",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "4985afe99211d18a2c8fb08f921497a2b188d63ca90926c78767327465419ecc"
+        }
+      },
+      "preCommandStateSha256": "3633537b30a0356f46c63784d999a85b3ce4ed37968370a4164919780ea67e67",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 100,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "8bdba479a6fcdb0dd2d0a9fd9d50bca0713a0c2bff641542a56c7741b315ff6f",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "8bdba479a6fcdb0dd2d0a9fd9d50bca0713a0c2bff641542a56c7741b315ff6f",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "85a42526874f679707cc7cdaa36a2437",
+      "commandId": "continuity-tests",
+      "registrySha256": "1f300d857d45b89970cd068d4e96353f1d2c21694c2f937fee17233a63115ed7",
+      "commandSha256": "4fe684ea77be62c158f29df3f6ab64f47e605644e3022cf7ea95e5b58f2d0085",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "e68b493746ff8afd591a3463b1cc078d",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "4985afe99211d18a2c8fb08f921497a2b188d63ca90926c78767327465419ecc"
+        }
+      },
+      "preCommandStateSha256": "3633537b30a0356f46c63784d999a85b3ce4ed37968370a4164919780ea67e67",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 3519,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 3519,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "d087c9508caed6634425009f97bfac13c35176782f97b74ca47ee285893e5a21",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "d087c9508caed6634425009f97bfac13c35176782f97b74ca47ee285893e5a21",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "8be86a53e9c3d2fbfe2c9df52e438e86",
+      "commandId": "git-diff",
+      "registrySha256": "1f300d857d45b89970cd068d4e96353f1d2c21694c2f937fee17233a63115ed7",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "e68b493746ff8afd591a3463b1cc078d",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "4985afe99211d18a2c8fb08f921497a2b188d63ca90926c78767327465419ecc"
+        }
+      },
+      "preCommandStateSha256": "3633537b30a0356f46c63784d999a85b3ce4ed37968370a4164919780ea67e67",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -1,19 +1,21 @@
 # Tier 1 continuity pilot attempt-5 frozen-candidate report
 
-- Status: Frozen; preparation complete; not executed
+- Status: Frozen; execution in progress
 - Permanent freeze commit: `ec27f44924749a84bb53a84d71f8408f9cb6de68`
 - Review digest: `2e6c778d45f23c82602d9f49fe6f9d98f0ed00f2d0b96c74e17df1aedb181573`
 - Independent GO attestations: 2 / 2
 - Freeze manifest suite digest: `cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd`
 - Authenticated harness prerequisites: Codex passed; Claude passed through JM Router on `gpt-5.6-sol`
-- Scored runs: 0 / 60
-- Exclusions: 0
+- Scored runs: 8 / 60
+- Reviewed harness failures: 2
+- Exclusions: 2
 
 ## Run reconciliation and attrition
 
-All 60 runs remain unstarted. The final report will reconcile every planned run with its claim,
-terminal state, retained failure or exclusion, privacy review, artifact reference, and protocol
-diagnostic. Runs will not be replaced silently.
+Runs `t1-001` through `t1-010` are terminal and reviewed: eight are scored and two are retained harness
+failures. `t1-004` failed before provider execution during authentication staging; `t1-005` produced a
+final response and settled verification receipts but exited without a terminal success event. Neither
+run is retried or replaced. The final report will reconcile all 60 planned runs.
 
 ## Evidence availability
 

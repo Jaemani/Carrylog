@@ -2267,3 +2267,24 @@ The limit was not raised. Historical canary failures and rejected review chronol
 constraints and verified boundary remained in always-loaded context. Validation then passed. This
 dogfood failure reinforces the intended hierarchy: durable history belongs in an on-demand log, while
 resume context carries only the current operational facts.
+
+## 2026-08-05 — Attempt 5 retained its first scored and failed outcomes
+
+The maintainer authorized the complete frozen cost and time envelope. Runs `t1-001` through `t1-010`
+then reached reviewed terminal states in order: eight scored artifacts and two retained harness
+failures. Every successful artifact passed explicit privacy review and blinded rubric validation
+before the next run began. Derived analysis reconciles all 60 planned identities with no protocol
+diagnostic.
+
+The first Claude run, `t1-004`, failed before provider execution because the maintainer command omitted
+the required key-file bridge environment field. The harness failed closed during authentication
+staging; the failure was reviewed, retained, and excluded without replacement. Later invocations
+validated the bridge before use.
+
+The next Claude run, `t1-005`, passed route-catalog attestation and authentication staging, produced a
+final visible answer, completed three registered verification commands, and preserved settled receipts
+and Git integrity. Claude nevertheless exited 1 without emitting the required terminal success event,
+so no scored artifact was published. The identical controlled path completed `t1-006`, resolved only
+the registered `gpt-5.6-sol` model, and cleaned authentication successfully. The missing terminal event
+is therefore retained as an intermittent harness/adapter failure rather than converted into behavioral
+evidence or silently retried.

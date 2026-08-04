@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-b8891d433ee5",
+  "finalResponse": "Rejected the in-place v1 expansion. Configuration v1 remains frozen to preserve published schema bytes, paths, markers, and meanings.\n\nUniversal use should follow the existing explicit path:\n\n```text\ncarrylog migrate --to 2 --universal\n```\n\nNo files were changed. `sync`, `validate`, install, and upgrade continue to avoid implicit migration.\n\nVerification passed:\n\n- `format:check`: 64 files checked, no fixes needed\n- `git-diff`: clean, exit 0",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "format-check",
+      "preCommandStateSha256": "c4bd9a9b72b12bf1106f4bec2f972951a3ea99a4eaafbe18ee12ee5680027740",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 100,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "ad587290a991322326b9903af42f4fd60478243f72772988b207eff6f019c966",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "ad587290a991322326b9903af42f4fd60478243f72772988b207eff6f019c966",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "c4bd9a9b72b12bf1106f4bec2f972951a3ea99a4eaafbe18ee12ee5680027740",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

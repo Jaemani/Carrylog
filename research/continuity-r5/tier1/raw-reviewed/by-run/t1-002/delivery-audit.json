@@ -1,0 +1,172 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "I’m using the carrylog-continuity skill because this is a portable-resume verification task. Its `SKILL.md` lies under a policy-denied path, so I can’t read or apply it directly; I’ll follow the repository’s checked-in context instructions and restrict verification to the three registered local checks."
+    },
+    {
+      "type": "agent_message",
+      "text": "The reviewed envelope is from a later pilot checkpoint, so I won’t treat its clean status as proof about `c9e8c2d`. I’m now running the three frozen checks; the continuity check is the executable evidence for resource and freshness boundaries, while the diff check confirms this verification made no changes."
+    },
+    {
+      "type": "agent_message",
+      "text": "Verified the portable-resume contract at `c9e8c2d`:\n\n- Per file: **1 MiB** (`1,048,576` bytes) for managed configuration and each canonical context document.\n- Aggregate: **8 MiB** (`8,388,608` bytes) across canonical-context reads for one resume observation.\n- Always loaded: **16,000 JavaScript characters** total by default—JavaScript string units, not bytes or tokenizer tokens.\n\nStructural validation and freshness are separate:\n\n- `carrylog validate` verifies schema, required document structure, and managed surfaces.\n- It does not prove checkpoint Git freshness or semantic freshness.\n- Resume reports stale checkpoint evidence; strict `resume --check` fails when that evidence is stale even if structural validation succeeds.\n\nLocal checks run:\n\n- `format:check`: passed, 65 files checked.\n- Focused continuity tests: passed, 16/16.\n- Git diff check: passed with exit 0.\n\nNo files were modified, staged, or committed."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 413,
+      "contentSha256": "25ea0cbef19fb1dae3e43e349e2adabda62ce2a631cca89ae3d43969d1f3c987"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "badb2a32bdf902be2e4a1e16f7694d35",
+      "commandId": "continuity-tests",
+      "registrySha256": "081acce24b18ab0dfe8dc384686269788c33750f7e910b6ca15a8a411ba64542",
+      "commandSha256": "4fe684ea77be62c158f29df3f6ab64f47e605644e3022cf7ea95e5b58f2d0085",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "c6bab97ce7ad22d0ac8c95437f95af72",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "9d508ca51a0c42ddb05a272b7f8472cc7fc486e392695adea34b23641cb6f40e"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "727536bdf8c583614e46e5d7f4d0cf4786aef992a7ec6da4e3683c087f6bdef2"
+        }
+      },
+      "preCommandStateSha256": "2c614f82c01ffcb46d04ba38dcb9633bae74f43af19185b852f58de7fa660c91",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 3522,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 3522,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "88cb96b751c027fcf7def67a26bfa9f1d35a19f584ff45c9d337c1042567fe2b",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "88cb96b751c027fcf7def67a26bfa9f1d35a19f584ff45c9d337c1042567fe2b",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "ed2f1181d1b8064a4707d082693c07e9",
+      "commandId": "format-check",
+      "registrySha256": "081acce24b18ab0dfe8dc384686269788c33750f7e910b6ca15a8a411ba64542",
+      "commandSha256": "2ffd62fd1c928085b7d27c170f9e808e5f2e365651010c80577ef4f476791dce",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "c6bab97ce7ad22d0ac8c95437f95af72",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "9d508ca51a0c42ddb05a272b7f8472cc7fc486e392695adea34b23641cb6f40e"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "727536bdf8c583614e46e5d7f4d0cf4786aef992a7ec6da4e3683c087f6bdef2"
+        }
+      },
+      "preCommandStateSha256": "2c614f82c01ffcb46d04ba38dcb9633bae74f43af19185b852f58de7fa660c91",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 100,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 100,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "fcd24069e2637e631321672893835df72d4213b78ab15c7c0d91d4a3a69836d6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "fcd24069e2637e631321672893835df72d4213b78ab15c7c0d91d4a3a69836d6",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "5ba9b47dfdf29f97d518dc6a2f66f09a",
+      "commandId": "git-diff",
+      "registrySha256": "081acce24b18ab0dfe8dc384686269788c33750f7e910b6ca15a8a411ba64542",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "c6bab97ce7ad22d0ac8c95437f95af72",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "9d508ca51a0c42ddb05a272b7f8472cc7fc486e392695adea34b23641cb6f40e"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "727536bdf8c583614e46e5d7f4d0cf4786aef992a7ec6da4e3683c087f6bdef2"
+        }
+      },
+      "preCommandStateSha256": "2c614f82c01ffcb46d04ba38dcb9633bae74f43af19185b852f58de7fa660c91",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

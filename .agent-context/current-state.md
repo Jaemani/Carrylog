@@ -2,8 +2,8 @@
 
 ## Active objective
 
-Preserve the verified Attempt-5 preparation boundary, then obtain explicit authorization for the
-costed and time-bounded scored 60-run batch before starting provider execution.
+Execute and review the authorized Attempt-5 scored batch in frozen order while preserving every
+terminal outcome and stopping on model, stream, authentication, budget, tool, or receipt anomalies.
 
 ## Implemented and verified
 
@@ -47,6 +47,11 @@ costed and time-bounded scored 60-run batch before starting provider execution.
 - From clean commit `65bb802`, Codex CLI 0.146.0 and native Claude Code 2.1.220 through JM Router passed
   their exact authenticated prerequisites on `gpt-5.6-sol`. Claude completed both permission profiles
   and the inter-profile broker settled.
+- Runs `t1-001` through `t1-010` are terminal and privacy-reviewed: eight are scored and two are retained
+  harness failures. `t1-004` failed before provider execution because the maintainer invocation omitted
+  the required Claude key-file bridge. `t1-005` passed route attestation, produced a final answer and
+  three settled verification receipts, but Claude exited 1 without a terminal success event. The same
+  Claude path then completed `t1-006` on `gpt-5.6-sol`, so the terminal-stream failure is intermittent.
 
 ## Blockers and risks
 
@@ -57,9 +62,8 @@ costed and time-bounded scored 60-run batch before starting provider execution.
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
 - Corrected review digest `2e6c778d…b181573` received two independent GO reviews. Suite digest
   `cfb7d9c1…b4bd` is frozen at permanent first-ADD commit `ec27f44`; scored execution remains 0/60.
-- Preparation is complete, but starting the 60 scored runs still requires explicit authorization for
-  up to USD 22.50 across 30 Claude runs, 30 Codex subscription runs, and a 15-hour serial timeout
-  ceiling before privacy review and evaluation overhead.
+- The full cost and time envelope is authorized. Two terminal harness failures cannot be retried or
+  replaced; they remain attrition in the final analysis.
 - An escaped process may survive its original process group. Seatbelt denies network and checkout
   writes while permitting only bound scratch writes; unsettled or forced receipt state prevents the
   process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
@@ -73,5 +77,5 @@ costed and time-bounded scored 60-run batch before starting provider execution.
 
 ## Next best task
 
-Obtain explicit authorization for the scored batch. If authorized, execute frozen run `t1-001` first,
-then complete its quarantine inspection, privacy decision, and evaluation before advancing in order.
+Commit the reviewed first ten outcomes, then execute frozen run `t1-011`. Complete quarantine review,
+privacy disposition, and blinded evaluation before advancing to each later run.
