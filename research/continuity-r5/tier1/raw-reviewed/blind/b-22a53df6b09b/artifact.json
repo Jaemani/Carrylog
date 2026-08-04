@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-22a53df6b09b",
+  "finalResponse": "# Vercel Preview의 Production DB 접근 제거 Runbook\n\n> **문서 성격:** 아래 절차는 운영자가 승인된 변경 시간에 수행할 비실행 계획이다. 이 답변에서는 Vercel 명령 실행, 외부 상태 조회, secret 열람·요청, 저장소 변경을 수행하지 않았다.\n\n## 1. 목표와 완료 조건\n\n목표는 다음 상태를 만드는 것이다.\n\n| 대상 | `DATABASE_URL` | 예상 동작 |\n|---|---|---|\n| Production | Production 전용 pooled TLS URL | 관리형 PostgreSQL, `/api/health.data_mode=live` |\n| 새 Preview | 없음 | 번들 SQLite fallback, `data_mode=snapshot` |\n| 기존 Preview | 이전 자격증명 폐기 후 DB 인증 실패 | Production DB 접근 불가 |\n| Development | 없음 | Production DB 접근 불가 |\n\n애플리케이션은 `DATABASE_URL`이 없을 때만 SQLite 스냅샷으로 전환한다(`api/index.py:19-23`). 따라서 새 Preview에서 변수만 제거하면 정상적인 snapshot Preview가 된다.\n\n단, Vercel 환경변수 변경은 **기존 deployment에서 secret을 제거하지 않는다**. 기존 Preview의 접근까지 제거하려면 Production을 새 전용 자격증명으로 무중단 전환한 다음 이전 DB 자격증명을 폐기해야 한다.\n\n## 2. 안전 원칙\n\n- `vercel env rm DATABASE_URL preview`를 사용하지 않는다. INC-2026-011에서는 이 명령이 Preview binding만이 아니라 변수 전체를 삭제했다(`docs/INCIDENTS.md:99-137`).\n- 암호화된 기존 Vercel 값은 복구용 원본으로 간주하지 않는다. 삭제 후 CLI로 되읽을 수 없다.\n- Supabase Project URL이나 publishable key를 `DATABASE_URL`로 사용하지 않는다.\n- Vercel에는 공급자의 **transaction pooler TLS URL**을 사용한다(`docs/OPERATIONS.md:22-35`).\n- secret 값은 채팅, 티켓, 명령 인자, 로그 또는 검증 문서에 기록하지 않는다.\n- Production 성공이 확인되기 전에는 이전 자격증명을 폐기하지 않는다.\n- DB 데이터 변경, migration, restore는 이 변경의 범위가 아니다.\n\n## 3. 사전 준비\n\n운영자와 독립 검증자가 다음을 준비한다.\n\n1. 대상이 정확한 Vercel 프로젝트 `busy-cafe`인지 프로젝트명과 Production domain으로 확인한다.\n2. DB 공급자에서 Vercel Production API만 사용할 새 전용 read-only DB 자격증명을 만든다.\n   - 기존 writer/migration 자격증명과 분리한다.\n   - pooled TLS connection string을 승인된 secret manager에 저장한다.\n   - 값을 이 runbook이나 변경 기록에 복사하지 않는다.\n3. 이전 Vercel 자격증명이 GitHub worker, migration, 백업 또는 다른 서비스에서도 사용되는지 **secret 값이 아닌 자격증명/role 식별자**로 확인한다.\n   - 공유 중이면 해당 소비자를 별도 자격증명으로 먼저 이전한다.\n   - 공유 소비자가 남아 있으면 이전 자격증명 폐기를 진행하지 않는다.\n4. 현재 Production deployment ID와 즉시 재승격할 수 있는 이전 정상 deployment ID를 기록한다.\n5. 캐시를 우회한 Production `/api/health`와 대표 bbox 응답에서 다음 baseline을 기록한다.\n   - HTTP 200 및 인증/SSO redirect 없음\n   - `data_mode=live`\n   - `last_complete_cycle_at`\n   - latest cycle 상태와 targets/saved/failed\n   - cafe count, `model_version`, 대표 evidence\n6. DB 공급자의 백업/PITR 상태를 확인하되, 확인하지 않은 RPO/RTO를 약속하지 않는다.\n7. Vercel Environment Variables 화면에서 `DATABASE_URL`의 모든 항목과 branch-specific override를 확인한다. 값은 열람하거나 기록하지 않는다.\n\n다음 중 하나면 변경을 중단한다.\n\n- 새 pooled URL이 복구 가능한 secret manager에 없음\n- Production baseline이 이미 비정상\n- 이전 자격증명의 다른 소비자를 식별할 수 없음\n- 이전 정상 deployment를 확인할 수 없음\n- 동시 환경변수 변경 또는 Production 배포가 진행 중\n\n## 4. 변경 절차\n\n### 4.1 Production 전용 binding 구성\n\nVercel Dashboard의 대상 프로젝트에서 **Settings → Environment Variables**로 이동한다.\n\n1. 기존 `DATABASE_URL` 항목을 편집한다.\n2. 값을 준비한 새 pooled TLS URL로 교체한다.\n3. Environment target은 **Production만 선택**한다.\n4. Preview와 Development를 선택 해제한다.\n5. branch-specific Preview `DATABASE_URL` 항목이 있다면 함께 제거한다.\n6. 저장 후 값을 표시하지 않은 상태에서 다음 metadata만 재확인한다.\n   - 이름: `DATABASE_URL`\n   - target: Production only\n   - Preview/Development binding 없음\n\n공유 항목을 삭제한 뒤 다시 만드는 방식은 사용하지 않는다. 전체 변수 삭제가 발생하면 아래 오류 복구 절차로 전환한다.\n\n### 4.2 Production을 먼저 전환\n\n1. 기준 commit으로 새 Production deployment를 만든다.\n2. 배포가 Ready여도 즉시 성공으로 판정하지 않는다.\n3. cache-busting query를 사용해 다음을 검증한다.\n   - canonical Production 홈: HTTP 200, SSO 302 없음\n   - `/api/health`: HTTP 200, `data_mode=live`\n   - `last_complete_cycle_at`이 허용 freshness 이내\n   - latest cycle이 `complete`, 또는 직전 complete가 fresh한 정상 `running`\n   - 정상 cycle 기준 `targets=121`, `saved=121`, `failed=0`\n   - cafe count와 `model_version`이 baseline과 일치\n   - 대표 bbox 응답의 coverage/evidence가 baseline과 일치\n4. CDN 응답 하나만 보지 말고 cache-busting 응답을 반복 확인한다.\n\n검증이 실패하면 이전 자격증명을 폐기하지 않고 즉시 §6.1로 이동한다.\n\n### 4.3 새 Preview 검증\n\n1. 같은 기준 commit으로 새 Preview deployment를 만든다.\n2. Preview `/api/health`에서 다음을 확인한다.\n   - HTTP 200\n   - `data_mode=snapshot`\n   - snapshot cafe count가 번들 baseline과 일치한다. 현 fixture가 그대로라면 4,933개다.\n3. 대표 bbox API가 HTTP 200이고 snapshot 데이터와 `model_version`을 반환하는지 확인한다.\n4. Preview가 `live`라면 변경 실패다. 다음을 다시 조사한다.\n   - Preview 또는 branch-specific `DATABASE_URL`\n   - integration이 주입한 동명 변수\n   - 이전 설정으로 만들어진 deployment를 잘못 검사했는지 여부\n\n### 4.4 기존 Preview 접근 차단\n\n새 Production과 새 Preview가 모두 정상인 경우에만 진행한다.\n\n1. DB 공급자에서 **이전 Vercel DB 자격증명만** 폐기한다.\n2. 새 Production 전용 자격증명과 GitHub worker/write 자격증명은 폐기하지 않는다.\n3. 기존 Preview deployment는 이전 URL을 계속 보유하므로 인증 오류가 날 수 있다. 이는 접근 차단의 예상 결과다.\n4. 기존 Preview alias는 재사용하지 않도록 격리하거나 만료 처리한다. 삭제가 필요하면 별도 승인 후 수행한다.\n5. 공급자 audit metadata에서 이전 자격증명의 성공 연결이 더 이상 없는지 확인한다. SQL, URL, 사용자명 또는 비밀번호는 증거에 남기지 않는다.\n\n## 5. 최종 합격 기준\n\n아래 항목을 모두 만족해야 완료로 판정한다.\n\n- [ ] Vercel `DATABASE_URL` target이 Production only\n- [ ] Preview/Development 및 branch override에 `DATABASE_URL` 없음\n- [ ] 새 Production이 HTTP 200, `data_mode=live`\n- [ ] Production의 freshness, cycle, cafe count, model version, evidence가 baseline과 일치\n- [ ] 새 Preview가 HTTP 200, `data_mode=snapshot`\n- [ ] 새 Preview의 대표 bbox가 bundled snapshot으로 정상 응답\n- [ ] 이전 DB 자격증명이 폐기되어 기존 Preview도 Production DB에 접근할 수 없음\n- [ ] Production 및 승인된 worker가 새 자격증명으로 계속 정상 동작\n- [ ] canonical domain과 `/api/health`가 SSO redirect 없이 응답\n- [ ] 변경 기록에는 deployment ID, 시각, 판정 및 비민감 metadata만 존재\n\n## 6. 실패 및 복구\n\n### 6.1 새 Production 연결 실패 — 이전 자격증명 폐기 전\n\n1. 변경을 중단하고 이전 정상 Production deployment를 재승격한다.\n2. 이전 자격증명은 유지한다.\n3. Production health와 대표 bbox가 baseline으로 복구됐는지 확인한다.\n4. 새 pooled URL의 role 권한, pooler 종류, TLS 및 DB 대상을 공급자 콘솔에서 재검토한다.\n5. Preview에 Production DB binding을 다시 추가하지 않는다.\n\n### 6.2 `DATABASE_URL` 전체가 삭제된 경우\n\nINC-2026-011의 재발 절차다.\n\n1. **새 deployment를 만들지 않는다.** 기존 Production deployment는 기존 환경을 계속 보유하므로 우선 서비스 상태를 보존한다.\n2. 암호화된 이전 값을 Vercel에서 복구하려 하지 않는다.\n3. 준비해 둔 새 pooled URL로 `DATABASE_URL`을 **Production only**로 다시 만든다.\n4. 새 Production을 배포하고 §4.2 전체를 검증한다.\n5. Preview에는 변수를 복원하지 않는다.\n6. Production 검증 후에만 이전 자격증명을 폐기한다.\n\n### 6.3 이전 자격증명 폐기 후 Production 장애\n\n1. Preview 접근을 다시 허용하는 rollback은 하지 않는다.\n2. secret manager에 보존한 새 Production 전용 URL로 Production binding을 재확인하고 재배포한다.\n3. 필요하면 또 다른 Production 전용 자격증명을 발급하여 교체한다.\n4. 최후의 가용성 수단으로 Production `DATABASE_URL`을 제거하면 SQLite snapshot fallback이 가능하지만, 이는 “Production DB 접근 유지” 목표를 충족하지 않으므로 **비상 degraded mode**로 기록한다.\n5. 데이터 손상이 의심되면 Production DB 위에 직접 restore하지 않는다. 손상 DB를 보존하고 별도 recovery DB에서 복구·검증한다(`docs/OPERATIONS.md:173-203`).\n\n## 7. 증적과 후속 조치\n\n변경 기록에는 다음만 남긴다.\n\n- 변경 승인자·운영자·검증자\n- 시작/종료 시각\n- Vercel 프로젝트명과 deployment ID\n- Production-only target을 보여주는 비민감 설정 metadata\n- Production/Preview health 판정과 비민감 응답 필드\n- 이전 자격증명 폐기 시각과 DB role 식별자\n- 실패·rollback 여부\n\nsecret 값, 전체 connection string, URL 내 credential, 공급자 키는 저장하지 않는다. 예상 밖 영향이 발생하면 INC-2026-011을 연결한 새 인시던트로 타임라인, 영향, 복구 근거 및 재발 방지를 기록한다.\n\n로컬 확인은 허용된 `git-status`와 `git-diff`만 실행했으며 둘 다 종료 코드 0이었다. 저장소 변경은 없다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "9ebd6e3e7767335321eb0ac58411db69532ffb3c43a014e34548281cf7bb3f8a",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "9ebd6e3e7767335321eb0ac58411db69532ffb3c43a014e34548281cf7bb3f8a",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

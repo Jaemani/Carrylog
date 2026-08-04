@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-b40142d22da4",
+  "finalResponse": "- **Objective:** At fixture commit `c9e8c2d`, prepare the minimum controlled Tier 1 continuity pilot without adding session journaling or semantic compaction.\n- **Verified state:** The fixture resolves to `c9e8c2d9df0e5654885204fd3c7f35909771011d`; branch `main` is clean. No files were edited. Beta.5 release evidence is historical and should not be repeated.\n- **Supported behavior:** Repository-owned, portable checkpoint/resume governance—not chat replay.\n- **Research-only hypotheses:** Cross-harness behavioral continuity, repeated-switch retention, conversation reconstruction, and compaction value remain unproven.\n- **Safest next action:** Freeze both repository fixtures, task rubrics, randomized order, and authenticated two-harness prerequisites in a committed immutable preregistration; then run the randomized pilot without product changes during scored runs.\n- **Blockers/risks:** Those experimental inputs and harness prerequisites are not yet frozen. Authenticated harness access may also block execution. Later outer-run commits/state were deliberately excluded.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-head",
+      "preCommandStateSha256": "114492ed1ce6e0e040b3fa8c5aa0250cb0c8c6a37e4dcca486a26b3ff2e5a8f3",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "114492ed1ce6e0e040b3fa8c5aa0250cb0c8c6a37e4dcca486a26b3ff2e5a8f3",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 8,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 8,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

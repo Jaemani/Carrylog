@@ -1,0 +1,265 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "tool_use",
+      "tool": "Glob",
+      "input": {
+        "pattern": "**/CLAUDE.md"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Glob",
+      "input": {
+        "pattern": "*"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "No files found"
+    },
+    {
+      "type": "tool_result",
+      "content": "frontend/index.html\nfrontend/public/logo.png\nfrontend/package-lock.json\nfrontend/package.json\nfrontend/tsconfig.json\nfrontend/.env.example\nfrontend/vite.config.ts\nfrontend/src/panel.ts\nfrontend/src/main.ts\nfrontend/src/cafe-provider.ts\nfrontend/src/map.ts\nfrontend/src/vite-env.d.ts\nfrontend/src/runtime-health.ts\nfrontend/src/style.css\nLICENSE\nvercel.json\nbackend/migrations/script.py.mako\nbackend/migrations/env.py\nbackend/migrations/versions/20260711_0001_initial_schema.py\nbackend/migrations/versions/20260711_0002_overture_cafe_cache.py\nbackend/migrations/versions/20260712_0003_scoring_model_version.py\nbackend/migrations/versions/20260712_0004_ingest_cycles.py\nbackend/migrations/README\nbackend/app/geo.py\nbackend/app/clients/kakao_local.py\nbackend/app/clients/__init__.py\nbackend/app/clients/seoul_hotspot_master.py\nbackend/app/clients/seoul_citydata.py\nbackend/app/config.py\nbackend/app/models.py\nbackend/app/ingest/worker.py\nbackend/app/ingest/overture_places.py\nbackend/app/ingest/hotspot_master.py\nbackend/app/ingest/__init__.py\nbackend/app/ingest/poller.py\nbackend/app/ingest/repository.py\nbackend/app/database.py\nbackend/app/__init__.py\nbackend/app/schemas.py\nbackend/app/scoring/__init__.py\nbackend/app/scoring/engine.py\nbackend/app/api/__init__.py\nbackend/app/api/routes.py\nbackend/app/universal_contracts.py\nbackend/app/main.py\nbackend/uv.lock\nbackend/alembic.ini\nbackend/Dockerfile\nbackend/pyproject.toml\nbackend/tests/test_poller.py\nbackend/tests/test_database.py\nbackend/tests/test_verify_apis.py\nbackend/tests/test_ingest_repository.py\nbackend/tests/test_seed_hotspots.py\nbackend/tests/test_scoring_engine.py\nbackend/tests/test_probe_seoul_citydata.py\nbackend/tests/test_run_eval.py\nbackend/tests/test_migrations.py\nbackend/tests/test_external_clients.py\nbackend/tests/test_hotspot_master_download.py\nbackend/tests/test_check_freshness.py\nbackend/tests/test_hotspot_master.py\nbackend/tests/test_universal_contracts.py\nbackend/tests/test_overture_places.py\nbackend/tests/test_api_routes.py\nbackend/tests/test_prepare_eval_observations.py\nbackend/tests/test_models.py\nbackend/tests/test_select_eval_candidates.py\nbackend/.dockerignore\nbackend/scripts/prepare_eval_observations.py\nbackend/scripts/seed_hotspots.py\nbackend/scripts/run_eval.py\nbackend/scripts/seed_cafes.py\nbackend/scripts/check_freshness.py\nbackend/scripts/materialize_scores.py\nbackend/scripts/select_eval_candidates.py\nbackend/scripts/verify_apis.py\nbackend/scripts/__init__.py\nbackend/scripts/probe_seoul_citydata.py\nbackend/scripts/download_hotspot_master.py\nbackend/fixtures/kakao_ce7_sample.json\nbackend/fixtures/README.md\nbackend/fixtures/citydata_sample.validation_error.txt\nbackend/fixtures/citydata_sample.json\nbackend/fixtures/seoul_hotspot_areas.zip\nbackend/fixtures/seoul_hotspots_master.xlsx\nbackend/fixtures/kakao_ce7_sample.summary.json\nbackend/.env.example\ndocs/adr/ADR-0003-maplibre-overture-catalog.md\ndocs/adr/ADR-0002-hotspot-location.md\ndocs/adr/ADR-0006-universal-expansion-tracks.md\ndocs/adr/ADR-0007-parallel-implementation-release-gates.md\ndocs/adr/ADR-0004-seoulwide-polling-cache.md\ndocs/adr/ADR-0005-live-production-runtime.md\ndocs/adr/ADR-0001-primary-database.md\ndocs/OPERATIONS.md\ndocs/CHANGELOG.md\ndocs/audits/2026-07-12-external-review-response.md\ndocs/INCIDENTS.md\ndocs/tracks/TRACK-1-ACCURACY.md\n(Showing 100 of 3433 matching files; 3333 more are not listed. Narrow the pattern or path to see the rest.)"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Grep",
+      "input": {
+        "pattern": "PostgreSQL|SQLite|Vercel|scheduler|10분|10 min|FastAPI|cron|APScheduler",
+        "path": ".",
+        "output_mode": "content",
+        "head_limit": 200
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": ".vercelignore:1:# Vercel 배포에는 읽기 전용 프로덕션 스냅샷 하나만 포함한다.\n.vercelignore:15:# 프론트엔드는 Vercel 빌드 중 다시 설치하고 생성한다.\napi/index.py:1:\"\"\"Read-only Vercel entry point for the current cafe-crowd snapshot.\"\"\"\napi/index.py:20:# managed PostgreSQL DATABASE_URL switches the exact same API to live data.\n.github/workflows/bootstrap-production.yml:42:              echo \"DATABASE_URL must be a PostgreSQL connection string.\" >&2\n.github/workflows/poll-production.yml:5:    - cron: \"*/10 * * * *\"\n.github/workflows/monitor-production.yml:5:    - cron: \"*/10 * * * *\"\nREADME.md:9:> 현재 공개 프리뷰는 배포 시점의 읽기 전용 SQLite 스냅샷입니다. 로컬 수집기의 10분\nREADME.md:10:> 갱신이 공개 URL에 자동 반영되지는 않습니다. 관리형 PostgreSQL과 운영 worker 전환이\nREADME.md:65:Overture 카페 원장 ──────────────────────────────> PostgreSQL/SQLite\nREADME.md:67:브라우저(MapLibre) <── FastAPI cache-only API <────┘\nREADME.md:71:스냅샷과 모델 버전을 저장해 같은 입력에는 같은 결과가 나오도록 합니다. 공개 Vercel\ndocs/DECISIONS.md:46:- [ADR-0001: PostgreSQL을 기본 데이터베이스로 사용](adr/ADR-0001-primary-database.md) — 2026-07-11, Accepted\ndocs/DECISIONS.md:50:- [ADR-0005: 관리형 PostgreSQL과 분리 worker 기반 실시간 운영](adr/ADR-0005-live-production-runtime.md) — 2026-07-11, Accepted\ndocs/DECISIONS.md:59:| 카페 원장 | Overture Places release를 PostgreSQL에 cache, 서울 인허가로 보정 | viewport마다 외부 POI 검색 금지 |\ndocs/DECISIONS.md:60:| 혼잡도 | 서울 공식 121개 장소, 10분 non-overlapping polling | 과거 `≤12곳` 범위는 legacy 결정 |\ndocs/TEMP_EXTERNAL_AUDIT.md:45:| 프로덕션 운영 준비 | 15% | 2.0 | 공개 Vercel 배포, health API, 분리 worker 코드 | 관리형 DB·상시 worker·경보·복구 훈련 없음 |\ndocs/TEMP_EXTERNAL_AUDIT.md:57:- 자동 scheduler cycle에서 `targets=121`, `saved=121`, `failed=0`을 확인했다.\ndocs/TEMP_EXTERNAL_AUDIT.md:103:- 공개 Vercel은 읽기 전용 SQLite 배포 스냅샷이다. 로컬 worker의 10분 갱신이 Vercel에\ndocs/TEMP_EXTERNAL_AUDIT.md:105:- 관리형 PostgreSQL과 production worker는 코드 경계만 준비됐고 실제 credential,\ndocs/TEMP_EXTERNAL_AUDIT.md:131:- SQLite timezone 손실로 `572분 전`이라는 잘못된 표시가 발생해 UTC 경계를 복구했다.\ndocs/TEMP_EXTERNAL_AUDIT.md:132:- Vercel 프로젝트명을 `budy-cafe`로 생성해 rename, alias와 SSO 공개 정책을 복구했다.\ndocs/PLAN.md:5:> **v1.1 (2026-07-11)**: 운영 저장소를 PostgreSQL로 확정하고 ingest worker를 API\ndocs/PLAN.md:21:> 실시간 도시데이터는 공식 121개 장소를 모두 10분마다 폴링한다. Naver/Kakao/Google\ndocs/PLAN.md:59:3. **준실시간(5~10분 지연)이면 충분.** 데이터 갱신 주기와 제품 약속을 일치시킨다.\ndocs/PLAN.md:80:| 서울 실시간 도시데이터 (열린데이터광장) | 핫스팟별 실시간 인구 혼잡도 + 12h 예측 | 인구 5분 / 상권 10분 | REST API, 인증키 | P0~P1 |\ndocs/PLAN.md:81:| Overture Maps Places | 카페 POI 원장(이름·좌표·주소·전화·GERS ID) | 월간 릴리스 | GeoParquet 서울 bbox ingest → PostgreSQL 캐시 | P2 |\ndocs/PLAN.md:101:[Omitted long matching line]\ndocs/PLAN.md:105:- **제품 원장**: Overture Places의 릴리스별 GeoParquet에서 `SEOUL_BBOX`로 후보를 제한하고, 카페 분류·좌표·필수 GERS ID를 검증한 레코드만 PostgreSQL에 upsert한다. `overture_id`, release, confidence, category와 원본 `sources`를 보존하고 로컬 extract SHA-256은 ingest 보고서와 `VERIFICATION.md`에 기록한다.\ndocs/PLAN.md:148:[single congestion worker: 10분 non-overlapping cycle]\ndocs/PLAN.md:163:  frontend (MapLibre GL + OpenFreeMap) ──> FastAPI ──> cached cafes + cafe_scores 조인 반환\ndocs/PLAN.md:168:- Backend: Python 3.12, FastAPI, SQLAlchemy 2 + PostgreSQL(운영·통합테스트 기준, 필요 시 PostGIS), httpx, pydantic v2, APScheduler(개발 단일 프로세스만; 운영은 단일 ingest worker로 분리)\ndocs/PLAN.md:172:> 저장소 선택은 `docs/adr/ADR-0001-primary-database.md`에서 PostgreSQL로 확정했다. 관계·시계열·공간 질의와 사용자 증가 시 비용/운영성을 비교한 결정이며, Firebase는 향후 Auth·푸시·호스팅 후보로만 둔다. 로컬 단위 테스트에는 SQLite를 제한적으로 사용할 수 있으나 운영 저장소로 사용하지 않는다.\ndocs/PLAN.md:180:│   │   ├── main.py            # FastAPI 엔트리(운영 인제스트 worker와 분리)\ndocs/PLAN.md:352:[Omitted long matching line]\ndocs/PLAN.md:359:- [ ] 121개 전체 cycle이 10분 안에 완료되고, 일일 예상 17,424콜과 호출 정책을 `VERIFICATION.md`에 기록\ndocs/PLAN.md:493:| 121개 폴링 cycle 지연 또는 정책 변경 | 혼잡도 stale/부분 갱신 | 현재 호출 횟수 제한 없음 확인. 121 × 144 = 17,424콜/일과 cycle duration·실패 수를 기록하고 cycle overlap을 금지한다. 정책 변경 또는 10분 초과 시 concurrency/backoff·주기를 config/ADR로 조정한다. |\ndocs/PLAN.md:516:- MVP 이후 사용자 증가를 고려해 저장소·스케줄러·배포 구조를 교체 가능한 경계로 설계한다. MongoDB/Firebase를 포함한 비교 결과 PostgreSQL을 채택했으며 근거와 재검토 조건은 `docs/adr/ADR-0001-primary-database.md`에 유지한다.\ndocs/ROADMAP.md:11:관리형 PostgreSQL 전환, 축소 Phase 6, 현행 라이선스 감사, 외부인용 README, freshness\ndocs/ROADMAP.md:35:- 관리형 PostgreSQL을 정본으로 사용하고 API와 10분 ingest worker를 분리한다.\ndocs/ROADMAP.md:76:- 실시간 PostgreSQL 운영, 벡터 타일, 관측 지표를 연결한다.\ndocs/VERIFICATION.md:53:- 혼잡도: 공식 121개 장소 전부를 10분마다 폴링한다. 목표량은 17,424콜/일이다.\ndocs/VERIFICATION.md:83:- 확정 폴링 정책: 대상 ≤12곳, 10분 주기, 최대 1,728콜/일\ndocs/VERIFICATION.md:159:- 입력: D4 uncovered 규칙과 PostgreSQL 초기 migration\ndocs/VERIFICATION.md:162:- 판정: PASS (모델·migration·SQLite constraint tests), PostgreSQL runtime 검증 대기\ndocs/VERIFICATION.md:168:- 테스트: backend 59 passed, 경고 없음; Python compileall; PostgreSQL offline Alembic SQL 생성; frontend typecheck/build\ndocs/VERIFICATION.md:169:- SQLite migration: `/tmp/BusyCafe-phase1-review.sqlite`에 initial upgrade 성공\ndocs/VERIFICATION.md:185:- [ ] PostgreSQL runtime migration/seed 검증(Docker 또는 PostgreSQL 필요)\ndocs/VERIFICATION.md:204:- 실제 결과: PostgreSQL을 운영·통합테스트 기준으로 채택하고 PostGIS를 선택적으로 활성화하기로 결정\ndocs/VERIFICATION.md:206:- 계획과의 차이: 기존 SQLite 운영 가정을 PostgreSQL로 변경. 프로세스 내 스케줄러는 개발 단일 인스턴스에만 허용하고 운영에서는 ingest worker로 분리\ndocs/VERIFICATION.md:207:- 후속 조치: SQLAlchemy/Alembic 기반 스키마, PostgreSQL CI, 운영 전 백업·복구 확인\ndocs/VERIFICATION.md:218:- 계획과의 차이: uncovered인 경우 `score`, `level`, `confidence`, `confidence_tier`를 NULL로 명시. PostgreSQL 채택에 맞춰 시각 컬럼을 timezone-aware `TIMESTAMPTZ`로 변경\ndocs/VERIFICATION.md:238:- 현재 머신에는 Docker CLI가 없어 `compose.yaml` 런타임 검증은 실행하지 못했다. PostgreSQL은 Phase 0 API 실측 도구의 선행 조건이 아니다.\ndocs/VERIFICATION.md:252:  - 공식 121개 master 전체가 10분 polling 대상이다. 계획상 17,424콜/일이며, 이전\ndocs/VERIFICATION.md:261:  - [ ] 121개 seed dry-run/apply와 full cycle 10분 측정\ndocs/VERIFICATION.md:285:- 실행 환경: local preview SQLite cache, 단일 ingest worker\ndocs/VERIFICATION.md:288:- 결과: targets=121, saved=121, failed=0. 실행은 10분 SLA보다 충분히 짧은 단일 cycle 안에 완료됐다.\ndocs/VERIFICATION.md:297:- 증상: SQLite preview가 UTC offset을 보존하지 않아 브라우저 패널이 `09:40`을 KST로 해석, 약 30분 지연의 원본 데이터를 572분 전으로 표시\ndocs/VERIFICATION.md:299:- 수정: API 경계에서 timezone 없는 SQLite datetime을 UTC로 복원해 `2026-07-11T09:40:00Z` 형태로 반환. 패널은 경과 분 숫자를 표시하지 않음\ndocs/VERIFICATION.md:303:## 2026-07-11 — Vercel 읽기 전용 스냅샷 배포\ndocs/VERIFICATION.md:307:  Vercel에서 `Ready` 상태임을 확인했다.\ndocs/VERIFICATION.md:310:- rename 검증(2026-07-12): 오타가 있던 Vercel 프로젝트 `budy-cafe`를 `busy-cafe`로\ndocs/VERIFICATION.md:317:  SQLite 스냅샷이다. 요청 중 외부 API를 호출하지 않으며 서울 API 키도 배포하지 않는다.\ndocs/VERIFICATION.md:322:- 제한: Vercel 서버리스는 지속 10분 worker와 쓰기 가능한 SQLite를 제공하지 않는다.\ndocs/VERIFICATION.md:324:  managed PostgreSQL과 별도 ingest worker로 전환할 때에만 약속한다.\ndocs/VERIFICATION.md:332:  공유 캐시는 60초로 제한해 10분 인제스트 SLA보다 충분히 짧게 유지한다.\ndocs/VERIFICATION.md:334:  Vercel production은 지시자를 `cache-control: public, max-age=30`으로 정규화했고,\ndocs/VERIFICATION.md:339:- 구현: `DATABASE_URL`이 설정된 Vercel API는 관리형 PostgreSQL을 읽고, 값이 없을 때만\ndocs/VERIFICATION.md:340:  읽기 전용 SQLite 배포 스냅샷으로 fallback한다.\ndocs/VERIFICATION.md:341:- scheduler: 10분 one-shot GitHub Actions worker를 추가했다. DB/API 키가 없는 동안에는\ndocs/VERIFICATION.md:343:- 운영 이관: 항상 켜진 worker용 Dockerfile을 추가했다. GitHub Actions cron 지연은\ndocs/VERIFICATION.md:353:  실행되도록 구성하고, 기존 score가 있는 SQLite DB의 실제 upgrade 테스트를 추가했다.\ndocs/VERIFICATION.md:354:- 실제 DB: local `backend/data/preview.db`와 Vercel bundle `api/data/preview.db`를 각각 백업한 뒤\ndocs/VERIFICATION.md:358:- 검증: backend 전체 97 passed, compileall PASS, Vercel snapshot TestClient의 bbox API가 HTTP 200과\ndocs/VERIFICATION.md:362:- 재기동 확인: worker session 13858에서 scheduler started, API session 50211에서 local health\ndocs/VERIFICATION.md:365:- 자동 cycle: 2026-07-12 00:54:53 KST에 scheduler가 실행한 순회가\ndocs/VERIFICATION.md:393:- CI에 PostgreSQL 17 service를 추가하고 Alembic migration을 실제 DB에 적용한 뒤\ndocs/VERIFICATION.md:433:  pytest/compileall, PostgreSQL 17의 실제 Alembic upgrade 및 schema smoke가 모두 PASS했다.\ndocs/VERIFICATION.md:453:  fresh하게 보일 수 있었다. 또한 Vercel 프론트는 build-time 상수로 항상 snapshot 문구를\ndocs/VERIFICATION.md:469:  사용자가 넣은 기존 `DATABASE_URL` 값은 Project URL이어서 PostgreSQL 연결값으로 사용할 수\ndocs/VERIFICATION.md:470:  없으며 교체 대기다. Vercel의 direct URL 제거 중 CLI scope 오판으로 Production 값도 함께\ndocs/VERIFICATION.md:474:  dialect로 해석되지만 Vercel requirements에는 PostgreSQL driver가 전혀 없음을 발견했다.\ndocs/VERIFICATION.md:476:  내부 정규화하고, Vercel bundle에 psycopg 3 binary를 추가했다. transaction pooler 호환을\ndocs/VERIFICATION.md:494:  Supabase Session pooler connection string으로 교체한 뒤 dry-run을 재실행한다. Vercel은\ndocs/VERIFICATION.md:500:- 연결: GitHub `Production` environment의 Session pooler로 remote PostgreSQL 연결 PASS.\ndocs/VERIFICATION.md:516:- migration: `20260712_0004`를 local과 Vercel bundle의 `preview.db`에 실제 적용했다.\ndocs/VERIFICATION.md:522:  - Vercel bundle before/after SHA-256:\ndocs/VERIFICATION.md:525:- 로컬 검증: backend 158 passed, compileall, PostgreSQL migration SQL render, frontend\ndocs/VERIFICATION.md:528:- 원격 검증: CI run `29164383390`에서 PostgreSQL 17 실제 migration, schema smoke, backend와\ndocs/VERIFICATION.md:534:- 판정: complete-cycle 계측, 비활성 monitor와 snapshot 재배포 PASS. managed PostgreSQL,\ndocs/VERIFICATION.md:540:- migration: production PostgreSQL이 Alembic head `20260712_0004`임을 확인했다.\ndocs/VERIFICATION.md:547:  전체 순회 소요는 약 4분 6초로 10분 폴링 주기 안에 완료됐다.\ndocs/OPERATIONS.md:5:이 문서는 관리형 PostgreSQL을 사용하는 준실시간 production의 최초 전환, 정상 운영,\ndocs/OPERATIONS.md:7:전까지 배포 시점의 읽기 전용 SQLite 스냅샷을 사용한다. 관리형 DB와 자동 수집이 실제로\ndocs/OPERATIONS.md:12:- Vercel: `DATABASE_URL`만 저장한다. serverless 연결에는 공급자가 권장하는 pooled TLS\ndocs/OPERATIONS.md:20:key는 PostgreSQL connection string이 아니므로 `DATABASE_URL`에 넣지 않는다.\ndocs/OPERATIONS.md:29:| Transaction pooler connection string | Vercel Production `DATABASE_URL` 권장 |\ndocs/OPERATIONS.md:34:statement를 비활성화한다. Vercel 값은 Production에만 등록하고 Preview에는 production DB를\ndocs/OPERATIONS.md:42:### 1. 관리형 PostgreSQL 준비 `[HUMAN]`\ndocs/OPERATIONS.md:57:Vercel을 DB에 연결하기 전에 운영자 로컬 환경에서 bootstrap한다. 먼저 migration을 적용한다.\ndocs/OPERATIONS.md:125:GitHub cron 지연이 반복되어 25분 freshness 기준을 지키지 못하면\ndocs/OPERATIONS.md:130:bootstrap과 worker 검증이 끝난 뒤에만 Vercel production에 `DATABASE_URL`을 추가하고\ndocs/OPERATIONS.md:149:- 10분마다 poll workflow 성공 여부\ndocs/OPERATIONS.md:162:운영 저장소에 PostgreSQL custom-format dump를 만든다.\ndocs/OPERATIONS.md:193:2. Vercel의 `DATABASE_URL`을 제거하거나 이전 정상 DB로 교체해 읽기 전용 snapshot 또는\ndocs/OPERATIONS.md:198:5. 새 connection URL로 Vercel과 worker를 순서대로 전환한다.\ndocs/INCIDENTS.md:99:## INC-2026-011 — Vercel Preview 환경변수 제거가 Production 값까지 삭제\ndocs/INCIDENTS.md:105:- 관련 상태: Vercel `busy-cafe`, `DATABASE_URL` 미설정\ndocs/INCIDENTS.md:109:사용자가 Vercel `DATABASE_URL`을 Preview와 Production에 함께 등록한 상태에서 Preview의\ndocs/INCIDENTS.md:132:- [ ] Vercel 환경변수 변경 전 CLI scope를 help로 확인하고 복구값 준비\ndocs/INCIDENTS.md:168:- [x] `postgresql://`, `postgres://`, explicit psycopg, SQLite 회귀 테스트\ndocs/INCIDENTS.md:169:- [x] raw Supabase 형식으로 Alembic PostgreSQL SQL render 검증\ndocs/INCIDENTS.md:305:추출을 제품 경로에서 제거하고 Overture 고신뢰 서울 extract를 PostgreSQL에 적재한\ndocs/INCIDENTS.md:341:## INC-2026-007 — SQLite 미리보기에서 혼잡 근거 시각의 timezone 표기 누락\ndocs/INCIDENTS.md:350:SQLite는 timezone-aware datetime의 offset을 보존하지 않는다. UTC로 정규화해 저장한\ndocs/INCIDENTS.md:356:- [x] API 경계에서 timezone 없는 SQLite 시각은 UTC로 복원해 ISO 8601 `Z`로 반환\ndocs/INCIDENTS.md:360:## INC-2026-008 — Vercel 프로젝트명 오타와 alias의 SSO 302 응답\ndocs/INCIDENTS.md:369:프로덕션 Vercel 프로젝트와 URL이 `busy-cafe`가 아니라 `budy-cafe`로 생성됐다. 프로젝트를\ndocs/INCIDENTS.md:378:공개 접근 정책도 하나의 검증 단위로 다루지 않았다. Vercel 프로젝트를 `busy-cafe`로\ndocs/INCIDENTS.md:407:snapshot 2,363건은 보존됐다. local DB와 Vercel snapshot DB를 백업하고 migration을 적용해\ndocs/INCIDENTS.md:439:worst-case가 약 85분이어서 10분 schedule 안에 끝날 수 없었다. job 제한을 9분으로 두되\ndocs/tracks/TRACK-3-GLOBAL.md:208:운영 저장소는 PostgreSQL/PostGIS를 기준으로 region·observed time 공간/시계열 인덱스를 사용한다. 대규모 관측은 월 또는 지역별 partition을 검토하고, 지도 데이터는 MVT와 CDN을 사용한다. Redis, read replica, 별도 타일 서버와 queue는 계측에서 병목이 확인될 때만 추가한다.\ndocs/CHANGELOG.md:18:- 로컬 PostgreSQL 개발 환경\ndocs/CHANGELOG.md:20:- PostgreSQL/JSONB 기반 초기 schema와 Alembic migration\ndocs/CHANGELOG.md:22:- API 프로세스와 분리된 10분 ingest worker, 재시도·대상 검증·파싱 실패 원본 보존\ndocs/CHANGELOG.md:27:- 공식 121개 핫스팟 전체 seed, 결정적 IDW score materialize, cache-only FastAPI bbox API\ndocs/CHANGELOG.md:35:- 운영 기본 저장소를 SQLite에서 PostgreSQL로 변경하고 향후 PostGIS 확장 경로를 문서화\ndocs/CHANGELOG.md:37:- 서울 OpenAPI 호출 횟수 무제한 확인에 따라 MVP 폴링 주기를 10분으로 확정\ndocs/CHANGELOG.md:53:- Supabase 표준 PostgreSQL URL이 psycopg 2를 찾거나 Vercel bundle에서 driver가 누락될 수\ndocs/adr/ADR-0001-primary-database.md:1:# ADR-0001: PostgreSQL을 기본 데이터베이스로 사용\ndocs/adr/ADR-0001-primary-database.md:15:유지 가능한 구성을 요청했다. 기존 계획의 SQLite는 로컬 MVP에는 충분하지만\ndocs/adr/ADR-0001-primary-database.md:20:운영과 통합 테스트의 기준 데이터베이스는 PostgreSQL로 한다. 로컬 단위 테스트는\ndocs/adr/ADR-0001-primary-database.md:21:필요한 경우 SQLite를 사용할 수 있지만, SQLite 전용 타입이나 SQL에 의존하지 않는다.\ndocs/adr/ADR-0001-primary-database.md:26:- 외부 응답과 예측/기여자 구조는 PostgreSQL JSON/JSONB에 저장한다.\ndocs/adr/ADR-0001-primary-database.md:36:- MVP 예상치인 12개 핫스팟의 10분 폴링은 연 약 63만 스냅샷으로 PostgreSQL에\ndocs/adr/ADR-0001-primary-database.md:45:1. 관리형 PostgreSQL 1개, FastAPI, 단일 인제스트 worker로 시작한다.\ndocs/adr/ADR-0001-primary-database.md:53:초기 설정은 SQLite보다 많지만 운영 전 DB 교체가 사라진다. API 서버를 수평\ndocs/adr/ADR-0001-primary-database.md:54:확장할 때 각 프로세스에서 APScheduler를 기동하면 중복 폴링되므로 금지한다.\ndocs/tracks/TRACK-2-KOREA.md:59:- API 요청 중 외부 공급자를 호출하지 않는다. 관측값과 POI는 PostgreSQL/PostGIS에 버전 단위로 적재하고 읽기 API는 materialized 결과만 제공한다.\ndocs/adr/ADR-0003-maplibre-overture-catalog.md:29:ingest한 PostgreSQL cache다. 지도 이동·카페 API 요청은 외부 POI provider를 호출하지\ndocs/audits/2026-07-12-external-review-response.md:19:5. CI에서 PostgreSQL migration을 SQL 렌더가 아닌 실제 DB에 적용한다.\ndocs/audits/2026-07-12-external-review-response.md:38:| 1 | 관리형 PostgreSQL provision과 production 전환 | `[HUMAN]` credential 대기 | Vercel read API와 10분 worker가 같은 DB 사용, 1시간 freshness 검증 |\ndocs/audits/2026-07-12-external-review-response.md:42:| 5 | PostgreSQL migration CI | 완료 | GitHub Actions run `29160900757`에서 PostgreSQL 17 upgrade와 schema smoke 성공 |\ndocs/audits/2026-07-12-external-review-response.md:58:- PostgreSQL 17 service를 사용하는 실제 migration CI\ndocs/adr/ADR-0005-live-production-runtime.md:1:# ADR-0005: 실시간 운영은 관리형 PostgreSQL과 분리 worker를 사용한다\ndocs/adr/ADR-0005-live-production-runtime.md:8:Vercel은 프론트엔드와 FastAPI read API를 제공한다. 정본 데이터는 관리형 PostgreSQL에\ndocs/adr/ADR-0005-live-production-runtime.md:9:저장하고, `app.ingest.worker`는 web 요청과 분리해 10분 간격으로 서울 도시데이터를\ndocs/adr/ADR-0005-live-production-runtime.md:14:Vercel의 SQLite 번들은 데모/장애 시 읽기 전용 fallback으로만 유지한다. Vercel 함수의\ndocs/adr/ADR-0005-live-production-runtime.md:19:1. Neon 또는 Supabase PostgreSQL을 생성하고 `DATABASE_URL`을 Vercel과 GitHub Actions\ndocs/adr/ADR-0005-live-production-runtime.md:23:3. Vercel API는 `DATABASE_URL`이 있으면 자동으로 PostgreSQL을 읽는다. 없으면 명시적\ndocs/adr/ADR-0005-live-production-runtime.md:24:   `배포 스냅샷` SQLite fallback을 읽는다.\ndocs/adr/ADR-0005-live-production-runtime.md:25:4. 기본 scheduler는 `.github/workflows/poll-production.yml`의 10분 one-shot job이다.\ndocs/adr/ADR-0005-live-production-runtime.md:27:5. 관측 지연 SLA가 엄격해지면 GitHub Actions scheduler를 항상 켜진 Docker worker\ndocs/adr/ADR-0005-live-production-runtime.md:29:   같은 PostgreSQL을 사용한다.\ndocs/adr/ADR-0005-live-production-runtime.md:33:- 121개 폴링과 전체 score materialize는 DB write가 필수다. 서버리스 SQLite는 이를\ndocs/adr/ADR-0005-live-production-runtime.md:35:- GitHub Actions cron은 편리한 MVP scheduler지만 지연될 수 있으므로 엄격한 정확한\ndocs/adr/ADR-0005-live-production-runtime.md:36:  10분 SLA의 최종 해법은 아니다.\ndocs/adr/ADR-0005-live-production-runtime.md:39:- `SEOUL_API_KEY`는 worker에만 설정한다. Vercel read API에는 키를 배포하지 않는다.\nbackend/uv.lock:51:name = \"apscheduler\"\nbackend/uv.lock:57:sdist = { url = \"https://files.pythonhosted.org/packages/8c/6b/eeff360196bb20b312c9e762a820fd1b2c6d809466c755ef57863478e454/apscheduler-3.11.3.tar.gz\", hash = \"sha256:cd2fcc9330039a81a5893472ad49facf23a6d5604cbe1d918c835c6de7834d5a\", size = 110312, upload-time = \"2026-06-28T19:39:22.493Z\" }\nbackend/uv.lock:59:    { url = \"https://files.pythonhosted.org/packages/42/c9/8638db32514dbb9157b3d82680c6faea89283523edf9ed2415ea3884f2ae/apscheduler-3.11.3-py3-none-any.whl\", hash = \"sha256:bbeb2ec02d23d3c06a6c07ed7f0f3939ada6680eb121fae809a69bb42c537a30\", size = 66024, upload-time = \"2026-06-28T19:39:20.982Z\" },\nbackend/uv.lock:68:    { name = \"apscheduler\" },\nbackend/uv.lock:91:    { name = \"apscheduler\", specifier = \">=3.10,<4\" },\nbackend/app/main.py:1:\"\"\"FastAPI application for cached cafe map reads.\"\"\"\nbackend/app/main.py:3:from fastapi import FastAPI\nbackend/app/main.py:11:def create_app() -> FastAPI:\nbackend/app/main.py:12:    app = FastAPI(title=\"cafe-crowd API\", version=\"0.1.0\")\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:6:- 대체 관계: 이전 MVP의 `≤12곳 × 10분` 폴링 범위 결정을 대체한다. 해당 10곳의 초기\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:14:10분 주기는 하루 `121 × 144 = 17,424` 호출이다.\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:22:1. 성수·홍대·연남 주변 ≤12개만 10분 폴링 — 초기 호출량은 작지만 서울 전역 UX와\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:24:2. 공식 121개를 10분마다 폴링 — 서울 주요 장소 coverage를 일관되게 제공하고,\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:32:10분 non-overlapping cycle로 폴링한다. 한 cycle의 목표는 121개 시도이며, 성공·실패·\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:36:카페 원장은 Overture release ingest와 인허가 보정 job에서만 갱신한다. FastAPI의\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:37:`/api/cafes`와 `/api/cafes/{id}`는 PostgreSQL의 검증된 cache와 materialized score만\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:47:- 단일 worker와 cycle metric은 API 서버 수평 확장 때 중복 폴링을 방지하고, 10분 SLA\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:52:- Phase 1 DoD는 121개 각각 1시간에 5개 이상 snapshot, full cycle 10분 이내, 17,424\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:54:- API provider가 이후 rate limit을 도입하거나 cycle이 10분을 넘으면, 무제한 동시성\ndocs/adr/ADR-0004-seoulwide-polling-cache.md:58:  구현·검증한다. PostgreSQL/PostGIS, Redis, replica는 실제 read/write 병목 측정 뒤\nbackend/app/database.py:24:    \"\"\"Create an engine suitable for production or isolated SQLite tests.\"\"\"\nbackend/app/scoring/engine.py:218:    \"\"\"SQLite drops timezone metadata; the persistence contract is UTC.\"\"\"\nbackend/app/api/routes.py:1:\"\"\"Read-only map API backed exclusively by the local PostgreSQL cache.\"\"\"\nbackend/app/api/routes.py:108:    \"\"\"Restore SQLite's lost timezone metadata using the UTC storage contract.\"\"\"\nbackend/app/ingest/worker.py:1:\"\"\"Standalone scheduler process for Seoul city-data ingestion.\nbackend/app/ingest/worker.py:18:from apscheduler.schedulers.blocking import BlockingScheduler\nbackend/app/ingest/worker.py:132:    scheduler_factory: Callable[..., Any] = BlockingScheduler,\nbackend/app/ingest/worker.py:164:        scheduler = scheduler_factory(timezone=\"Asia/Seoul\")\nbackend/app/ingest/worker.py:165:        scheduler.add_job(\nbackend/app/ingest/worker.py:172:        scheduler.start()\nbackend/pyproject.toml:12:  \"apscheduler>=3.10,<4\",\nbackend/app/config.py:93:# never touch this source: the result is materialized in PostgreSQL first.\nbackend/scripts/seed_cafes.py:4:extract; seeding copies that extract to PostgreSQL, where the API serves it.\nbackend/scripts/run_eval.py:278:    # SQLite returns naive values even for DateTime(timezone=True).  Stored"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/adr/ADR-0001-primary-database.md"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# ADR-0001: PostgreSQL을 기본 데이터베이스로 사용\n2\t\n3\t- 상태: Accepted\n4\t- 결정일: 2026-07-11\n5\t- 관련 계획: Phase 0, 시스템 아키텍처\n6\t\n7\t## 배경\n8\t\n9\tcafe-crowd는 핫스팟, append-only 스냅샷, 카페, 최신 점수 사이의 관계와\n10\t시점별 평가를 다룬다. 주요 읽기 패턴은 지도 bbox 조회, 최근 스냅샷 조회,\n11\t거리 기반 이웃 검색이며 데이터 정합성을 위한 FK, unique constraint, 트랜잭션,\n12\t멱등 upsert가 필요하다.\n13\t\n14\t사용자는 MongoDB 또는 Firebase를 선호 후보로 제시했고, 향후 사용자 증가에도\n15\t유지 가능한 구성을 요청했다. 기존 계획의 SQLite는 로컬 MVP에는 충분하지만\n16\t다중 프로세스 운영과 공간 질의 확장에는 제약이 있다.\n17\t\n18\t## 결정\n19\t\n20\t운영과 통합 테스트의 기준 데이터베이스는 PostgreSQL로 한다. 로컬 단위 테스트는\n21\t필요한 경우 SQLite를 사용할 수 있지만, SQLite 전용 타입이나 SQL에 의존하지 않는다.\n22\t공간 질의가 필요해지면 PostGIS의 `geography(Point, 4326)`와 GiST 인덱스를\n23\t마이그레이션으로 추가한다.\n24\t\n25\t- SQLAlchemy 2와 Alembic으로 저장소 및 스키마 변경을 추상화한다.\n26\t- 외부 응답과 예측/기여자 구조는 PostgreSQL JSON/JSONB에 저장한다.\n27\t- `hotspot_snapshots(hotspot_id, observed_at)`에는 unique constraint를 둔다.\n28\t- 운영 인제스트 스케줄러는 API 프로세스와 분리한 단일 worker로 실행한다.\n29\t- Firebase는 향후 Auth, 푸시 또는 호스팅 후보로만 둔다.\n30\t- MongoDB와 Firestore는 핵심 저장소로 사용하지 않는다.\n31\t\n32\t## 근거\n33\t\n34\t- 현재 모델은 문서형보다 관계형이며 과거 시점 조인과 집계가 빈번하다.\n35\t- PostGIS는 bbox, 반경, 거리 정렬을 한 저장소 안에서 인덱싱할 수 있다.\n36\t- MVP 예상치인 12개 핫스팟의 10분 폴링은 연 약 63만 스냅샷으로 PostgreSQL에\n37\t  작은 부하이며, 사용자가 늘어도 주로 읽기 캐시 문제로 분리해 대응할 수 있다.\n38\t- Firestore는 반경 검색에 geohash 다중 조회와 중복 제거가 필요하고 지도 이동이\n39\t  읽기 과금으로 직결된다.\n40\t- MongoDB도 공간 검색은 가능하지만 참조 무결성, 시점별 평가, 점수 갱신의 상당\n41\t  부분을 애플리케이션 코드로 옮겨야 한다.\n42\t\n43\t## 확장 경로\n44\t\n45\t1. 관리형 PostgreSQL 1개, FastAPI, 단일 인제스트 worker로 시작한다.\n46\t2. bbox를 타일/격자로 정규화해 짧은 TTL의 HTTP 또는 Redis 캐시를 추가한다.\n47\t3. 실제 병목이 확인되면 PostGIS, connection pooling, 읽기 replica를 추가한다.\n48\t4. 장기 스냅샷은 월별 partition과 rollup을 사용하고 오래된 raw 응답은 object\n49\t   storage로 옮긴다.\n50\t\n51\t## 결과와 주의점\n52\t\n53\t초기 설정은 SQLite보다 많지만 운영 전 DB 교체가 사라진다. API 서버를 수평\n54\t확장할 때 각 프로세스에서 APScheduler를 기동하면 중복 폴링되므로 금지한다.\n55\t개발 편의를 위해 프로세스 내 스케줄러를 쓸 경우에도 단일 인스턴스임을 명시하고,\n56\t운영 전 worker 분리를 완료한다.\n57\t"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/adr/ADR-0005-live-production-runtime.md"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/backend/app/main.py"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/vercel.json"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/docs/OPERATIONS.md",
+        "limit": 220
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_git_status",
+      "input": {}
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# ADR-0005: 실시간 운영은 관리형 PostgreSQL과 분리 worker를 사용한다\n2\t\n3\t- 상태: Accepted (credentials/initial bootstrap 대기)\n4\t- 날짜: 2026-07-11\n5\t\n6\t## 결정\n7\t\n8\tVercel은 프론트엔드와 FastAPI read API를 제공한다. 정본 데이터는 관리형 PostgreSQL에\n9\t저장하고, `app.ingest.worker`는 web 요청과 분리해 10분 간격으로 서울 도시데이터를\n10\t가져온 뒤 cafe score를 갱신한다. 대상별 snapshot 저장과 score materialize는 하나의 DB\n11\ttransaction이 아니다. 대신 cycle 시작과 완료 결과를 별도 영속화하며, 전체 대상 저장과\n12\tmaterialize가 모두 성공한 경우에만 cycle을 `complete`로 표시한다.\n13\t\n14\tVercel의 SQLite 번들은 데모/장애 시 읽기 전용 fallback으로만 유지한다. Vercel 함수의\n15\t임시 파일 시스템과 함수 수명에 폴링 상태를 의존하지 않는다.\n16\t\n17\t## 배포 경로\n18\t\n19\t1. Neon 또는 Supabase PostgreSQL을 생성하고 `DATABASE_URL`을 Vercel과 GitHub Actions\n20\t   secrets에 각각 설정한다.\n21\t2. production DB에 migration, 121개 hotspot, versioned Overture cafe catalog를 한 번\n22\t   bootstrap한다. 이 단계는 데이터 출처와 건수를 검수한 운영자만 실행한다.\n23\t3. Vercel API는 `DATABASE_URL`이 있으면 자동으로 PostgreSQL을 읽는다. 없으면 명시적\n24\t   `배포 스냅샷` SQLite fallback을 읽는다.\n25\t4. 기본 scheduler는 `.github/workflows/poll-production.yml`의 10분 one-shot job이다.\n26\t   중복 실행은 concurrency group으로 차단한다.\n27\t5. 관측 지연 SLA가 엄격해지면 GitHub Actions scheduler를 항상 켜진 Docker worker\n28\t   (`backend/Dockerfile`, `python -m app.ingest.worker`)로 교체한다. 이때도 API와 worker는\n29\t   같은 PostgreSQL을 사용한다.\n30\t\n31\t## 이유와 한계\n32\t\n33\t- 121개 폴링과 전체 score materialize는 DB write가 필수다. 서버리스 SQLite는 이를\n34\t  보장하지 못한다.\n35\t- GitHub Actions cron은 편리한 MVP scheduler지만 지연될 수 있으므로 엄격한 정확한\n36\t  10분 SLA의 최종 해법은 아니다.\n37\t- freshness와 승격 판정은 개별 snapshot의 최신 시각이 아니라 마지막 `complete` cycle을\n38\t  기준으로 한다. 부분 성공이나 materialize 실패는 최신 snapshot이 있어도 정상으로 보지 않는다.\n39\t- `SEOUL_API_KEY`는 worker에만 설정한다. Vercel read API에는 키를 배포하지 않는다.\n40\t"
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t{\n2\t  \"version\": 2,\n3\t  \"installCommand\": \"python -m pip install -r api/requirements.txt && cd frontend && npm ci\",\n4\t  \"buildCommand\": \"cd frontend && npm run build && mkdir -p ../api/static && cp -R dist/. ../api/static/\",\n5\t  \"outputDirectory\": \"frontend/dist\",\n6\t  \"functions\": {\n7\t    \"api/index.py\": {\n8\t      \"includeFiles\": \"{api/data/preview.db,api/static/**,backend/app/**}\"\n9\t    }\n10\t  },\n11\t  \"rewrites\": [\n12\t    { \"source\": \"/api/(.*)\", \"destination\": \"/api/index.py\" }\n13\t  ]\n14\t}\n15\t"
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t\"\"\"FastAPI application for cached cafe map reads.\"\"\"\n2\t\n3\tfrom fastapi import FastAPI\n4\tfrom fastapi.middleware.cors import CORSMiddleware\n5\tfrom starlette.requests import Request\n6\t\n7\tfrom app.api.routes import router\n8\tfrom app.config import FRONTEND_CORS_ORIGINS, TAILNET_CORS_ORIGIN_REGEX\n9\t\n10\t\n11\tdef create_app() -> FastAPI:\n12\t    app = FastAPI(title=\"cafe-crowd API\", version=\"0.1.0\")\n13\t\n14\t    @app.middleware(\"http\")\n15\t    async def cache_read_models(request: Request, call_next):\n16\t        \"\"\"Permit short CDN reuse of immutable-in-practice map read models.\n17\t\n18\t        A one-minute shared cache stays safely below the ten-minute ingest SLA,\n19\t        while preventing identical viewport requests from repeatedly querying the\n20\t        snapshot database under map pan/zoom traffic.\n21\t        \"\"\"\n22\t\n23\t        response = await call_next(request)\n24\t        if request.method == \"GET\" and request.url.path in {\n25\t            \"/api/cafes\",\n26\t            \"/api/hotspots\",\n27\t            \"/api/health\",\n28\t            \"/api/sources\",\n29\t        }:\n30\t            response.headers[\"Cache-Control\"] = \"public, max-age=30, s-maxage=60, stale-while-revalidate=300\"\n31\t        return response\n32\t\n33\t    app.add_middleware(\n34\t        CORSMiddleware,\n35\t        allow_origins=list(FRONTEND_CORS_ORIGINS),\n36\t        allow_origin_regex=TAILNET_CORS_ORIGIN_REGEX,\n37\t        allow_credentials=False,\n38\t        allow_methods=[\"GET\"],\n39\t        allow_headers=[\"*\"],\n40\t    )\n41\t    app.include_router(router)\n42\t    return app\n43\t\n44\t\n45\tapp = create_app()\n46\t"
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t# BusyCafe 운영 Runbook\n2\t\n3\t## 목적과 현재 상태\n4\t\n5\t이 문서는 관리형 PostgreSQL을 사용하는 준실시간 production의 최초 전환, 정상 운영,\n6\t장애 복구와 검증 절차를 정의한다. 공개 `busy-cafe.vercel.app`은 `DATABASE_URL`이 설정되기\n7\t전까지 배포 시점의 읽기 전용 SQLite 스냅샷을 사용한다. 관리형 DB와 자동 수집이 실제로\n8\t검증되기 전에는 실시간 또는 준실시간 production으로 승격하지 않는다.\n9\t\n10\t필수 비밀값은 다음 두 개다.\n11\t\n12\t- Vercel: `DATABASE_URL`만 저장한다. serverless 연결에는 공급자가 권장하는 pooled TLS\n13\t  URL을 사용한다.\n14\t- GitHub Actions: `DATABASE_URL`, `SEOUL_API_KEY`를 저장한다. migration과 worker에는\n15\t  공급자가 권장하는 direct/write TLS URL을 사용한다. 두 URL은 같은 production DB를\n16\t  가리켜야 한다.\n17\t\n18\tGitHub secrets는 repository의 `Production` environment에 저장하고 poll job도 같은\n19\tenvironment를 명시한다. Supabase의 `Project URL`(`https://...supabase.co`)과 publishable\n20\tkey는 PostgreSQL connection string이 아니므로 `DATABASE_URL`에 넣지 않는다.\n21\t\n22\t### Supabase 연결 항목 대응\n23\t\n24\t| Supabase 항목 | BusyCafe 사용처 |\n25\t|---|---|\n26\t| Project URL | 사용하지 않음. Supabase REST API endpoint이며 DB URL이 아님 |\n27\t| Publishable key | 사용하지 않음. 브라우저가 Supabase에 직접 접근하지 않음 |\n28\t| Direct connection string | GitHub migration/worker 후보. runner에서 IPv6 연결이 안 되면 session pooler 사용 |\n29\t| Transaction pooler connection string | Vercel Production `DATABASE_URL` 권장 |\n30\t| CLI setup command | 로컬 Supabase CLI용이며 production runtime에 사용하지 않음 |\n31\t\n32\tSupabase가 제공하는 표준 `postgresql://` 문자열은 그대로 secret에 저장한다. 애플리케이션이\n33\t내부에서 psycopg 3 dialect로 정규화하며 transaction pooler 호환을 위해 client-side prepared\n34\tstatement를 비활성화한다. Vercel 값은 Production에만 등록하고 Preview에는 production DB를\n35\t노출하지 않는다.\n36\t\n37\t비밀값은 명령 인자, 로그, 문서, 이슈 또는 채팅에 출력하지 않는다. 로컬에서는 shell\n38\t환경변수나 커밋되지 않는 `.env`만 사용한다.\n39\t\n40\t## 최초 production 전환\n41\t\n42\t### 1. 관리형 PostgreSQL 준비 `[HUMAN]`\n43\t\n44\tNeon 또는 Supabase에서 production DB를 만들고 다음을 확인한다.\n45\t\n46\t- 서울과 가까운 region\n47\t- TLS 연결 강제\n48\t- 자동 백업 또는 point-in-time recovery 제공 여부와 보존 기간\n49\t- 연결 수 제한과 serverless connection pooling 방식\n50\t- 별도의 빈 recovery DB를 만들 수 있는 권한\n51\t\n52\t공급자, region, 백업 보존 기간과 확인 날짜를 `docs/VERIFICATION.md`에 기록한다. 확인하지\n53\t않은 RPO/RTO를 제품 약속으로 쓰지 않는다.\n54\t\n55\t### 2. 빈 DB bootstrap\n56\t\n57\tVercel을 DB에 연결하기 전에 운영자 로컬 환경에서 bootstrap한다. 먼저 migration을 적용한다.\n58\t\n59\t원격 production은 `bootstrap-production.yml`을 기본 dry-run으로 먼저 실행한다.\n60\t\n61\t```bash\n62\tgh workflow run bootstrap-production.yml -f apply=false\n63\t```\n64\t\n65\t이 run은 migration을 적용하고 hotspot·카페 seed 예상 건수, Overture release와 cache hash를\n66\t출력하지만 seed와 외부 서울 API 수집은 적용하지 않는다. 로그 검수와 명시적 HUMAN 승인\n67\t뒤에만 `apply=true` run을 실행한다.\n68\t\n69\t```bash\n70\tcd backend\n71\tuv sync --frozen\n72\tuv run alembic -c alembic.ini upgrade head\n73\tuv run alembic -c alembic.ini current --check-heads\n74\t```\n75\t\n76\t핫스팟과 카페 원장은 dry-run 결과를 검수한 뒤에만 적용한다.\n77\t\n78\t```bash\n79\tuv run python scripts/seed_hotspots.py\n80\tuv run python scripts/seed_hotspots.py --apply\n81\t\n82\tuv run python scripts/seed_cafes.py --download --download-only\n83\tuv run python scripts/seed_cafes.py\n84\tuv run python scripts/seed_cafes.py --apply\n85\t```\n86\t\n87\tdry-run과 apply의 source count, active count, release와 cache SHA-256을 보존한다. source가\n88\t비거나 이전 검증 release와 다르면 apply하지 않는다.\n89\t\n90\t### 3. 첫 수집과 DB 검증\n91\t\n92\t```bash\n93\tuv run python -m app.ingest.worker --once\n94\t```\n95\t\n96\t로컬 API를 같은 DB에 연결해 다음을 확인한다.\n97\t\n98\t```bash\n99\tuv run uvicorn app.main:app --host 127.0.0.1 --port 8190\n100\tcurl --fail --silent http://127.0.0.1:8190/api/health\n101\t```\n102\t\n103\t승격 전 조건:\n104\t\n105\t- migration head 일치\n106\t- hotspot 121개와 예상 cafe 원장 건수 존재\n107\t- one-shot 수집 `saved=121`, `failed=0`\n108\t- `last_complete_cycle_at`이 현재 시각 기준 `STALE_WARN_MIN` 이내\n109\t- latest cycle이 `complete`이거나, 직전 complete가 fresh한 상태에서 현재 cycle이 `running`\n110\t- bbox 카페 응답에 현재 `model_version`, coverage와 evidence 존재\n111\t\n112\t### 4. 자동 수집 연결\n113\t\n114\tGitHub repository secret에 `DATABASE_URL`, `SEOUL_API_KEY`를 설정한다. 값을 출력하지 않고\n115\tsecret 이름만 확인한다.\n116\t\n117\t```bash\n118\tgh secret list\n119\tgh workflow run poll-production.yml\n120\tgh run list --workflow poll-production.yml --limit 3\n121\t```\n122\t\n123\t수동 run에서 migration, 121개 수집과 score materialize가 성공한 뒤 scheduled run 한 번을\n124\t추가 확인한다. worker의 one-shot exit code와 `ingest_cycles.status=complete`를 모두 확인한다.\n125\tGitHub cron 지연이 반복되어 25분 freshness 기준을 지키지 못하면\n126\t`backend/Dockerfile`의 상시 worker로 전환한다.\n127\t\n128\t### 5. read API 전환\n129\t\n130\tbootstrap과 worker 검증이 끝난 뒤에만 Vercel production에 `DATABASE_URL`을 추가하고\n131\t재배포한다. 전환 직후 다음을 확인한다.\n132\t\n133\t```bash\n134\tcurl --fail --silent https://busy-cafe.vercel.app/api/health\n135\tcurl --fail --silent \"https://busy-cafe.vercel.app/api/cafes?bbox=126.91,37.54,126.94,37.57\"\n136\t```\n137\t\n138\t`last_complete_cycle_at`, latest cycle, cafe count, model version과 evidence를 bootstrap DB의\n139\t값과 대조한다. 그 뒤 GitHub repository variable `PRODUCTION_HEALTH_URL`에 production health\n140\tURL을 설정한다. 마지막으로 `PRODUCTION_ENABLED=true`를 설정해 poll과 freshness monitor를\n141\t동시에 fail-closed 운영 모드로 전환한다. 활성화 전에는 두 workflow가 의도적으로 skip하고,\n142\t활성화 후에는 URL 또는 secret 누락도 실패로 처리한다.\n143\t\n144\t공개 승격 전 최소 1시간 동안 complete cycle 6회를 확인한다. 각 cycle은 targets=121,\n145\tsaved=121, failed=0이어야 하고 complete cycle age는 25분을 넘지 않아야 한다.\n146\t\n147\t## 정상 운영 점검\n148\t\n149\t- 10분마다 poll workflow 성공 여부\n150\t- `last_complete_cycle_at`이 25분 이내인지\n151\t- 최근 cycle의 target/saved/failed 수\n152\t- cafe count와 active Overture release의 비정상 급감 여부\n153\t- migration head와 서비스 model version\n154\t- 서울 API schema parse failure와 secret-bearing 로그가 없는지\n155\t\n156\t주간 점검에서 `docs/INCIDENTS.md`의 미완료 재발 방지 항목도 함께 회수한다. 실패는 원본을\n157\t삭제하거나 마지막 정상값을 현재값처럼 표시하지 않고 stale 상태로 남긴다.\n158\t\n159\t## 논리 백업\n160\t\n161\t관리형 공급자의 자동 백업과 별도로 주요 schema 변경 또는 원장 release 승격 전에 암호화된\n162\t운영 저장소에 PostgreSQL custom-format dump를 만든다.\n163\t\n164\t```bash\n165\tPGDATABASE=\"$DATABASE_URL\" pg_dump --format=custom --no-owner --no-privileges > busy-cafe.dump\n166\tshasum -a 256 busy-cafe.dump > busy-cafe.dump.sha256\n167\tpg_restore --list busy-cafe.dump > busy-cafe.dump.manifest.txt\n168\t```\n169\t\n170\tdump, checksum과 manifest는 repository에 커밋하지 않는다. 저장 위치, 암호화 방식, 생성\n171\t시각, source commit과 DB migration revision만 검증 문서에 기록한다.\n172\t\n173\t## 복구 훈련\n174\t\n175\tproduction DB에 직접 restore하지 않는다. 별도의 빈 recovery DB를 만들고 다음 순서로\n176\t검증한다.\n177\t\n178\t```bash\n179\tshasum -a 256 -c busy-cafe.dump.sha256\n180\tPGDATABASE=\"$RECOVERY_DATABASE_URL\" pg_restore --exit-on-error --no-owner --no-privileges busy-cafe.dump\n181\t\n182\tcd backend\n183\t<REDACTED_ENV> uv run alembic -c alembic.ini current --check-heads\n184\t```\n185\t\n186\trecovery API를 별도 포트에 띄워 `/api/health`, 대표 bbox와 cafe detail을 확인한다. 테이블\n187\t건수, 최신 snapshot, model version과 대표 score를 원본 백업 기록과 대조한다. 성공한\n188\t훈련에만 실제 RPO/RTO를 기록하며 최소 분기 1회와 schema 변경 전후에 반복한다.\n189\t\n190\t## 장애 시 rollback\n191\t\n192\t1. poll workflow를 중지해 추가 write를 막는다.\n193\t2. Vercel의 `DATABASE_URL`을 제거하거나 이전 정상 DB로 교체해 읽기 전용 snapshot 또는\n194\t   정상 DB로 되돌린다.\n195\t3. 손상 DB는 보존하고 별도 recovery DB에 point-in-time recovery 또는 logical dump를\n196\t   복구한다.\n197\t4. migration head, 데이터 건수, 최신 snapshot과 API smoke를 확인한다.\n198\t5. 새 connection URL로 Vercel과 worker를 순서대로 전환한다.\n199\t6. 비밀값 노출 가능성이 있으면 DB credential과 서울 API 키를 교체한다.\n200\t7. 타임라인, 영향, 복구 근거와 회귀 방지를 `docs/INCIDENTS.md`에 기록한다.\n201\t\n202\t파괴적 migration downgrade나 production DB 위의 `pg_restore --clean`은 사용하지 않는다.\n203\t복구 검증 전 손상 DB를 삭제하지 않는다.\n204\t"
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "(exit 0)"
+        }
+      ]
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/.github/workflows/poll-production.yml"
+      }
+    },
+    {
+      "type": "tool_result",
+      "content": "1\tname: Poll production city data\n2\t\n3\ton:\n4\t  schedule:\n5\t    - cron: \"*/10 * * * *\"\n6\t  workflow_dispatch:\n7\t    inputs:\n8\t      probe_only:\n9\t        description: \"Probe one fixed Seoul hotspot without DB access\"\n10\t        required: false\n11\t        default: false\n12\t        type: boolean\n13\t\n14\tpermissions:\n15\t  contents: read\n16\t\n17\tconcurrency:\n18\t  group: production-citydata-poll\n19\t  cancel-in-progress: false\n20\t\n21\tjobs:\n22\t  poll:\n23\t    environment: Production\n24\t    runs-on: ubuntu-latest\n25\t    # Keep the whole job below the 10-minute schedule while reserving one\n26\t    # minute for the worker's interrupt cleanup and runner teardown.\n27\t    timeout-minutes: 9\n28\t    defaults:\n29\t      run:\n30\t        working-directory: backend\n31\t    env:\n32\t      PRODUCTION_ENABLED: ${{ vars.PRODUCTION_ENABLED }}\n33\t      PROBE_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.probe_only == true }}\n34\t      SEOUL_API_KEY: ${{ secrets.SEOUL_API_KEY }}\n35\t    steps:\n36\t      - id: configuration\n37\t        name: Check production secrets\n38\t        working-directory: .\n39\t        env:\n40\t          DATABASE_URL: ${{ secrets.DATABASE_URL }}\n41\t        run: |\n42\t          if [ \"$PROBE_ONLY\" = \"true\" ]; then\n43\t            if [ -z \"$SEOUL_API_KEY\" ]; then\n44\t              echo \"probe_only=true but SEOUL_API_KEY is missing.\" >&2\n45\t              exit 1\n46\t            fi\n47\t            echo \"Running read-only Seoul API probe; production polling remains unchanged.\"\n48\t            echo \"enabled=true\" >> \"$GITHUB_OUTPUT\"\n49\t            echo \"probe_only=true\" >> \"$GITHUB_OUTPUT\"\n50\t            exit 0\n51\t          fi\n52\t          if [ \"$PRODUCTION_ENABLED\" != \"true\" ]; then\n53\t            echo \"Production polling disabled (set PRODUCTION_ENABLED=true to enable); skipping.\"\n54\t            echo \"enabled=false\" >> \"$GITHUB_OUTPUT\"\n55\t            echo \"probe_only=false\" >> \"$GITHUB_OUTPUT\"\n56\t            exit 0\n57\t          fi\n58\t          if [ -z \"$DATABASE_URL\" ] || [ -z \"$SEOUL_API_KEY\" ]; then\n59\t            echo \"PRODUCTION_ENABLED=true but DATABASE_URL or SEOUL_API_KEY is missing.\" >&2\n60\t            exit 1\n61\t          fi\n62\t          echo \"enabled=true\" >> \"$GITHUB_OUTPUT\"\n63\t          echo \"probe_only=false\" >> \"$GITHUB_OUTPUT\"\n64\t      - if: steps.configuration.outputs.enabled == 'true'\n65\t        uses: actions/checkout@v4\n66\t      - if: steps.configuration.outputs.enabled == 'true'\n67\t        uses: actions/setup-python@v5\n68\t        with:\n69\t          python-version: \"3.12\"\n70\t      - if: steps.configuration.outputs.enabled == 'true'\n71\t        uses: astral-sh/setup-uv@v6\n72\t        with:\n73\t          enable-cache: true\n74\t      - if: steps.configuration.outputs.enabled == 'true'\n75\t        run: uv sync --frozen\n76\t      - if: steps.configuration.outputs.probe_only == 'true'\n77\t        name: Probe one Seoul hotspot\n78\t        run: uv run python scripts/probe_seoul_citydata.py\n79\t      - if: steps.configuration.outputs.enabled == 'true' && steps.configuration.outputs.probe_only != 'true'\n80\t        env:\n81\t          DATABASE_URL: ${{ secrets.DATABASE_URL }}\n82\t        run: uv run alembic -c alembic.ini upgrade head\n83\t      - if: steps.configuration.outputs.enabled == 'true' && steps.configuration.outputs.probe_only != 'true'\n84\t        name: Poll all hotspots\n85\t        env:\n86\t          DATABASE_URL: ${{ secrets.DATABASE_URL }}\n87\t        # SIGINT lets the worker mark its durable cycle failed before the\n88\t        # outer job timeout.  A hard kill remains as a bounded fallback.\n89\t        run: timeout --signal=INT --kill-after=30s 8m uv run python -m app.ingest.worker --once\n90\t"
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/backend/app/ingest/worker.py",
+        "offset": 120,
+        "limit": 70
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "Read",
+      "input": {
+        "file_path": "<RUN_ROOT>/repository/api/index.py"
+      }
+    },
+    {
+      "type": "tool_use",
+      "tool": "mcp__carrylog_verification__verify_git_diff",
+      "input": {}
+    },
+    {
+      "type": "tool_result",
+      "content": "120\t        \"--database-url\",\n121\t        help=\"override DATABASE_URL for this worker process\",\n122\t    )\n123\t    return parser\n124\t\n125\t\n126\tdef main(\n127\t    argv: Sequence[str] | None = None,\n128\t    *,\n129\t    settings_loader: Callable[[], Settings] = get_settings,\n130\t    client_factory: Callable[[str], PopulationClient] = SeoulCityDataClient,\n131\t    engine_factory: Callable[[str | None], Engine] = create_db_engine,\n132\t    scheduler_factory: Callable[..., Any] = BlockingScheduler,\n133\t) -> int:\n134\t    args = _parser().parse_args(argv)\n135\t    suppress_secret_bearing_http_logs()\n136\t    settings = settings_loader()\n137\t    if settings.seoul_api_key is None:\n138\t        raise SystemExit(\"SEOUL_API_KEY is required for the ingest worker\")\n139\t\n140\t    database_url = args.database_url or settings.database_url\n141\t    engine = engine_factory(database_url)\n142\t    session_factory = sessionmaker(\n143\t        bind=engine,\n144\t        expire_on_commit=False,\n145\t        class_=Session,\n146\t    )\n147\t    client = client_factory(settings.seoul_api_key.get_secret_value())\n148\t\n149\t    def cycle() -> CycleReport:\n150\t        report = run_poll_cycle(session_factory, client=client)\n151\t        LOGGER.info(\n152\t            \"Polling cycle %s: targets=%d saved=%d failed=%d\",\n153\t            report.status,\n154\t            report.targets,\n155\t            report.saved,\n156\t            report.failed,\n157\t        )\n158\t        return report\n159\t\n160\t    try:\n161\t        if args.once:\n162\t            return 0 if cycle().status == \"complete\" else 1\n163\t\n164\t        scheduler = scheduler_factory(timezone=\"Asia/Seoul\")\n165\t        scheduler.add_job(\n166\t            cycle,\n167\t            \"interval\",\n168\t            minutes=POLL_INTERVAL_MIN,\n169\t            coalesce=True,\n170\t            max_instances=1,\n171\t        )\n172\t        scheduler.start()\n173\t        return 0\n174\t    except (KeyboardInterrupt, SystemExit):\n175\t        return 0\n176\t    finally:\n177\t        engine.dispose()\n178\t\n179\t\n180\tif __name__ == \"__main__\":\n181\t    logging.basicConfig(level=logging.INFO)\n182\t    raise SystemExit(main())\n183\t"
+    },
+    {
+      "type": "tool_result",
+      "content": "1\t\"\"\"Read-only Vercel entry point for the current cafe-crowd snapshot.\"\"\"\n2\t\n3\tfrom __future__ import annotations\n4\t\n5\timport os\n6\timport sys\n7\tfrom pathlib import Path\n8\t\n9\tfrom fastapi.staticfiles import StaticFiles\n10\t\n11\t\n12\tROOT = Path(__file__).resolve().parents[1]\n13\tBACKEND_DIR = ROOT / \"backend\"\n14\tSNAPSHOT_DB = Path(__file__).resolve().parent / \"data\" / \"preview.db\"\n15\t\n16\tif str(BACKEND_DIR) not in sys.path:\n17\t    sys.path.insert(0, str(BACKEND_DIR))\n18\t\n19\t# The public demo works without any external state. In production, setting a\n20\t# managed PostgreSQL DATABASE_URL switches the exact same API to live data.\n21\tif \"DATABASE_URL\" not in os.environ:\n22\t    os.environ[\"DATABASE_URL\"] = f\"sqlite+pysqlite:///{SNAPSHOT_DB}\"\n23\t    os.environ.setdefault(\"CAFE_CROWD_SNAPSHOT\", \"1\")\n24\t\n25\tfrom app.main import app  # noqa: E402\n26\t\n27\t\n28\tSTATIC_DIR = Path(__file__).resolve().parent / \"static\"\n29\tif STATIC_DIR.is_dir():\n30\t    # API routes are registered before this catch-all static mount.\n31\t    app.mount(\"/\", StaticFiles(directory=STATIC_DIR, html=True), name=\"frontend\")\n32\t"
+    },
+    {
+      "type": "tool_result",
+      "content": [
+        {
+          "type": "text",
+          "text": "(exit 0)"
+        }
+      ]
+    },
+    {
+      "type": "agent_message",
+      "text": "## 결정 — 제안 반려\n\n정확한 기준 커밋은 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`이다.\n\n1. **Production PostgreSQL을 Vercel 내부 SQLite로 변경하지 않는다.**\n   - Accepted ADR은 운영 정본을 PostgreSQL로 확정했다. FK·unique constraint·멱등 upsert·시계열/공간 질의와 다중 프로세스 운영이 주요 이유다 (`docs/adr/ADR-0001-primary-database.md:18-28`).\n   - Vercel SQLite는 **읽기 전용 배포 스냅샷 또는 장애 fallback**일 뿐이다 (`docs/adr/ADR-0005-live-production-runtime.md:14-15`).\n   - 서버리스 로컬 파일 시스템과 함수 수명에는 121개 대상 수집 및 score write의 지속성과 공유 상태를 보장할 수 없다 (`docs/adr/ADR-0005-live-production-runtime.md:31-34`).\n   - 현재 Vercel 진입점도 `DATABASE_URL`이 없을 때에만 번들 SQLite를 사용한다 (`api/index.py:19-23`).\n\n2. **FastAPI 시작 시 10분 scheduler를 실행하지 않는다.**\n   - 운영 scheduler는 API와 분리한 단일 worker여야 한다 (`docs/adr/ADR-0001-primary-database.md:28`).\n   - Vercel 함수는 상시 프로세스가 아니므로 cold start·중단·재기동 때문에 정확한 주기를 보장하지 못한다. 여러 인스턴스가 뜨면 각 scheduler가 실행되어 중복 수집도 발생한다 (`docs/adr/ADR-0001-primary-database.md:51-56`).\n   - FastAPI 엔트리포인트는 현재 읽기 API만 구성하며 scheduler를 시작하지 않는다 (`backend/app/main.py:11-45`).\n\n## 안전한 대안\n\n- **정본:** 관리형 PostgreSQL을 유지하고 Vercel에는 pooled TLS `DATABASE_URL`만 제공한다.\n- **수집:** API 키와 write 권한은 별도 worker에만 둔다.\n- **MVP scheduling:** 기존 10분 GitHub Actions one-shot job을 사용한다. concurrency group으로 overlap을 막고 9분 timeout을 적용하고 있다 (`.github/workflows/poll-production.yml:3-27`, `.github/workflows/poll-production.yml:79-89`).\n- **엄격한 freshness가 필요할 때:** GitHub cron 대신 항상 켜진 단일 Docker worker에서 `python -m app.ingest.worker`를 실행한다 (`docs/adr/ADR-0005-live-production-runtime.md:25-29`). worker 자체도 `coalesce=True`, `max_instances=1`로 중첩 실행을 막는다 (`backend/app/ingest/worker.py:164-172`).\n- **장애 대응:** PostgreSQL 장애 시에만 Vercel의 읽기 전용 SQLite 스냅샷으로 명시적으로 fallback하고, 이를 실시간 데이터로 표시하지 않는다.\n\n파일은 수정하지 않았다. 허용된 검증으로 `git-status`와 `git-diff`를 실행했으며 둘 다 clean이었다."
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "076c9f230c53fcb817613bf9584f9b08",
+      "commandId": "git-status",
+      "registrySha256": "2c4be63c666296dd88f469281b08b02cdefeab8c71799325ba2e407826fac856",
+      "commandSha256": "922b0ddc0b2ee4c28f1904f1e6a35e9bc64d9c9eff9559430b36f2350c696ed8",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "b3cd43292d51fb676837ae8050d866c9",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "6bce8cb28af33648ccd9c14528f1490d672dcb33552953f9de7cc20cf6a615e9"
+        }
+      },
+      "preCommandStateSha256": "fb65b0b3335e4070f491590410813b641be4a6cc8b18957d2b9f676733d4b283",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "2d84865cfc0941ecb7c0dc31cb3ccb8b",
+      "commandId": "git-diff",
+      "registrySha256": "2c4be63c666296dd88f469281b08b02cdefeab8c71799325ba2e407826fac856",
+      "commandSha256": "11566396c4ac0cbe3a025f89ba2a130f5f27f88129e4fb62cf31f5e4a4ac0445",
+      "executionMode": "seatbelt-workspace-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "b3cd43292d51fb676837ae8050d866c9",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "999df8b25ebbae9f9fd42cc88b85b96934fa03bbb1b0371e1c594e5bca1d507a"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "6bce8cb28af33648ccd9c14528f1490d672dcb33552953f9de7cc20cf6a615e9"
+        }
+      },
+      "preCommandStateSha256": "fb65b0b3335e4070f491590410813b641be4a6cc8b18957d2b9f676733d4b283",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

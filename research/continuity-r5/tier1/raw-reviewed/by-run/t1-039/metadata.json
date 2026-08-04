@@ -1,0 +1,144 @@
+{
+  "runId": "t1-039",
+  "blindId": "b-e4f13bd5460e",
+  "repository": "carrylog",
+  "baseCommit": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+  "sourceTree": "69b978b3e5f3fe02c927a25b390afec693f8d4d4",
+  "fixtureHead": "69396245473fb61d839b8a621ef9dc73ada10647",
+  "sourceRef": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+  "sourceHistory": {
+    "reachableCommitCount": 1,
+    "shallowBoundary": "c9e8c2d9df0e5654885204fd3c7f35909771011d",
+    "parentInaccessible": true
+  },
+  "conditionBaseline": "69396245473fb61d839b8a621ef9dc73ada10647",
+  "gitMetadata": {
+    "external": true,
+    "detachedAfterContextPreparation": true,
+    "detachedBeforeProviderAuthentication": true,
+    "directorySha256BeforeModel": "5c0eca98fc1b8e96fd932fda68771fd5a703de1ccb577d6ff22a9f424e953644",
+    "checkoutGitfilePresent": true,
+    "checkoutGitfileSha256": "1354ce4669d3d43bc5e5e8d40fb653c62f8cc090170ac5cea511b08570e4f4cb",
+    "optionalLocks": "0",
+    "directorySha256AfterModel": "5c0eca98fc1b8e96fd932fda68771fd5a703de1ccb577d6ff22a9f424e953644",
+    "unchangedDuringModel": true
+  },
+  "harnessVersions": {
+    "codex": "codex-cli 0.146.0",
+    "claude": "2.1.220 (Claude Code)",
+    "node": "v22.23.0",
+    "npm": "10.9.8",
+    "git": "git version 2.50.1 (Apple Git-155)",
+    "uv": "uv 0.11.23 (Homebrew 2026-06-19 aarch64-apple-darwin)",
+    "os": "macOS 26.5.2 (25F84)",
+    "architecture": "arm64",
+    "claudeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
+    "codexExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02"
+  },
+  "toolTreeSha256": "bc6a4263eb80f4d87c91b4548ed21b9bc3b48d301eaa507dcfa42653199a3808",
+  "cacheLifecycle": {
+    "mode": "sealed-offline-reuse",
+    "cacheId": "ff60d6a8398d1a179e1a7054de3ddeda",
+    "repositoryId": "carrylog",
+    "claimSha256": "53781f855980c63be15894663ef58abc6812cec571c3a7699f50d7f7cc594faa",
+    "readySha256": "5a6f43fcc624e53a29a3089e97803e7dcd3f2d62eae90777dc2e8636d9a9eff6",
+    "populatedByRunId": "t1-001",
+    "toolTreeSha256": "bc6a4263eb80f4d87c91b4548ed21b9bc3b48d301eaa507dcfa42653199a3808",
+    "carrylogTarballSha256": "47e3ae98efb3984124ec31d5090db5e1e7b592692942905d996d73a00e657e4e"
+  },
+  "harnessIsolation": {
+    "syntheticHome": true,
+    "copiedAuthenticationFiles": [
+      "codex/auth.json"
+    ],
+    "authenticationFields": [
+      "provider-required-file"
+    ],
+    "routerAuthentication": null,
+    "copiedGlobalInstructions": false,
+    "copiedProviderSessions": false,
+    "copiedProviderSettings": false,
+    "repositorySelectionEnvironmentForwarded": false,
+    "authentication": {
+      "ephemeralAuthenticationStaged": true,
+      "stagedAuthenticationFiles": [
+        "codex/auth.json"
+      ],
+      "stagedAuthenticationEnvironmentFields": [],
+      "cleanupAttempted": true,
+      "cleanupSucceeded": true,
+      "cleanupDiagnostic": null,
+      "residualAuthenticationPossible": false,
+      "cleanupNotGuaranteedAfter": [
+        "SIGKILL",
+        "host-crash",
+        "power-loss"
+      ]
+    }
+  },
+  "verificationExecutionMode": "seatbelt-broker-isolated",
+  "deliveryManifest": {
+    "estimand": "released-product-bundle",
+    "condition": "repository-only",
+    "taskPromptSha256": "56a144460a1077a0286c737fd0806a3c60c076e1cb2da8b8e665150d3e360c5a",
+    "priorSessionPacket": {
+      "sha256": "ab8c29b3998d435e94f7a206985ad65c4004033f2e4aefcc506623ca42b8e9fa",
+      "delivered": false,
+      "channel": null
+    },
+    "resumeEnvelope": {
+      "delivered": false,
+      "sha256": null
+    },
+    "repositoryDiscoverySurfaces": [],
+    "continuityEligibleFactIds": [
+      "f1",
+      "f2",
+      "f3",
+      "f4",
+      "f5"
+    ],
+    "promptExplicitFactIds": [],
+    "semanticParityWithManualClaimed": false,
+    "automaticCheckpointAuthorshipClaimed": false,
+    "automaticRouterDiscoveryClaimed": false
+  },
+  "condition": "repository-only",
+  "harness": "codex",
+  "setupNetworkPolicy": "seatbelt-network-denied",
+  "baselineCommit": "a609a5eea1d9778e38ace5bf0e0f3de449e3b85f",
+  "promptSha256": "9f0080229f9b16cd7c3351bc14ad9e9ac9d3617bdb66efb4a79f0b80c6b95586",
+  "promptBytes": 1064,
+  "promptCharacters": 1064,
+  "deliveryPacketSha256": "ab8c29b3998d435e94f7a206985ad65c4004033f2e4aefcc506623ca42b8e9fa",
+  "deliveryPacketBytes": 1051,
+  "deliveryPacketCharacters": 1051,
+  "resumeEnvelopeSha256": null,
+  "preparationLatencyMs": 3969,
+  "freezeCommit": "ec27f44924749a84bb53a84d71f8408f9cb6de68",
+  "frozenSuiteSha256": "cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd",
+  "startedAt": "2026-08-04T18:34:52.505Z",
+  "latencyMs": 67828,
+  "process": {
+    "exitCode": 0,
+    "signal": null,
+    "timedOut": false,
+    "spawnError": null
+  },
+  "usage": {
+    "input_tokens": 210526,
+    "cached_input_tokens": 178176,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 2131,
+    "reasoning_output_tokens": 1349
+  },
+  "estimatedCostUsd": null,
+  "resolvedModels": [],
+  "artifactSha256": "a5663545a50d56c4102ae5e3e263ccbc85bd1a360412d78962f9343c8b6e3a3c",
+  "evidence": {
+    "resumeEnvelopeDeliveredInPrompt": false,
+    "toolReceiptsObserved": true,
+    "verifiedWrapperReceipts": 2,
+    "behaviorNotInferredFromReceipt": true
+  }
+}

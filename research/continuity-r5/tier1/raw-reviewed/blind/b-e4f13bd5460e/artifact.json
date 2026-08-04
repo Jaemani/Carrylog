@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-e4f13bd5460e",
+  "finalResponse": "- **Fixture objective:** Cannot be established from the exposed evidence. No repository-scoped file reader/search tool was available, and using other shell commands was prohibited.\n- **Verified state:** `HEAD` is exactly `c9e8c2d9df0e5654885204fd3c7f35909771011d`; `git status` returned clean `## main`.\n- **Safest next action:** Inspect tracked handoff, product, and research notes at this exact commit using an approved repository reader before changing anything.\n- **Behavior vs hypotheses:** No product behavior or research hypothesis can be responsibly claimed from Git state alone.\n- **Blocker/risk:** Missing approved file-inspection capability. The main risk is inventing context or substituting later experiment state. No files were edited.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-head",
+      "preCommandStateSha256": "a9f9911fb7f6994501f81537143d75af8b4a1d817c1a83591aedf6e3f12920d2",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "a9f9911fb7f6994501f81537143d75af8b4a1d817c1a83591aedf6e3f12920d2",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 8,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 8,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

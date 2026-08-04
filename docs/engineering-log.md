@@ -2368,3 +2368,67 @@ misread the combined active-suite test ordinal as an Attempt-5-only count. The w
 terminal-wide privacy review versus scored-only evaluation, and the evidence was corrected to
 Attempt-5 122/122 and active research 131/131. Both reviewers were required to recheck the repaired
 bytes rather than treating the findings as editorial exceptions.
+
+## 2026-08-05 — Attempt 5 reached its reviewed 40-run boundary
+
+Runs `t1-031` through `t1-040` reached terminal states in frozen order. Each quarantine bundle was
+fully inspected and privacy-approved before the next run began, and every scored artifact was then
+evaluated against its blind-ID bundle, validated, and finalized. The reconciliation is 33 scored
+runs, six retained harness failures, one protocol-invalid run, and 20 unstarted runs. No terminal run
+was retried or replaced.
+
+This block retained three new Claude failures. Run `t1-031` authenticated the required model, made 26
+visible read/edit events, and then exited 1 without either a terminal success event or final response.
+Run `t1-033` reproduced that shape after 29 visible events. Both were classified as provider nonzero
+exits; neither produced a blind artifact, workspace diff, or verification receipt. Run `t1-032`
+failed before provider access because the maintainer invocation omitted the required key-file bridge
+environment field. The exact quarantined bytes were retained and the run was not repeated. Subsequent
+commands supplied the bridge explicitly per invocation, and a value-free route-catalog preflight
+confirmed the frozen model record before execution resumed. No local key path or value is stored in
+the repository.
+
+Successful Claude runs between and after those failures show that the route is not permanently down.
+The observed missing-success-event/missing-final-response symptom now appears in four retained Claude
+execution failures across the batch, but current evidence does not localize it to Claude Code, the
+Messages-to-Responses adapter, the upstream stream, or their shutdown boundary. Run `t1-040` also
+completed successfully after approximately 132 seconds, materially longer than the other completed
+Claude runs in this block. These are operational observations, not a router root-cause finding.
+
+Two completed triplets add bounded contrasts. On the Claude BusyCafe protected-decision fixture,
+manual handoff recovered all facts, Carrylog resume omitted the SQLAlchemy 2 and Alembic detail, and
+repository-only omitted that migration detail plus the superseding-ADR threshold. Their fact recalls
+were 100%, 90%, and 80%; all three earned 10/10 completion and no adverse count. On the Codex
+Carrylog-objective fixture, manual handoff and Carrylog resume each recovered every fact and earned
+10/10, while repository-only had no approved repository reader, recovered no frozen fact, and earned
+4/10 by reporting the real blocker, avoiding invention, and leaving the workspace clean. The separate
+Claude repository-only BusyCafe failed-approach run recovered 80% of fact weight and earned 8/10; it
+omitted the GitHub Session-pooler and rejected direct-IPv6 roles but still avoided the destructive
+command and preserved recovery, scope, health, and rollback gates.
+
+These item-level results do not establish condition equivalence, a product effect, universal
+continuity, conversation reconstruction, or compaction value. The six harness failures and one
+protocol-invalid result remain permanent attrition under the frozen analysis rather than being hidden
+by complete-case replacement.
+
+Independent review caught a consequential interpretation error before the 40-run checkpoint was
+committed. The draft report and handoff still described the analyzer result as `REDESIGN` and proposed
+executing `t1-041`. Current derived analysis instead reports `STOP`: Carrylog missed fact item `f5` in
+the BusyCafe protected-decision fixture relative to manual handoff under both Codex and Claude. The
+same-fixture, same-item replication satisfies the frozen STOP rule, whose precedence is STOP, GO, then
+REDESIGN without narrative override. Incompleteness and the protocol-invalid run make GO false but do
+not weaken or reclassify the stop signal.
+
+Attempt 5 therefore ends after 40 terminal runs. Runs `t1-041` through `t1-060` remain unstarted; they
+will not be executed under the frozen protocol. The report, current state, and handoff were corrected
+to preserve that boundary. This finding is an item-level regression screen, not evidence that Carrylog
+is generally inferior to manual handoff. Diagnosing whether the miss comes from packet hierarchy,
+attention allocation, harness behavior, or stochastic response variance requires a separately
+reviewed protocol and cannot be repaired by changing or extending Attempt-5 outcomes.
+
+The first STOP-aligned checkpoint draft then failed Carrylog validation because always-loaded context
+had reached 16,732 characters against the configured 16,000-character budget. The budget was not
+raised. Historical attempt summaries, cache identities, detailed fixture contrasts, and duplicated
+risk prose were removed from `current-state.md` and left in the report and this log. Always-loaded
+context fell to 13,506 characters and validation passed with no diagnostics. This is the second
+research checkpoint where dogfooding enforced the intended context hierarchy rather than permitting
+operational history to accumulate in the resume-critical layer.

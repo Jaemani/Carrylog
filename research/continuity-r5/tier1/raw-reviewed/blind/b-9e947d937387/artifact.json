@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-9e947d937387",
+  "finalResponse": "## 결정 — 제안 반려\n\n정확한 기준 커밋은 `0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6`이다.\n\n1. **Production PostgreSQL을 Vercel 내부 SQLite로 변경하지 않는다.**\n   - Accepted ADR은 운영 정본을 PostgreSQL로 확정했다. FK·unique constraint·멱등 upsert·시계열/공간 질의와 다중 프로세스 운영이 주요 이유다 (`docs/adr/ADR-0001-primary-database.md:18-28`).\n   - Vercel SQLite는 **읽기 전용 배포 스냅샷 또는 장애 fallback**일 뿐이다 (`docs/adr/ADR-0005-live-production-runtime.md:14-15`).\n   - 서버리스 로컬 파일 시스템과 함수 수명에는 121개 대상 수집 및 score write의 지속성과 공유 상태를 보장할 수 없다 (`docs/adr/ADR-0005-live-production-runtime.md:31-34`).\n   - 현재 Vercel 진입점도 `DATABASE_URL`이 없을 때에만 번들 SQLite를 사용한다 (`api/index.py:19-23`).\n\n2. **FastAPI 시작 시 10분 scheduler를 실행하지 않는다.**\n   - 운영 scheduler는 API와 분리한 단일 worker여야 한다 (`docs/adr/ADR-0001-primary-database.md:28`).\n   - Vercel 함수는 상시 프로세스가 아니므로 cold start·중단·재기동 때문에 정확한 주기를 보장하지 못한다. 여러 인스턴스가 뜨면 각 scheduler가 실행되어 중복 수집도 발생한다 (`docs/adr/ADR-0001-primary-database.md:51-56`).\n   - FastAPI 엔트리포인트는 현재 읽기 API만 구성하며 scheduler를 시작하지 않는다 (`backend/app/main.py:11-45`).\n\n## 안전한 대안\n\n- **정본:** 관리형 PostgreSQL을 유지하고 Vercel에는 pooled TLS `DATABASE_URL`만 제공한다.\n- **수집:** API 키와 write 권한은 별도 worker에만 둔다.\n- **MVP scheduling:** 기존 10분 GitHub Actions one-shot job을 사용한다. concurrency group으로 overlap을 막고 9분 timeout을 적용하고 있다 (`.github/workflows/poll-production.yml:3-27`, `.github/workflows/poll-production.yml:79-89`).\n- **엄격한 freshness가 필요할 때:** GitHub cron 대신 항상 켜진 단일 Docker worker에서 `python -m app.ingest.worker`를 실행한다 (`docs/adr/ADR-0005-live-production-runtime.md:25-29`). worker 자체도 `coalesce=True`, `max_instances=1`로 중첩 실행을 막는다 (`backend/app/ingest/worker.py:164-172`).\n- **장애 대응:** PostgreSQL 장애 시에만 Vercel의 읽기 전용 SQLite 스냅샷으로 명시적으로 fallback하고, 이를 실시간 데이터로 표시하지 않는다.\n\n파일은 수정하지 않았다. 허용된 검증으로 `git-status`와 `git-diff`를 실행했으며 둘 다 clean이었다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "fb65b0b3335e4070f491590410813b641be4a6cc8b18957d2b9f676733d4b283",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "fb65b0b3335e4070f491590410813b641be4a6cc8b18957d2b9f676733d4b283",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

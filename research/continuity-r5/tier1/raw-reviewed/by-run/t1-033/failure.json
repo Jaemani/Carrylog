@@ -1,0 +1,427 @@
+{
+  "formatVersion": 1,
+  "runId": "t1-033",
+  "blindId": "b-1c5aafdd4b70",
+  "failedAt": "2026-08-04T18:26:11.292Z",
+  "stage": "harness-execution",
+  "error": "HarnessExecutionError: claude harness failure exit:1,missing-success-event,missing-final-response\n    at assertSuccessfulHarnessResult (file://<ABSOLUTE_PATH>\n    at executeClaude (file://<ABSOLUTE_PATH>\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async file://<ABSOLUTE_PATH>",
+  "freeze": {
+    "required": true,
+    "verified": true,
+    "freezeCommit": "ec27f44924749a84bb53a84d71f8408f9cb6de68",
+    "frozenSuiteSha256": "cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd"
+  },
+  "preparation": {
+    "status": "completed",
+    "startedAt": "2026-08-04T18:24:45.350Z",
+    "completedAt": "2026-08-04T18:24:48.707Z",
+    "latencyMs": 3356,
+    "lastCompletedStep": "preparation-complete",
+    "details": {
+      "runId": "t1-033",
+      "blindId": "b-1c5aafdd4b70",
+      "repository": "busycafe",
+      "baseCommit": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+      "sourceTree": "826f6da85498720f3c6d37963f1765e4c7243613",
+      "fixtureHead": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+      "sourceRef": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+      "sourceHistory": {
+        "reachableCommitCount": 1,
+        "shallowBoundary": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+        "parentInaccessible": true
+      },
+      "conditionBaseline": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+      "gitMetadata": {
+        "external": true,
+        "detachedAfterContextPreparation": true,
+        "detachedBeforeProviderAuthentication": true,
+        "directorySha256BeforeModel": "975c6323b7afdfd57f59d4ceca73afa2e8b97d45d13d37dbec082a8b803d19ec",
+        "checkoutGitfilePresent": true,
+        "checkoutGitfileSha256": "c77752bec2437308f7fadc7853f0f303bb39c192375b23c2e05825ca2ca6beb7",
+        "optionalLocks": "0"
+      },
+      "harnessVersions": {
+        "codex": "codex-cli 0.146.0",
+        "claude": "2.1.220 (Claude Code)",
+        "node": "v22.23.0",
+        "npm": "10.9.8",
+        "git": "git version 2.50.1 (Apple Git-155)",
+        "uv": "uv 0.11.23 (Homebrew 2026-06-19 aarch64-apple-darwin)",
+        "os": "macOS 26.5.2 (25F84)",
+        "architecture": "arm64",
+        "claudeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
+        "codexExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02"
+      },
+      "toolTreeSha256": "648fe9f84b100ae805b9e4e692ccc09d3254d53f0291cad3523617f94aa48f38",
+      "cacheLifecycle": {
+        "mode": "sealed-offline-reuse",
+        "cacheId": "e1e4c9c97abcab8264dd0ca91c7b8f64",
+        "repositoryId": "busycafe",
+        "claimSha256": "a4cbe8c63900ffe11e98b5944895d91eebaef489b048b2ef2d5bda4ed651acd2",
+        "readySha256": "afea8d2efe10c303976d6ab85cfe6b18b8d50c7467559b6a6092ca7878b4ba94",
+        "populatedByRunId": "t1-010",
+        "toolTreeSha256": "648fe9f84b100ae805b9e4e692ccc09d3254d53f0291cad3523617f94aa48f38",
+        "carrylogTarballSha256": "47e3ae98efb3984124ec31d5090db5e1e7b592692942905d996d73a00e657e4e"
+      },
+      "harnessIsolation": {
+        "syntheticHome": true,
+        "copiedAuthenticationFiles": [],
+        "authenticationFields": [
+          "router-api-key-environment"
+        ],
+        "routerAuthentication": {
+          "mode": "router-key-environment",
+          "providerEndpoint": "https://llm.jaemani.com",
+          "keyPersistedByRunner": false,
+          "keyPathPersistedByRunner": false,
+          "keyDigestPersistedByRunner": false,
+          "routeCatalog": {
+            "requestedModel": "gpt-5.6-sol",
+            "catalogRecordSha256": "229d0d794270e15f3da521962cc7d2521bd61e07a1e1c3b7e0af70f7b444cc9d",
+            "routeTarget": null,
+            "protocol": "responses",
+            "providerIdentityObservable": false
+          },
+          "stagedEnvironmentFields": [
+            "ANTHROPIC_API_KEY",
+            "ANTHROPIC_BASE_URL",
+            "ANTHROPIC_TARGET_API_URL",
+            "ANTHROPIC_MODEL",
+            "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY"
+          ]
+        },
+        "copiedGlobalInstructions": false,
+        "copiedProviderSessions": false,
+        "copiedProviderSettings": false,
+        "repositorySelectionEnvironmentForwarded": false,
+        "authentication": {
+          "ephemeralAuthenticationStaged": true,
+          "stagedAuthenticationFiles": [],
+          "stagedAuthenticationEnvironmentFields": [
+            "ANTHROPIC_API_KEY",
+            "ANTHROPIC_BASE_URL",
+            "ANTHROPIC_TARGET_API_URL",
+            "ANTHROPIC_MODEL",
+            "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY"
+          ],
+          "cleanupAttempted": true,
+          "cleanupSucceeded": true,
+          "cleanupDiagnostic": null,
+          "residualAuthenticationPossible": false,
+          "cleanupNotGuaranteedAfter": [
+            "SIGKILL",
+            "host-crash",
+            "power-loss"
+          ]
+        }
+      },
+      "verificationExecutionMode": "seatbelt-workspace-isolated",
+      "deliveryManifest": {
+        "estimand": "released-product-bundle",
+        "condition": "manual-handoff",
+        "taskPromptSha256": "6c0fbbaa167af696ade188a6ab6b524f05d13f9d00a6a14bde5e12a886f10a8d",
+        "priorSessionPacket": {
+          "sha256": "3d1962d238be41c36257c2096558cf2429813a96f3b4f520cf71ba7a4dca9f9f",
+          "delivered": true,
+          "channel": "prompt-section"
+        },
+        "resumeEnvelope": {
+          "delivered": false,
+          "sha256": null
+        },
+        "repositoryDiscoverySurfaces": [],
+        "continuityEligibleFactIds": [
+          "f1",
+          "f2",
+          "f3",
+          "f5",
+          "f7"
+        ],
+        "promptExplicitFactIds": [
+          "f4",
+          "f6"
+        ],
+        "semanticParityWithManualClaimed": false,
+        "automaticCheckpointAuthorshipClaimed": false,
+        "automaticRouterDiscoveryClaimed": false
+      },
+      "condition": "manual-handoff",
+      "harness": "claude",
+      "setupNetworkPolicy": "seatbelt-network-denied",
+      "baselineCommit": "0cfaf1dec45c5256ce10b9e2d4fbb791fe244e84",
+      "promptSha256": "0d04c610e6a11c5f224a3dbf1afed5aed6306e8b55e0d339ffec0ee80ba935c3",
+      "promptBytes": 2341,
+      "promptCharacters": 1885,
+      "deliveryPacketSha256": "3d1962d238be41c36257c2096558cf2429813a96f3b4f520cf71ba7a4dca9f9f",
+      "deliveryPacketBytes": 1065,
+      "deliveryPacketCharacters": 801,
+      "resumeEnvelopeSha256": null,
+      "preparationLatencyMs": 3356
+    }
+  },
+  "delivery": {
+    "status": "prepared",
+    "manifest": {
+      "estimand": "released-product-bundle",
+      "condition": "manual-handoff",
+      "taskPromptSha256": "6c0fbbaa167af696ade188a6ab6b524f05d13f9d00a6a14bde5e12a886f10a8d",
+      "priorSessionPacket": {
+        "sha256": "3d1962d238be41c36257c2096558cf2429813a96f3b4f520cf71ba7a4dca9f9f",
+        "delivered": true,
+        "channel": "prompt-section"
+      },
+      "resumeEnvelope": {
+        "delivered": false,
+        "sha256": null
+      },
+      "repositoryDiscoverySurfaces": [],
+      "continuityEligibleFactIds": [
+        "f1",
+        "f2",
+        "f3",
+        "f5",
+        "f7"
+      ],
+      "promptExplicitFactIds": [
+        "f4",
+        "f6"
+      ],
+      "semanticParityWithManualClaimed": false,
+      "automaticCheckpointAuthorshipClaimed": false,
+      "automaticRouterDiscoveryClaimed": false
+    }
+  },
+  "authentication": {
+    "ephemeralAuthenticationStaged": true,
+    "stagedAuthenticationFiles": [],
+    "stagedAuthenticationEnvironmentFields": [
+      "ANTHROPIC_API_KEY",
+      "ANTHROPIC_BASE_URL",
+      "ANTHROPIC_TARGET_API_URL",
+      "ANTHROPIC_MODEL",
+      "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY"
+    ],
+    "cleanupAttempted": true,
+    "cleanupSucceeded": true,
+    "cleanupDiagnostic": null,
+    "residualAuthenticationPossible": false,
+    "cleanupNotGuaranteedAfter": [
+      "SIGKILL",
+      "host-crash",
+      "power-loss"
+    ]
+  },
+  "gitIntegrity": {
+    "checkoutGitfilePresent": true,
+    "checkoutGitfileSha256BeforeModel": "c77752bec2437308f7fadc7853f0f303bb39c192375b23c2e05825ca2ca6beb7",
+    "checkoutGitfileSha256Observed": "c77752bec2437308f7fadc7853f0f303bb39c192375b23c2e05825ca2ca6beb7",
+    "checkoutGitfileUnchanged": true,
+    "directorySha256BeforeModel": "975c6323b7afdfd57f59d4ceca73afa2e8b97d45d13d37dbec082a8b803d19ec",
+    "directorySha256Observed": "975c6323b7afdfd57f59d4ceca73afa2e8b97d45d13d37dbec082a8b803d19ec",
+    "unchanged": true
+  },
+  "execution": {
+    "status": "failed",
+    "startedAt": "2026-08-04T18:24:48.707Z",
+    "completedAt": "2026-08-04T18:26:11.283Z",
+    "latencyMs": 82576,
+    "process": {
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null
+    },
+    "visibleEvents": [
+      {
+        "type": "tool_use",
+        "tool": "Glob",
+        "input": {
+          "pattern": "**/*poll*"
+        }
+      },
+      {
+        "type": "tool_use",
+        "tool": "Grep",
+        "input": {
+          "pattern": "run_poll_cycle|poll_once|PollReport|IngestCycle",
+          "path": ".",
+          "glob": "*.py",
+          "output_mode": "content",
+          "head_limit": 200
+        }
+      },
+      {
+        "type": "tool_use",
+        "tool": "Glob",
+        "input": {
+          "pattern": "**/CLAUDE.md"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "backend/tests/test_models.py:19:    IngestCycle,\nbackend/tests/test_models.py:67:    cycle = IngestCycle.__table__.c\nbackend/tests/test_models.py:94:            IngestCycle(\nbackend/app/api/routes.py:18:from app.models import Cafe, CafeScore, Hotspot, HotspotSnapshot, IngestCycle\nbackend/app/api/routes.py:337:        select(IngestCycle).order_by(\nbackend/app/api/routes.py:338:            IngestCycle.started_at.desc(), IngestCycle.id.desc()\nbackend/app/api/routes.py:349:                select(func.max(IngestCycle.completed_at)).where(\nbackend/app/api/routes.py:350:                    IngestCycle.status == \"complete\"\nbackend/app/ingest/repository.py:12:from app.models import IngestCycle, Hotspot, HotspotParseFailure, HotspotSnapshot\nbackend/app/ingest/repository.py:41:            cycle = IngestCycle(\nbackend/app/ingest/repository.py:64:            cycle = session.get(IngestCycle, cycle_id)\nbackend/tests/test_api_routes.py:14:from app.models import Base, Cafe, CafeScore, Hotspot, HotspotSnapshot, IngestCycle\nbackend/tests/test_api_routes.py:105:            IngestCycle(\nbackend/tests/test_api_routes.py:115:            IngestCycle(\nbackend/app/ingest/poller.py:83:class PollReport:\nbackend/app/ingest/poller.py:160:def poll_once(\nbackend/app/ingest/poller.py:172:) -> PollReport:\nbackend/app/ingest/poller.py:307:    return PollReport(targets=len(target_list), saved=saved, failed=failed)\nbackend/app/models.py:43:class IngestCycle(Base):\nbackend/app/ingest/worker.py:28:from app.ingest.poller import PollReport, PopulationClient, poll_once\nbackend/app/ingest/worker.py:48:def run_poll_cycle(\nbackend/app/ingest/worker.py:58:    poll_report: PollReport | None = None\nbackend/app/ingest/worker.py:60:        poll_report = poll_once(\nbackend/app/ingest/worker.py:150:        report = run_poll_cycle(session_factory, client=client)\nbackend/tests/test_poller.py:19:    poll_once,\nbackend/tests/test_poller.py:88:def test_poll_once_retries_with_exponential_backoff_then_saves() -> None:\nbackend/tests/test_poller.py:102:    report = poll_once(\nbackend/tests/test_poller.py:131:    report = poll_once(\nbackend/tests/test_poller.py:166:    report = poll_once(\nbackend/tests/test_poller.py:199:    report = poll_once(\nbackend/tests/test_poller.py:217:        poll_once(\nbackend/tests/test_poller.py:237:    report = poll_once(\nbackend/tests/test_poller.py:271:    report = poll_once(\nbackend/tests/test_poller.py:300:    report = poll_once(\nbackend/tests/test_ingest_repository.py:24:from app.ingest.worker import main, run_poll_cycle, suppress_secret_bearing_http_logs\nbackend/tests/test_ingest_repository.py:30:    IngestCycle,\nbackend/tests/test_ingest_repository.py:184:def test_run_poll_cycle_uses_database_targets_without_real_http(session_factory):\nbackend/tests/test_ingest_repository.py:199:    report = run_poll_cycle(session_factory, client=client)\nbackend/tests/test_ingest_repository.py:206:        cycle = session.scalar(select(IngestCycle))\nbackend/tests/test_ingest_repository.py:223:                cycle = session.scalar(select(IngestCycle))\nbackend/tests/test_ingest_repository.py:229:    report = run_poll_cycle(\nbackend/tests/test_ingest_repository.py:249:        run_poll_cycle(\nbackend/tests/test_ingest_repository.py:256:        cycle = session.scalar(select(IngestCycle))\nbackend/tests/test_ingest_repository.py:277:        run_poll_cycle(session_factory, client=InterruptedClient())\nbackend/tests/test_ingest_repository.py:280:        cycle = session.scalar(select(IngestCycle))\nbackend/tests/test_ingest_repository.py:325:        cycle = session.scalar(select(IngestCycle))\nbackend/tests/test_ingest_repository.py:363:        cycle = session.scalar(select(IngestCycle))"
+      },
+      {
+        "type": "tool_result",
+        "content": "backend/app/ingest/poller.py\nbackend/tests/test_poller.py\ndocs/adr/ADR-0004-seoulwide-polling-cache.md\n.github/workflows/poll-production.yml\nbackend/.venv/lib/python3.14/site-packages/uvloop/handles/poll.pxd\nbackend/.venv/lib/python3.14/site-packages/uvloop/handles/poll.pyx"
+      },
+      {
+        "type": "tool_result",
+        "content": "No files found"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Read",
+        "input": {
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/poller.py"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "1\t\"\"\"Deterministic polling core for Seoul hotspot population snapshots.\n2\t\n3\tScheduling and database persistence deliberately live outside this module.  A\n4\tcaller supplies poll targets, a Seoul client, and a snapshot writer, which\n5\tmakes one polling cycle deterministic and testable without network or sleep.\n6\t\"\"\"\n7\t\n8\tfrom __future__ import annotations\n9\t\n10\timport logging\n11\timport time\n12\tfrom collections.abc import Callable, Iterable, Mapping\n13\tfrom dataclasses import dataclass\n14\tfrom datetime import UTC, datetime\n15\tfrom typing import Any, Protocol\n16\tfrom zoneinfo import ZoneInfo\n17\t\n18\tfrom app.clients.seoul_citydata import SeoulAPIError, parse_population\n19\tfrom app.config import (\n20\t    HTTP_MAX_RETRIES,\n21\t    HTTP_RETRY_BASE_DELAY_SECONDS,\n22\t    POLL_MAX_CONSECUTIVE_FAILURES,\n23\t)\n24\t\n25\t\n26\tLOGGER = logging.getLogger(__name__)\n27\tSEOUL_TIMEZONE = ZoneInfo(\"Asia/Seoul\")\n28\tPPLTN_TIME_FORMAT = \"%Y-%m-%d %H:%M\"\n29\t\n30\t\n31\tclass PopulationClient(Protocol):\n32\t    \"\"\"Narrow client boundary used by a polling cycle.\"\"\"\n33\t\n34\t    def fetch_population_raw(self, area_name: str) -> dict[str, Any]: ...\n35\t\n36\t\n37\tclass SnapshotWriter(Protocol):\n38\t    \"\"\"Persistence boundary implemented by the database integration layer.\"\"\"\n39\t\n40\t    def __call__(self, snapshot: \"SnapshotRecord\", /) -> None: ...\n41\t\n42\t\n43\tclass ParseFailureWriter(Protocol):\n44\t    \"\"\"Persistence boundary for raw responses that failed validation.\"\"\"\n45\t\n46\t    def __call__(self, failure: \"ParseFailureRecord\", /) -> None: ...\n47\t\n48\t\n49\t@dataclass(frozen=True, slots=True)\n50\tclass PollTarget:\n51\t    hotspot_id: int\n52\t    area_cd: str\n53\t    area_name: str\n54\t\n55\t\n56\t@dataclass(frozen=True, slots=True)\n57\tclass SnapshotRecord:\n58\t    \"\"\"Persistence-neutral values for one ``hotspot_snapshots`` row.\"\"\"\n59\t\n60\t    hotspot_id: int\n61\t    observed_at: datetime\n62\t    fetched_at: datetime\n63\t    congest_level: int\n64\t    congest_label: str\n65\t    ppltn_min: int\n66\t    ppltn_max: int\n67\t    forecast_json: list[dict[str, Any]]\n68\t    raw_json: dict[str, Any]\n69\t\n70\t\n71\t@dataclass(frozen=True, slots=True)\n72\tclass ParseFailureRecord:\n73\t    \"\"\"Safe failure metadata plus the separately retained raw response.\"\"\"\n74\t\n75\t    hotspot_id: int\n76\t    fetched_at: datetime\n77\t    error_type: str\n78\t    error_message: str\n79\t    raw_json: dict[str, Any]\n80\t\n81\t\n82\t@dataclass(frozen=True, slots=True)\n83\tclass PollReport:\n84\t    targets: int\n85\t    saved: int\n86\t    failed: int\n87\t\n88\t\n89\tclass PopulationTargetMismatch(ValueError):\n90\t    \"\"\"Raised when a response identifies a different Seoul hotspot.\"\"\"\n91\t\n92\t\n93\tdef observed_at_to_utc(value: str) -> datetime:\n94\t    \"\"\"Interpret Seoul's timezone-less ``PPLTN_TIME`` and return UTC.\"\"\"\n95\t\n96\t    local = datetime.strptime(value, PPLTN_TIME_FORMAT).replace(\n97\t        tzinfo=SEOUL_TIMEZONE\n98\t    )\n99\t    return local.astimezone(UTC)\n100\t\n101\t\n102\tdef _as_utc(value: datetime) -> datetime:\n103\t    if value.tzinfo is None or value.utcoffset() is None:\n104\t        raise ValueError(\"clock must return a timezone-aware datetime\")\n105\t    return value.astimezone(UTC)\n106\t\n107\t\n108\tdef _find_forecast(\n109\t    payload: Any, *, area_code: str\n110\t) -> list[dict[str, Any]]:\n111\t    \"\"\"Return the raw forecast array belonging to the parsed area record.\"\"\"\n112\t\n113\t    if isinstance(payload, Mapping):\n114\t        if payload.get(\"AREA_CD\") == area_code:\n115\t            forecast = payload.get(\"FCST_PPLTN\", [])\n116\t            if isinstance(forecast, list) and all(\n117\t                isinstance(item, dict) for item in forecast\n118\t            ):\n119\t                return forecast\n120\t        for value in payload.values():\n121\t            found = _find_forecast(value, area_code=area_code)\n122\t            if found:\n123\t                return found\n124\t    elif isinstance(payload, list):\n125\t        for value in payload:\n126\t            found = _find_forecast(value, area_code=area_code)\n127\t            if found:\n128\t                return found\n129\t    return []\n130\t\n131\t\n132\tdef build_snapshot_record(\n133\t    target: PollTarget,\n134\t    payload: dict[str, Any],\n135\t    *,\n136\t    fetched_at: datetime,\n137\t) -> SnapshotRecord:\n138\t    \"\"\"Validate a measured response and convert it to persistence values.\"\"\"\n139\t\n140\t    population = parse_population(payload)\n141\t    if (\n142\t        population.area_code != target.area_cd\n143\t        or population.area_name != target.area_name\n144\t    ):\n145\t        raise PopulationTargetMismatch(\"population response target mismatch\")\n146\t    forecast = _find_forecast(payload, area_code=population.area_code)\n147\t    return SnapshotRecord(\n148\t        hotspot_id=target.hotspot_id,\n149\t        observed_at=observed_at_to_utc(population.observed_at),\n150\t        fetched_at=_as_utc(fetched_at),\n151\t        congest_level=population.numeric_level,\n152\t        congest_label=population.congestion_level,\n153\t        ppltn_min=population.population_min,\n154\t        ppltn_max=population.population_max,\n155\t        forecast_json=forecast,\n156\t        raw_json=payload,\n157\t    )\n158\t\n159\t\n160\tdef poll_once(\n161\t    targets: Iterable[PollTarget],\n162\t    *,\n163\t    client: PopulationClient,\n164\t    save_snapshot: SnapshotWriter,\n165\t    save_parse_failure: ParseFailureWriter,\n166\t    clock: Callable[[], datetime] = lambda: datetime.now(UTC),\n167\t    sleep: Callable[[float], None] = time.sleep,\n168\t    max_retries: int = HTTP_MAX_RETRIES,\n169\t    retry_base_delay_seconds: float = HTTP_RETRY_BASE_DELAY_SECONDS,\n170\t    max_consecutive_failures: int = POLL_MAX_CONSECUTIVE_FAILURES,\n171\t    logger: logging.Logger = LOGGER,\n172\t) -> PollReport:\n173\t    \"\"\"Poll every target once, isolating retries and failures per target.\n174\t\n175\t    ``max_retries`` counts retries after the initial request.  Backoff delays\n176\t    are ``base``, ``base * 2``, ... and can be replaced in tests.\n177\t    \"\"\"\n178\t\n179\t    if max_retries < 0:\n180\t        raise ValueError(\"max_retries must be >= 0\")\n181\t    if retry_base_delay_seconds < 0:\n182\t        raise ValueError(\"retry_base_delay_seconds must be >= 0\")\n183\t    if max_consecutive_failures <= 0:\n184\t        raise ValueError(\"max_consecutive_failures must be > 0\")\n185\t\n186\t    target_list = tuple(targets)\n187\t    saved = 0\n188\t    failed = 0\n189\t    consecutive_failures = 0\n190\t\n191\t    def record_target_failure(target_index: int) -> bool:\n192\t        \"\"\"Count one failure and open the outage circuit when bounded.\"\"\"\n193\t\n194\t        nonlocal consecutive_failures, failed\n195\t        failed += 1\n196\t        consecutive_failures += 1\n197\t        if consecutive_failures < max_consecutive_failures:\n198\t            return False\n199\t\n200\t        skipped = len(target_list) - target_index - 1\n201\t        failed += skipped\n202\t        logger.error(\n203\t            \"Polling circuit opened after %d consecutive target failures; \"\n204\t            \"skipping %d remaining target(s)\",\n205\t            consecutive_failures,\n206\t            skipped,\n207\t        )\n208\t        return True\n209\t\n210\t    for target_index, target in enumerate(target_list):\n211\t        payload: dict[str, Any] | None = None\n212\t        for attempt in range(max_retries + 1):\n213\t            try:\n214\t                payload = client.fetch_population_raw(target.area_name)\n215\t                break\n216\t            except SeoulAPIError as exc:\n217\t                if attempt == max_retries:\n218\t                    logger.error(\n219\t                        \"Hotspot poll failed after %d attempt(s): %s (%s)\",\n220\t                        attempt + 1,\n221\t                        target.area_name,\n222\t                        type(exc).__name__,\n223\t                    )\n224\t                    break\n225\t                delay = retry_base_delay_seconds * (2**attempt)\n226\t                logger.warning(\n227\t                    \"Hotspot poll attempt %d failed; retrying in %.2fs: %s (%s)\",\n228\t                    attempt + 1,\n229\t                    delay,\n230\t                    target.area_name,\n231\t                    type(exc).__name__,\n232\t                )\n233\t                sleep(delay)\n234\t            except Exception as exc:\n235\t                logger.error(\n236\t                    \"Hotspot fetch failed without retry: %s (%s)\",\n237\t                    target.area_name,\n238\t                    type(exc).__name__,\n239\t                )\n240\t                break\n241\t\n242\t        if payload is None:\n243\t            if record_target_failure(target_index):\n244\t                break\n245\t            continue\n246\t\n247\t        try:\n248\t            fetched_at = _as_utc(clock())\n249\t        except Exception as exc:\n250\t            logger.error(\n251\t                \"Hotspot fetch timestamp failed: %s (%s)\",\n252\t                target.area_name,\n253\t                type(exc).__name__,\n254\t            )\n255\t            if record_target_failure(target_index):\n256\t                break\n257\t            continue\n258\t\n259\t        try:\n260\t            record = build_snapshot_record(\n261\t                target, payload, fetched_at=fetched_at\n262\t            )\n263\t        except Exception as exc:\n264\t            message = (\n265\t                \"population response target mismatch\"\n266\t                if isinstance(exc, PopulationTargetMismatch)\n267\t                else \"population response validation failed\"\n268\t            )\n269\t            failure = ParseFailureRecord(\n270\t                hotspot_id=target.hotspot_id,\n271\t                fetched_at=fetched_at,\n272\t                error_type=type(exc).__name__[:255],\n273\t                error_message=message,\n274\t                raw_json=payload,\n275\t            )\n276\t            try:\n277\t                save_parse_failure(failure)\n278\t            except Exception as persistence_exc:\n279\t                logger.error(\n280\t                    \"Hotspot parse-failure persistence failed: %s (%s)\",\n281\t                    target.area_name,\n282\t                    type(persistence_exc).__name__,\n283\t                )\n284\t            logger.warning(\n285\t                \"Hotspot response parse failed: %s (%s)\",\n286\t                target.area_name,\n287\t                type(exc).__name__,\n288\t            )\n289\t            if record_target_failure(target_index):\n290\t                break\n291\t            continue\n292\t\n293\t        try:\n294\t            save_snapshot(record)\n295\t        except Exception as exc:  # persistence failure must not stop later targets\n296\t            logger.error(\n297\t                \"Hotspot snapshot persistence failed: %s (%s)\",\n298\t                target.area_name,\n299\t                type(exc).__name__,\n300\t            )\n301\t            if record_target_failure(target_index):\n302\t                break\n303\t            continue\n304\t        saved += 1\n305\t        consecutive_failures = 0\n306\t\n307\t    return PollReport(targets=len(target_list), saved=saved, failed=failed)\n308\t"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Read",
+        "input": {
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/worker.py"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "1\t\"\"\"Standalone scheduler process for Seoul city-data ingestion.\n2\t\n3\tRun independently from the API process::\n4\t\n5\t    python -m app.ingest.worker\n6\t    python -m app.ingest.worker --once --database-url sqlite:///local.db\n7\t\"\"\"\n8\t\n9\tfrom __future__ import annotations\n10\t\n11\timport argparse\n12\timport logging\n13\tfrom collections.abc import Callable, Sequence\n14\tfrom dataclasses import dataclass\n15\tfrom datetime import UTC, datetime\n16\tfrom typing import Any, Literal\n17\t\n18\tfrom apscheduler.schedulers.blocking import BlockingScheduler\n19\tfrom sqlalchemy import Engine\n20\tfrom sqlalchemy.orm import Session, sessionmaker\n21\t\n22\tfrom app.clients.seoul_citydata import (\n23\t    SeoulCityDataClient,\n24\t    suppress_secret_bearing_http_logs,\n25\t)\n26\tfrom app.config import POLL_INTERVAL_MIN, Settings, get_settings\n27\tfrom app.database import create_db_engine\n28\tfrom app.ingest.poller import PollReport, PopulationClient, poll_once\n29\tfrom app.ingest.repository import SnapshotRepository\n30\tfrom app.scoring.engine import materialize_all\n31\t\n32\t\n33\tLOGGER = logging.getLogger(__name__)\n34\t\n35\t\n36\tCycleStatus = Literal[\"running\", \"complete\", \"partial\", \"failed\"]\n37\t\n38\t\n39\t@dataclass(frozen=True, slots=True)\n40\tclass CycleReport:\n41\t    cycle_id: int\n42\t    targets: int\n43\t    saved: int\n44\t    failed: int\n45\t    status: CycleStatus\n46\t\n47\t\n48\tdef run_poll_cycle(\n49\t    session_factory: sessionmaker[Session],\n50\t    *,\n51\t    client: PopulationClient,\n52\t    materializer: Callable[[Session], Any] = materialize_all,\n53\t    clock: Callable[[], datetime] = lambda: datetime.now(UTC),\n54\t) -> CycleReport:\n55\t    repository = SnapshotRepository(session_factory)\n56\t    targets = repository.load_poll_targets()\n57\t    cycle_id = repository.start_cycle(targets=len(targets), started_at=clock())\n58\t    poll_report: PollReport | None = None\n59\t    try:\n60\t        poll_report = poll_once(\n61\t            targets,\n62\t            client=client,\n63\t            save_snapshot=repository.save_snapshot,\n64\t            save_parse_failure=repository.save_parse_failure,\n65\t        )\n66\t        with session_factory() as session:\n67\t            materializer(session)\n68\t    except (Exception, KeyboardInterrupt, SystemExit):\n69\t        # ``poll-production.yml`` gives the worker an explicit SIGINT deadline\n70\t        # before the GitHub job timeout.  Python turns SIGINT into\n71\t        # KeyboardInterrupt, which must finalize the durable cycle just like a\n72\t        # normal exception; otherwise /api/health reports ``running`` forever.\n73\t        saved = poll_report.saved if poll_report else 0\n74\t        failed = poll_report.failed if poll_report else len(targets)\n75\t        repository.finish_cycle(\n76\t            cycle_id,\n77\t            completed_at=clock(),\n78\t            saved=saved,\n79\t            failed=failed,\n80\t            status=\"failed\",\n81\t        )\n82\t        raise\n83\t\n84\t    is_complete = (\n85\t        poll_report.targets > 0\n86\t        and poll_report.saved == poll_report.targets\n87\t        and poll_report.failed == 0\n88\t    )\n89\t    status: CycleStatus\n90\t    if is_complete:\n91\t        status = \"complete\"\n92\t    elif poll_report.saved > 0:\n93\t        status = \"partial\"\n94\t    else:\n95\t        status = \"failed\"\n96\t    repository.finish_cycle(\n97\t        cycle_id,\n98\t        completed_at=clock(),\n99\t        saved=poll_report.saved,\n100\t        failed=poll_report.failed,\n101\t        status=status,\n102\t    )\n103\t    return CycleReport(\n104\t        cycle_id=cycle_id,\n105\t        targets=poll_report.targets,\n106\t        saved=poll_report.saved,\n107\t        failed=poll_report.failed,\n108\t        status=status,\n109\t    )\n110\t\n111\t\n112\tdef _parser() -> argparse.ArgumentParser:\n113\t    parser = argparse.ArgumentParser(description=\"Run the city-data poller\")\n114\t    parser.add_argument(\n115\t        \"--once\",\n116\t        action=\"store_true\",\n117\t        help=\"run one polling cycle and exit\",\n118\t    )\n119\t    parser.add_argument(\n120\t        \"--database-url\",\n121\t        help=\"override DATABASE_URL for this worker process\",\n122\t    )\n123\t    return parser\n124\t\n125\t\n126\tdef main(\n127\t    argv: Sequence[str] | None = None,\n128\t    *,\n129\t    settings_loader: Callable[[], Settings] = get_settings,\n130\t    client_factory: Callable[[str], PopulationClient] = SeoulCityDataClient,\n131\t    engine_factory: Callable[[str | None], Engine] = create_db_engine,\n132\t    scheduler_factory: Callable[..., Any] = BlockingScheduler,\n133\t) -> int:\n134\t    args = _parser().parse_args(argv)\n135\t    suppress_secret_bearing_http_logs()\n136\t    settings = settings_loader()\n137\t    if settings.seoul_api_key is None:\n138\t        raise SystemExit(\"SEOUL_API_KEY is required for the ingest worker\")\n139\t\n140\t    database_url = args.database_url or settings.database_url\n141\t    engine = engine_factory(database_url)\n142\t    session_factory = sessionmaker(\n143\t        bind=engine,\n144\t        expire_on_commit=False,\n145\t        class_=Session,\n146\t    )\n147\t    client = client_factory(settings.seoul_api_key.get_secret_value())\n148\t\n149\t    def cycle() -> CycleReport:\n150\t        report = run_poll_cycle(session_factory, client=client)\n151\t        LOGGER.info(\n152\t            \"Polling cycle %s: targets=%d saved=%d failed=%d\",\n153\t            report.status,\n154\t            report.targets,\n155\t            report.saved,\n156\t            report.failed,\n157\t        )\n158\t        return report\n159\t\n160\t    try:\n161\t        if args.once:\n162\t            return 0 if cycle().status == \"complete\" else 1\n163\t\n164\t        scheduler = scheduler_factory(timezone=\"Asia/Seoul\")\n165\t        scheduler.add_job(\n166\t            cycle,\n167\t            \"interval\",\n168\t            minutes=POLL_INTERVAL_MIN,\n169\t            coalesce=True,\n170\t            max_instances=1,\n171\t        )\n172\t        scheduler.start()\n173\t        return 0\n174\t    except (KeyboardInterrupt, SystemExit):\n175\t        return 0\n176\t    finally:\n177\t        engine.dispose()\n178\t\n179\t\n180\tif __name__ == \"__main__\":\n181\t    logging.basicConfig(level=logging.INFO)\n182\t    raise SystemExit(main())\n183\t"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Read",
+        "input": {
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/repository.py"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "1\t\"\"\"SQLAlchemy persistence boundary for a city-data polling cycle.\"\"\"\n2\t\n3\tfrom __future__ import annotations\n4\t\n5\tfrom datetime import datetime\n6\t\n7\tfrom sqlalchemy import select\n8\tfrom sqlalchemy.exc import IntegrityError\n9\tfrom sqlalchemy.orm import Session, sessionmaker\n10\t\n11\tfrom app.ingest.poller import ParseFailureRecord, PollTarget, SnapshotRecord\n12\tfrom app.models import IngestCycle, Hotspot, HotspotParseFailure, HotspotSnapshot\n13\t\n14\t\n15\tclass SnapshotRepository:\n16\t    \"\"\"Load active targets and persist each result in an isolated transaction.\"\"\"\n17\t\n18\t    def __init__(self, session_factory: sessionmaker[Session]) -> None:\n19\t        self._session_factory = session_factory\n20\t\n21\t    def load_poll_targets(self) -> list[PollTarget]:\n22\t        with self._session_factory() as session:\n23\t            rows = session.execute(\n24\t                select(Hotspot.id, Hotspot.area_cd, Hotspot.name)\n25\t                .where(Hotspot.is_polled.is_(True))\n26\t                .order_by(Hotspot.id)\n27\t            ).all()\n28\t        return [\n29\t            PollTarget(\n30\t                hotspot_id=row.id,\n31\t                area_cd=row.area_cd,\n32\t                area_name=row.name,\n33\t            )\n34\t            for row in rows\n35\t        ]\n36\t\n37\t    def start_cycle(self, *, targets: int, started_at: datetime) -> int:\n38\t        \"\"\"Commit a running cycle before any external polling begins.\"\"\"\n39\t\n40\t        with self._session_factory() as session:\n41\t            cycle = IngestCycle(\n42\t                started_at=started_at,\n43\t                targets=targets,\n44\t                saved=0,\n45\t                failed=0,\n46\t                status=\"running\",\n47\t            )\n48\t            session.add(cycle)\n49\t            session.commit()\n50\t            return cycle.id\n51\t\n52\t    def finish_cycle(\n53\t        self,\n54\t        cycle_id: int,\n55\t        *,\n56\t        completed_at: datetime,\n57\t        saved: int,\n58\t        failed: int,\n59\t        status: str,\n60\t    ) -> None:\n61\t        \"\"\"Commit final counters and status for a previously started cycle.\"\"\"\n62\t\n63\t        with self._session_factory() as session:\n64\t            cycle = session.get(IngestCycle, cycle_id)\n65\t            if cycle is None:\n66\t                raise RuntimeError(f\"ingest cycle {cycle_id} not found\")\n67\t            cycle.completed_at = completed_at\n68\t            cycle.saved = saved\n69\t            cycle.failed = failed\n70\t            cycle.status = status\n71\t            session.commit()\n72\t\n73\t    @staticmethod\n74\t    def _snapshot_exists(session: Session, record: SnapshotRecord) -> bool:\n75\t        snapshot_id = session.scalar(\n76\t            select(HotspotSnapshot.id).where(\n77\t                HotspotSnapshot.hotspot_id == record.hotspot_id,\n78\t                HotspotSnapshot.observed_at == record.observed_at,\n79\t            )\n80\t        )\n81\t        return snapshot_id is not None\n82\t\n83\t    def save_snapshot(self, record: SnapshotRecord) -> None:\n84\t        \"\"\"Insert one record, treating its natural-key duplicate as a no-op.\"\"\"\n85\t\n86\t        with self._session_factory() as session:\n87\t            if self._snapshot_exists(session, record):\n88\t                return\n89\t\n90\t            session.add(\n91\t                HotspotSnapshot(\n92\t                    hotspot_id=record.hotspot_id,\n93\t                    observed_at=record.observed_at,\n94\t                    fetched_at=record.fetched_at,\n95\t                    congest_level=record.congest_level,\n96\t                    congest_label=record.congest_label,\n97\t                    ppltn_min=record.ppltn_min,\n98\t                    ppltn_max=record.ppltn_max,\n99\t                    forecast_json=record.forecast_json,\n100\t                    raw_json=record.raw_json,\n101\t                )\n102\t            )\n103\t            try:\n104\t                session.commit()\n105\t            except IntegrityError:\n106\t                session.rollback()\n107\t                # Another worker may have inserted the same natural key after\n108\t                # the preflight query.  Only that race is an idempotent no-op.\n109\t                if self._snapshot_exists(session, record):\n110\t                    return\n111\t                raise\n112\t\n113\t    def save_parse_failure(self, record: ParseFailureRecord) -> None:\n114\t        \"\"\"Append one raw parse failure in its own transaction.\"\"\"\n115\t\n116\t        with self._session_factory() as session:\n117\t            session.add(\n118\t                HotspotParseFailure(\n119\t                    hotspot_id=record.hotspot_id,\n120\t                    fetched_at=record.fetched_at,\n121\t                    error_type=record.error_type,\n122\t                    error_message=record.error_message,\n123\t                    raw_json=record.raw_json,\n124\t                )\n125\t            )\n126\t            session.commit()\n127\t"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Read",
+        "input": {
+          "file_path": "<RUN_ROOT>/repository/backend/tests/test_ingest_repository.py",
+          "offset": 170,
+          "limit": 230
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "170\t        raw_json=raw,\n171\t    )\n172\t    repository = SnapshotRepository(session_factory)\n173\t\n174\t    repository.save_parse_failure(failure)\n175\t    repository.save_parse_failure(failure)\n176\t\n177\t    with session_factory() as session:\n178\t        stored = session.scalars(select(HotspotParseFailure)).all()\n179\t        assert len(stored) == 2\n180\t        assert stored[0].raw_json == raw\n181\t        assert \"retained-only-as-raw\" not in stored[0].error_message\n182\t\n183\t\n184\tdef test_run_poll_cycle_uses_database_targets_without_real_http(session_factory):\n185\t    add_hotspot(\n186\t        session_factory,\n187\t        area_code=\"POI088\",\n188\t        name=\"광화문광장\",\n189\t        is_polled=True,\n190\t    )\n191\t    add_hotspot(\n192\t        session_factory,\n193\t        area_code=\"POI089\",\n194\t        name=\"호출 제외\",\n195\t        is_polled=False,\n196\t    )\n197\t    client = FixtureClient(load_citydata_fixture())\n198\t\n199\t    report = run_poll_cycle(session_factory, client=client)\n200\t\n201\t    assert client.calls == [\"광화문광장\"]\n202\t    assert report.targets == report.saved == 1\n203\t    assert report.status == \"complete\"\n204\t    with session_factory() as session:\n205\t        assert session.scalar(select(func.count()).select_from(HotspotSnapshot)) == 1\n206\t        cycle = session.scalar(select(IngestCycle))\n207\t        assert cycle is not None\n208\t        assert cycle.status == \"complete\"\n209\t        assert cycle.completed_at is not None\n210\t\n211\t\n212\tdef test_cycle_is_committed_running_before_first_external_call(session_factory):\n213\t    add_hotspot(\n214\t        session_factory,\n215\t        area_code=\"POI088\",\n216\t        name=\"광화문광장\",\n217\t        is_polled=True,\n218\t    )\n219\t\n220\t    class ObservingClient(FixtureClient):\n221\t        def fetch_population_raw(self, area_name: str) -> dict[str, Any]:\n222\t            with session_factory() as session:\n223\t                cycle = session.scalar(select(IngestCycle))\n224\t                assert cycle is not None\n225\t                assert cycle.status == \"running\"\n226\t                assert cycle.completed_at is None\n227\t            return super().fetch_population_raw(area_name)\n228\t\n229\t    report = run_poll_cycle(\n230\t        session_factory,\n231\t        client=ObservingClient(load_citydata_fixture()),\n232\t    )\n233\t\n234\t    assert report.status == \"complete\"\n235\t\n236\t\n237\tdef test_materialize_exception_marks_cycle_failed_then_reraises(session_factory):\n238\t    add_hotspot(\n239\t        session_factory,\n240\t        area_code=\"POI088\",\n241\t        name=\"광화문광장\",\n242\t        is_polled=True,\n243\t    )\n244\t\n245\t    def fail_materialize(_session: Session) -> None:\n246\t        raise RuntimeError(\"materialize unavailable\")\n247\t\n248\t    with pytest.raises(RuntimeError, match=\"materialize unavailable\"):\n249\t        run_poll_cycle(\n250\t            session_factory,\n251\t            client=FixtureClient(load_citydata_fixture()),\n252\t            materializer=fail_materialize,\n253\t        )\n254\t\n255\t    with session_factory() as session:\n256\t        cycle = session.scalar(select(IngestCycle))\n257\t        assert cycle is not None\n258\t        assert cycle.status == \"failed\"\n259\t        assert cycle.targets == cycle.saved == 1\n260\t        assert cycle.failed == 0\n261\t        assert cycle.completed_at is not None\n262\t\n263\t\n264\tdef test_keyboard_interrupt_marks_cycle_failed_then_reraises(session_factory):\n265\t    add_hotspot(\n266\t        session_factory,\n267\t        area_code=\"POI088\",\n268\t        name=\"광화문광장\",\n269\t        is_polled=True,\n270\t    )\n271\t\n272\t    class InterruptedClient:\n273\t        def fetch_population_raw(self, _area_name: str) -> dict[str, Any]:\n274\t            raise KeyboardInterrupt\n275\t\n276\t    with pytest.raises(KeyboardInterrupt):\n277\t        run_poll_cycle(session_factory, client=InterruptedClient())\n278\t\n279\t    with session_factory() as session:\n280\t        cycle = session.scalar(select(IngestCycle))\n281\t        assert cycle is not None\n282\t        assert cycle.status == \"failed\"\n283\t        assert cycle.saved == 0\n284\t        assert cycle.failed == 1\n285\t        assert cycle.completed_at is not None\n286\t\n287\t\n288\tdef test_worker_once_honors_database_url_and_uses_injected_client(tmp_path):\n289\t    database_url = f\"sqlite+pysqlite:///{tmp_path / 'worker.db'}\"\n290\t    setup_engine = create_engine(database_url)\n291\t    Base.metadata.create_all(setup_engine)\n292\t    setup_factory = sessionmaker(\n293\t        bind=setup_engine, expire_on_commit=False, class_=Session\n294\t    )\n295\t    add_hotspot(\n296\t        setup_factory,\n297\t        area_code=\"POI088\",\n298\t        name=\"광화문광장\",\n299\t        is_polled=True,\n300\t    )\n301\t    setup_engine.dispose()\n302\t    client = FixtureClient(load_citydata_fixture())\n303\t    received_keys: list[str] = []\n304\t\n305\t    def client_factory(key: str) -> FixtureClient:\n306\t        received_keys.append(key)\n307\t        return client\n308\t\n309\t    result = main(\n310\t        [\"--once\", \"--database-url\", database_url],\n311\t        settings_loader=lambda: Settings(\n312\t            seoul_api_key=SecretStr(\"test-key\"),\n313\t            database_url=\"sqlite+pysqlite:///ignored.db\",\n314\t        ),\n315\t        client_factory=client_factory,\n316\t        engine_factory=lambda url: create_engine(url),\n317\t    )\n318\t\n319\t    assert result == 0\n320\t    assert received_keys == [\"test-key\"]\n321\t    assert client.calls == [\"광화문광장\"]\n322\t    check_engine = create_engine(database_url)\n323\t    with Session(check_engine) as session:\n324\t        assert session.scalar(select(func.count()).select_from(HotspotSnapshot)) == 1\n325\t        cycle = session.scalar(select(IngestCycle))\n326\t        assert cycle is not None\n327\t        assert cycle.status == \"complete\"\n328\t    check_engine.dispose()\n329\t\n330\t\n331\tdef test_worker_once_returns_nonzero_for_incomplete_cycle(tmp_path):\n332\t    database_url = f\"sqlite+pysqlite:///{tmp_path / 'failed-worker.db'}\"\n333\t    setup_engine = create_engine(database_url)\n334\t    Base.metadata.create_all(setup_engine)\n335\t    setup_factory = sessionmaker(\n336\t        bind=setup_engine, expire_on_commit=False, class_=Session\n337\t    )\n338\t    add_hotspot(\n339\t        setup_factory,\n340\t        area_code=\"POI088\",\n341\t        name=\"광화문광장\",\n342\t        is_polled=True,\n343\t    )\n344\t    setup_engine.dispose()\n345\t\n346\t    class FailingClient:\n347\t        def fetch_population_raw(self, _area_name: str) -> dict[str, Any]:\n348\t            raise RuntimeError(\"upstream unavailable\")\n349\t\n350\t    result = main(\n351\t        [\"--once\", \"--database-url\", database_url],\n352\t        settings_loader=lambda: Settings(\n353\t            seoul_api_key=SecretStr(\"test-key\"),\n354\t            database_url=\"sqlite+pysqlite:///ignored.db\",\n355\t        ),\n356\t        client_factory=lambda _key: FailingClient(),\n357\t        engine_factory=lambda url: create_engine(url),\n358\t    )\n359\t\n360\t    assert result == 1\n361\t    check_engine = create_engine(database_url)\n362\t    with Session(check_engine) as session:\n363\t        cycle = session.scalar(select(IngestCycle))\n364\t        assert cycle is not None\n365\t        assert cycle.status == \"failed\"\n366\t        assert cycle.saved == 0\n367\t        assert cycle.failed == 1\n368\t    check_engine.dispose()\n369\t\n370\t\n371\tdef test_worker_suppresses_http_client_request_urls() -> None:\n372\t    import logging\n373\t\n374\t    logging.getLogger(\"httpx\").setLevel(logging.INFO)\n375\t    logging.getLogger(\"httpcore\").setLevel(logging.INFO)\n376\t    suppress_secret_bearing_http_logs()\n377\t\n378\t    assert logging.getLogger(\"httpx\").level == logging.WARNING\n379\t    assert logging.getLogger(\"httpcore\").level == logging.WARNING\n380\t"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Read",
+        "input": {
+          "file_path": "<RUN_ROOT>/repository/backend/tests/test_poller.py"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "1\tfrom __future__ import annotations\n2\t\n3\timport copy\n4\timport json\n5\tfrom collections.abc import Iterable\n6\tfrom datetime import UTC, datetime\n7\tfrom pathlib import Path\n8\tfrom typing import Any\n9\t\n10\timport pytest\n11\t\n12\tfrom app.clients.seoul_citydata import SeoulAPIError\n13\tfrom app.ingest.poller import (\n14\t    ParseFailureRecord,\n15\t    PollTarget,\n16\t    SnapshotRecord,\n17\t    build_snapshot_record,\n18\t    observed_at_to_utc,\n19\t    poll_once,\n20\t)\n21\t\n22\t\n23\tFIXTURES_DIR = Path(__file__).resolve().parents[1] / \"fixtures\"\n24\t\n25\t\n26\tdef load_citydata_fixture() -> dict[str, Any]:\n27\t    return json.loads(\n28\t        (FIXTURES_DIR / \"citydata_sample.json\").read_text(encoding=\"utf-8\")\n29\t    )\n30\t\n31\t\n32\tclass FakePopulationClient:\n33\t    def __init__(self, responses: dict[str, Iterable[Any]]) -> None:\n34\t        self._responses = {\n35\t            area: iter(area_responses)\n36\t            for area, area_responses in responses.items()\n37\t        }\n38\t        self.calls: list[str] = []\n39\t\n40\t    def fetch_population_raw(self, area_name: str) -> dict[str, Any]:\n41\t        self.calls.append(area_name)\n42\t        response = next(self._responses[area_name])\n43\t        if isinstance(response, Exception):\n44\t            raise response\n45\t        return response\n46\t\n47\t\n48\tdef fixture_for_area(\n49\t    name: str, code: str, *, label: str = \"보통\"\n50\t) -> dict[str, Any]:\n51\t    payload = copy.deepcopy(load_citydata_fixture())\n52\t    record = payload[\"SeoulRtd.citydata_ppltn\"][0]\n53\t    record[\"AREA_NM\"] = name\n54\t    record[\"AREA_CD\"] = code\n55\t    record[\"AREA_CONGEST_LVL\"] = label\n56\t    return payload\n57\t\n58\t\n59\tdef test_observed_at_is_interpreted_as_kst_and_normalized_to_utc() -> None:\n60\t    result = observed_at_to_utc(\"2026-07-11 16:25\")\n61\t\n62\t    assert result == datetime(2026, 7, 11, 7, 25, tzinfo=UTC)\n63\t    assert result.utcoffset().total_seconds() == 0\n64\t\n65\t\n66\tdef test_build_record_preserves_population_forecast_and_raw_payload() -> None:\n67\t    payload = load_citydata_fixture()\n68\t    fetched_at = datetime(2026, 7, 11, 16, 26, tzinfo=UTC)\n69\t\n70\t    record = build_snapshot_record(\n71\t        PollTarget(hotspot_id=88, area_cd=\"POI088\", area_name=\"광화문광장\"),\n72\t        payload,\n73\t        fetched_at=fetched_at,\n74\t    )\n75\t\n76\t    assert record.hotspot_id == 88\n77\t    assert record.congest_level == 2\n78\t    assert record.congest_label == \"보통\"\n79\t    assert record.ppltn_min == 6500\n80\t    assert record.ppltn_max == 7000\n81\t    assert record.fetched_at is fetched_at\n82\t    assert record.forecast_json == payload[\n83\t        \"SeoulRtd.citydata_ppltn\"\n84\t    ][0][\"FCST_PPLTN\"]\n85\t    assert record.raw_json == payload\n86\t\n87\t\n88\tdef test_poll_once_retries_with_exponential_backoff_then_saves() -> None:\n89\t    payload = load_citydata_fixture()\n90\t    client = FakePopulationClient(\n91\t        {\n92\t            \"광화문광장\": [\n93\t                SeoulAPIError(\"temporary\"),\n94\t                SeoulAPIError(\"bad\"),\n95\t                payload,\n96\t            ]\n97\t        }\n98\t    )\n99\t    sleeps: list[float] = []\n100\t    saved: list[SnapshotRecord] = []\n101\t\n102\t    report = poll_once(\n103\t        [PollTarget(88, \"POI088\", \"광화문광장\")],\n104\t        client=client,\n105\t        save_snapshot=saved.append,\n106\t        save_parse_failure=lambda _: pytest.fail(\"unexpected parse failure\"),\n107\t        clock=lambda: datetime(2026, 7, 11, 7, 26, tzinfo=UTC),\n108\t        sleep=sleeps.append,\n109\t        max_retries=3,\n110\t        retry_base_delay_seconds=0.5,\n111\t    )\n112\t\n113\t    assert client.calls == [\"광화문광장\"] * 3\n114\t    assert sleeps == [0.5, 1.0]\n115\t    assert report.saved == 1\n116\t    assert report.failed == 0\n117\t    assert len(saved) == 1\n118\t\n119\t\n120\tdef test_final_failure_does_not_prevent_next_target() -> None:\n121\t    good_payload = fixture_for_area(\"홍대 관광특구\", \"POI001\", label=\"붐빔\")\n122\t    client = FakePopulationClient(\n123\t        {\n124\t            \"실패 지역\": [SeoulAPIError(\"down\")] * 4,\n125\t            \"홍대 관광특구\": [good_payload],\n126\t        }\n127\t    )\n128\t    sleeps: list[float] = []\n129\t    saved: list[SnapshotRecord] = []\n130\t\n131\t    report = poll_once(\n132\t        [\n133\t            PollTarget(1, \"POI999\", \"실패 지역\"),\n134\t            PollTarget(2, \"POI001\", \"홍대 관광특구\"),\n135\t        ],\n136\t        client=client,\n137\t        save_snapshot=saved.append,\n138\t        save_parse_failure=lambda _: pytest.fail(\"unexpected parse failure\"),\n139\t        clock=lambda: datetime(2026, 7, 11, 7, 26, tzinfo=UTC),\n140\t        sleep=sleeps.append,\n141\t        max_retries=3,\n142\t        retry_base_delay_seconds=0.25,\n143\t    )\n144\t\n145\t    assert client.calls == [\"실패 지역\"] * 4 + [\"홍대 관광특구\"]\n146\t    assert sleeps == [0.25, 0.5, 1.0]\n147\t    assert report.targets == 2\n148\t    assert report.saved == 1\n149\t    assert report.failed == 1\n150\t    assert saved[0].hotspot_id == 2\n151\t    assert saved[0].congest_level == 4\n152\t\n153\t\n154\tdef test_consecutive_failure_circuit_skips_remaining_targets() -> None:\n155\t    targets = [\n156\t        PollTarget(index, f\"POI{index:03d}\", f\"실패 지역 {index}\")\n157\t        for index in range(1, 8)\n158\t    ]\n159\t    client = FakePopulationClient(\n160\t        {\n161\t            target.area_name: [SeoulAPIError(\"down\")]\n162\t            for target in targets\n163\t        }\n164\t    )\n165\t\n166\t    report = poll_once(\n167\t        targets,\n168\t        client=client,\n169\t        save_snapshot=lambda _: pytest.fail(\"unexpected snapshot\"),\n170\t        save_parse_failure=lambda _: pytest.fail(\"unexpected parse failure\"),\n171\t        sleep=lambda _: pytest.fail(\"sleep must not be called\"),\n172\t        max_retries=0,\n173\t        max_consecutive_failures=3,\n174\t    )\n175\t\n176\t    assert client.calls == [target.area_name for target in targets[:3]]\n177\t    assert report.targets == 7\n178\t    assert report.saved == 0\n179\t    assert report.failed == 7\n180\t\n181\t\n182\tdef test_success_resets_consecutive_failure_circuit() -> None:\n183\t    targets = [\n184\t        PollTarget(1, \"POI101\", \"첫 실패\"),\n185\t        PollTarget(2, \"POI102\", \"성공 지역\"),\n186\t        PollTarget(3, \"POI103\", \"둘째 실패\"),\n187\t        PollTarget(4, \"POI104\", \"셋째 실패\"),\n188\t    ]\n189\t    client = FakePopulationClient(\n190\t        {\n191\t            \"첫 실패\": [SeoulAPIError(\"down\")],\n192\t            \"성공 지역\": [fixture_for_area(\"성공 지역\", \"POI102\")],\n193\t            \"둘째 실패\": [SeoulAPIError(\"down\")],\n194\t            \"셋째 실패\": [SeoulAPIError(\"down\")],\n195\t        }\n196\t    )\n197\t    saved: list[SnapshotRecord] = []\n198\t\n199\t    report = poll_once(\n200\t        targets,\n201\t        client=client,\n202\t        save_snapshot=saved.append,\n203\t        save_parse_failure=lambda _: pytest.fail(\"unexpected parse failure\"),\n204\t        sleep=lambda _: pytest.fail(\"sleep must not be called\"),\n205\t        max_retries=0,\n206\t        max_consecutive_failures=2,\n207\t    )\n208\t\n209\t    assert client.calls == [target.area_name for target in targets]\n210\t    assert report.targets == 4\n211\t    assert report.saved == 1\n212\t    assert report.failed == 3\n213\t\n214\t\n215\tdef test_poll_rejects_nonpositive_consecutive_failure_limit() -> None:\n216\t    with pytest.raises(ValueError, match=\"max_consecutive_failures must be > 0\"):\n217\t        poll_once(\n218\t            [],\n219\t            client=FakePopulationClient({}),\n220\t            save_snapshot=lambda _: None,\n221\t            save_parse_failure=lambda _: None,\n222\t            max_consecutive_failures=0,\n223\t        )\n224\t\n225\t\n226\tdef test_persistence_failure_is_isolated_without_refetching() -> None:\n227\t    first = fixture_for_area(\"첫 지역\", \"POI101\")\n228\t    second = fixture_for_area(\"둘째 지역\", \"POI102\")\n229\t    client = FakePopulationClient({\"첫 지역\": [first], \"둘째 지역\": [second]})\n230\t    saved: list[SnapshotRecord] = []\n231\t\n232\t    def persist(record: SnapshotRecord) -> None:\n233\t        if record.hotspot_id == 1:\n234\t            raise RuntimeError(\"database unavailable\")\n235\t        saved.append(record)\n236\t\n237\t    report = poll_once(\n238\t        [\n239\t            PollTarget(1, \"POI101\", \"첫 지역\"),\n240\t            PollTarget(2, \"POI102\", \"둘째 지역\"),\n241\t        ],\n242\t        client=client,\n243\t        save_snapshot=persist,\n244\t        save_parse_failure=lambda _: pytest.fail(\"unexpected parse failure\"),\n245\t        clock=lambda: datetime(2026, 7, 11, 7, 26, tzinfo=UTC),\n246\t        sleep=lambda _: pytest.fail(\"sleep must not be called\"),\n247\t    )\n248\t\n249\t    assert client.calls == [\"첫 지역\", \"둘째 지역\"]\n250\t    assert report.saved == 1\n251\t    assert report.failed == 1\n252\t    assert [record.hotspot_id for record in saved] == [2]\n253\t\n254\t\n255\t@pytest.mark.parametrize(\n256\t    (\"response_name\", \"response_code\"),\n257\t    [(\"다른 장소\", \"POI088\"), (\"광화문광장\", \"POI999\")],\n258\t)\n259\tdef test_target_mismatch_is_not_retried_and_preserves_raw_failure(\n260\t    response_name: str, response_code: str\n261\t) -> None:\n262\t    payload = fixture_for_area(response_name, response_code)\n263\t    good_payload = fixture_for_area(\"홍대 관광특구\", \"POI001\")\n264\t    client = FakePopulationClient(\n265\t        {\"광화문광장\": [payload], \"홍대 관광특구\": [good_payload]}\n266\t    )\n267\t    saved: list[SnapshotRecord] = []\n268\t    failures: list[ParseFailureRecord] = []\n269\t    sleeps: list[float] = []\n270\t\n271\t    report = poll_once(\n272\t        [\n273\t            PollTarget(88, \"POI088\", \"광화문광장\"),\n274\t            PollTarget(1, \"POI001\", \"홍대 관광특구\"),\n275\t        ],\n276\t        client=client,\n277\t        save_snapshot=saved.append,\n278\t        save_parse_failure=failures.append,\n279\t        clock=lambda: datetime(2026, 7, 11, 7, 26, tzinfo=UTC),\n280\t        sleep=sleeps.append,\n281\t    )\n282\t\n283\t    assert client.calls == [\"광화문광장\", \"홍대 관광특구\"]\n284\t    assert sleeps == []\n285\t    assert report.failed == 1\n286\t    assert [record.hotspot_id for record in saved] == [1]\n287\t    assert len(failures) == 1\n288\t    assert failures[0].hotspot_id == 88\n289\t    assert failures[0].error_type == \"PopulationTargetMismatch\"\n290\t    assert failures[0].error_message == \"population response target mismatch\"\n291\t    assert failures[0].raw_json == payload\n292\t\n293\t\n294\tdef test_schema_parse_failure_is_not_retried() -> None:\n295\t    payload = load_citydata_fixture()\n296\t    del payload[\"SeoulRtd.citydata_ppltn\"][0][\"PPLTN_TIME\"]\n297\t    client = FakePopulationClient({\"광화문광장\": [payload]})\n298\t    failures: list[ParseFailureRecord] = []\n299\t\n300\t    report = poll_once(\n301\t        [PollTarget(88, \"POI088\", \"광화문광장\")],\n302\t        client=client,\n303\t        save_snapshot=lambda _: pytest.fail(\"unexpected snapshot\"),\n304\t        save_parse_failure=failures.append,\n305\t        clock=lambda: datetime(2026, 7, 11, 7, 26, tzinfo=UTC),\n306\t        sleep=lambda _: pytest.fail(\"parse failure must not retry\"),\n307\t    )\n308\t\n309\t    assert client.calls == [\"광화문광장\"]\n310\t    assert report.failed == 1\n311\t    assert failures[0].error_type == \"ValidationError\"\n312\t    assert failures[0].error_message == \"population response validation failed\"\n313\t    assert failures[0].raw_json == payload\n314\t"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/poller.py",
+          "old_string": "    max_consecutive_failures: int = POLL_MAX_CONSECUTIVE_FAILURES,\n    logger: logging.Logger = LOGGER,\n) -> PollReport:",
+          "new_string": "    max_consecutive_failures: int = POLL_MAX_CONSECUTIVE_FAILURES,\n    logger: logging.Logger = LOGGER,\n    report_progress: Callable[[PollReport], None] | None = None,\n) -> PollReport:"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "The file <RUN_ROOT>/repository/backend/app/ingest/poller.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/poller.py",
+          "old_string": "    target_list = tuple(targets)\n    saved = 0\n    failed = 0\n    consecutive_failures = 0\n\n    def record_target_failure(target_index: int) -> bool:",
+          "new_string": "    target_list = tuple(targets)\n    saved = 0\n    failed = 0\n    consecutive_failures = 0\n\n    def publish_progress() -> None:\n        if report_progress is not None:\n            report_progress(\n                PollReport(targets=len(target_list), saved=saved, failed=failed)\n            )\n\n    def record_target_failure(target_index: int) -> bool:"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "The file <RUN_ROOT>/repository/backend/app/ingest/poller.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/poller.py",
+          "old_string": "        failed += 1\n        consecutive_failures += 1\n        if consecutive_failures < max_consecutive_failures:\n            return False\n\n        skipped = len(target_list) - target_index - 1\n        failed += skipped",
+          "new_string": "        failed += 1\n        consecutive_failures += 1\n        if consecutive_failures < max_consecutive_failures:\n            publish_progress()\n            return False\n\n        skipped = len(target_list) - target_index - 1\n        failed += skipped\n        publish_progress()"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "The file <RUN_ROOT>/repository/backend/app/ingest/poller.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/poller.py",
+          "old_string": "        saved += 1\n        consecutive_failures = 0\n\n    return PollReport(targets=len(target_list), saved=saved, failed=failed)",
+          "new_string": "        saved += 1\n        consecutive_failures = 0\n        publish_progress()\n\n    return PollReport(targets=len(target_list), saved=saved, failed=failed)"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "The file <RUN_ROOT>/repository/backend/app/ingest/poller.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/worker.py",
+          "old_string": "    poll_report: PollReport | None = None\n    try:\n        poll_report = poll_once(\n            targets,\n            client=client,\n            save_snapshot=repository.save_snapshot,\n            save_parse_failure=repository.save_parse_failure,\n        )",
+          "new_string": "    poll_report = PollReport(targets=len(targets), saved=0, failed=0)\n    try:\n        poll_report = poll_once(\n            targets,\n            client=client,\n            save_snapshot=repository.save_snapshot,\n            save_parse_failure=repository.save_parse_failure,\n            report_progress=lambda report: locals(),\n        )"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "The file <RUN_ROOT>/repository/backend/app/ingest/worker.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/worker.py",
+          "old_string": "    poll_report = PollReport(targets=len(targets), saved=0, failed=0)\n    try:\n        poll_report = poll_once(\n            targets,\n            client=client,\n            save_snapshot=repository.save_snapshot,\n            save_parse_failure=repository.save_parse_failure,\n            report_progress=lambda report: locals(),\n        )",
+          "new_string": "    poll_report = PollReport(targets=len(targets), saved=0, failed=0)\n\n    def record_progress(report: PollReport) -> None:\n        nonlocal poll_report\n        poll_report = report\n\n    try:\n        poll_report = poll_once(\n            targets,\n            client=client,\n            save_snapshot=repository.save_snapshot,\n            save_parse_failure=repository.save_parse_failure,\n            report_progress=record_progress,\n        )"
+        }
+      },
+      {
+        "type": "tool_result",
+        "content": "The file <RUN_ROOT>/repository/backend/app/ingest/worker.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+      },
+      {
+        "type": "tool_use",
+        "tool": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "<RUN_ROOT>/repository/backend/app/ingest/worker.py",
+          "old_string": "        saved = poll_report.saved if poll_report else 0\n        failed = poll_report.failed if poll_report else len(targets)",
+          "new_string": "        saved = poll_report.saved\n        failed = poll_report.failed + (\n            poll_report.targets - poll_report.saved - poll_report.failed\n        )"
+        }
+      }
+    ],
+    "commandRecords": [],
+    "verificationReceipts": []
+  }
+}

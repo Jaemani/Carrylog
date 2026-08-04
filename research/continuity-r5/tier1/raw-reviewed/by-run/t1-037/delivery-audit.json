@@ -1,0 +1,119 @@
+{
+  "formatVersion": 1,
+  "visibleEvents": [
+    {
+      "type": "agent_message",
+      "text": "I’ll verify the immutable fixture ref and working-tree state first, then inspect only repository-tracked documentation needed to distinguish established behavior from pilot hypotheses. I will not edit anything."
+    },
+    {
+      "type": "agent_message",
+      "text": "- **Objective:** Prepare the minimum controlled Tier 1 continuity pilot at fixture commit `c9e8c2d`, without session journaling or semantic compaction.\n- **Verified state:** HEAD is `c9e8c2d9df0e5654885204fd3c7f35909771011d`; `git status` reports clean branch `main`. No files were edited.\n- **Supported product behavior:** Repository-owned checkpoint/resume governance—not chat replay.\n- **Research-only hypotheses:** Journaling, arbitrary switching, behavioral continuity, and compaction remain gated by ADR-0012 and must not be presented as supported.\n- **Safest next action:** Commit a preregistration freezing both repository fixtures, task rubrics, randomized order, and two authenticated harnesses at immutable revisions; then run the randomized pilot without product changes during scored runs.\n- **Blocker/material risk:** Those experimental inputs are not yet frozen at this fixture revision, so running now risks protocol drift and invalid conclusions. The beta.5 publication/OIDC verification is historical evidence and needs no registry action."
+    },
+    {
+      "type": "stderr",
+      "contentBytes": 39,
+      "contentSha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721"
+    }
+  ],
+  "commandRecords": [],
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "478c0d8be7284c6127d7a22f6d823b53",
+      "commandId": "git-status",
+      "registrySha256": "0115e00171be906352af76492955e7acc796b230898f39d23468ffde7f7984da",
+      "commandSha256": "338946c586d3679a85dc176e38aacb4a99939095d94aa5570c2f8d35dc7c5ae5",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "606458640e87ee7c91a0cad245f30df0",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "a49a013131d120a5b4e77925feb955cc0ff5d93878fc2a48742e6ace68905420"
+        }
+      },
+      "preCommandStateSha256": "dcce0c5f82fc368ed53f25691c990a42b0022251aca45dc680650af534591144",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 8,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 8,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "0e657cf1c09bc2bf315c38979352a913fe18b31c4f16c32443306a1b03aa81c3",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "recordType": "terminal",
+      "invocationId": "8b59af12e78b2434048a09ea3e7fbb44",
+      "commandId": "git-head",
+      "registrySha256": "0115e00171be906352af76492955e7acc796b230898f39d23468ffde7f7984da",
+      "commandSha256": "0982d0183160724bdf605aab4be2362545186f25c89895ca89bacbd346cd9ae0",
+      "executionMode": "seatbelt-broker-isolated",
+      "origin": "mcp-broker",
+      "brokerId": "606458640e87ee7c91a0cad245f30df0",
+      "preCommandState": {
+        "head": {
+          "bytes": 41,
+          "sha256": "878119e38641bc92243e3f619fb153f2bc7eaede40c2bb9fa752d605d8a97888"
+        },
+        "trackedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stagedDiff": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "config": {
+          "bytes": 820,
+          "sha256": "a49a013131d120a5b4e77925feb955cc0ff5d93878fc2a48742e6ace68905420"
+        }
+      },
+      "preCommandStateSha256": "dcce0c5f82fc368ed53f25691c990a42b0022251aca45dc680650af534591144",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 41,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "c2b0477fac4c7a38a7a215f9419dc0148551c581eb118457db4d0419aed82a35",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

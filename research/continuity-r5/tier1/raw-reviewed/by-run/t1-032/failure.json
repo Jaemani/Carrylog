@@ -1,0 +1,204 @@
+{
+  "formatVersion": 1,
+  "runId": "t1-032",
+  "blindId": "b-92bdfa02dafe",
+  "failedAt": "2026-08-04T18:23:32.982Z",
+  "stage": "harness-authentication",
+  "error": "HarnessEnvironmentError: isolated harness authentication staging failed\n    at createHarnessEnvironment (file://<ABSOLUTE_PATH>\n    at async file://<ABSOLUTE_PATH>",
+  "freeze": {
+    "required": true,
+    "verified": true,
+    "freezeCommit": "ec27f44924749a84bb53a84d71f8408f9cb6de68",
+    "frozenSuiteSha256": "cfb7d9c174b721cd245f1a68726cdca20a32d836844541dfff1f3a87b7f8b4bd"
+  },
+  "preparation": {
+    "status": "failed",
+    "startedAt": "2026-08-04T18:23:28.990Z",
+    "completedAt": "2026-08-04T18:23:32.976Z",
+    "latencyMs": 3985,
+    "lastCompletedStep": "delivery-manifest-created",
+    "details": {
+      "runId": "t1-032",
+      "blindId": "b-92bdfa02dafe",
+      "repository": "busycafe",
+      "baseCommit": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+      "sourceTree": "826f6da85498720f3c6d37963f1765e4c7243613",
+      "fixtureHead": "58f586fa38ea168747fe1c2d2713e32e3b238a21",
+      "sourceRef": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+      "sourceHistory": {
+        "reachableCommitCount": 1,
+        "shallowBoundary": "0f2b9c354d6dcaa8faf52c1a67f87aa47d272af6",
+        "parentInaccessible": true
+      },
+      "conditionBaseline": "c019c21a6485be11801a6399aafe8d53020a2dad",
+      "gitMetadata": {
+        "external": true,
+        "detachedAfterContextPreparation": true,
+        "detachedBeforeProviderAuthentication": true,
+        "directorySha256BeforeModel": "f0bdf27ad38e11c2388c8ba4756c0c28725bd4422ae316e94d57ada92f09cffe",
+        "checkoutGitfilePresent": true,
+        "checkoutGitfileSha256": "e386dc8b5e859ab181485a3d57d2af0e22765afac425b3e331000e6c9c45fbb8",
+        "optionalLocks": "0"
+      },
+      "harnessVersions": {
+        "codex": "codex-cli 0.146.0",
+        "claude": "2.1.220 (Claude Code)",
+        "node": "v22.23.0",
+        "npm": "10.9.8",
+        "git": "git version 2.50.1 (Apple Git-155)",
+        "uv": "uv 0.11.23 (Homebrew 2026-06-19 aarch64-apple-darwin)",
+        "os": "macOS 26.5.2 (25F84)",
+        "architecture": "arm64",
+        "claudeExecutableSha256": "8addc857f3fe64d5a0368af9ee50321b50afb4a6918ba3ef018ab84f5dbbe081",
+        "codexExecutableSha256": "ae1d3ffe6d48aec6a4dc3f50e7eb8e0d11962485a6a9406c5a7012139383da02"
+      },
+      "toolTreeSha256": "648fe9f84b100ae805b9e4e692ccc09d3254d53f0291cad3523617f94aa48f38",
+      "cacheLifecycle": null,
+      "harnessIsolation": {
+        "syntheticHome": true,
+        "copiedAuthenticationFiles": [],
+        "authenticationFields": [],
+        "routerAuthentication": null,
+        "copiedGlobalInstructions": false,
+        "copiedProviderSessions": false,
+        "copiedProviderSettings": false,
+        "repositorySelectionEnvironmentForwarded": false,
+        "authentication": {
+          "ephemeralAuthenticationStaged": false,
+          "stagedAuthenticationFiles": [],
+          "stagedAuthenticationEnvironmentFields": [],
+          "cleanupAttempted": false,
+          "cleanupSucceeded": null,
+          "cleanupDiagnostic": null,
+          "residualAuthenticationPossible": false,
+          "cleanupNotGuaranteedAfter": [
+            "SIGKILL",
+            "host-crash",
+            "power-loss"
+          ]
+        }
+      },
+      "verificationExecutionMode": "seatbelt-workspace-isolated",
+      "deliveryManifest": {
+        "estimand": "released-product-bundle",
+        "condition": "carrylog-resume",
+        "taskPromptSha256": "6c0fbbaa167af696ade188a6ab6b524f05d13f9d00a6a14bde5e12a886f10a8d",
+        "priorSessionPacket": {
+          "sha256": "3d1962d238be41c36257c2096558cf2429813a96f3b4f520cf71ba7a4dca9f9f",
+          "delivered": true,
+          "channel": "canonical-checkpoint-and-resume-envelope"
+        },
+        "resumeEnvelope": {
+          "delivered": true,
+          "sha256": "d2558a3cbace653d05c29eb9b33129e77663e1313ea58839d713d4487ddfe97f"
+        },
+        "repositoryDiscoverySurfaces": [
+          ".agent-context",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "GEMINI.md",
+          ".agents/skills/carrylog-continuity",
+          ".claude/skills/carrylog-continuity"
+        ],
+        "continuityEligibleFactIds": [
+          "f1",
+          "f2",
+          "f3",
+          "f5",
+          "f7"
+        ],
+        "promptExplicitFactIds": [
+          "f4",
+          "f6"
+        ],
+        "semanticParityWithManualClaimed": false,
+        "automaticCheckpointAuthorshipClaimed": false,
+        "automaticRouterDiscoveryClaimed": false
+      },
+      "condition": "carrylog-resume",
+      "harness": "claude",
+      "setupNetworkPolicy": "seatbelt-network-denied",
+      "baselineCommit": "828a34122e089d0b6d62e41a6fb7d8341f1ef186",
+      "promptSha256": "dec0f64bd004e2c393991cb5c31d28a870b3eb84950455642cd52f957f9fd104",
+      "promptBytes": 7628,
+      "promptCharacters": 7172,
+      "deliveryPacketSha256": "3d1962d238be41c36257c2096558cf2429813a96f3b4f520cf71ba7a4dca9f9f",
+      "deliveryPacketBytes": 1065,
+      "deliveryPacketCharacters": 801,
+      "resumeEnvelopeSha256": "d2558a3cbace653d05c29eb9b33129e77663e1313ea58839d713d4487ddfe97f",
+      "preparationLatencyMs": null
+    }
+  },
+  "delivery": {
+    "status": "prepared",
+    "manifest": {
+      "estimand": "released-product-bundle",
+      "condition": "carrylog-resume",
+      "taskPromptSha256": "6c0fbbaa167af696ade188a6ab6b524f05d13f9d00a6a14bde5e12a886f10a8d",
+      "priorSessionPacket": {
+        "sha256": "3d1962d238be41c36257c2096558cf2429813a96f3b4f520cf71ba7a4dca9f9f",
+        "delivered": true,
+        "channel": "canonical-checkpoint-and-resume-envelope"
+      },
+      "resumeEnvelope": {
+        "delivered": true,
+        "sha256": "d2558a3cbace653d05c29eb9b33129e77663e1313ea58839d713d4487ddfe97f"
+      },
+      "repositoryDiscoverySurfaces": [
+        ".agent-context",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".agents/skills/carrylog-continuity",
+        ".claude/skills/carrylog-continuity"
+      ],
+      "continuityEligibleFactIds": [
+        "f1",
+        "f2",
+        "f3",
+        "f5",
+        "f7"
+      ],
+      "promptExplicitFactIds": [
+        "f4",
+        "f6"
+      ],
+      "semanticParityWithManualClaimed": false,
+      "automaticCheckpointAuthorshipClaimed": false,
+      "automaticRouterDiscoveryClaimed": false
+    }
+  },
+  "authentication": {
+    "ephemeralAuthenticationStaged": false,
+    "stagedAuthenticationFiles": [],
+    "stagedAuthenticationEnvironmentFields": [],
+    "cleanupAttempted": false,
+    "cleanupSucceeded": null,
+    "cleanupDiagnostic": null,
+    "residualAuthenticationPossible": false,
+    "cleanupNotGuaranteedAfter": [
+      "SIGKILL",
+      "host-crash",
+      "power-loss"
+    ]
+  },
+  "gitIntegrity": {
+    "checkoutGitfilePresent": true,
+    "checkoutGitfileSha256BeforeModel": "e386dc8b5e859ab181485a3d57d2af0e22765afac425b3e331000e6c9c45fbb8",
+    "checkoutGitfileSha256Observed": "e386dc8b5e859ab181485a3d57d2af0e22765afac425b3e331000e6c9c45fbb8",
+    "checkoutGitfileUnchanged": true,
+    "directorySha256BeforeModel": "f0bdf27ad38e11c2388c8ba4756c0c28725bd4422ae316e94d57ada92f09cffe",
+    "directorySha256Observed": "f0bdf27ad38e11c2388c8ba4756c0c28725bd4422ae316e94d57ada92f09cffe",
+    "unchanged": true
+  },
+  "execution": {
+    "status": "not-started",
+    "startedAt": null,
+    "completedAt": null,
+    "latencyMs": null,
+    "process": null,
+    "visibleEvents": [],
+    "commandRecords": [],
+    "verificationReceipts": []
+  }
+}

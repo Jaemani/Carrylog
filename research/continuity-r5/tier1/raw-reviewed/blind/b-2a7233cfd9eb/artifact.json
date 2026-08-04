@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "blindId": "b-2a7233cfd9eb",
+  "finalResponse": "## 결정: 두 제안 모두 채택하지 않습니다\n\n기준 커밋 `0f2b9c3`에서 다음 운영 경계가 이미 Accepted ADR로 확정되어 있습니다.\n\n1. **Production PostgreSQL → Vercel 내부 SQLite 전환: 거부**\n   - 운영·통합 테스트의 기준 저장소는 PostgreSQL이며, SQLite는 로컬 단위 테스트에만 제한적으로 허용됩니다 (`docs/adr/ADR-0001-primary-database.md:18-28`).\n   - Vercel SQLite는 **배포 시점의 읽기 전용 preview/fallback snapshot**일 뿐입니다 (`docs/adr/ADR-0005-live-production-runtime.md:14-15`, `README.md:9-11`).\n   - Vercel 함수의 임시 파일 시스템과 함수 수명은 10분 주기의 지속적인 write, append-only snapshot, cycle 상태 및 동시성 정합성을 보장하지 못합니다.\n   - Production schema의 기준은 SQLAlchemy 2 모델과 Alembic migration입니다 (`docs/adr/ADR-0001-primary-database.md:25`, `docs/PLAN.md:209-213`).\n\n2. **FastAPI startup에서 10분 scheduler 실행: 거부**\n   - 운영 scheduler는 API 프로세스와 분리한 단일 worker여야 합니다 (`docs/adr/ADR-0001-primary-database.md:28`).\n   - Vercel의 재기동·수평 확장·동시 인스턴스에서 startup scheduler는 누락 또는 중복 폴링을 일으킬 수 있습니다. 프로세스별 APScheduler 실행은 명시적으로 금지되어 있습니다 (`docs/adr/ADR-0001-primary-database.md:51-56`).\n   - 요청 API는 cached `cafes`와 `cafe_scores`만 읽고 외부 provider를 호출하지 않는 경계입니다 (`docs/PLAN.md:309-319`, `README.md:64-72`).\n\n## 안전한 배포 단순화 대안\n\n- Vercel은 frontend와 cache-only FastAPI read API만 운영합니다.\n- Neon 또는 Supabase 같은 **관리형 PostgreSQL 하나**를 사용하고 Vercel과 worker에 같은 `DATABASE_URL`을 설정합니다.\n- migration과 초기 seed는 검수된 일회성 bootstrap 단계로 실행합니다 (`docs/adr/ADR-0005-live-production-runtime.md:19-24`).\n- 10분 수집은 현재의 GitHub Actions one-shot worker를 유지합니다. workflow에는 중복 실행 방지 concurrency group과 9분 timeout이 이미 있습니다 (`.github/workflows/poll-production.yml:17-27`, `.github/workflows/poll-production.yml:79-89`).\n- 엄격한 10분 SLA가 필요해지면 API에 scheduler를 넣지 말고, 항상 실행되는 단일 Docker worker로 교체합니다 (`docs/adr/ADR-0005-live-production-runtime.md:25-29`).\n- `SEOUL_API_KEY`는 worker에만 두고 Vercel read API에는 배포하지 않습니다 (`docs/adr/ADR-0005-live-production-runtime.md:37-39`).\n\n이 경계를 바꾸려면 단순한 배포 편의가 아니라, 서버리스 SQLite의 내구성·동시성·복구 및 scheduler 단일 실행을 입증하는 새 운영 증거와 **ADR-0001/0005를 대체하는 superseding ADR**이 먼저 필요합니다.\n\n파일은 수정하지 않았습니다. 허용된 검증으로 `git-status`와 `git-diff`를 실행했으며 둘 다 출력 없이 성공하여 작업 트리가 clean이고 diff가 없음을 확인했습니다. 테스트는 실행하지 않았습니다.",
+  "workspaceDiff": "",
+  "untrackedPaths": [],
+  "exitStatus": 0,
+  "verificationReceipts": [
+    {
+      "formatVersion": 5,
+      "commandId": "git-status",
+      "preCommandStateSha256": "0a40acb2246631c83f44c2a605f0a77787e7efc652faa88ec7b0760440d38aed",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "formatVersion": 5,
+      "commandId": "git-diff",
+      "preCommandStateSha256": "0a40acb2246631c83f44c2a605f0a77787e7efc652faa88ec7b0760440d38aed",
+      "processState": "completed",
+      "exitStatus": 0,
+      "signal": null,
+      "timedOut": false,
+      "outputLimited": false,
+      "spawnError": null,
+      "termination": null,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutRetainedBytes": 0,
+      "stderrRetainedBytes": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrRetainedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
