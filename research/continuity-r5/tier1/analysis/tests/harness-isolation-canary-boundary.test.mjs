@@ -19,6 +19,7 @@ test("Codex canary stages only auth.json and probes credential-adjacent model de
   assert.match(source, /result\.stdout\.includes\(credentialAdjacentSentinelValue\)/);
   assert.match(source, /parseCodexJsonEvents\(result\.stdout\)/);
   assert.match(source, /assertCodexProbeEvidence\(diagnostic/);
+  assert.match(source, /stderr=\$\{redactCanaryDiagnostic\(result\.stderr\)\.slice\(0, 2000\)\}/);
   assert.match(source, /expectedCommand: expectedProbeCommands/);
   assert.match(source, /return redactHarnessDiagnostic\(/);
   assert.match(source, /createHash\("sha256"\)\s*\.update\(await readFile\(probePath\)\)/);

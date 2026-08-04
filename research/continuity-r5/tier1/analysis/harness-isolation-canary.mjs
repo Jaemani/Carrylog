@@ -374,7 +374,7 @@ Do not run any other shell command. Do not print file contents from outside the 
     });
   } catch (error) {
     throw new Error(
-      `Codex exact probe evidence failed: ${error instanceof Error ? error.message : String(error)}; events=${JSON.stringify(codexDiagnostic(result.stdout))}`,
+      `Codex exact probe evidence failed: ${error instanceof Error ? error.message : String(error)}; events=${JSON.stringify(codexDiagnostic(result.stdout))}; stderr=${redactCanaryDiagnostic(result.stderr).slice(0, 2000)}`,
     );
   }
   const mcpOutput = diagnostic
@@ -625,7 +625,6 @@ async function runClaudeCanary() {
   ];
   const executable = await resolveNativeClaudeExecutable({
     expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
-    environment: process.env,
   });
   const claudeEnvironment = isolatedEnvironment(syntheticHome, {
     CLAUDE_CONFIG_DIR: claudeConfig,

@@ -117,6 +117,8 @@ test("Codex runner and canary invocation contract carries the explicit permissio
     "-c",
     'mcp_servers.carrylog_verification.args=["/verification/server.mjs"]',
     "-c",
+    "mcp_servers.carrylog_verification.required=true",
+    "-c",
     'mcp_servers.carrylog_verification.tools.verify_registered.approval_mode="approve"',
     "--json",
     "PROMPT",

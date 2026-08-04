@@ -4,7 +4,7 @@
   "criticalFiles": [
     {
       "path": "analysis/claude-router-auth.mjs",
-      "sha256": "47353aadaeaed82422b36fe40daa63057a39b1a9825fd235ec370e5331c779ce"
+      "sha256": "e2419707d082f35e39f82fc6db61e861093a688b95471de9e8957bdfa3d31f7b"
     },
     {
       "path": "analysis/codex-executable.mjs",
@@ -16,15 +16,15 @@
     },
     {
       "path": "analysis/harness-contract.mjs",
-      "sha256": "1e672475743a65019b338cb1ff7d6e771c38f057e79160d5d36951bd10e9ad4d"
+      "sha256": "5adf47ad82396b4d8d0fc0cc696548c43e34a73a3637f6f8a843764f928e8634"
     },
     {
       "path": "analysis/harness-isolation-canary.mjs",
-      "sha256": "df57619272c423e832100fd2f098b2e4d61d6d58b84b53d4b3c31bb1a744a36c"
+      "sha256": "c5e98455fed780ce2a91cb7c0487470f523bd500d5ae90f01bd68f15307b8ca7"
     },
     {
       "path": "analysis/harness-prerequisites.mjs",
-      "sha256": "3085fce19233bc0c616f7c161cac6ffa42805105b729c8e46aee8477125697d6"
+      "sha256": "9bd138a57a3d3e68dacd626b8012954cc89b16775ae1ec03b064ae83c34d2ebe"
     },
     {
       "path": "analysis/host-git-policy.mjs",
@@ -44,7 +44,7 @@
     },
     {
       "path": "analysis/run.mjs",
-      "sha256": "28246154cb17ffaf404e75081b2e66eea725045744b32fe0b346b1870cd98438"
+      "sha256": "af623e494391aefd0429daf4f7da1e6fc38151d331ac8bd4b4a5773a0c86ac4a"
     },
     {
       "path": "analysis/verification-mcp-server.mjs",

@@ -89,6 +89,8 @@ export function buildCodexInvocation({
       `mcp_servers.carrylog_verification.command=${JSON.stringify(broker.command)}`,
       "-c",
       `mcp_servers.carrylog_verification.args=${JSON.stringify(broker.args)}`,
+      "-c",
+      "mcp_servers.carrylog_verification.required=true",
       ...approvedBrokerTools.flatMap((tool) => [
         "-c",
         `mcp_servers.carrylog_verification.tools.${tool}.approval_mode="approve"`,

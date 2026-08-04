@@ -2050,3 +2050,30 @@ After the review surface stopped changing, `npm run quality`, `npm run pack:chec
 authenticated prerequisites remain pending. The next boundary is an ordinary draft commit followed
 by canaries from that clean commit; this GO is not a freeze attestation, behavioral result, or scored
 provider evidence.
+
+## 2026-08-04 — First attempt-5 prerequisites failed closed before freeze
+
+The reviewed offline draft was checkpointed and committed as `844a456`. Its first authenticated
+Codex prerequisite reached `gpt-5.6-sol`, but the isolated client exposed none of the four configured
+verification MCP tools. The model therefore performed zero tool calls and zero shell probes instead
+of the required five actions. Exact evidence validation rejected the run and left the prerequisite
+pending. The canary's evidence-failure branch retained bounded JSON events but omitted the Codex
+client's already captured stderr, preventing a precise MCP startup diagnosis.
+
+The Claude prerequisite was attempted next but made no provider request. Its initial executable
+check used host `PATH`, where an interactive JM Router launcher preceded the native Claude Code
+launcher. The wrapper digest correctly differed from the preregistered native digest, so execution
+stopped before route-catalog attestation, authentication staging, or model access. The design had
+documented a native `~/.local/bin/claude` path but the implementation still used `which`; this was a
+real control-plane mismatch rather than a Claude-to-GPT model anomaly.
+
+The repair resolves host `~/.local/bin/claude` directly, follows that launcher's target, and verifies
+the preregistered bytes independently of `PATH`. Tests include a competing wrapper and reject relative
+or digest-mismatched candidates. Codex exact-probe failures now include at most 2,000 characters of
+the existing redacted stderr diagnostic. Independent review then identified the Codex control defect:
+the verification MCP was enabled and its tools had exact approvals, but the server was not marked
+required. Codex therefore could continue a turn after broker initialization failed and present zero
+verification tools. The shared canary and scored-run invocation now sets the broker's `required=true`;
+startup failure must terminate the client instead of degrading to a tool-free session. Harness-critical
+bindings were refreshed and both prerequisites remain pending. No freeze, manifest, scored run, raw
+provider-output persistence, or credential persistence occurred.

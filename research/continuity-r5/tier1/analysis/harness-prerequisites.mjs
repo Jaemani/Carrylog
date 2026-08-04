@@ -153,7 +153,6 @@ export async function runAuthenticatedHarnessPrerequisite(harness, root = defaul
         })
       : await resolveNativeClaudeExecutable({
           expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
-          environment: process.env,
         });
   let cliVersion;
   try {

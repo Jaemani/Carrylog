@@ -38,9 +38,10 @@ semantic compaction.
   Python bytecode and pytest cache output are redirected or disabled, and the canonical physical
   macOS timezone directory is registry-bound for deterministic `zoneinfo` access under Seatbelt.
 
-The current candidate is an uncommitted draft. Provider execution and authenticated canaries are
-prohibited until separate implementation, offline checks, and independent review establish a new
-frozen candidate. The unique first commit that adds
+The current candidate is a draft. The initially reviewed offline surface was committed at `844a456`;
+the first authenticated prerequisite attempts then exposed a Codex MCP-discovery failure and a
+host-PATH Claude-wrapper collision. Repairs remain subject to fresh offline review and clean-commit
+canaries. No freeze or scored execution is authorized. The unique first commit that adds
 `freeze-manifest.json` with the complete reviewed inputs is the
 permanent freeze boundary. No scored run may start before that commit. Amendments require a new
 experiment identifier and never overwrite earlier raw results.
@@ -196,13 +197,17 @@ edits remain observable.
 
 Both harnesses execute absolute native binaries whose SHA-256 digests are preregistered and checked
 again immediately before spawn. Codex launcher discovery is used only to locate the platform package;
-the PATH entry and JavaScript launcher are never executed by the controlled runner. Claude execution
-additionally verifies two gateway identities: the live gateway
+the PATH entry and JavaScript launcher are never executed by the controlled runner. Claude resolves
+the host's native `~/.local/bin/claude` launcher directly and verifies its target bytes, so an
+interactive JM Router or other wrapper earlier on `PATH` cannot replace the controlled client.
+Claude execution additionally verifies two gateway identities: the live gateway
 catalog record digest for the requested direct model, and the resolved model ID exposed by every
 assistant response. Gateway discovery is disabled and only the preregistered `gpt-5.6-sol` ID is
 accepted; drift aborts instead of being mixed across conditions. The client
 surface does not expose the router's internal `provider_id`, so no provider-identity claim is made,
 and each final executable-check-to-spawn syscall interval remains a documented TOCTOU residual.
+The Codex verification MCP is configured as required, so broker initialization failure terminates the
+turn instead of silently presenting a tool-free session.
 
 ```bash
 node analysis/review-artifact.mjs --run-id t1-001 --reviewer reviewer-1 --approve

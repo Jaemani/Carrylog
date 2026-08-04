@@ -7,6 +7,7 @@ import test from "node:test";
 import {
   attestClaudeRouteCatalog,
   clearClaudeRouterAuthentication,
+  nativeClaudeLauncherPath,
   ROUTER_KEY_FILE_ENV,
   resolveNativeClaudeExecutable,
   stageClaudeRouterAuthentication,
@@ -36,23 +37,36 @@ const catalogFetch = async (_url, options) => {
 test("native Claude resolution binds the exact executable bytes", async () => {
   const root = await mkdtemp(path.join(tmpdir(), "carrylog-native-claude-"));
   try {
-    const executable = path.join(root, "claude");
+    const executable = nativeClaudeLauncherPath(root);
+    const wrapperDirectory = path.join(root, "path-wrapper");
+    const wrapper = path.join(wrapperDirectory, "claude");
+    await mkdir(path.dirname(executable), { recursive: true });
+    await mkdir(wrapperDirectory);
     const bytes = "#!/bin/sh\nprintf 'test claude\\n'\n";
     await writeFile(executable, bytes, { mode: 0o700 });
+    await writeFile(wrapper, "#!/bin/sh\nprintf 'router wrapper\\n'\n", { mode: 0o700 });
     const expectedSha256 = createHash("sha256").update(bytes).digest("hex");
     assert.equal(
       await resolveNativeClaudeExecutable({
         expectedSha256,
-        environment: { PATH: root },
+        executablePath: executable,
       }),
       await realpath(executable),
     );
+    assert.notEqual(await realpath(executable), await realpath(wrapper));
     await assert.rejects(
       resolveNativeClaudeExecutable({
         expectedSha256: "0".repeat(64),
-        environment: { PATH: root },
+        executablePath: executable,
       }),
       /digest differs/,
+    );
+    await assert.rejects(
+      resolveNativeClaudeExecutable({
+        expectedSha256,
+        executablePath: "relative/claude",
+      }),
+      /must be absolute/,
     );
   } finally {
     await rm(root, { recursive: true, force: true });
@@ -136,6 +150,7 @@ test("pre-spawn identity re-attests the route after authentication staging and b
       routeCatalogSha256,
       claudeCliVersion: "2.1.220 (Claude Code)",
       nativeExecutableSha256: createHash("sha256").update(executableBytes).digest("hex"),
+      nativeExecutablePath: executable,
       fetchImplementation: countedFetch,
     });
     assert.equal(catalogCalls, 2);

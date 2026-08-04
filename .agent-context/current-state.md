@@ -29,36 +29,30 @@ freeze digest, manifest, or scored provider execution.
 - Attempts 1 and 2 remain immutable aborted bootstrap evidence. Attempt 3 is frozen at `b72127e`; it
   stopped after 11 scored runs and one reviewed delivery failure. Attempt 4 is frozen at `88f6427`;
   it stopped after six scored repair-screen runs exposed a condition-independent Git-discovery ceiling.
-- Attempt 5 is an uncommitted, unscored draft in `research/continuity-r5`. It has a new namespace,
-  run order, blind identities, pending prerequisites, and empty result surfaces. No manifest,
-  attestation, earlier result, or frozen identity was copied.
-- The draft integrates all three Git policies across registry, wrapper, MCP broker, Seatbelt profiles,
-  authenticated canaries, and prepare-only screen commands. Host `/etc/gitconfig` state and every
-  copied verification-support program are digest-bound.
-- Verification uses bounded combined output, POSIX process-group SIGTERM/SIGKILL escalation, a final
-  completion bound, and protocol-fatal handling for forced completion or signal-delivery failure.
-- Receipt format 5 records explicit direct-screen or broker-owned invocation lifecycles. An MCP
-  invocation can start and terminate only inside the same live broker; direct and broker records
-  cannot mix. The stream then seals its prior record count, byte count, and SHA-256. The monitor
-  retains the complete observed prefix;
-  truncation, rewriting, missing streams, late records, and unsettled lifecycles fail before evidence
-  capture.
-- Verification checkouts are read-only while scratch remains writable. Python bytecode and pytest
-  cache state go to scratch or are disabled, and the registry binds the canonical macOS timezone root
-  used through `PYTHONTZPATH` rather than relying on a denied system symlink.
-- Review findings to date produced fixes for authenticated discovery coverage, correct silent MCP
-  success, forced-containment abort, broker and invocation settlement, sealed append-only history,
-  failure-path protocol promotion, late detached-child workspace writes, and broker/invocation
-  nesting. Independent re-review returned GO over the corrected 150-file Attempt-5 surface.
-- The attempt-5 suite passes 116/116 and the active suite passes 125/125. The non-authenticated
-  isolation canary passes. Offline screens pass Carrylog continuity 16/16, BusyCafe focused pytest
-  22/22, and BusyCafe compileall with no output. Final `npm run quality`, `npm run pack:check`, and
-  `npm run test:package` all exit successfully on the reviewed draft.
+- Attempt 5 is a committed but unfrozen and unscored draft in `research/continuity-r5`. It has fresh
+  identities, pending prerequisites, and empty result surfaces; no predecessor evidence was copied.
+- Its three Git policies are integrated across the registry, wrapper, MCP broker, Seatbelt profiles,
+  canaries, and screens. Verification has bounded process/output handling, read-only checkouts,
+  writable scratch, digest-bound support programs and host Git state, and a sealed broker/invocation
+  receipt ledger. Detailed invariants and review history live in the attempt README and engineering log.
+- The reviewed draft passed the attempt-5 suite at 116/116, active research at 125/125, the isolation
+  canary, Carrylog continuity at 16/16, BusyCafe pytest at 22/22, BusyCafe compileall, product quality,
+  package inspection, and package smoke.
+- The reviewed offline draft was checkpointed and committed at `844a456`. The first authenticated
+  Codex canary reached the model but exposed zero verification tools and remained pending. Claude
+  stopped before provider access because host `PATH` selected the JM Router launcher instead of the
+  preregistered native binary.
+- The current repair resolves native Claude from host `~/.local/bin/claude` independently of `PATH`,
+  verifies its target digest, and retains bounded redacted Codex stderr. Independent review found the
+  Codex broker was enabled but not required; the shared invocation now sets `required=true` so startup
+  failure terminates both canary and scored clients. Fresh re-review remains pending.
 
 ## Blockers and risks
 
-- The reviewed draft must be checkpointed and committed before authenticated prerequisites run.
-- Both harness prerequisites are pending. The Claude surface is the native Claude Code executable
+- Both harness prerequisites remain pending after the first clean-commit attempts. Codex MCP tool
+  discovery needs a reviewed required-broker repair before another provider call. Claude has not reached
+  the router or model since the native-locator repair.
+- The Claude surface is the native Claude Code executable
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
 - The candidate remains `status: draft`. A commit, two passed authenticated canaries, frozen status,
@@ -77,6 +71,7 @@ freeze digest, manifest, or scored provider execution.
 
 ## Next best task
 
-Update the checkpoint and commit the reviewed attempt-5 draft. Only from that clean commit run the
-authenticated Codex and native-Claude-through-JM-Router canaries, reporting any routed-Claude model,
-catalog, stream, authentication, or tool-use anomaly before considering a freeze.
+Complete independent review of the native-Claude locator and bounded Codex diagnostic, diagnose the
+zero-tool Codex MCP failure without weakening verification isolation, and rerun the full offline gate.
+Checkpoint and commit the repair before another authenticated canary. Keep both prerequisites pending
+and prohibit freeze work until Codex and native-Claude-through-JM-Router each pass from a clean commit.

@@ -882,7 +882,6 @@ async function verifyHarnessVersions() {
   });
   const claudeExecutable = await resolveNativeClaudeExecutable({
     expectedSha256: preregistration.harnesses.claude.nativeExecutableSha256,
-    environment: process.env,
   });
   const macosProductVersion = (
     await command("/usr/bin/sw_vers", ["-productVersion"], { cwd: projectRoot })

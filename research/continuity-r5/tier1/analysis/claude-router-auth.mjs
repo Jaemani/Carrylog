@@ -1,10 +1,9 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
 import { constants as fsConstants } from "node:fs";
 import { lstat, open, readFile, realpath } from "node:fs/promises";
+import { homedir } from "node:os";
 import path from "node:path";
-import { promisify } from "node:util";
 
 export const ROUTER_KEY_FILE_ENV = "CARRYLOG_PILOT_CLAUDE_ROUTER_KEY_FILE";
 
@@ -15,20 +14,18 @@ const secretEnvironmentNames = [
   "ANTHROPIC_MODEL",
   "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY",
 ];
-const execFileAsync = promisify(execFile);
+export function nativeClaudeLauncherPath(homeDirectory = homedir()) {
+  assert.equal(path.isAbsolute(homeDirectory), true, "home directory must be absolute");
+  return path.join(homeDirectory, ".local", "bin", "claude");
+}
 
-export async function resolveNativeClaudeExecutable({ expectedSha256, environment }) {
+export async function resolveNativeClaudeExecutable({
+  expectedSha256,
+  executablePath = nativeClaudeLauncherPath(),
+}) {
   assert.match(expectedSha256, /^[0-9a-f]{64}$/);
-  assert.ok(environment && typeof environment === "object");
-  const located = (
-    await execFileAsync("/usr/bin/which", ["claude"], {
-      env: environment,
-      encoding: "utf8",
-      timeout: 30_000,
-    })
-  ).stdout.trim();
-  assert.equal(path.isAbsolute(located), true, "Claude executable path must be absolute");
-  const executable = await realpath(located);
+  assert.equal(path.isAbsolute(executablePath), true, "Claude executable path must be absolute");
+  const executable = await realpath(executablePath);
   const metadata = await lstat(executable);
   assert.equal(metadata.isFile(), true, "Claude executable must be a regular file");
   assert.equal(
@@ -177,6 +174,7 @@ export async function verifyClaudePreSpawnIdentity({
   routeCatalogSha256,
   claudeCliVersion,
   nativeExecutableSha256,
+  nativeExecutablePath,
   fetchImplementation = globalThis.fetch,
 }) {
   assert.ok(environment && typeof environment === "object");
@@ -190,7 +188,7 @@ export async function verifyClaudePreSpawnIdentity({
   });
   const executable = await resolveNativeClaudeExecutable({
     expectedSha256: nativeExecutableSha256,
-    environment,
+    ...(nativeExecutablePath === undefined ? {} : { executablePath: nativeExecutablePath }),
   });
   return { executable, routeCatalog };
 }
