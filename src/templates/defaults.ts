@@ -47,6 +47,52 @@ export function createInstructionsTemplate(cliName = CLI_NAME): string {
 `;
 }
 
+export function createProjectTemplate(): string {
+  return `# Project brief
+
+## Purpose
+
+Describe the problem this project solves and the outcome it creates.
+
+## Users
+
+Describe the primary users and their constraints.
+
+## In scope
+
+- Add the committed product scope here.
+
+## Non-goals
+
+- Add explicit boundaries here to prevent accidental scope expansion.
+`;
+}
+
+export function createCurrentStateTemplate(): string {
+  return `# Current state
+
+## Active objective
+
+Replace this text with the current, verifiable objective.
+
+## Implemented
+
+- Record capabilities that exist and have been verified.
+
+## In progress
+
+- Record incomplete work without presenting it as finished.
+
+## Blockers and risks
+
+- Record known blockers, uncertainty, and operational risk.
+
+## Next best task
+
+State one concrete next task and why it is the best next step.
+`;
+}
+
 export function createDefaultConfig(
   name: string,
   adapterTypes: LegacyAdapterType[],
@@ -162,49 +208,11 @@ export function createTemplateFiles(config: ProjectConfig): TemplateFile[] {
     },
     {
       path: ".agent-context/project.md",
-      content: `# Project brief
-
-## Purpose
-
-Describe the problem this project solves and the outcome it creates.
-
-## Users
-
-Describe the primary users and their constraints.
-
-## In scope
-
-- Add the committed product scope here.
-
-## Non-goals
-
-- Add explicit boundaries here to prevent accidental scope expansion.
-`,
+      content: createProjectTemplate(),
     },
     {
       path: ".agent-context/current-state.md",
-      content: `# Current state
-
-## Active objective
-
-Replace this text with the current, verifiable objective.
-
-## Implemented
-
-- Record capabilities that exist and have been verified.
-
-## In progress
-
-- Record incomplete work without presenting it as finished.
-
-## Blockers and risks
-
-- Record known blockers, uncertainty, and operational risk.
-
-## Next best task
-
-State one concrete next task and why it is the best next step.
-`,
+      content: createCurrentStateTemplate(),
     },
     {
       path: ".agent-context/handoff.md",

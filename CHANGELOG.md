@@ -3,6 +3,26 @@
 All notable changes are documented here using Keep a Changelog categories. Package versions follow
 Semantic Versioning; configuration versions follow the separate contract in ADR-0005.
 
+## [Unreleased]
+
+### Added
+
+- Added deterministic `W_CONTEXT_PLACEHOLDER` resume diagnostics when an always-loaded document
+  retains the stock project-brief or current-state template, or the configured checkpoint narrative
+  retains its initialization wording, after EOL and formatting-whitespace normalization.
+- Human resume now prints warnings to stderr, while JSON retains the same structured diagnostics.
+
+### Changed
+
+- Updated generated continuity Skills to state that initialization alone is not verified project
+  memory and to prohibit continuity claims until placeholder documents are bootstrapped from reviewed
+  repository evidence or user-provided facts.
+
+### Testing
+
+- Added full, partial, CRLF, human-output, and reviewed-content cases so conservative placeholder
+  detection remains visible without classifying edited context as stock.
+
 ## [0.1.0-beta.7] - 2026-08-02
 
 ### Fixed

@@ -61,6 +61,9 @@ try {
   mkdirSync(externalReadRoot, { mode: 0o700 });
   writeFileSync(externalSentinel, "READ_ONLY_SENTINEL\n", { mode: 0o600 });
   cpSync(path.join(sourceRoot, "dist"), path.join(checkout, "dist"), { recursive: true });
+  for (const testFile of ["continuity.test.mjs", "helpers.mjs"]) {
+    cpSync(path.join(sourceRoot, "tests", testFile), path.join(checkout, "tests", testFile));
+  }
   symlinkSync(sourceModules, path.join(checkout, "node_modules"));
   symlinkSync(externalReadRoot, path.join(checkout, "external-runtime-link"));
 

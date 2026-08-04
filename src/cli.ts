@@ -160,6 +160,9 @@ async function runResume(argv: string[]): Promise<number> {
       `Next action: ${escapeTerminalField(envelope.checkpoint.sections["Next action"])}\n`,
     );
     process.stdout.write(`Checkpoint: ${envelope.checkpoint.stale ? "stale" : "ready"}\n`);
+    if (envelope.diagnostics.length > 0) {
+      process.stderr.write(`${envelope.diagnostics.map(formatDiagnostic).join("\n")}\n`);
+    }
   }
   return values["check"] === true && envelope.checkpoint.stale ? EXIT_ISSUES : EXIT_SUCCESS;
 }

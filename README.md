@@ -172,7 +172,9 @@ node /path/to/Carrylog/dist/cli.js resume --check --json --root /path/to/your-pr
 
 `init` creates the canonical context, Codex/Cursor `AGENTS.md`, Claude `CLAUDE.md`, Gemini
 `GEMINI.md`, and continuity Skills. Carrylog does not contact a model, upload context, stage, commit,
-or push.
+or push. Initialization creates reviewable stock templates; it does not capture the current chat or
+infer project facts. `resume` reports `W_CONTEXT_PLACEHOLDER` until the project brief, current state,
+and checkpoint narrative have been replaced with verified content.
 
 Do not mix one-off initialization with a later bare `carrylog` command. Bare commands require a
 global installation or a package script that exposes local `.bin`; use `npx --no-install carrylog`
@@ -336,7 +338,12 @@ carrylog resume --check --json
 `resume --json` emits a deterministic portable envelope containing reviewed checkpoint sections,
 always-loaded context, an on-demand catalog, raw-byte SHA-256 digests, and fresh bounded Git evidence.
 It excludes raw transcripts, hidden reasoning, absolute roots, provider session identifiers, and
-commit timestamps. `--check` exits 1 when checkpoint Git evidence is stale.
+commit timestamps. Human output writes diagnostics to stderr; JSON includes them in the envelope. An
+always-loaded document that retains the stock project-brief or current-state template, or the configured
+checkpoint narrative that retains stock wording, produces `W_CONTEXT_PLACEHOLDER` after EOL and
+formatting-whitespace normalization. Generated Skills must not claim continuity from that state.
+`--check` exits 1 only when checkpoint Git evidence is stale; callers that require populated memory must
+also inspect diagnostics.
 
 Resume output is not a declassification boundary. It contains the checkpoint narrative and full
 always-loaded context, retains the repository's confidentiality classification, and does not redact

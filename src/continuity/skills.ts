@@ -54,9 +54,12 @@ substantial project session.
    selected version lacks \`resume\`, report the incompatible version and require an explicit build,
    project install, or upgrade. Never download, build, or upgrade Carrylog automatically.
 2. Read the always-context and checkpoint in the envelope.
-3. Load only on-demand documents whose triggers match the task.
-4. Compare the checkpoint, repository, and requested work. Report material mismatches before editing.
-5. Summarize the objective, verified state, next action, and risks, then continue the requested work.
+3. If diagnostics include \`W_CONTEXT_PLACEHOLDER\`, state that Carrylog was initialized but does not
+   yet contain verified project memory. Do not claim continuity; bootstrap the named documents only
+   from reviewed repository evidence or user-provided facts.
+4. Load only on-demand documents whose triggers match the task.
+5. Compare the checkpoint, repository, and requested work. Report material mismatches before editing.
+6. Summarize the objective, verified state, next action, and risks, then continue the requested work.
 
 ## Checkpoint
 

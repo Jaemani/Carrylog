@@ -2474,3 +2474,63 @@ The reviewed batch was pushed through commit `d2d3a39`. Repository discovery met
 the npm package, eight focused topics describe the supported use case, and Discussions is enabled so
 the issue-form support link has a live destination. The next evidence target is a sanitized adoption
 outcome from the published beta path, not another continuity mechanism or provider experiment.
+
+## 2026-08-05 — First public maintainer dogfood report exposed placeholder ambiguity
+
+A sandbox clone of a materially separate repository exercised published beta.7 across a fresh Codex
+checkpoint author and a non-persistent Claude Code destination. The original worktree was read-only.
+The first inspection found that Carrylog had been initialized but every canonical project-state file
+still contained stock prompts. The existing `resume` command therefore succeeded structurally while
+delivering no session-specific memory. This disproves the convenient but false inference that a
+successful initialization or resume command means prior conversation was captured.
+
+After Codex replaced the stock documents from repository evidence, type checking and 18 test files
+with 63 tests passed. The checkpoint was committed and `resume --check` reported ready. The destination
+harness then recovered the project purpose, objective, next action, completed verification, four
+durable decisions, and risks without receiving project facts in its user prompt. It explicitly
+distinguished repository-owned context from provider conversation history. The successful destination
+run took seven turns and 41.9 seconds; its CLI reported $1.009 and 195,414 cumulative input tokens. A
+prior run with an intentionally low $0.50 ceiling ended after five tool turns without a final response
+and reported $0.63985. These harness-reported values are operational observations, not a provider-cost
+or efficiency baseline.
+
+The destination also detected one semantic mismatch: current state described generated files as
+uncommitted even though the checkpoint commit made the tree clean. Git freshness was correct, but the
+narrative was not. The outcome is therefore recorded publicly as partial in issue #7. It supports the
+existing boundary that Carrylog verifies bytes and Git state rather than semantic freshness, and it
+does not open the R6 projection gate or count as non-maintainer adoption.
+
+The narrow actionable defect is placeholder ambiguity, not transcript reconstruction. Resume now
+compares always-loaded stock project and current-state wording plus the configured snapshot-free
+checkpoint after EOL and formatting-whitespace normalization, and emits `W_CONTEXT_PLACEHOLDER` in JSON
+and human diagnostics. Generated Skills must report that initialization is incomplete and may bootstrap
+only from reviewed repository evidence or user facts. Edited content is never classified semantically,
+and `--check` retains its documented Git-staleness exit contract.
+
+The first full quality run then exposed a current-byte defect in the separate macOS repository-
+discovery canary. It cloned committed tests but overlaid the working tree's newly built `dist`, so the
+new warning behavior was evaluated against old assertions until a commit happened. Committing first
+would only hide the mixed-byte harness. The canary now overlays the exact focused continuity test and
+its helper alongside `dist`; its Git-boundary source checkout remains isolated and Attempt-5 frozen
+inputs and outcomes are untouched.
+
+The first independent code review rejected an ID-hardcoded implementation because configuration permits
+document IDs and paths to change. Matching was changed to inspect configured documents by content and the
+configured checkpoint identity. The second review then rejected scanning on-demand documents because an
+intentional stock-template reference could block a continuity claim even when all always-loaded memory
+was reviewed. The final implementation restricts project/current matching to always-loaded documents and
+retains configured-ID matching for the checkpoint. One regression covers renamed IDs, moved paths, CRLF,
+trailing whitespace, repeated blank lines, a moved checkpoint snapshot, partial editing, and an on-demand
+stock reference. The reviewer's final verdict is GO.
+
+One whole-suite attempt was invalidated when independent reviewers and the main process invoked builds in
+the same worktree: concurrent clean steps removed `dist/index.js` during a test and produced
+`ERR_MODULE_NOT_FOUND`. Process inspection confirmed overlapping quality and focused-test processes.
+Reviewers stopped mutating the shared build directory, and isolated reruns passed. This is retained as an
+orchestration failure rather than counted as product evidence or hidden by committing first.
+
+The isolated focused suite passes 33/33. The complete quality gate passes its formatting, strict type,
+product-test, configured coverage-floor, and active-research 131/131 checks. Package inspection and the
+local, ephemeral, global, ESM, strict-types, migration, init, validation, checkpoint, and resume consumer
+smokes pass. Sync check, JSON validation, and Git diff checks also pass. The independent methodology
+review found no scope or evidence-claim violation, and the final code review found no remaining blocker.

@@ -65,7 +65,11 @@ Exit codes are part of the automation contract:
 - `migrate` performs explicit version transitions, validates the prospective version, and commits the
   canonical config after generated outputs.
 - `checkpoint` aliases the compatible handoff refresh through the configured v2 checkpoint document.
-- `resume` validates and projects one portable deterministic context/Git envelope without writing.
+- `resume` validates and projects one portable deterministic context/Git envelope without writing. It
+  compares every always-loaded document with the stock project-brief and current-state templates, and
+  compares the configured snapshot-free checkpoint with its stock template, after EOL and formatting-
+  whitespace normalization. It emits `W_CONTEXT_PLACEHOLDER` on a match; configured IDs and paths do not
+  affect detection, on-demand references are excluded, and no semantic freshness analysis is attempted.
 
 These commands accept resolved domain objects where practical so tests can exercise behavior without
 shell parsing.

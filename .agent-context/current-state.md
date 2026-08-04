@@ -51,6 +51,17 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
 - The STOP analysis, corrected roadmap, and adoption intake are on `origin/main`. The public repository
   now exposes an npm homepage, discovery topics, and enabled Discussions for the issue-form support
   route.
+- Public maintainer dogfood report #7 exercised beta.7 in a read-only sandbox clone of a materially
+  separate repository. After a Codex-authored checkpoint, a fresh Claude Code destination recovered
+  purpose, objective, next action, verification, four durable decisions, and risks without project
+  facts in its user prompt. It did not recover provider chat history, and one post-commit narrative
+  statement was semantically stale, so the outcome is partial and directional rather than external
+  adoption or independent model-family evidence.
+- Resume now emits deterministic `W_CONTEXT_PLACEHOLDER` diagnostics when an always-loaded project
+  brief or current-state document, or the configured snapshot-free checkpoint, retains exact stock
+  initialization wording after EOL and formatting-whitespace normalization. Detection follows mutable
+  document IDs and paths, ignores on-demand template references, does not infer semantic freshness, and
+  does not change the Git-staleness-only `--check` exit contract.
 
 ## Blockers and risks
 
@@ -64,6 +75,8 @@ preregistered STOP boundary. Keep any prompt-projection follow-up draft-only.
   process from contributing scored evidence. Complete arbitrary-session termination is not claimed.
 - Cross-harness behavioral continuity, repeated-switch retention, conversation reconstruction,
   journaling, compaction value, Cursor CLI behavior, and wider external adoption remain unproven.
+- Placeholder diagnostics detect exact initialization wording only. Edited but stale, incomplete, or
+  false project memory remains a human and agent review responsibility.
 - No external adoption report yet establishes how often users retype or lose protected checkpoint
   details. The mechanism follow-up cannot be justified or frozen until that user-facing need exists.
 - TOCTOU, Windows depth, process escape, and abnormal-termination locks remain explicit residual risks.

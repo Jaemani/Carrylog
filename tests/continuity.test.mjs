@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
 import { execFile, spawn } from "node:child_process";
-import { chmod, link, mkdir, readFile, rmdir, symlink, unlink, writeFile } from "node:fs/promises";
+import {
+  chmod,
+  link,
+  mkdir,
+  readFile,
+  rename,
+  rmdir,
+  symlink,
+  unlink,
+  writeFile,
+} from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { promisify } from "node:util";
@@ -60,6 +70,8 @@ test("continuity skill resolves source and pinned executables before a compatibl
     true,
   );
   assert.match(skill, /selected version lacks `resume`/);
+  assert.match(skill, /W_CONTEXT_PLACEHOLDER/);
+  assert.match(skill, /Do not claim continuity/);
   assert.match(skill, /do not fall through to a different global version/);
   assert.match(skill, /stage every\s+reviewed non-checkpoint change before `carrylog checkpoint`/);
   assert.match(skill, /Carrylog never stages or commits/);
@@ -273,7 +285,13 @@ test("resume JSON is byte-deterministic, portable, and reports stale checkpoints
     assert.equal(envelope.project.configPath, ".agent-context/config.yaml");
     assert.equal(envelope.checkpoint.document, checkpointPath);
     assert.equal(envelope.checkpoint.stale, false);
-    assert.deepEqual(envelope.diagnostics, []);
+    assert.deepEqual(
+      envelope.diagnostics.map((diagnostic) => diagnostic.code),
+      ["W_CONTEXT_PLACEHOLDER"],
+    );
+    assert.match(envelope.diagnostics[0].message, /project\.md/);
+    assert.match(envelope.diagnostics[0].message, /current-state\.md/);
+    assert.match(envelope.diagnostics[0].message, /handoff\.md/);
     assert.deepEqual(Object.keys(envelope.checkpoint.sections), [...CHECKPOINT_SECTION_NAMES]);
 
     const serialized = JSON.stringify(envelope);
@@ -295,6 +313,118 @@ test("resume JSON is byte-deterministic, portable, and reports stale checkpoints
     assert.equal(
       staleEnvelope.diagnostics.some((diagnostic) => diagnostic.code === "W_CHECKPOINT_STALE"),
       true,
+    );
+  } finally {
+    await removeTemporaryDirectory(root);
+  }
+});
+
+test("resume exposes stock placeholders without treating reviewed context as stock", async () => {
+  const root = await createTemporaryDirectory("carrylog-continuity-placeholders-");
+  try {
+    await initializeV2GitProject(root);
+    const original = await loadProject(root);
+    const config = structuredClone(original.config);
+    const stockProjectReference = await readFile(
+      path.join(root, ".agent-context", "project.md"),
+      "utf8",
+    );
+    config.documents.push({
+      id: "stock-reference",
+      path: "reference/stock-project.md",
+      load: "on-demand",
+      description: "Initialization template retained as an on-demand reference",
+      triggers: ["template reference"],
+    });
+    await mkdir(path.join(root, ".agent-context", "reference"), { recursive: true });
+    await writeFile(
+      path.join(root, ".agent-context", "reference", "stock-project.md"),
+      stockProjectReference,
+      "utf8",
+    );
+    const renamedDocuments = [
+      {
+        originalId: "project",
+        id: "project-memory",
+        path: "product/project-memory.md",
+      },
+      {
+        originalId: "current-state",
+        id: "state",
+        path: "status/current.md",
+      },
+      {
+        originalId: "handoff",
+        id: "transfer",
+        path: "checkpoints/latest.md",
+      },
+    ];
+    for (const renamedDocument of renamedDocuments) {
+      const document = config.documents.find(
+        (candidate) => candidate.id === renamedDocument.originalId,
+      );
+      assert.ok(document);
+      const originalPath = document.path;
+      document.id = renamedDocument.id;
+      document.path = renamedDocument.path;
+      await mkdir(path.dirname(path.join(root, ".agent-context", renamedDocument.path)), {
+        recursive: true,
+      });
+      await rename(
+        path.join(root, ".agent-context", originalPath),
+        path.join(root, ".agent-context", renamedDocument.path),
+      );
+    }
+    config.continuity.checkpointDocument = "transfer";
+    await writeProjectConfig(root, config);
+    await syncProject(await loadProject(root), { adopt: false, check: false, dryRun: false });
+    await refreshHandoff(await loadProject(root), { check: false, dryRun: false });
+
+    for (const relativePath of ["status/current.md", "checkpoints/latest.md"]) {
+      const target = path.join(root, ".agent-context", relativePath);
+      await writeFile(target, (await readFile(target, "utf8")).replaceAll("\n", "\r\n"), "utf8");
+    }
+
+    const human = await runCli(["resume", "--root", root]);
+    assert.equal(human.code, 0);
+    assert.match(human.stderr, /W_CONTEXT_PLACEHOLDER/);
+    assert.match(human.stderr, /product\/project-memory\.md/);
+    assert.match(human.stderr, /status\/current\.md/);
+    assert.match(human.stderr, /checkpoints\/latest\.md/);
+    assert.doesNotMatch(human.stderr, /reference\/stock-project\.md/);
+
+    await writeFile(
+      path.join(root, ".agent-context", "product", "project-memory.md"),
+      "# Project brief\n\nVerified project purpose.\n",
+      "utf8",
+    );
+    const currentStatePath = path.join(root, ".agent-context", "status", "current.md");
+    const stockCurrentState = await readFile(currentStatePath, "utf8");
+    await writeFile(currentStatePath, `${stockCurrentState.trimEnd()}  \r\n\r\n\r\n`, "utf8");
+    const partial = await runCli(["resume", "--root", root, "--json"]);
+    assert.equal(partial.code, 0);
+    const partialWarning = JSON.parse(partial.stdout).diagnostics.find(
+      (diagnostic) => diagnostic.code === "W_CONTEXT_PLACEHOLDER",
+    );
+    assert.ok(partialWarning);
+    assert.doesNotMatch(partialWarning.message, /project-memory\.md/);
+    assert.match(partialWarning.message, /status\/current\.md/);
+    assert.match(partialWarning.message, /checkpoints\/latest\.md/);
+
+    await writeFile(currentStatePath, "# Current state\n\nVerified current state.\n", "utf8");
+    await writeFile(
+      path.join(root, ".agent-context", "checkpoints", "latest.md"),
+      checkpointDocument(CHECKPOINT_SECTION_NAMES),
+      "utf8",
+    );
+    await refreshHandoff(await loadProject(root), { check: false, dryRun: false });
+    const reviewed = await runCli(["resume", "--root", root, "--json"]);
+    assert.equal(reviewed.code, 0);
+    assert.equal(
+      JSON.parse(reviewed.stdout).diagnostics.some(
+        (diagnostic) => diagnostic.code === "W_CONTEXT_PLACEHOLDER",
+      ),
+      false,
     );
   } finally {
     await removeTemporaryDirectory(root);
@@ -865,7 +995,10 @@ test("human resume escapes terminal controls and multiline field spoofing", asyn
 
     const result = await runCli(["resume", "--root", root]);
     assert.equal(result.code, 0);
-    assert.equal(result.stderr, "");
+    assert.match(result.stderr, /W_CONTEXT_PLACEHOLDER/);
+    assert.match(result.stderr, /W_CHECKPOINT_STALE/);
+    assert.equal(result.stderr.includes("\u001b"), false);
+    assert.equal(result.stderr.includes("\u0007"), false);
     assert.equal(result.stdout.includes("\u001b"), false);
     assert.equal(result.stdout.includes("\u0007"), false);
     assert.equal(result.stdout.includes("\u200e"), false);

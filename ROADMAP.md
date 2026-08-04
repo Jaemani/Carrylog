@@ -38,6 +38,8 @@ Completed publication and channel-hardening operations:
 Delivery and outcome work now takes priority over additional defensive breadth:
 
 - exercise the published five-minute registry path on external repositories;
+- use maintainer dogfood report [#7](https://github.com/Jaemani/Carrylog/issues/7) as a directional
+  workflow signal, not as external adoption or independent model-family evidence;
 - preserve the stopped Tier 1 result and do not build session journaling from it;
 - dogfood on two additional materially different repositories and publish sanitized adoption notes;
 - measure whether users reduce project re-explanation and repeated work;

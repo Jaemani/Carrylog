@@ -19,7 +19,13 @@ import {
   parseCheckpointSettlementMetadata,
   renderHandoffSnapshot,
   upsertHandoffSnapshot,
+  withoutHandoffSnapshot,
 } from "../handoff/snapshot-block.js";
+import {
+  createCheckpointTemplate,
+  createCurrentStateTemplate,
+  createProjectTemplate,
+} from "../templates/defaults.js";
 import { validateContext } from "../validation/validate.js";
 import { validateProject } from "./validate.js";
 
@@ -142,6 +148,7 @@ export async function createResumeEnvelope(project: LoadedProject): Promise<Resu
     const diagnostics: Diagnostic[] = uniqueDiagnostics([
       ...validation.diagnostics.filter((diagnostic) => diagnostic.level === "warning"),
       ...observedContextDiagnostics.filter((diagnostic) => diagnostic.level === "warning"),
+      ...stockPlaceholderDiagnostics(project, after, checkpointDocument.id),
       ...(stale
         ? [
             {
@@ -203,6 +210,48 @@ export async function createResumeEnvelope(project: LoadedProject): Promise<Resu
     `Project context changed during ${MAX_RESUME_ATTEMPTS} resume attempts.`,
     "Retry after concurrent context and repository updates finish.",
   );
+}
+
+function stockPlaceholderDiagnostics(
+  project: LoadedProject,
+  observation: ContextObservation,
+  checkpointDocumentId: string,
+): Diagnostic[] {
+  const stockDocumentTemplates = [createProjectTemplate(), createCurrentStateTemplate()].map(
+    normalizePlaceholderText,
+  );
+  const stockCheckpointTemplate = normalizePlaceholderText(createCheckpointTemplate());
+  const paths: string[] = [];
+  for (const document of project.config.documents) {
+    const read = observation.documents.get(document.id);
+    if (read === undefined) continue;
+    const normalized = normalizePlaceholderText(read.text);
+    const isStockDocument =
+      document.load === "always" && stockDocumentTemplates.includes(normalized);
+    const isStockCheckpoint =
+      document.id === checkpointDocumentId &&
+      normalizePlaceholderText(withoutHandoffSnapshot(read.text)) === stockCheckpointTemplate;
+    if (isStockDocument || isStockCheckpoint) paths.push(contextPath(document.path));
+  }
+  const firstPath = paths[0];
+  if (firstPath === undefined) return [];
+  return [
+    {
+      level: "warning",
+      code: "W_CONTEXT_PLACEHOLDER",
+      message: `Resume context still contains stock initialization placeholders: ${paths.join(", ")}.`,
+      path: firstPath,
+      hint: "Replace them with verified project state and run 'carrylog checkpoint' before relying on continuity.",
+    },
+  ];
+}
+
+function normalizePlaceholderText(value: string): string {
+  return value
+    .replaceAll("\r\n", "\n")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 function contextOverrides(
