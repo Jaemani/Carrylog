@@ -2187,3 +2187,14 @@ re-review returned GO with no blocking findings and confirmed the staged scope r
 Attempt 5 and repository context. The review retains two explicit residuals: `SIGHUP` and `SIGINT`
 share the tested idempotent path but are not individually exercised, and only a new authenticated
 Claude canary can prove the client's actual shutdown behavior and writable-profile completion.
+
+Clean commit `65bb802` then passed both authenticated prerequisites for the current critical bytes.
+Codex CLI 0.146.0 recorded its exact canary at `2026-08-04T10:34:24.241Z`. Native Claude Code
+2.1.220 through JM Router recorded its canary at `2026-08-04T10:35:26.600Z`; every assistant event
+resolved to `gpt-5.6-sol`, and both the read-only and writable permission profiles completed their
+exact ordered tool, denial, model, budget, and receipt checks. The inter-profile broker settled before
+the second process began, providing the first authenticated evidence that the graceful-signal repair
+matches this Claude Code shutdown path. `--require-passed` accepts both attestations against the same
+critical configuration digest. No freeze, manifest, scored execution, raw provider output, key value,
+or key path was persisted. These canaries establish harness readiness only; they do not establish
+cross-harness behavioral continuity or conversation reconstruction.

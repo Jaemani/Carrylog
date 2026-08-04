@@ -2,8 +2,8 @@
 
 ## Active objective
 
-Run the exact authenticated Codex and native-Claude-through-JM-Router prerequisites from the reviewed
-attempt-5 repair commit before any freeze digest, manifest, or scored provider execution.
+Record the two passed authenticated prerequisites from reviewed commit `65bb802`, then prepare the
+exact attempt-5 freeze review surface before any manifest or scored provider execution.
 
 ## Implemented and verified
 
@@ -28,8 +28,8 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
 - Attempts 1 and 2 remain immutable aborted bootstrap evidence. Attempt 3 is frozen at `b72127e`; it
   stopped after 11 scored runs and one reviewed delivery failure. Attempt 4 is frozen at `88f6427`;
   it stopped after six scored repair-screen runs exposed a condition-independent Git-discovery ceiling.
-- Attempt 5 is a committed but unfrozen and unscored draft in `research/continuity-r5`. It has fresh
-  identities, pending prerequisites, and empty result surfaces; no predecessor evidence was copied.
+- Attempt 5 is an unfrozen and unscored draft in `research/continuity-r5`. It has fresh identities,
+  two passed current-byte prerequisites, and empty result surfaces; no predecessor evidence was copied.
 - Its three Git policies are integrated across the registry, wrapper, MCP broker, Seatbelt profiles,
   canaries, and screens. Verification has bounded process/output handling, read-only checkouts,
   writable scratch, digest-bound support programs and host Git state, and a sealed broker/invocation
@@ -58,13 +58,15 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
   exposed only `gpt-5.6-sol` and completed the read-only exact tool sequence, but its MCP broker did not
   write a terminal before the barrier timed out. The repair now settles a graceful broker signal only
   after its request queue completes; forced termination remains unsettled. Critical digests were
-  refreshed, so both prerequisites remain pending. Active-signal coverage closed the first review's
-  NO-GO finding; independent re-review returned GO. Another clean commit is required before rerun.
+  refreshed. Active-signal coverage closed the first review's NO-GO finding; independent re-review
+  returned GO. From clean commit `65bb802`, Codex CLI 0.146.0 and native Claude Code 2.1.220 through
+  JM Router both passed their exact authenticated prerequisites on `gpt-5.6-sol`. Claude completed
+  both permission profiles and the inter-profile broker settled. Freeze work is now eligible.
 
 ## Blockers and risks
 
-- Both prerequisites are pending after the signal-settlement repair. The last Codex run passed; Claude
-  completed its read-only profile but timed out with one settled invocation set and one active broker.
+- Both prerequisites pass for the current critical bytes. This proves harness readiness, not behavioral
+  continuity, conversation reconstruction, or independent model-family replication.
 - The Claude surface is the native Claude Code executable
   with a minimal JM Router child environment and direct `gpt-5.6-sol`; Headroom is excluded because
   it would add model-discovery, context-limit, timeout, and compaction policy to the controlled path.
@@ -84,5 +86,5 @@ attempt-5 repair commit before any freeze digest, manifest, or scored provider e
 
 ## Next best task
 
-Commit the reviewed signal-settlement repair, then rerun Codex and native Claude through JM Router
-from the new clean commit. Stop on any anomaly and prohibit freeze until both prerequisites pass.
+Commit the passed prerequisite evidence, rerun final offline gates, then set the still-empty candidate
+to frozen and produce its exact review digest. Do not write a manifest or score until two GO reviews.

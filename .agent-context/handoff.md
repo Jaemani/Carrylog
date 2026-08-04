@@ -4,37 +4,34 @@
 ## Repository evidence
 
 - Branch: "main"
-- HEAD: "611a043 at 2026-08-04T19:20:28+09:00"
-- Upstream: "origin/main; ahead 16, behind 0"
-- Working tree: 6 staged, 0 unstaged, 0 untracked, 0 conflicted
-- Staged diff: 6 file(s), +224/-26, 0 binary
+- HEAD: "65bb802 at 2026-08-04T19:33:56+09:00"
+- Upstream: "origin/main; ahead 17, behind 0"
+- Working tree: 3 staged, 0 unstaged, 0 untracked, 0 conflicted
+- Staged diff: 3 file(s), +35/-22, 0 binary
 - Unstaged diff: 0 file(s), +0/-0, 0 binary
 - Scope: project directory; changed paths are project-relative; this handoff snapshot file is excluded
 
-### Changed paths (6)
+### Changed paths (3)
 
     {"status":"M ","path":".agent-context/current-state.md"}
     {"status":"M ","path":"docs/engineering-log.md"}
-    {"status":"M ","path":"research/continuity-r5/tier1/README.md"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/tests/contracts.test.mjs"}
-    {"status":"M ","path":"research/continuity-r5/tier1/analysis/verification-mcp-server.mjs"}
     {"status":"M ","path":"research/continuity-r5/tier1/harness-prerequisites.json"}
 
 ### Recent commits (5)
 
+    {"commit":"65bb802","committedAt":"2026-08-04T19:33:56+09:00","subject":"fix: settle signalled Claude verification brokers"}
     {"commit":"611a043","committedAt":"2026-08-04T19:20:28+09:00","subject":"fix: settle Claude verification brokers between profiles"}
     {"commit":"7f3f068","committedAt":"2026-08-04T19:06:29+09:00","subject":"fix: serialize Claude verification tools"}
     {"commit":"f5f7ff4","committedAt":"2026-08-04T18:56:23+09:00","subject":"research: bound Claude prerequisite across profiles"}
     {"commit":"095ffbd","committedAt":"2026-08-04T18:33:22+09:00","subject":"fix: fail closed on harness prerequisite drift"}
-    {"commit":"844a456","committedAt":"2026-08-04T18:18:05+09:00","subject":"research: prepare Tier 1 execution attempt 5"}
 
-<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"611a043be8fb3561ef9dca268e5a350cd8fd7db0","detached":false,"branch":"main","indexCommitment":"ce9a20e491ff542bbb3f233529134be1840a2d369cf1ff6113be1f6ea9032226"} -->
+<!-- carrylog:checkpoint-settlement:v1 {"formatVersion":1,"objectFormat":"sha1","baseHead":"65bb802f55b5469cb3c5c15bd2e57b3bc402108d","detached":false,"branch":"main","indexCommitment":"e2b6efca44d1eed0df296205d45f2c049090d7994d0e685f81ccad1664205ac5"} -->
 <!-- agent-context-kit:handoff-snapshot:end -->
 
 ## Objective
 
-Commit the reviewed graceful broker-signal repair, then rerun both authenticated prerequisites
-before any freeze work.
+Commit the two passed authenticated prerequisites, then prepare the exact attempt-5 freeze review
+surface before any manifest or scored execution.
 
 ## Completed
 
@@ -48,8 +45,11 @@ before any freeze work.
   value.
 - The repair writes one broker terminal after stdin EOF or graceful `SIGTERM`, `SIGHUP`, or `SIGINT`,
   and only after the serialized request queue settles. `SIGKILL` remains unsettled. Critical digest
-  refresh reset both prerequisites to pending; no freeze, manifest, scored run, or raw output retention
-  occurred.
+  refresh reset both prerequisites before the reviewed rerun.
+- From clean commit `65bb802`, Codex CLI 0.146.0 passed at `2026-08-04T10:34:24.241Z`; native Claude
+  Code 2.1.220 through JM Router passed at `2026-08-04T10:35:26.600Z`. Both used only `gpt-5.6-sol`.
+  Claude completed both permission profiles and inter-profile settlement. No freeze, manifest, scored
+  run, raw output, key value, or key path was retained.
 
 ## Verification
 
@@ -59,7 +59,8 @@ before any freeze work.
   focused case proves no premature terminal, exact terminal ordering and count, and clean exit. Full
   gates passed again and independent re-review returned GO with no blocking findings.
 - The authenticated failure proved exact read-only tool/model evidence before the settlement timeout;
-  it did not prove the writable profile or repaired shutdown behavior.
+  the clean rerun then proved both profiles and repaired shutdown behavior. `--require-passed` accepts
+  both current-byte attestations.
 
 ## Decisions
 
@@ -72,14 +73,12 @@ before any freeze work.
 
 ## Risks
 
-- The repaired signal path has passed only offline integration; actual Claude Code shutdown and the
-  writable USD 0.20 profile remain unverified. Any model, stream, auth, budget, tool, or receipt anomaly
-  stops the sequence.
+- The prerequisites prove harness readiness only; the candidate remains draft, unfrozen, and unscored.
 - Routed Claude is GPT-backed, not independent model-family replication; token accounting is unavailable.
 - Process escape, TOCTOU, Windows depth, conversation reconstruction, repeated switching, journaling,
   compaction value, Cursor behavior, and adoption remain explicit gaps.
 
 ## Next action
 
-Commit once, then run Codex first and native Claude through JM Router second. Stop on any anomaly; do
-not freeze until both prerequisites pass.
+Commit the passed attestations, rerun final offline gates, then set the empty candidate to frozen and
+produce its review digest. Require two exact-digest GO reviews before manifest creation.

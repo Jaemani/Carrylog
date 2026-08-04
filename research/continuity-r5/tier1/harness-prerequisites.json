@@ -69,20 +69,20 @@
   ],
   "harnesses": {
     "codex": {
-      "status": "pending",
-      "testedAt": null,
-      "cliVersion": null,
-      "model": null,
-      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
-      "resultSha256": null
+      "status": "passed",
+      "testedAt": "2026-08-04T10:34:24.241Z",
+      "cliVersion": "codex-cli 0.146.0",
+      "model": "gpt-5.6-sol",
+      "resultSummary": "Authenticated canary passed workspace access, external-filesystem denial, registered verification, and model-tool network-denial assertions.",
+      "resultSha256": "7a8de3385ecd85e1ab1542ba08c98e814efd07271a23b8b00ed13f371e788af9"
     },
     "claude": {
-      "status": "pending",
-      "testedAt": null,
-      "cliVersion": null,
-      "model": null,
-      "resultSummary": "Authenticated canary has not passed for the current critical bytes.",
-      "resultSha256": null
+      "status": "passed",
+      "testedAt": "2026-08-04T10:35:26.600Z",
+      "cliVersion": "2.1.220 (Claude Code)",
+      "model": "gpt-5.6-sol",
+      "resultSummary": "Authenticated canary passed workspace access, external-filesystem denial, registered verification, and model-tool network-denial assertions.",
+      "resultSha256": "b5c687ce60f3a2962356440e14aa508a4ac502d038a5fbf28a320ab7172122f0"
     }
   }
 }
